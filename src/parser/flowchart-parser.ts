@@ -267,9 +267,9 @@ function createFlowchartYY(ast: FlowchartAST) {
       if (!id) {
         subgraphId = `subGraph${subgraphIdCounter++}`;
       } else if (typeof id === "object" && "text" in id) {
-        subgraphId = id.text;
+        subgraphId = id.text.trim();
       } else {
-        subgraphId = id;
+        subgraphId = id.trim();
       }
       
       // Collect node IDs from the nodeList and look for direction statements
@@ -279,9 +279,20 @@ function createFlowchartYY(ast: FlowchartAST) {
       if (Array.isArray(nodeList)) {
         for (const item of nodeList) {
           if (typeof item === "string") {
-            nodes.push(item);
+            // Trim and filter empty strings
+            const trimmed = item.trim();
+            if (trimmed) {
+              nodes.push(trimmed);
+            }
           } else if (Array.isArray(item)) {
-            nodes.push(...item.filter((x): x is string => typeof x === "string"));
+            for (const x of item) {
+              if (typeof x === "string") {
+                const trimmed = x.trim();
+                if (trimmed) {
+                  nodes.push(trimmed);
+                }
+              }
+            }
           } else if (item && typeof item === "object") {
             // Check for direction statement: {stmt: 'dir', value: 'TB'}
             if ("stmt" in item && (item as {stmt: string}).stmt === "dir" && "value" in item) {
@@ -289,10 +300,25 @@ function createFlowchartYY(ast: FlowchartAST) {
             } else if ("nodes" in item) {
               const itemNodes = (item as { nodes: string[] }).nodes;
               if (Array.isArray(itemNodes)) {
-                nodes.push(...itemNodes);
+                for (const x of itemNodes) {
+                  if (typeof x === "string") {
+                    const trimmed = x.trim();
+                    if (trimmed) {
+                      nodes.push(trimmed);
+                    }
+                  }
+                }
               }
             }
           }
+        }
+      } else if (typeof nodeList === "string") {
+        // Handle case where nodeList is a string (might be space-separated node IDs)
+        const trimmed = nodeList.trim();
+        if (trimmed) {
+          // Split by whitespace and filter empty strings
+          const parts = trimmed.split(/\s+/).filter(p => p.length > 0);
+          nodes.push(...parts);
         }
       }
 
