@@ -27,5 +27,8 @@ jobs:
       - name: Run tests
         run: bun test tests/unit tests/roundtrip
 
+      - name: Verify examples compile and run
+        run: bun run examples
+
       - name: Build
         run: bun run build

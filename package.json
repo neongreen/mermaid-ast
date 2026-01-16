@@ -35,6 +35,7 @@
     "test:roundtrip": "bun test tests/roundtrip",
     "test:compatibility": "bun test tests/compatibility",
     "typecheck": "tsc --noEmit",
+    "examples": "bun run scripts/run-examples.ts",
     "sync-parsers": "bun run scripts/sync-parsers.ts",
     "prepublishOnly": "bun run build && bun run test"
   },

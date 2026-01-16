@@ -25,14 +25,17 @@ export {
   parse,
   parseFlowchart,
   parseSequence,
+  parseClassDiagram,
   detectDiagramType,
   isFlowchartDiagram,
   isSequenceDiagram,
+  isClassDiagram,
 } from "./parser/index.js";
 
-// Export renderer functions (to be implemented)
+// Export renderer functions
 export {
   render,
   renderFlowchart,
   renderSequence,
+  renderClassDiagram,
 } from "./renderer/index.js";
