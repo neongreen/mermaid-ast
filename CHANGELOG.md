@@ -25,8 +25,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Interactions: `callback`, `link`
   - Generic types: `class List~T~`
 
+- **Test Infrastructure (v0.2.0)**
+  - Extracted test fixtures from mermaid.js for flowchart, sequence, class, and state diagrams
+  - Added 164 fixture-based round-trip tests
+  - Added `examples/` directory with runnable TypeScript examples matching README
+  - Added CI step to verify documentation examples compile and run
+  - Tests now included in TypeScript typechecking (catches type errors in tests)
+
+### Fixed
+
+- Sequence diagram activation normalization (`-` shortcut now correctly sets `deactivate: true`)
+- cssClass multi-id parsing (`cssClass "C1,C2" style` now applies to both classes)
+- Click callback rendering (removed incorrect "call" keyword)
+- Exported `parseClassDiagram`, `renderClassDiagram`, `isClassDiagram` from main index
+
 ### Prompts Used
 
+**Class Diagram Implementation:**
 ```
 add ci
 perfect. add more diagram types. one per commit. make a plan first
@@ -36,6 +51,20 @@ Oh also can you do very good documentation and usage examples and stuff? And is 
 first diagram types
 eh ok lets go with (1) for now but we'll talk about this later
 ok and dont forget to update changelog, make atomic commits, and include prompts
+```
+
+**Test Infrastructure (this session):**
+```
+ok lets go lets go
+and make a sound after each step and i want you to commit often
+oh and make the repo public before releasing 0.2.0
+is this smth typescript couldve caught?
+add typescript settings that would forbid `let foo;`
+also does `bun typecheck` check tests as well?
+later lets also add linting with biome and see what it gives us. and also lets see if we can configure smth to forbid `switch` without a default case
+does ci also run roundtrip?
+Oh, we are absolutely not ready until all tests pass.
+ok do 1 and 2
 ```
 
 ## [0.1.1] - 2025-01-17
