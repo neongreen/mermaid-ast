@@ -1,6 +1,6 @@
 # mermaid-ast
 
-[![Built with Slate](https://img.shields.io/badge/Built%20with-Slate-blue)](https://github.com/codeium/slate)
+[![Built with Slate](https://img.shields.io/badge/Built%20with-Slate-blue)](https://randomlabs.ai)
 
 Parse and render Mermaid diagrams to/from AST (Abstract Syntax Tree).
 
@@ -247,7 +247,7 @@ MIT
 
 ## How This Library Was Built
 
-This library was built entirely through conversation with [Slate](https://github.com/codeium/slate), an AI coding assistant. Below are the prompts used:
+This library was built entirely through conversation with [Slate](https://randomlabs.ai), an AI coding assistant. Below are the prompts used:
 
 ### Initial Request
 
