@@ -28,6 +28,7 @@ import type {
   SequenceRect,
   SequenceStatement,
 } from '../types/sequence.js';
+import { assertNever } from '../utils.js';
 import { block, type Doc, indent, render } from './doc.js';
 
 /**
@@ -56,7 +57,7 @@ function renderArrow(arrowType: SequenceArrowType): string {
     case 'bidirectional_dotted':
       return '<<-->>';
     default:
-      return '->>';
+      return assertNever(arrowType, `Unknown arrow type: ${arrowType}`);
   }
 }
 
@@ -199,7 +200,7 @@ function renderStatement(stmt: SequenceStatement): Doc {
     }
 
     default:
-      return null;
+      return assertNever(stmt, `Unknown statement type: ${(stmt as { type: string }).type}`);
   }
 }
 
