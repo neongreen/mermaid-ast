@@ -8,8 +8,10 @@ import type {
   StateDiagramAST,
   StateDefinition,
   StateTransition,
-  StateDirection,
 } from "../types/state.js";
+import type { RenderOptions } from "../types/render-options.js";
+import { resolveOptions } from "../types/render-options.js";
+import { type Doc, indent, when, block, render } from "./doc.js";
 
 /**
  * Render a state ID, handling special start/end state
@@ -22,36 +24,29 @@ function renderStateId(id: string): string {
 }
 
 /**
- * Render a state definition
+ * Render a state definition to Doc
  */
-function renderState(
-  state: StateDefinition,
-  indent: string = "    "
-): string[] {
-  const lines: string[] = [];
+function renderState(state: StateDefinition): Doc {
   const id = renderStateId(state.id);
 
   // Handle special state types
   if (state.type === "fork") {
-    lines.push(`${indent}state ${id} <<fork>>`);
-    return lines;
+    return `state ${id} <<fork>>`;
   }
   if (state.type === "join") {
-    lines.push(`${indent}state ${id} <<join>>`);
-    return lines;
+    return `state ${id} <<join>>`;
   }
   if (state.type === "choice") {
-    lines.push(`${indent}state ${id} <<choice>>`);
-    return lines;
+    return `state ${id} <<choice>>`;
   }
   if (state.type === "divider") {
     // Dividers are rendered as --
-    return lines;
+    return null;
   }
 
   // Skip [*] states - they're implicit
   if (id === "[*]") {
-    return lines;
+    return null;
   }
 
   // Handle composite states (states with nested doc)
@@ -63,14 +58,10 @@ function renderState(
       : "";
 
     if (desc) {
-      lines.push(`${indent}state "${desc}" as ${id} {`);
+      return block(`state "${desc}" as ${id} {`, [], "}");
     } else {
-      lines.push(`${indent}state ${id} {`);
+      return block(`state ${id} {`, [], "}");
     }
-
-    // We don't render nested states here - they'll be rendered via transitions
-    lines.push(`${indent}}`);
-    return lines;
   }
 
   // Handle state with description
@@ -79,113 +70,93 @@ function renderState(
       typeof state.description === "string"
         ? state.description
         : state.description[0];
-    lines.push(`${indent}state "${desc}" as ${id}`);
-    return lines;
+    return `state "${desc}" as ${id}`;
   }
 
-  // Handle note
-  if (state.note) {
-    lines.push(
-      `${indent}note ${state.note.position} ${id} : ${state.note.text}`
-    );
-  }
-
-  return lines;
+  return null;
 }
 
 /**
- * Render a transition
+ * Render a state note to Doc
  */
-function renderTransition(
-  transition: StateTransition,
-  indent: string = "    "
-): string {
+function renderStateNote(state: StateDefinition): Doc {
+  if (state.note) {
+    return `note ${state.note.position} ${state.id} : ${state.note.text}`;
+  }
+  return null;
+}
+
+/**
+ * Render a transition to string
+ */
+function renderTransition(transition: StateTransition): string {
   const from = renderStateId(transition.state1.id);
   const to = renderStateId(transition.state2.id);
 
   if (transition.description) {
-    return `${indent}${from} --> ${to} : ${transition.description}`;
+    return `${from} --> ${to} : ${transition.description}`;
   }
-  return `${indent}${from} --> ${to}`;
+  return `${from} --> ${to}`;
 }
 
 /**
  * Render a State Diagram AST to Mermaid syntax
  */
-export function renderStateDiagram(ast: StateDiagramAST): string {
-  const lines: string[] = [];
+export function renderStateDiagram(
+  ast: StateDiagramAST,
+  options?: RenderOptions
+): string {
+  const opts = resolveOptions(options);
 
-  // Header
-  lines.push("stateDiagram-v2");
+  // Build the document
+  const doc: Doc = [
+    "stateDiagram-v2",
+    indent([
+      // Direction if not default
+      when(ast.direction && ast.direction !== "TB", `direction ${ast.direction}`),
 
-  // Direction if not default
-  if (ast.direction && ast.direction !== "TB") {
-    lines.push(`    direction ${ast.direction}`);
-  }
+      // Class definitions
+      ...[...ast.classDefs.values()].map(
+        (classDef) => `classDef ${classDef.id} ${classDef.classes}`
+      ),
 
-  // Render class definitions
-  for (const [, classDef] of ast.classDefs) {
-    lines.push(`    classDef ${classDef.id} ${classDef.classes}`);
-  }
+      // States that need explicit declaration (special types or descriptions)
+      ...[...ast.states.entries()]
+        .filter(([id, state]) => {
+          if (id === "[*]") return false;
+          if (state.type === "fork" || state.type === "join" || state.type === "choice") return true;
+          if (state.description) return true;
+          return false;
+        })
+        .map(([, state]) => renderState(state)),
 
-  // Collect states that need explicit declaration
-  // (states with descriptions, special types, or notes that aren't in transitions)
-  const statesInTransitions = new Set<string>();
-  for (const t of ast.transitions) {
-    statesInTransitions.add(t.state1.id);
-    statesInTransitions.add(t.state2.id);
-  }
+      // State notes
+      ...[...ast.states.entries()]
+        .filter(([id, state]) => id !== "[*]" && state.note)
+        .map(([, state]) => renderStateNote(state)),
 
-  // Render states that need explicit declaration
-  for (const [id, state] of ast.states) {
-    // Skip [*] - it's implicit
-    if (id === "[*]") continue;
+      // Transitions
+      ...ast.transitions.map(renderTransition),
 
-    // Render special types
-    if (state.type === "fork" || state.type === "join" || state.type === "choice") {
-      lines.push(...renderState(state));
-      continue;
-    }
+      // Style definitions
+      ...ast.styles.map((style) => `style ${style.id} ${style.styleClass}`),
 
-    // Render states with descriptions
-    if (state.description) {
-      lines.push(...renderState(state));
-      continue;
-    }
+      // Class applications
+      ...ast.classApplications.map((app) => `class ${app.id} ${app.styleClass}`),
 
-    // Render notes
-    if (state.note) {
-      lines.push(
-        `    note ${state.note.position} ${id} : ${state.note.text}`
-      );
-    }
-  }
+      // Click handlers
+      ...ast.clicks.map((click) => {
+        if (click.url) {
+          if (click.tooltip) {
+            return `click ${click.id} href "${click.url}" "${click.tooltip}"`;
+          } else {
+            return `click ${click.id} href "${click.url}"`;
+          }
+        }
+        return null;
+      }),
+    ]),
+  ];
 
-  // Render transitions
-  for (const transition of ast.transitions) {
-    lines.push(renderTransition(transition));
-  }
-
-  // Render style definitions
-  for (const style of ast.styles) {
-    lines.push(`    style ${style.id} ${style.styleClass}`);
-  }
-
-  // Render class applications
-  for (const app of ast.classApplications) {
-    lines.push(`    class ${app.id} ${app.styleClass}`);
-  }
-
-  // Render click handlers
-  for (const click of ast.clicks) {
-    if (click.url) {
-      if (click.tooltip) {
-        lines.push(`    click ${click.id} href "${click.url}" "${click.tooltip}"`);
-      } else {
-        lines.push(`    click ${click.id} href "${click.url}"`);
-      }
-    }
-  }
-
-  return lines.join("\n");
+  return render(doc, opts.indent);
 }
