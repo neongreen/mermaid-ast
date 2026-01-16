@@ -1,6 +1,6 @@
 /**
  * Sequence Diagram Renderer
- * 
+ *
  * Renders a Sequence Diagram AST back to Mermaid syntax.
  */
 
@@ -21,9 +21,14 @@ import type {
   SequenceAutonumber,
   SequenceArrowType,
   SequenceStatement,
+  SequenceLink,
+  SequenceLinks,
+  SequenceProperties,
+  SequenceDetails,
 } from "../types/sequence.js";
 import type { RenderOptions } from "../types/render-options.js";
 import { resolveOptions } from "../types/render-options.js";
+import { type Doc, indent, block, render } from "./doc.js";
 
 /**
  * Convert arrow type to Mermaid syntax
@@ -56,304 +61,282 @@ function renderArrow(arrowType: SequenceArrowType): string {
 }
 
 /**
- * Escape text for Mermaid
+ * Render a single statement to Doc
  */
-function escapeText(text: string): string {
-  // Escape special characters
-  return text.replace(/"/g, '\\"');
-}
-
-/**
- * Render a single statement with proper indentation
- */
-function renderStatement(stmt: SequenceStatement, indent: string, baseIndent: string): string[] {
-  const lines: string[] = [];
-
+function renderStatement(stmt: SequenceStatement): Doc {
   switch (stmt.type) {
     case "message": {
       const msg = stmt as SequenceMessage;
-      const arrow = renderArrow(msg.arrowType);
-      let line = `${indent}${msg.from}${arrow}${msg.to}`;
+      let arrow = renderArrow(msg.arrowType);
+      if (msg.activate) {
+        arrow = `${arrow}+`;
+      }
+      if (msg.deactivate) {
+        arrow = `${arrow}-`;
+      }
+      let line = `${msg.from}${arrow}${msg.to}`;
       if (msg.text) {
         line += `: ${msg.text}`;
       }
-      if (msg.activate) {
-        line = line.replace(arrow, `${arrow}+`);
-      }
-      if (msg.deactivate) {
-        line = line.replace(arrow, `${arrow}-`);
-      }
-      lines.push(line);
-      break;
+      return line;
     }
 
     case "note": {
       const note = stmt as SequenceNote;
       const placement = note.placement.replace("_", " ");
       const actors = note.actors.join(",");
-      lines.push(`${indent}note ${placement} ${actors}: ${note.text}`);
-      break;
+      return `note ${placement} ${actors}: ${note.text}`;
     }
 
     case "activate": {
       const activation = stmt as SequenceActivation;
-      lines.push(`${indent}activate ${activation.actor}`);
-      break;
+      return `activate ${activation.actor}`;
     }
 
     case "deactivate": {
       const deactivation = stmt as SequenceActivation;
-      lines.push(`${indent}deactivate ${deactivation.actor}`);
-      break;
+      return `deactivate ${deactivation.actor}`;
     }
 
     case "loop": {
       const loop = stmt as SequenceLoop;
-      lines.push(`${indent}loop ${loop.text}`);
-      for (const s of loop.statements) {
-        lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
-      }
-      lines.push(`${indent}end`);
-      break;
+      return block(
+        `loop ${loop.text}`,
+        loop.statements.map(renderStatement),
+        "end"
+      );
     }
 
     case "alt": {
       const alt = stmt as SequenceAlt;
+      const content: Doc[] = [];
       for (let i = 0; i < alt.sections.length; i++) {
         const section = alt.sections[i];
         if (i === 0) {
-          lines.push(`${indent}alt ${section.condition}`);
+          content.push(`alt ${section.condition}`);
         } else {
-          lines.push(`${indent}else ${section.condition}`);
+          content.push(`else ${section.condition}`);
         }
-        for (const s of section.statements) {
-          lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
-        }
+        content.push(indent(section.statements.map(renderStatement)));
       }
-      lines.push(`${indent}end`);
-      break;
+      content.push("end");
+      return content;
     }
 
     case "opt": {
       const opt = stmt as SequenceOpt;
-      lines.push(`${indent}opt ${opt.text}`);
-      for (const s of opt.statements) {
-        lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
-      }
-      lines.push(`${indent}end`);
-      break;
+      return block(
+        `opt ${opt.text}`,
+        opt.statements.map(renderStatement),
+        "end"
+      );
     }
 
     case "par": {
       const par = stmt as SequencePar;
+      const content: Doc[] = [];
       for (let i = 0; i < par.sections.length; i++) {
         const section = par.sections[i];
         if (i === 0) {
-          lines.push(`${indent}par ${section.text}`);
+          content.push(`par ${section.text}`);
         } else {
-          lines.push(`${indent}and ${section.text}`);
+          content.push(`and ${section.text}`);
         }
-        for (const s of section.statements) {
-          lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
-        }
+        content.push(indent(section.statements.map(renderStatement)));
       }
-      lines.push(`${indent}end`);
-      break;
+      content.push("end");
+      return content;
     }
 
     case "critical": {
       const critical = stmt as SequenceCritical;
-      lines.push(`${indent}critical ${critical.text}`);
-      for (const s of critical.statements) {
-        lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
-      }
+      const content: Doc[] = [];
+      content.push(`critical ${critical.text}`);
+      content.push(indent(critical.statements.map(renderStatement)));
       for (const option of critical.options) {
-        lines.push(`${indent}option ${option.text}`);
-        for (const s of option.statements) {
-          lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
-        }
+        content.push(`option ${option.text}`);
+        content.push(indent(option.statements.map(renderStatement)));
       }
-      lines.push(`${indent}end`);
-      break;
+      content.push("end");
+      return content;
     }
 
     case "break": {
       const brk = stmt as SequenceBreak;
-      lines.push(`${indent}break ${brk.text}`);
-      for (const s of brk.statements) {
-        lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
-      }
-      lines.push(`${indent}end`);
-      break;
+      return block(
+        `break ${brk.text}`,
+        brk.statements.map(renderStatement),
+        "end"
+      );
     }
 
     case "rect": {
       const rect = stmt as SequenceRect;
-      lines.push(`${indent}rect ${rect.color}`);
-      for (const s of rect.statements) {
-        lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
-      }
-      lines.push(`${indent}end`);
-      break;
+      return block(
+        `rect ${rect.color}`,
+        rect.statements.map(renderStatement),
+        "end"
+      );
     }
 
     case "autonumber": {
       const auto = stmt as SequenceAutonumber;
       if (!auto.visible) {
-        lines.push(`${indent}autonumber off`);
+        return "autonumber off";
       } else if (auto.start !== undefined && auto.step !== undefined) {
-        lines.push(`${indent}autonumber ${auto.start} ${auto.step}`);
+        return `autonumber ${auto.start} ${auto.step}`;
       } else if (auto.start !== undefined) {
-        lines.push(`${indent}autonumber ${auto.start}`);
+        return `autonumber ${auto.start}`;
       } else {
-        lines.push(`${indent}autonumber`);
+        return "autonumber";
       }
-      break;
     }
 
     case "link": {
-      const link = stmt as import("../types/sequence.js").SequenceLink;
-      lines.push(`${indent}link ${link.actor}: ${link.text} @ ${link.url}`);
-      break;
+      const link = stmt as SequenceLink;
+      return `link ${link.actor}: ${link.text} @ ${link.url}`;
     }
 
     case "links": {
-      const links = stmt as import("../types/sequence.js").SequenceLinks;
+      const links = stmt as SequenceLinks;
       const linksJson = JSON.stringify(links.links);
-      lines.push(`${indent}links ${links.actor}: ${linksJson}`);
-      break;
+      return `links ${links.actor}: ${linksJson}`;
     }
 
     case "properties": {
-      const props = stmt as import("../types/sequence.js").SequenceProperties;
+      const props = stmt as SequenceProperties;
       const propsJson = JSON.stringify(props.properties);
-      lines.push(`${indent}properties ${props.actor}: ${propsJson}`);
-      break;
+      return `properties ${props.actor}: ${propsJson}`;
     }
 
     case "details": {
-      const details = stmt as import("../types/sequence.js").SequenceDetails;
-      lines.push(`${indent}details ${details.actor}: ${details.details}`);
-      break;
+      const details = stmt as SequenceDetails;
+      return `details ${details.actor}: ${details.details}`;
     }
 
     default:
-      break;
+      return null;
   }
-
-  return lines;
 }
 
 /**
- * Render actor declaration
+ * Render actor declaration to string
  */
-function renderActor(actor: SequenceActor, indent: string): string {
+function renderActor(actor: SequenceActor): string {
   const keyword = actor.type === "actor" ? "actor" : "participant";
   const created = actor.created ? "create " : "";
-  
+
   if (actor.alias && actor.alias !== actor.id) {
-    return `${indent}${created}${keyword} ${actor.id} as ${actor.name}`;
+    return `${created}${keyword} ${actor.id} as ${actor.name}`;
   }
-  
+
   if (actor.name !== actor.id) {
-    return `${indent}${created}${keyword} ${actor.id} as ${actor.name}`;
+    return `${created}${keyword} ${actor.id} as ${actor.name}`;
   }
-  
-  return `${indent}${created}${keyword} ${actor.id}`;
+
+  return `${created}${keyword} ${actor.id}`;
 }
 
 /**
- * Render a box with its actors
+ * Render a box with its actors to Doc
  */
-function renderBox(box: SequenceBox, ast: SequenceAST, indent: string): string[] {
-  const lines: string[] = [];
-  
-  let boxLine = `${indent}box`;
+function renderBox(box: SequenceBox, ast: SequenceAST): Doc {
+  let boxLine = "box";
   if (box.color) {
     boxLine += ` ${box.color}`;
   }
   if (box.text) {
     boxLine += ` ${box.text}`;
   }
-  lines.push(boxLine);
-  
+
+  const actorDocs: Doc[] = [];
   for (const actorId of box.actors) {
     const actor = ast.actors.get(actorId);
     if (actor) {
-      lines.push(indent + renderActor(actor, indent));
+      actorDocs.push(renderActor(actor));
     }
   }
-  
-  lines.push(`${indent}end`);
-  
-  return lines;
+
+  return block(boxLine, actorDocs, "end");
 }
 
 /**
- * Render a SequenceAST to Mermaid syntax
- * 
- * Note: When a message has activate/deactivate flags (from shortcut syntax like ->>+ or -->>-),
+ * Filter statements to skip redundant activate/deactivate
+ *
+ * When a message has activate/deactivate flags (from shortcut syntax like ->>+ or -->>-),
  * the parser also creates separate activate/deactivate statements. We need to skip these
  * redundant statements to avoid duplication when re-parsing.
  */
-export function renderSequence(ast: SequenceAST, options?: RenderOptions): string {
-  const opts = resolveOptions(options);
-  const indent = opts.indent;
-  const lines: string[] = [];
-  
-  // Header
-  lines.push("sequenceDiagram");
-  
-  // Track which actors have been rendered (in boxes)
-  const renderedActors = new Set<string>();
-  
-  // Render boxes first
-  for (const box of ast.boxes) {
-    lines.push(...renderBox(box, ast, indent));
-    for (const actorId of box.actors) {
-      renderedActors.add(actorId);
-    }
-  }
-  
-  // Get actors (optionally sorted)
-  let actorEntries = [...ast.actors.entries()];
-  if (opts.sortNodes) {
-    actorEntries.sort((a, b) => a[0].localeCompare(b[0]));
-  }
-  
-  // Render remaining actors
-  for (const [actorId, actor] of actorEntries) {
-    if (!renderedActors.has(actorId) && !actor.created) {
-      lines.push(renderActor(actor, indent));
-    }
-  }
-  
-  // Render statements, skipping redundant activate/deactivate statements
-  // that follow messages with activate/deactivate flags
-  for (let i = 0; i < ast.statements.length; i++) {
-    const stmt = ast.statements[i];
-    const prevStmt = i > 0 ? ast.statements[i - 1] : null;
-    
+function filterRedundantStatements(statements: SequenceStatement[]): SequenceStatement[] {
+  const result: SequenceStatement[] = [];
+
+  for (let i = 0; i < statements.length; i++) {
+    const stmt = statements[i];
+    const prevStmt = i > 0 ? statements[i - 1] : null;
+
     // Skip activate statement if previous message already has activate flag for same actor
     if (stmt.type === "activate" && prevStmt?.type === "message") {
       const msg = prevStmt as SequenceMessage;
       const activation = stmt as SequenceActivation;
       if (msg.activate && msg.to === activation.actor) {
-        continue; // Skip - the + in the arrow already handles this
+        continue;
       }
     }
-    
+
     // Skip deactivate statement if previous message already has deactivate flag for same actor
     if (stmt.type === "deactivate" && prevStmt?.type === "message") {
       const msg = prevStmt as SequenceMessage;
       const deactivation = stmt as SequenceActivation;
       if (msg.deactivate && msg.from === deactivation.actor) {
-        continue; // Skip - the - in the arrow already handles this
+        continue;
       }
     }
-    
-    lines.push(...renderStatement(stmt, indent, indent));
+
+    result.push(stmt);
   }
-  
-  return lines.join("\n");
+
+  return result;
+}
+
+/**
+ * Render a SequenceAST to Mermaid syntax
+ */
+export function renderSequence(ast: SequenceAST, options?: RenderOptions): string {
+  const opts = resolveOptions(options);
+
+  // Track which actors have been rendered (in boxes)
+  const renderedActors = new Set<string>();
+
+  // Get actors (optionally sorted)
+  let actorEntries = [...ast.actors.entries()];
+  if (opts.sortNodes) {
+    actorEntries.sort((a, b) => a[0].localeCompare(b[0]));
+  }
+
+  // Filter redundant statements
+  const filteredStatements = filterRedundantStatements(ast.statements);
+
+  // Build the document
+  const doc: Doc = [
+    "sequenceDiagram",
+    indent([
+      // Boxes (with their actors)
+      ...ast.boxes.map((box) => {
+        for (const actorId of box.actors) {
+          renderedActors.add(actorId);
+        }
+        return renderBox(box, ast);
+      }),
+
+      // Remaining actors (not in boxes, not created dynamically)
+      ...actorEntries
+        .filter(([actorId, actor]) => !renderedActors.has(actorId) && !actor.created)
+        .map(([, actor]) => renderActor(actor)),
+
+      // Statements
+      ...filteredStatements.map(renderStatement),
+    ]),
+  ];
+
+  return render(doc, opts.indent);
 }
