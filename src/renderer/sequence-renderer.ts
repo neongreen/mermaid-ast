@@ -286,6 +286,10 @@ function renderBox(box: SequenceBox, ast: SequenceAST): string[] {
 
 /**
  * Render a SequenceAST to Mermaid syntax
+ * 
+ * Note: When a message has activate/deactivate flags (from shortcut syntax like ->>+ or -->>-),
+ * the parser also creates separate activate/deactivate statements. We need to skip these
+ * redundant statements to avoid duplication when re-parsing.
  */
 export function renderSequence(ast: SequenceAST): string {
   const lines: string[] = [];
@@ -311,8 +315,30 @@ export function renderSequence(ast: SequenceAST): string {
     }
   }
   
-  // Render statements
-  for (const stmt of ast.statements) {
+  // Render statements, skipping redundant activate/deactivate statements
+  // that follow messages with activate/deactivate flags
+  for (let i = 0; i < ast.statements.length; i++) {
+    const stmt = ast.statements[i];
+    const prevStmt = i > 0 ? ast.statements[i - 1] : null;
+    
+    // Skip activate statement if previous message already has activate flag for same actor
+    if (stmt.type === "activate" && prevStmt?.type === "message") {
+      const msg = prevStmt as SequenceMessage;
+      const activation = stmt as SequenceActivation;
+      if (msg.activate && msg.to === activation.actor) {
+        continue; // Skip - the + in the arrow already handles this
+      }
+    }
+    
+    // Skip deactivate statement if previous message already has deactivate flag for same actor
+    if (stmt.type === "deactivate" && prevStmt?.type === "message") {
+      const msg = prevStmt as SequenceMessage;
+      const deactivation = stmt as SequenceActivation;
+      if (msg.deactivate && msg.from === deactivation.actor) {
+        continue; // Skip - the - in the arrow already handles this
+      }
+    }
+    
     lines.push(...renderStatement(stmt, "    "));
   }
   

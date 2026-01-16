@@ -226,11 +226,15 @@ function createClassYY(ast: ClassDiagramAST) {
       ast.notes.push(note);
     },
 
-    // Set CSS class on a class
+    // Set CSS class on a class (id can be comma-separated list like "C1,C2")
     setCssClass(id: string, className: string) {
-      const cls = getOrCreateClass(id);
-      if (!cls.cssClasses.includes(className)) {
-        cls.cssClasses.push(className);
+      // Split by comma to handle "cssClass C1,C2 styleClass" syntax
+      const classIds = id.split(",").map(s => s.trim()).filter(s => s.length > 0);
+      for (const classId of classIds) {
+        const cls = getOrCreateClass(classId);
+        if (!cls.cssClasses.includes(className)) {
+          cls.cssClasses.push(className);
+        }
       }
     },
 

@@ -14,6 +14,9 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { parseFlowchart, parseSequence, parseClassDiagram } from "../../src/parser/index.js";
 import { renderFlowchart, renderSequence, renderClassDiagram } from "../../src/renderer/index.js";
+import type { FlowchartAST } from "../../src/types/flowchart.js";
+import type { SequenceAST } from "../../src/types/sequence.js";
+import type { ClassDiagramAST } from "../../src/types/class.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const fixturesDir = join(__dirname, "../fixtures");
@@ -180,7 +183,7 @@ describe("Class Fixture Round-trips", () => {
           
           // Semantic equivalence checks
           expect(ast2.classes.size).toBe(ast1.classes.size);
-          expect(ast2.relationships.length).toBe(ast1.relationships.length);
+          expect(ast2.relations.length).toBe(ast1.relations.length);
         });
       }
     });

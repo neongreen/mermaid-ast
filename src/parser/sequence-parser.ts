@@ -545,6 +545,63 @@ function ensureActor(ast: SequenceAST, id: string): void {
 }
 
 /**
+ * Post-process statements to normalize activate/deactivate shortcut syntax.
+ * 
+ * Mermaid's parser handles + and - shortcuts inconsistently:
+ * - For +: Sets activate:true on message AND creates activeStart statement
+ * - For -: Only creates activeEnd statement (doesn't set deactivate on message)
+ * 
+ * This function normalizes the AST by setting deactivate:true on messages
+ * that are immediately followed by a deactivate for the message's from actor.
+ */
+function normalizeActivationShortcuts(statements: SequenceStatement[]): void {
+  for (let i = 0; i < statements.length - 1; i++) {
+    const current = statements[i];
+    const next = statements[i + 1];
+    
+    // Check if current is a message and next is a deactivate for the same actor
+    if (current.type === "message" && next.type === "deactivate") {
+      const msg = current as SequenceMessage;
+      const deactivation = next as SequenceActivation;
+      
+      // The - shortcut deactivates the sender (from), not the receiver
+      if (msg.from === deactivation.actor && !msg.deactivate) {
+        msg.deactivate = true;
+      }
+    }
+    
+    // Recursively process nested statements (loops, alt, etc.)
+    // Using type narrowing based on statement type
+    switch (current.type) {
+      case "loop":
+      case "opt":
+      case "break":
+      case "rect": {
+        const stmt = current as SequenceLoop | SequenceOpt | SequenceBreak | SequenceRect;
+        normalizeActivationShortcuts(stmt.statements);
+        break;
+      }
+      case "alt":
+      case "par": {
+        const stmt = current as SequenceAlt | SequencePar;
+        for (const section of stmt.sections) {
+          normalizeActivationShortcuts(section.statements);
+        }
+        break;
+      }
+      case "critical": {
+        const stmt = current as SequenceCritical;
+        normalizeActivationShortcuts(stmt.statements);
+        for (const option of stmt.options) {
+          normalizeActivationShortcuts(option.statements);
+        }
+        break;
+      }
+    }
+  }
+}
+
+/**
  * Parse a sequence diagram string into an AST
  */
 export function parseSequence(input: string): SequenceAST {
@@ -564,6 +621,9 @@ export function parseSequence(input: string): SequenceAST {
     }
     throw error;
   }
+
+  // Normalize activation shortcuts to handle inconsistent parser behavior
+  normalizeActivationShortcuts(ast.statements);
 
   return ast;
 }
