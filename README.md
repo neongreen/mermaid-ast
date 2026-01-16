@@ -131,6 +131,55 @@ detectDiagramType("classDiagram\n  class Animal"); // "class"
 detectDiagramType("unknown diagram"); // null
 ```
 
+### Render Options (Pretty-Print)
+
+All render functions accept an optional `RenderOptions` object to customize output formatting:
+
+```typescript
+import { renderFlowchart, parseFlowchart } from "mermaid-ast";
+import type { RenderOptions } from "mermaid-ast";
+
+const ast = parseFlowchart(`flowchart LR
+    A[Start] --> B[Middle] --> C[End]
+    classDef highlight fill:#f9f
+    class A highlight`);
+
+// Default output (4-space indent)
+renderFlowchart(ast);
+
+// Custom indent (2 spaces)
+renderFlowchart(ast, { indent: "  " });
+
+// Tab indent
+renderFlowchart(ast, { indent: "\t" });
+
+// Sort nodes alphabetically
+renderFlowchart(ast, { sortNodes: true });
+
+// Flowchart-specific: inline classes (A:::highlight instead of separate class statement)
+renderFlowchart(ast, { inlineClasses: true });
+
+// Flowchart-specific: chain links (A --> B --> C on one line)
+renderFlowchart(ast, { compactLinks: true });
+
+// Combine options
+renderFlowchart(ast, {
+  indent: "  ",
+  sortNodes: true,
+  inlineClasses: true,
+  compactLinks: true,
+});
+```
+
+#### Available Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `indent` | `string` | `"    "` (4 spaces) | Indentation string for nested content |
+| `sortNodes` | `boolean` | `false` | Sort node/actor/class declarations alphabetically |
+| `inlineClasses` | `boolean` | `false` | (Flowchart only) Use `A:::className` instead of separate `class` statements |
+| `compactLinks` | `boolean` | `false` | (Flowchart only) Chain consecutive links: `A --> B --> C` |
+
 ## API Reference
 
 ### Core Functions
@@ -138,7 +187,7 @@ detectDiagramType("unknown diagram"); // null
 | Function | Description |
 |----------|-------------|
 | `parse(input: string): MermaidAST` | Parse any supported diagram |
-| `render(ast: MermaidAST): string` | Render any supported AST |
+| `render(ast: MermaidAST, options?: RenderOptions): string` | Render any supported AST |
 | `detectDiagramType(input: string): DiagramType \| null` | Detect diagram type |
 
 ### Flowchart Functions
@@ -146,7 +195,7 @@ detectDiagramType("unknown diagram"); // null
 | Function | Description |
 |----------|-------------|
 | `parseFlowchart(input: string): FlowchartAST` | Parse flowchart diagram |
-| `renderFlowchart(ast: FlowchartAST): string` | Render flowchart AST |
+| `renderFlowchart(ast: FlowchartAST, options?: RenderOptions): string` | Render flowchart AST |
 | `isFlowchartDiagram(input: string): boolean` | Check if input is flowchart |
 
 ### Sequence Diagram Functions
@@ -154,7 +203,7 @@ detectDiagramType("unknown diagram"); // null
 | Function | Description |
 |----------|-------------|
 | `parseSequence(input: string): SequenceAST` | Parse sequence diagram |
-| `renderSequence(ast: SequenceAST): string` | Render sequence AST |
+| `renderSequence(ast: SequenceAST, options?: RenderOptions): string` | Render sequence AST |
 | `isSequenceDiagram(input: string): boolean` | Check if input is sequence |
 
 ### Class Diagram Functions
@@ -162,7 +211,7 @@ detectDiagramType("unknown diagram"); // null
 | Function | Description |
 |----------|-------------|
 | `parseClassDiagram(input: string): ClassDiagramAST` | Parse class diagram |
-| `renderClassDiagram(ast: ClassDiagramAST): string` | Render class diagram AST |
+| `renderClassDiagram(ast: ClassDiagramAST, options?: RenderOptions): string` | Render class diagram AST |
 | `isClassDiagram(input: string): boolean` | Check if input is class diagram |
 
 ## Supported Flowchart Features
