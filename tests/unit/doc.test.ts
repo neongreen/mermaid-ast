@@ -195,7 +195,7 @@ describe("Doc Builder", () => {
     });
 
     test("renders a flowchart with conditional direction", () => {
-      const direction = "TB";
+      const direction: string = "TB";
       const doc: Doc = [
         "flowchart LR",
         when(direction !== "LR", `direction ${direction}`),

@@ -15,6 +15,7 @@ import type {
 } from "../types/class.js";
 import type { RenderOptions } from "../types/render-options.js";
 import { resolveOptions } from "../types/render-options.js";
+import { type Doc, indent, when, block, render } from "./doc.js";
 
 /**
  * Render relation type to symbol
@@ -45,45 +46,28 @@ function renderLineType(lineType: LineType): string {
 }
 
 /**
- * Render a relationship
+ * Render a relationship to a string
  */
 function renderRelation(relation: ClassRelation): string {
   const { id1, id2, relation: rel, relationTitle1, relationTitle2, title } = relation;
 
-  // Build the arrow
   const startType = renderRelationType(rel.type1, true);
   const endType = renderRelationType(rel.type2, false);
   const line = renderLineType(rel.lineType);
+  const arrow = `${startType}${line}${endType}`;
 
-  let arrow = `${startType}${line}${endType}`;
-
-  // Build the full statement
   let result = id1;
-
-  // Add cardinality/title on id1 side
-  if (relationTitle1) {
-    result += ` "${relationTitle1}"`;
-  }
-
+  if (relationTitle1) result += ` "${relationTitle1}"`;
   result += ` ${arrow}`;
-
-  // Add cardinality/title on id2 side
-  if (relationTitle2) {
-    result += ` "${relationTitle2}"`;
-  }
-
+  if (relationTitle2) result += ` "${relationTitle2}"`;
   result += ` ${id2}`;
-
-  // Add label if present
-  if (title) {
-    result += ` : ${title}`;
-  }
+  if (title) result += ` : ${title}`;
 
   return result;
 }
 
 /**
- * Render a class member
+ * Render a class member to a string
  */
 function renderMember(member: ClassMember): string {
   const visibility = member.visibility || "";
@@ -91,148 +75,114 @@ function renderMember(member: ClassMember): string {
 }
 
 /**
- * Render a class definition
+ * Render a class definition to a Doc
  */
 function renderClass(
   cls: ClassDefinition,
-  baseIndent: string,
-  inNamespace: boolean = false,
-  isReferencedInRelations: boolean = false
-): string[] {
-  const lines: string[] = [];
-  const indent = inNamespace ? baseIndent + baseIndent : baseIndent;
-
-  // Check if class needs a body
+  isReferencedInRelations: boolean
+): Doc {
   const hasBody = cls.members.length > 0;
   const hasLabel = cls.label && cls.label !== cls.id;
 
   if (hasBody) {
-    // Class with body
-    if (hasLabel) {
-      lines.push(`${indent}class ${cls.id}["${cls.label}"] {`);
-    } else {
-      lines.push(`${indent}class ${cls.id} {`);
-    }
-
-    // Render members
-    for (const member of cls.members) {
-      lines.push(`${indent}${baseIndent}${renderMember(member)}`);
-    }
-
-    lines.push(`${indent}}`);
-  } else if (hasLabel) {
-    // Class with label but no body
-    lines.push(`${indent}class ${cls.id}["${cls.label}"]`);
-  } else if (!isReferencedInRelations) {
-    // Class with no body, no label, and not referenced in relations - must declare explicitly
-    lines.push(`${indent}class ${cls.id}`);
+    const header = hasLabel
+      ? `class ${cls.id}["${cls.label}"] {`
+      : `class ${cls.id} {`;
+    return block(header, cls.members.map(renderMember), "}");
   }
-  // If no body and no label but referenced in relations, it's declared implicitly
 
-  return lines;
+  if (hasLabel) {
+    return `class ${cls.id}["${cls.label}"]`;
+  }
+
+  // Class with no body, no label - only declare if not referenced in relations
+  if (!isReferencedInRelations) {
+    return `class ${cls.id}`;
+  }
+
+  // Implicitly declared via relations
+  return null;
 }
 
 /**
- * Render annotations for a class
+ * Render annotations for a class to a Doc
  */
-function renderAnnotations(cls: ClassDefinition, indent: string): string[] {
-  const lines: string[] = [];
-  for (const annotation of cls.annotations) {
-    lines.push(`${indent}<<${annotation}>> ${cls.id}`);
-  }
-  return lines;
+function renderAnnotations(cls: ClassDefinition): Doc {
+  return cls.annotations.map((annotation) => `<<${annotation}>> ${cls.id}`);
 }
 
 /**
- * Render a namespace
+ * Render a namespace to a Doc
  */
 function renderNamespace(
   namespaceName: string,
   classIds: string[],
   ast: ClassDiagramAST,
-  indent: string
-): string[] {
-  const lines: string[] = [];
+  classesInRelations: Set<string>
+): Doc {
+  const classesDoc: Doc = classIds
+    .map((classId) => {
+      const cls = ast.classes.get(classId);
+      if (!cls) return null;
+      return renderClass(cls, classesInRelations.has(classId));
+    })
+    .filter(Boolean);
 
-  lines.push(`${indent}namespace ${namespaceName} {`);
-
-  for (const classId of classIds) {
-    const cls = ast.classes.get(classId);
-    if (cls) {
-      lines.push(...renderClass(cls, indent, true));
-    }
-  }
-
-  lines.push(`${indent}}`);
-
-  return lines;
+  return block(`namespace ${namespaceName} {`, classesDoc, "}");
 }
 
 /**
- * Render notes
+ * Render notes to a Doc
  */
-function renderNotes(notes: ClassNote[], indent: string): string[] {
-  const lines: string[] = [];
-
-  for (const note of notes) {
-    if (note.forClass) {
-      lines.push(`${indent}note for ${note.forClass} "${note.text}"`);
-    } else {
-      lines.push(`${indent}note "${note.text}"`);
-    }
-  }
-
-  return lines;
+function renderNotes(notes: ClassNote[]): Doc {
+  return notes.map((note) =>
+    note.forClass
+      ? `note for ${note.forClass} "${note.text}"`
+      : `note "${note.text}"`
+  );
 }
 
 /**
- * Render class definitions (classDef)
+ * Render class definitions (classDef) to a Doc
  */
-function renderClassDefs(ast: ClassDiagramAST, indent: string): string[] {
-  const lines: string[] = [];
-
-  for (const [name, def] of ast.classDefs) {
+function renderClassDefs(ast: ClassDiagramAST): Doc {
+  const entries = [...ast.classDefs.entries()];
+  return entries.map(([name, def]) => {
     const styles = def.styles.join(",");
-    lines.push(`${indent}classDef ${name} ${styles}`);
-  }
-
-  return lines;
+    return `classDef ${name} ${styles}`;
+  });
 }
 
 /**
- * Render CSS class assignments
+ * Render CSS class assignments to a Doc
  */
-function renderCssClasses(ast: ClassDiagramAST, indent: string): string[] {
-  const lines: string[] = [];
-
+function renderCssClasses(ast: ClassDiagramAST): Doc {
+  const assignments: string[] = [];
   for (const [, cls] of ast.classes) {
     for (const cssClass of cls.cssClasses) {
-      lines.push(`${indent}cssClass "${cls.id}" ${cssClass}`);
+      assignments.push(`cssClass "${cls.id}" ${cssClass}`);
     }
   }
-
-  return lines;
+  return assignments;
 }
 
 /**
- * Render click handlers and links
+ * Render click handlers and links to a Doc
  */
-function renderClicks(ast: ClassDiagramAST, indent: string): string[] {
-  const lines: string[] = [];
-
+function renderClicks(ast: ClassDiagramAST): Doc {
+  const clicks: string[] = [];
   for (const [, cls] of ast.classes) {
     if (cls.link) {
       const target = cls.linkTarget ? ` ${cls.linkTarget}` : "";
       const tooltip = cls.tooltip ? ` "${cls.tooltip}"` : "";
-      lines.push(`${indent}link ${cls.id} "${cls.link}"${tooltip}${target}`);
+      clicks.push(`link ${cls.id} "${cls.link}"${tooltip}${target}`);
     } else if (cls.callback) {
       const args = cls.callbackArgs ? `("${cls.callbackArgs}")` : "";
       const tooltip = cls.tooltip ? ` "${cls.tooltip}"` : "";
-      lines.push(`${indent}callback ${cls.id} "${cls.callback}"${args}${tooltip}`);
+      clicks.push(`callback ${cls.id} "${cls.callback}"${args}${tooltip}`);
     }
   }
-
-  return lines;
+  return clicks;
 }
 
 /**
@@ -240,16 +190,6 @@ function renderClicks(ast: ClassDiagramAST, indent: string): string[] {
  */
 export function renderClassDiagram(ast: ClassDiagramAST, options?: RenderOptions): string {
   const opts = resolveOptions(options);
-  const indent = opts.indent;
-  const lines: string[] = [];
-
-  // Header
-  lines.push("classDiagram");
-
-  // Direction if not default
-  if (ast.direction && ast.direction !== "TB") {
-    lines.push(`${indent}direction ${ast.direction}`);
-  }
 
   // Track classes rendered in namespaces
   const classesInNamespaces = new Set<string>();
@@ -266,49 +206,50 @@ export function renderClassDiagram(ast: ClassDiagramAST, options?: RenderOptions
     classesInRelations.add(relation.id2);
   }
 
-  // Render namespaces
-  for (const [name, ns] of ast.namespaces) {
-    lines.push(...renderNamespace(name, ns.classes, ast, indent));
-  }
-
   // Get classes (optionally sorted)
   let classEntries = [...ast.classes.entries()];
   if (opts.sortNodes) {
     classEntries.sort((a, b) => a[0].localeCompare(b[0]));
   }
 
-  // Render annotations (before classes)
-  for (const [, cls] of classEntries) {
-    if (cls.annotations.length > 0) {
-      lines.push(...renderAnnotations(cls, indent));
-    }
-  }
+  // Build the document
+  const doc: Doc = [
+    "classDiagram",
+    indent([
+      // Direction
+      when(ast.direction && ast.direction !== "TB", `direction ${ast.direction}`),
 
-  // Render classes not in namespaces
-  for (const [classId, cls] of classEntries) {
-    if (!classesInNamespaces.has(classId)) {
-      const isReferencedInRelations = classesInRelations.has(classId);
-      const classLines = renderClass(cls, indent, false, isReferencedInRelations);
-      lines.push(...classLines);
-    }
-  }
+      // Namespaces
+      ...[...ast.namespaces.entries()].map(([name, ns]) =>
+        renderNamespace(name, ns.classes, ast, classesInRelations)
+      ),
 
-  // Render relations
-  for (const relation of ast.relations) {
-    lines.push(`${indent}${renderRelation(relation)}`);
-  }
+      // Annotations (before classes)
+      ...classEntries
+        .filter(([, cls]) => cls.annotations.length > 0)
+        .map(([, cls]) => renderAnnotations(cls)),
 
-  // Render notes
-  lines.push(...renderNotes(ast.notes, indent));
+      // Classes not in namespaces
+      ...classEntries
+        .filter(([classId]) => !classesInNamespaces.has(classId))
+        .map(([classId, cls]) => renderClass(cls, classesInRelations.has(classId))),
 
-  // Render class definitions
-  lines.push(...renderClassDefs(ast, indent));
+      // Relations
+      ...ast.relations.map(renderRelation),
 
-  // Render CSS class assignments
-  lines.push(...renderCssClasses(ast, indent));
+      // Notes
+      renderNotes(ast.notes),
 
-  // Render click handlers
-  lines.push(...renderClicks(ast, indent));
+      // Class definitions
+      renderClassDefs(ast),
 
-  return lines.join("\n");
+      // CSS class assignments
+      renderCssClasses(ast),
+
+      // Click handlers
+      renderClicks(ast),
+    ]),
+  ];
+
+  return render(doc, opts.indent);
 }
