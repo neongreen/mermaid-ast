@@ -13,11 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed npm package missing vendored parsers - build now copies `src/vendored/` to `dist/vendored/`
 
+### Issue Report
+
+> The vendored parsers are missing from the package. This seems like the package wasn't published correctly - it's missing the dist/vendored directory. The package was just published and it seems like the vendored parsers weren't included in the dist folder. This is a packaging issue - the dist/vendored/ directory is missing from the published npm package.
+
 ### Prompts Used
 
 ```
 how can you make sure that this is now ok?
 did you update the changelog
+but include an abridged msg i included with the error
 ```
 
 ## [0.1.0] - 2025-01-17
