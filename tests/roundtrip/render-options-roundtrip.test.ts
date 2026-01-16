@@ -7,7 +7,7 @@
  *
  * Test matrix:
  * - All diagram types (flowchart, sequence, class, state)
- * - Various indent options (2 spaces, 4 spaces, tabs)
+ * - Various indent options (2 spaces, 4 spaces, tabs, 8 spaces)
  * - Diagram-specific options (sortNodes, inlineClasses, compactLinks)
  * - Combinations of options
  */
@@ -23,7 +23,7 @@ import { renderClassDiagram } from "../../src/renderer/class-renderer.js";
 import { renderStateDiagram } from "../../src/renderer/state-renderer.js";
 import type { RenderOptions } from "../../src/types/render-options.js";
 import type { FlowchartAST } from "../../src/types/flowchart.js";
-import type { SequenceDiagramAST } from "../../src/types/sequence.js";
+import type { SequenceAST } from "../../src/types/sequence.js";
 import type { ClassDiagramAST } from "../../src/types/class.js";
 import type { StateDiagramAST } from "../../src/types/state.js";
 
@@ -260,12 +260,12 @@ const STATE_FIXTURES = [
   },
 ];
 
-// Render options to test
+// Render options to test (using numeric indent values)
 const INDENT_OPTIONS: RenderOptions[] = [
-  { indent: "  " }, // 2 spaces
-  { indent: "    " }, // 4 spaces (default)
-  { indent: "\t" }, // tabs
-  { indent: "        " }, // 8 spaces
+  { indent: 2 }, // 2 spaces
+  { indent: 4 }, // 4 spaces (default)
+  { indent: "tab" }, // tabs
+  { indent: 8 }, // 8 spaces
 ];
 
 const FLOWCHART_OPTIONS: RenderOptions[] = [
@@ -300,8 +300,8 @@ function assertEquivalentFlowcharts(
 }
 
 function assertEquivalentSequences(
-  ast1: SequenceDiagramAST,
-  ast2: SequenceDiagramAST,
+  ast1: SequenceAST,
+  ast2: SequenceAST,
   context: string
 ): void {
   expect(ast2.actors.size, `${context}: actors count`).toBe(ast1.actors.size);
@@ -394,9 +394,9 @@ describe("Flowchart Round-trip with RenderOptions", () => {
 
   describe("Combined indent and flowchart options", () => {
     const combinedOptions: RenderOptions[] = [
-      { indent: "  ", sortNodes: true },
-      { indent: "\t", inlineClasses: true },
-      { indent: "  ", sortNodes: true, inlineClasses: true, compactLinks: true },
+      { indent: 2, sortNodes: true },
+      { indent: "tab", inlineClasses: true },
+      { indent: 2, sortNodes: true, inlineClasses: true, compactLinks: true },
     ];
 
     for (const fixture of FLOWCHART_FIXTURES) {
@@ -480,12 +480,12 @@ describe("Idempotency with different options", () => {
     const ast1 = parseFlowchart(input);
 
     // Render with option set 1, parse, render with option set 2
-    const render1 = renderFlowchart(ast1, { indent: "  ", sortNodes: true });
+    const render1 = renderFlowchart(ast1, { indent: 2, sortNodes: true });
     const ast2 = parseFlowchart(render1);
-    const render2 = renderFlowchart(ast2, { indent: "\t", sortNodes: false });
+    const render2 = renderFlowchart(ast2, { indent: "tab", sortNodes: false });
     const ast3 = parseFlowchart(render2);
     const render3 = renderFlowchart(ast3, {
-      indent: "    ",
+      indent: 4,
       inlineClasses: true,
     });
     const ast4 = parseFlowchart(render3);
@@ -506,11 +506,11 @@ describe("Idempotency with different options", () => {
     end`;
 
     const ast1 = parseSequence(input);
-    const render1 = renderSequence(ast1, { indent: "  " });
+    const render1 = renderSequence(ast1, { indent: 2 });
     const ast2 = parseSequence(render1);
-    const render2 = renderSequence(ast2, { indent: "\t" });
+    const render2 = renderSequence(ast2, { indent: "tab" });
     const ast3 = parseSequence(render2);
-    const render3 = renderSequence(ast3, { indent: "    " });
+    const render3 = renderSequence(ast3, { indent: 4 });
     const ast4 = parseSequence(render3);
 
     assertEquivalentSequences(ast1, ast2, "ast1 vs ast2");
@@ -527,9 +527,9 @@ describe("Idempotency with different options", () => {
     Animal <|-- Duck`;
 
     const ast1 = parseClassDiagram(input);
-    const render1 = renderClassDiagram(ast1, { indent: "  " });
+    const render1 = renderClassDiagram(ast1, { indent: 2 });
     const ast2 = parseClassDiagram(render1);
-    const render2 = renderClassDiagram(ast2, { indent: "\t" });
+    const render2 = renderClassDiagram(ast2, { indent: "tab" });
     const ast3 = parseClassDiagram(render2);
 
     assertEquivalentClasses(ast1, ast2, "ast1 vs ast2");
@@ -544,9 +544,9 @@ describe("Idempotency with different options", () => {
     Crash --> [*]`;
 
     const ast1 = parseStateDiagram(input);
-    const render1 = renderStateDiagram(ast1, { indent: "  " });
+    const render1 = renderStateDiagram(ast1, { indent: 2 });
     const ast2 = parseStateDiagram(render1);
-    const render2 = renderStateDiagram(ast2, { indent: "\t" });
+    const render2 = renderStateDiagram(ast2, { indent: "tab" });
     const ast3 = parseStateDiagram(render2);
 
     assertEquivalentStates(ast1, ast2, "ast1 vs ast2");
@@ -555,32 +555,21 @@ describe("Idempotency with different options", () => {
 });
 
 describe("Edge cases with render options", () => {
-  it("handles empty indent string", () => {
+  it("handles zero indent", () => {
     const input = `flowchart LR
     A --> B`;
     const ast1 = parseFlowchart(input);
-    const rendered = renderFlowchart(ast1, { indent: "" });
+    const rendered = renderFlowchart(ast1, { indent: 0 });
     const ast2 = parseFlowchart(rendered);
-    assertEquivalentFlowcharts(ast1, ast2, "empty indent");
+    assertEquivalentFlowcharts(ast1, ast2, "zero indent");
   });
 
-  it("handles very long indent string", () => {
+  it("handles very large indent", () => {
     const input = `flowchart LR
     A --> B`;
     const ast1 = parseFlowchart(input);
-    const rendered = renderFlowchart(ast1, {
-      indent: "                    ",
-    }); // 20 spaces
+    const rendered = renderFlowchart(ast1, { indent: 20 }); // 20 spaces
     const ast2 = parseFlowchart(rendered);
-    assertEquivalentFlowcharts(ast1, ast2, "long indent");
-  });
-
-  it("handles mixed whitespace indent", () => {
-    const input = `flowchart LR
-    A --> B`;
-    const ast1 = parseFlowchart(input);
-    const rendered = renderFlowchart(ast1, { indent: "  \t  " }); // mixed
-    const ast2 = parseFlowchart(rendered);
-    assertEquivalentFlowcharts(ast1, ast2, "mixed whitespace indent");
+    assertEquivalentFlowcharts(ast1, ast2, "large indent");
   });
 });

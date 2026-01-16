@@ -148,10 +148,10 @@ const ast = parseFlowchart(`flowchart LR
 renderFlowchart(ast);
 
 // Custom indent (2 spaces)
-renderFlowchart(ast, { indent: "  " });
+renderFlowchart(ast, { indent: 2 });
 
 // Tab indent
-renderFlowchart(ast, { indent: "\t" });
+renderFlowchart(ast, { indent: "tab" });
 
 // Sort nodes alphabetically
 renderFlowchart(ast, { sortNodes: true });
@@ -164,7 +164,7 @@ renderFlowchart(ast, { compactLinks: true });
 
 // Combine options
 renderFlowchart(ast, {
-  indent: "  ",
+  indent: 2,
   sortNodes: true,
   inlineClasses: true,
   compactLinks: true,
@@ -175,7 +175,7 @@ renderFlowchart(ast, {
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `indent` | `string` | `"    "` (4 spaces) | Indentation string for nested content |
+| `indent` | `number \| "tab"` | `4` | Number of spaces for indentation, or `"tab"` for tabs |
 | `sortNodes` | `boolean` | `false` | Sort node/actor/class declarations alphabetically |
 | `inlineClasses` | `boolean` | `false` | (Flowchart only) Use `A:::className` instead of separate `class` statements |
 | `compactLinks` | `boolean` | `false` | (Flowchart only) Chain consecutive links: `A --> B --> C` |
@@ -234,6 +234,25 @@ renderFlowchart(ast, {
 - **Grouping**: `rect` backgrounds
 - **Notes**: `note left of`, `note right of`, `note over`
 - **Actor lifecycle**: `create`, `destroy`
+
+## Limitations
+
+### Comments Not Preserved
+
+Mermaid supports `%%` line comments, but **comments are not preserved** during parsing. The JISON parsers discard comments during lexing, so they are not included in the AST and will not appear in rendered output.
+
+```mermaid
+flowchart LR
+    %% This comment will be lost
+    A --> B
+```
+
+After round-trip, the comment is gone:
+
+```mermaid
+flowchart LR
+    A --> B
+```
 
 ## Supported Class Diagram Features
 

@@ -7,6 +7,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2025-01-17
+
+### Added
+
+- **State Diagram tests** - 36 comprehensive unit tests for state diagram parsing and rendering
+- **Render options round-trip tests** - 187 tests verifying that all render options produce valid, re-parseable output
+- **Doc builder improvements**
+  - `blank` constant for empty lines in rendered output
+  - Lazy `when()` evaluation (accepts function for deferred computation)
+  - `block()` options with `indent: false` for non-indented blocks
+  - `join()` helper for joining documents with separators
+- **Mermaid.js attribution** - Added THIRD-PARTY-NOTICES.md for proper attribution of vendored parsers
+
+### Changed
+
+- **BREAKING: `indent` option changed from string to number**
+  - Old: `{ indent: "  " }` (string)
+  - New: `{ indent: 2 }` (number of spaces)
+  - Use `{ indent: "tab" }` for tab indentation
+  - This is a cleaner API that's easier to use
+
+### Documentation
+
+- Documented that **comments are not preserved** during parsing (Mermaid `%%` comments are discarded by JISON parsers)
+- Updated README with new `indent` option format
+
+### Prompts Used
+
+```
+add state diagram tests
+ok so lets agree on the plan. give me numbered list of todos and ill say which ones you should do autonomously and then ping me
+ok this looks perfect you should do all ten
+and then make a sound
+btw does mermaid have comments? if yes, do we preserve them?
+we should document that we dont preserve them
+also i think we have to attribute mermaid js where we use their tests / code / etc. idk how its done with MIT
+also im not they im she
+also i wonder if we have to duplicate yy stuff for each diagram type? later you can review if theres something we have to do here as we add more diagram types
+yes please add such tests (render options roundtrip)
+its ok if tests run even 10x as long
+or 20x as long
+its completely ok correctness is much more important
+also do we have tests that check svg roundtrip?
+also btw i suppose we could very easily build a mermaid formatter in the same repo
+well for indent we should just take number of spaces, no? why " "? and yeah should have it as cli tool and should also decide what kind of good cli interface it should have
+separate package; option a
+when 0.3.0?
+lets go B
+```
+
 ## [0.2.0] - 2025-01-17
 
 ### Added

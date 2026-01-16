@@ -10,7 +10,7 @@ import type {
   FlowchartLink,
   FlowchartSubgraph,
 } from "../types/flowchart.js";
-import type { RenderOptions } from "../types/render-options.js";
+import type { RenderOptions, ResolvedRenderOptions } from "../types/render-options.js";
 import { resolveOptions } from "../types/render-options.js";
 import { type Doc, indent, when, block, render } from "./doc.js";
 
@@ -225,7 +225,7 @@ function renderSubgraph(
   ast: FlowchartAST,
   renderedNodes: Set<string>,
   renderedLinks: Set<number>,
-  opts: Required<RenderOptions>
+  opts: ResolvedRenderOptions
 ): Doc {
   const title = subgraph.title?.text || subgraph.id;
   const header =
@@ -368,7 +368,7 @@ function renderCompactMode(
   nodeEntries: [string, FlowchartNode][],
   renderedNodes: Set<string>,
   renderedLinks: Set<number>,
-  opts: Required<RenderOptions>
+  opts: ResolvedRenderOptions
 ): Doc {
   const content: Doc[] = [];
   const { chains, usedLinkIndices } = buildLinkChains(ast, renderedLinks);
@@ -450,7 +450,7 @@ function renderNonCompactMode(
   nodeEntries: [string, FlowchartNode][],
   renderedNodes: Set<string>,
   renderedLinks: Set<number>,
-  opts: Required<RenderOptions>
+  opts: ResolvedRenderOptions
 ): Doc {
   const content: Doc[] = [];
 
