@@ -135,8 +135,8 @@ describe("Sequence Fixture Round-trips", () => {
           }
           
           // Semantic equivalence checks
-          expect(ast2.participants.length).toBe(ast1.participants.length);
-          expect(ast2.messages.length).toBe(ast1.messages.length);
+          expect(ast2.actors.size).toBe(ast1.actors.size);
+          expect(ast2.statements.length).toBe(ast1.statements.length);
         });
       }
     });

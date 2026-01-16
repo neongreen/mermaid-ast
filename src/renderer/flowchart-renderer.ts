@@ -198,8 +198,8 @@ function renderClicks(ast: FlowchartAST): string[] {
       const target = click.target ? ` ${click.target}` : "";
       lines.push(`    click ${click.nodeId} href "${click.href}"${target}`);
     } else if (click.callback) {
-      const args = click.callbackArgs ? `(${click.callbackArgs})` : "";
-      lines.push(`    click ${click.nodeId} call ${click.callback}${args}`);
+      const args = click.callbackArgs ? ` ${click.callbackArgs}` : "";
+      lines.push(`    click ${click.nodeId} ${click.callback}${args}`);
     }
   }
   
