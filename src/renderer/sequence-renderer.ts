@@ -22,6 +22,8 @@ import type {
   SequenceArrowType,
   SequenceStatement,
 } from "../types/sequence.js";
+import type { RenderOptions } from "../types/render-options.js";
+import { resolveOptions } from "../types/render-options.js";
 
 /**
  * Convert arrow type to Mermaid syntax
@@ -64,7 +66,7 @@ function escapeText(text: string): string {
 /**
  * Render a single statement with proper indentation
  */
-function renderStatement(stmt: SequenceStatement, indent: string): string[] {
+function renderStatement(stmt: SequenceStatement, indent: string, baseIndent: string): string[] {
   const lines: string[] = [];
 
   switch (stmt.type) {
@@ -109,7 +111,7 @@ function renderStatement(stmt: SequenceStatement, indent: string): string[] {
       const loop = stmt as SequenceLoop;
       lines.push(`${indent}loop ${loop.text}`);
       for (const s of loop.statements) {
-        lines.push(...renderStatement(s, indent + "    "));
+        lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
       }
       lines.push(`${indent}end`);
       break;
@@ -125,7 +127,7 @@ function renderStatement(stmt: SequenceStatement, indent: string): string[] {
           lines.push(`${indent}else ${section.condition}`);
         }
         for (const s of section.statements) {
-          lines.push(...renderStatement(s, indent + "    "));
+          lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
         }
       }
       lines.push(`${indent}end`);
@@ -136,7 +138,7 @@ function renderStatement(stmt: SequenceStatement, indent: string): string[] {
       const opt = stmt as SequenceOpt;
       lines.push(`${indent}opt ${opt.text}`);
       for (const s of opt.statements) {
-        lines.push(...renderStatement(s, indent + "    "));
+        lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
       }
       lines.push(`${indent}end`);
       break;
@@ -152,7 +154,7 @@ function renderStatement(stmt: SequenceStatement, indent: string): string[] {
           lines.push(`${indent}and ${section.text}`);
         }
         for (const s of section.statements) {
-          lines.push(...renderStatement(s, indent + "    "));
+          lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
         }
       }
       lines.push(`${indent}end`);
@@ -163,12 +165,12 @@ function renderStatement(stmt: SequenceStatement, indent: string): string[] {
       const critical = stmt as SequenceCritical;
       lines.push(`${indent}critical ${critical.text}`);
       for (const s of critical.statements) {
-        lines.push(...renderStatement(s, indent + "    "));
+        lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
       }
       for (const option of critical.options) {
         lines.push(`${indent}option ${option.text}`);
         for (const s of option.statements) {
-          lines.push(...renderStatement(s, indent + "    "));
+          lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
         }
       }
       lines.push(`${indent}end`);
@@ -179,7 +181,7 @@ function renderStatement(stmt: SequenceStatement, indent: string): string[] {
       const brk = stmt as SequenceBreak;
       lines.push(`${indent}break ${brk.text}`);
       for (const s of brk.statements) {
-        lines.push(...renderStatement(s, indent + "    "));
+        lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
       }
       lines.push(`${indent}end`);
       break;
@@ -189,7 +191,7 @@ function renderStatement(stmt: SequenceStatement, indent: string): string[] {
       const rect = stmt as SequenceRect;
       lines.push(`${indent}rect ${rect.color}`);
       for (const s of rect.statements) {
-        lines.push(...renderStatement(s, indent + "    "));
+        lines.push(...renderStatement(s, indent + baseIndent, baseIndent));
       }
       lines.push(`${indent}end`);
       break;
@@ -234,6 +236,9 @@ function renderStatement(stmt: SequenceStatement, indent: string): string[] {
       lines.push(`${indent}details ${details.actor}: ${details.details}`);
       break;
     }
+
+    default:
+      break;
   }
 
   return lines;
@@ -242,28 +247,28 @@ function renderStatement(stmt: SequenceStatement, indent: string): string[] {
 /**
  * Render actor declaration
  */
-function renderActor(actor: SequenceActor): string {
+function renderActor(actor: SequenceActor, indent: string): string {
   const keyword = actor.type === "actor" ? "actor" : "participant";
   const created = actor.created ? "create " : "";
   
   if (actor.alias && actor.alias !== actor.id) {
-    return `    ${created}${keyword} ${actor.id} as ${actor.name}`;
+    return `${indent}${created}${keyword} ${actor.id} as ${actor.name}`;
   }
   
   if (actor.name !== actor.id) {
-    return `    ${created}${keyword} ${actor.id} as ${actor.name}`;
+    return `${indent}${created}${keyword} ${actor.id} as ${actor.name}`;
   }
   
-  return `    ${created}${keyword} ${actor.id}`;
+  return `${indent}${created}${keyword} ${actor.id}`;
 }
 
 /**
  * Render a box with its actors
  */
-function renderBox(box: SequenceBox, ast: SequenceAST): string[] {
+function renderBox(box: SequenceBox, ast: SequenceAST, indent: string): string[] {
   const lines: string[] = [];
   
-  let boxLine = "    box";
+  let boxLine = `${indent}box`;
   if (box.color) {
     boxLine += ` ${box.color}`;
   }
@@ -275,11 +280,11 @@ function renderBox(box: SequenceBox, ast: SequenceAST): string[] {
   for (const actorId of box.actors) {
     const actor = ast.actors.get(actorId);
     if (actor) {
-      lines.push("    " + renderActor(actor));
+      lines.push(indent + renderActor(actor, indent));
     }
   }
   
-  lines.push("    end");
+  lines.push(`${indent}end`);
   
   return lines;
 }
@@ -291,7 +296,9 @@ function renderBox(box: SequenceBox, ast: SequenceAST): string[] {
  * the parser also creates separate activate/deactivate statements. We need to skip these
  * redundant statements to avoid duplication when re-parsing.
  */
-export function renderSequence(ast: SequenceAST): string {
+export function renderSequence(ast: SequenceAST, options?: RenderOptions): string {
+  const opts = resolveOptions(options);
+  const indent = opts.indent;
   const lines: string[] = [];
   
   // Header
@@ -302,16 +309,22 @@ export function renderSequence(ast: SequenceAST): string {
   
   // Render boxes first
   for (const box of ast.boxes) {
-    lines.push(...renderBox(box, ast));
+    lines.push(...renderBox(box, ast, indent));
     for (const actorId of box.actors) {
       renderedActors.add(actorId);
     }
   }
   
+  // Get actors (optionally sorted)
+  let actorEntries = [...ast.actors.entries()];
+  if (opts.sortNodes) {
+    actorEntries.sort((a, b) => a[0].localeCompare(b[0]));
+  }
+  
   // Render remaining actors
-  for (const [actorId, actor] of ast.actors) {
+  for (const [actorId, actor] of actorEntries) {
     if (!renderedActors.has(actorId) && !actor.created) {
-      lines.push(renderActor(actor));
+      lines.push(renderActor(actor, indent));
     }
   }
   
@@ -339,7 +352,7 @@ export function renderSequence(ast: SequenceAST): string {
       }
     }
     
-    lines.push(...renderStatement(stmt, "    "));
+    lines.push(...renderStatement(stmt, indent, indent));
   }
   
   return lines.join("\n");

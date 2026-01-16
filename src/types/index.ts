@@ -7,6 +7,7 @@
 export * from "./flowchart.js";
 export * from "./sequence.js";
 export * from "./class.js";
+export * from "./render-options.js";
 
 import type { FlowchartAST } from "./flowchart.js";
 import type { SequenceAST } from "./sequence.js";

@@ -13,6 +13,8 @@ import type {
   LineType,
   ClassMember,
 } from "../types/class.js";
+import type { RenderOptions } from "../types/render-options.js";
+import { resolveOptions } from "../types/render-options.js";
 
 /**
  * Render relation type to symbol
@@ -93,11 +95,12 @@ function renderMember(member: ClassMember): string {
  */
 function renderClass(
   cls: ClassDefinition,
+  baseIndent: string,
   inNamespace: boolean = false,
   isReferencedInRelations: boolean = false
 ): string[] {
   const lines: string[] = [];
-  const indent = inNamespace ? "        " : "    ";
+  const indent = inNamespace ? baseIndent + baseIndent : baseIndent;
 
   // Check if class needs a body
   const hasBody = cls.members.length > 0;
@@ -113,7 +116,7 @@ function renderClass(
 
     // Render members
     for (const member of cls.members) {
-      lines.push(`${indent}    ${renderMember(member)}`);
+      lines.push(`${indent}${baseIndent}${renderMember(member)}`);
     }
 
     lines.push(`${indent}}`);
@@ -132,10 +135,10 @@ function renderClass(
 /**
  * Render annotations for a class
  */
-function renderAnnotations(cls: ClassDefinition): string[] {
+function renderAnnotations(cls: ClassDefinition, indent: string): string[] {
   const lines: string[] = [];
   for (const annotation of cls.annotations) {
-    lines.push(`    <<${annotation}>> ${cls.id}`);
+    lines.push(`${indent}<<${annotation}>> ${cls.id}`);
   }
   return lines;
 }
@@ -146,20 +149,21 @@ function renderAnnotations(cls: ClassDefinition): string[] {
 function renderNamespace(
   namespaceName: string,
   classIds: string[],
-  ast: ClassDiagramAST
+  ast: ClassDiagramAST,
+  indent: string
 ): string[] {
   const lines: string[] = [];
 
-  lines.push(`    namespace ${namespaceName} {`);
+  lines.push(`${indent}namespace ${namespaceName} {`);
 
   for (const classId of classIds) {
     const cls = ast.classes.get(classId);
     if (cls) {
-      lines.push(...renderClass(cls, true));
+      lines.push(...renderClass(cls, indent, true));
     }
   }
 
-  lines.push(`    }`);
+  lines.push(`${indent}}`);
 
   return lines;
 }
@@ -167,14 +171,14 @@ function renderNamespace(
 /**
  * Render notes
  */
-function renderNotes(notes: ClassNote[]): string[] {
+function renderNotes(notes: ClassNote[], indent: string): string[] {
   const lines: string[] = [];
 
   for (const note of notes) {
     if (note.forClass) {
-      lines.push(`    note for ${note.forClass} "${note.text}"`);
+      lines.push(`${indent}note for ${note.forClass} "${note.text}"`);
     } else {
-      lines.push(`    note "${note.text}"`);
+      lines.push(`${indent}note "${note.text}"`);
     }
   }
 
@@ -184,12 +188,12 @@ function renderNotes(notes: ClassNote[]): string[] {
 /**
  * Render class definitions (classDef)
  */
-function renderClassDefs(ast: ClassDiagramAST): string[] {
+function renderClassDefs(ast: ClassDiagramAST, indent: string): string[] {
   const lines: string[] = [];
 
   for (const [name, def] of ast.classDefs) {
     const styles = def.styles.join(",");
-    lines.push(`    classDef ${name} ${styles}`);
+    lines.push(`${indent}classDef ${name} ${styles}`);
   }
 
   return lines;
@@ -198,12 +202,12 @@ function renderClassDefs(ast: ClassDiagramAST): string[] {
 /**
  * Render CSS class assignments
  */
-function renderCssClasses(ast: ClassDiagramAST): string[] {
+function renderCssClasses(ast: ClassDiagramAST, indent: string): string[] {
   const lines: string[] = [];
 
   for (const [, cls] of ast.classes) {
     for (const cssClass of cls.cssClasses) {
-      lines.push(`    cssClass "${cls.id}" ${cssClass}`);
+      lines.push(`${indent}cssClass "${cls.id}" ${cssClass}`);
     }
   }
 
@@ -213,18 +217,18 @@ function renderCssClasses(ast: ClassDiagramAST): string[] {
 /**
  * Render click handlers and links
  */
-function renderClicks(ast: ClassDiagramAST): string[] {
+function renderClicks(ast: ClassDiagramAST, indent: string): string[] {
   const lines: string[] = [];
 
   for (const [, cls] of ast.classes) {
     if (cls.link) {
       const target = cls.linkTarget ? ` ${cls.linkTarget}` : "";
       const tooltip = cls.tooltip ? ` "${cls.tooltip}"` : "";
-      lines.push(`    link ${cls.id} "${cls.link}"${tooltip}${target}`);
+      lines.push(`${indent}link ${cls.id} "${cls.link}"${tooltip}${target}`);
     } else if (cls.callback) {
       const args = cls.callbackArgs ? `("${cls.callbackArgs}")` : "";
       const tooltip = cls.tooltip ? ` "${cls.tooltip}"` : "";
-      lines.push(`    callback ${cls.id} "${cls.callback}"${args}${tooltip}`);
+      lines.push(`${indent}callback ${cls.id} "${cls.callback}"${args}${tooltip}`);
     }
   }
 
@@ -234,7 +238,9 @@ function renderClicks(ast: ClassDiagramAST): string[] {
 /**
  * Render a ClassDiagramAST to Mermaid syntax
  */
-export function renderClassDiagram(ast: ClassDiagramAST): string {
+export function renderClassDiagram(ast: ClassDiagramAST, options?: RenderOptions): string {
+  const opts = resolveOptions(options);
+  const indent = opts.indent;
   const lines: string[] = [];
 
   // Header
@@ -242,7 +248,7 @@ export function renderClassDiagram(ast: ClassDiagramAST): string {
 
   // Direction if not default
   if (ast.direction && ast.direction !== "TB") {
-    lines.push(`    direction ${ast.direction}`);
+    lines.push(`${indent}direction ${ast.direction}`);
   }
 
   // Track classes rendered in namespaces
@@ -262,41 +268,47 @@ export function renderClassDiagram(ast: ClassDiagramAST): string {
 
   // Render namespaces
   for (const [name, ns] of ast.namespaces) {
-    lines.push(...renderNamespace(name, ns.classes, ast));
+    lines.push(...renderNamespace(name, ns.classes, ast, indent));
+  }
+
+  // Get classes (optionally sorted)
+  let classEntries = [...ast.classes.entries()];
+  if (opts.sortNodes) {
+    classEntries.sort((a, b) => a[0].localeCompare(b[0]));
   }
 
   // Render annotations (before classes)
-  for (const [, cls] of ast.classes) {
+  for (const [, cls] of classEntries) {
     if (cls.annotations.length > 0) {
-      lines.push(...renderAnnotations(cls));
+      lines.push(...renderAnnotations(cls, indent));
     }
   }
 
   // Render classes not in namespaces
-  for (const [classId, cls] of ast.classes) {
+  for (const [classId, cls] of classEntries) {
     if (!classesInNamespaces.has(classId)) {
       const isReferencedInRelations = classesInRelations.has(classId);
-      const classLines = renderClass(cls, false, isReferencedInRelations);
+      const classLines = renderClass(cls, indent, false, isReferencedInRelations);
       lines.push(...classLines);
     }
   }
 
   // Render relations
   for (const relation of ast.relations) {
-    lines.push(`    ${renderRelation(relation)}`);
+    lines.push(`${indent}${renderRelation(relation)}`);
   }
 
   // Render notes
-  lines.push(...renderNotes(ast.notes));
+  lines.push(...renderNotes(ast.notes, indent));
 
   // Render class definitions
-  lines.push(...renderClassDefs(ast));
+  lines.push(...renderClassDefs(ast, indent));
 
   // Render CSS class assignments
-  lines.push(...renderCssClasses(ast));
+  lines.push(...renderCssClasses(ast, indent));
 
   // Render click handlers
-  lines.push(...renderClicks(ast));
+  lines.push(...renderClicks(ast, indent));
 
   return lines.join("\n");
 }
