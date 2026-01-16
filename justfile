@@ -1,0 +1,90 @@
+# mermaid-ast justfile
+# Run `just` to see available commands
+
+# Default recipe - show help
+default:
+    @just --list
+
+# Install dependencies
+install:
+    bun install
+
+# Run all unit tests (excludes vendored/node_modules)
+test:
+    bun test tests/unit tests/roundtrip tests/cross-runtime
+
+# Run flowchart parser tests
+test-flowchart:
+    bun test tests/unit/flowchart-parser.test.ts
+
+# Run sequence parser tests
+test-sequence:
+    bun test tests/unit/sequence-parser.test.ts
+
+# Run flowchart roundtrip tests
+test-flowchart-roundtrip:
+    bun test tests/roundtrip/flowchart-roundtrip.test.ts
+
+# Run sequence roundtrip tests
+test-sequence-roundtrip:
+    bun test tests/roundtrip/sequence-roundtrip.test.ts
+
+# Run all roundtrip tests
+test-roundtrip:
+    bun test tests/roundtrip/
+
+# Run cross-runtime tests locally (bun)
+test-cross-runtime:
+    bun run tests/cross-runtime/mermaid-ast.test.ts
+
+# Sync parsers from a specific mermaid version
+sync-parsers version:
+    bun run scripts/sync-parsers.ts {{version}}
+
+# Sync parsers from latest mermaid version
+sync-parsers-latest:
+    bun run scripts/sync-parsers.ts
+
+# Build the library
+build:
+    bun build src/index.ts --outdir dist --target node
+
+# Type check
+typecheck:
+    bunx tsc --noEmit
+
+# --- Dagger commands ---
+
+# Run tests in Bun via Dagger
+dagger-test-bun:
+    cd dagger && dagger call test-bun --src=..
+
+# Run tests in Node.js via Dagger
+dagger-test-node:
+    cd dagger && dagger call test-node --src=..
+
+# Run tests in Deno via Dagger
+dagger-test-deno:
+    cd dagger && dagger call test-deno --src=..
+
+# Run tests in all runtimes via Dagger
+dagger-test-all:
+    cd dagger && dagger call test-all --src=..
+
+# Initialize Dagger module (run after cloning)
+dagger-develop:
+    cd dagger && dagger develop
+
+# --- Development helpers ---
+
+# Watch and run tests on changes
+test-watch:
+    bun test --watch
+
+# Clean build artifacts and node_modules
+clean:
+    rm -rf dist node_modules dagger/node_modules dagger/sdk
+
+# Show vendored parser version
+version:
+    @cat src/vendored/VERSION

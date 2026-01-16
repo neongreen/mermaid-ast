@@ -1,0 +1,74 @@
+{
+  "name": "mermaid-ast",
+  "version": "0.1.0",
+  "description": "Parse and render Mermaid diagrams to/from AST",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./parser": {
+      "import": "./dist/parser/index.js",
+      "types": "./dist/parser/index.d.ts"
+    },
+    "./renderer": {
+      "import": "./dist/renderer/index.js",
+      "types": "./dist/renderer/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "bun test",
+    "test:unit": "bun test tests/unit",
+    "test:roundtrip": "bun test tests/roundtrip",
+    "test:compatibility": "bun test tests/compatibility",
+    "typecheck": "tsc --noEmit",
+    "sync-parsers": "bun run scripts/sync-parsers.ts",
+    "prepublishOnly": "bun run build && bun run test"
+  },
+  "keywords": [
+    "mermaid",
+    "ast",
+    "parser",
+    "renderer",
+    "diagrams",
+    "flowchart",
+    "sequence-diagram",
+    "typescript"
+  ],
+  "author": "Emily",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neongreen/mermaid-ast"
+  },
+  "homepage": "https://github.com/neongreen/mermaid-ast#readme",
+  "bugs": {
+    "url": "https://github.com/neongreen/mermaid-ast/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^20.0.0",
+    "happy-dom": "^20.3.1",
+    "jison": "^0.4.18",
+    "mermaid": "^11.12.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

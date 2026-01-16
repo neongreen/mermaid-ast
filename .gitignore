@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Bun
+bun.lockb
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+
+# Test coverage
+coverage/
+
+# Mermaid source (used for studying/syncing parsers)
+mermaid-source/
+.mermaid-temp/dist/

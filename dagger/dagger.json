@@ -1,0 +1,8 @@
+{
+  "name": "mermaid-ast",
+  "engineVersion": "v0.19.10",
+  "sdk": {
+    "source": "typescript"
+  },
+  "disableDefaultFunctionCaching": true
+}

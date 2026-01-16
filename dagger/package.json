@@ -1,0 +1,10 @@
+{
+  "name": "mermaid-ast-dagger",
+  "type": "module",
+  "scripts": {
+    "test": "dagger call test-all --source=.."
+  },
+  "dependencies": {
+    "typescript": "^5.7.0"
+  }
+}
