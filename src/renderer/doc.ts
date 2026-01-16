@@ -82,14 +82,7 @@
  * ];
  * ```
  */
-export type Doc =
-  | string
-  | Doc[]
-  | { _indent: Doc }
-  | { _blank: true }
-  | null
-  | undefined
-  | false;
+export type Doc = string | Doc[] | { _indent: Doc } | { _blank: true } | null | undefined | false;
 
 /**
  * An empty line marker.
@@ -180,7 +173,7 @@ export const indent = (content: Doc): Doc => ({ _indent: content });
  */
 export const when = (condition: unknown, doc: Doc | (() => Doc)): Doc => {
   if (!condition) return null;
-  return typeof doc === "function" ? doc() : doc;
+  return typeof doc === 'function' ? doc() : doc;
 };
 
 /**
@@ -250,12 +243,7 @@ export interface BlockOptions {
  * );
  * ```
  */
-export const block = (
-  open: string,
-  body: Doc,
-  close: string,
-  options?: BlockOptions
-): Doc => {
+export const block = (open: string, body: Doc, close: string, options?: BlockOptions): Doc => {
   const shouldIndent = options?.indent !== false;
   return [open, shouldIndent ? indent(body) : body, close];
 };
@@ -285,9 +273,7 @@ export const block = (
  * ```
  */
 export const join = (docs: Doc[], separator: Doc): Doc => {
-  const filtered = docs.filter(
-    (d): d is Exclude<Doc, null | undefined | false> => Boolean(d)
-  );
+  const filtered = docs.filter((d): d is Exclude<Doc, null | undefined | false> => Boolean(d));
   return filtered.flatMap((d, i) => (i === 0 ? [d] : [separator, d]));
 };
 
@@ -323,7 +309,7 @@ export const join = (docs: Doc[], separator: Doc): Doc => {
  * // \tchild
  * ```
  */
-export function render(doc: Doc, indentStr = "    "): string {
+export function render(doc: Doc, indentStr = '    '): string {
   const lines: string[] = [];
 
   function walk(d: Doc, level: number): void {
@@ -331,7 +317,7 @@ export function render(doc: Doc, indentStr = "    "): string {
     // Note: empty string '' is falsy but we skip it intentionally
     if (!d) return;
 
-    if (typeof d === "string") {
+    if (typeof d === 'string') {
       // String = single line with current indentation
       lines.push(indentStr.repeat(level) + d);
     } else if (Array.isArray(d)) {
@@ -339,17 +325,17 @@ export function render(doc: Doc, indentStr = "    "): string {
       for (const child of d) {
         walk(child, level);
       }
-    } else if (typeof d === "object" && "_indent" in d) {
+    } else if (typeof d === 'object' && '_indent' in d) {
       // Indent marker = increase level for content
       walk(d._indent, level + 1);
-    } else if (typeof d === "object" && "_blank" in d) {
+    } else if (typeof d === 'object' && '_blank' in d) {
       // Blank line marker = empty line (no indentation)
-      lines.push("");
+      lines.push('');
     }
   }
 
   walk(doc, 0);
-  return lines.join("\n");
+  return lines.join('\n');
 }
 
 /**
@@ -359,7 +345,7 @@ export function render(doc: Doc, indentStr = "    "): string {
  * @returns True if the value is an indent node
  */
 export function isIndent(d: Doc): d is { _indent: Doc } {
-  return typeof d === "object" && d !== null && "_indent" in d;
+  return typeof d === 'object' && d !== null && '_indent' in d;
 }
 
 /**
@@ -369,5 +355,5 @@ export function isIndent(d: Doc): d is { _indent: Doc } {
  * @returns True if the value is a blank node
  */
 export function isBlank(d: Doc): d is { _blank: true } {
-  return typeof d === "object" && d !== null && "_blank" in d;
+  return typeof d === 'object' && d !== null && '_blank' in d;
 }

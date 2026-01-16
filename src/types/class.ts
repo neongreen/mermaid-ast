@@ -2,17 +2,17 @@
  * Class Diagram AST Types
  */
 
-export type ClassDirection = "TB" | "BT" | "LR" | "RL";
+export type ClassDirection = 'TB' | 'BT' | 'LR' | 'RL';
 
 export type RelationType =
-  | "aggregation"    // o--
-  | "extension"      // <|-- or --|>
-  | "composition"    // *--
-  | "dependency"     // <-- or -->
-  | "lollipop"       // ()--
-  | "none";
+  | 'aggregation' // o--
+  | 'extension' // <|-- or --|>
+  | 'composition' // *--
+  | 'dependency' // <-- or -->
+  | 'lollipop' // ()--
+  | 'none';
 
-export type LineType = "solid" | "dotted";
+export type LineType = 'solid' | 'dotted';
 
 export interface ClassRelation {
   id1: string;
@@ -29,15 +29,15 @@ export interface ClassRelation {
 
 export interface ClassMember {
   text: string;
-  visibility?: "+" | "-" | "#" | "~";  // public, private, protected, package
-  type?: "method" | "attribute";
+  visibility?: '+' | '-' | '#' | '~'; // public, private, protected, package
+  type?: 'method' | 'attribute';
 }
 
 export interface ClassDefinition {
   id: string;
   label?: string;
   members: ClassMember[];
-  annotations: string[];  // e.g., "interface", "abstract", "service"
+  annotations: string[]; // e.g., "interface", "abstract", "service"
   cssClasses: string[];
   styles: string[];
   link?: string;
@@ -49,12 +49,12 @@ export interface ClassDefinition {
 
 export interface ClassNote {
   text: string;
-  forClass?: string;  // If attached to a specific class
+  forClass?: string; // If attached to a specific class
 }
 
 export interface Namespace {
   name: string;
-  classes: string[];  // Class IDs in this namespace
+  classes: string[]; // Class IDs in this namespace
 }
 
 export interface ClassDefStyle {
@@ -63,7 +63,7 @@ export interface ClassDefStyle {
 }
 
 export interface ClassDiagramAST {
-  type: "classDiagram";
+  type: 'classDiagram';
   direction: ClassDirection;
   classes: Map<string, ClassDefinition>;
   relations: ClassRelation[];
@@ -79,8 +79,8 @@ export interface ClassDiagramAST {
  */
 export function createClassDiagramAST(): ClassDiagramAST {
   return {
-    type: "classDiagram",
-    direction: "TB",
+    type: 'classDiagram',
+    direction: 'TB',
     classes: new Map(),
     relations: [],
     namespaces: new Map(),

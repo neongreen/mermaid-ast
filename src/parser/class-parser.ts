@@ -5,51 +5,51 @@
  */
 
 import {
-  type ClassDiagramAST,
   type ClassDefinition,
-  type ClassRelation,
-  type ClassNote,
+  type ClassDiagramAST,
   type ClassDirection,
-  type RelationType,
-  type LineType,
   type ClassMember,
+  type ClassNote,
+  type ClassRelation,
   createClassDiagramAST,
-} from "../types/class.js";
+  type LineType,
+  type RelationType,
+} from '../types/class.js';
 
 // Import the vendored parser
-// @ts-ignore - Generated JS file without types
-import classParser from "../vendored/parsers/class.js";
+// @ts-expect-error - Generated JS file without types
+import classParser from '../vendored/parsers/class.js';
 
 /**
  * Parse a member string to extract visibility and type
  */
 function parseMember(memberStr: string): ClassMember {
   const trimmed = memberStr.trim();
-  let visibility: ClassMember["visibility"];
+  let visibility: ClassMember['visibility'];
   let text = trimmed;
 
   // Check for visibility prefix
-  if (trimmed.startsWith("+")) {
-    visibility = "+";
+  if (trimmed.startsWith('+')) {
+    visibility = '+';
     text = trimmed.slice(1).trim();
-  } else if (trimmed.startsWith("-")) {
-    visibility = "-";
+  } else if (trimmed.startsWith('-')) {
+    visibility = '-';
     text = trimmed.slice(1).trim();
-  } else if (trimmed.startsWith("#")) {
-    visibility = "#";
+  } else if (trimmed.startsWith('#')) {
+    visibility = '#';
     text = trimmed.slice(1).trim();
-  } else if (trimmed.startsWith("~")) {
-    visibility = "~";
+  } else if (trimmed.startsWith('~')) {
+    visibility = '~';
     text = trimmed.slice(1).trim();
   }
 
   // Determine if method or attribute
-  const isMethod = text.includes("(") && text.includes(")");
+  const isMethod = text.includes('(') && text.includes(')');
 
   return {
     text,
     visibility,
-    type: isMethod ? "method" : "attribute",
+    type: isMethod ? 'method' : 'attribute',
   };
 }
 
@@ -57,20 +57,20 @@ function parseMember(memberStr: string): ClassMember {
  * Map relation type number to string
  */
 function mapRelationType(type: number | string): RelationType {
-  if (typeof type === "string") return type as RelationType;
+  if (typeof type === 'string') return type as RelationType;
   switch (type) {
     case 0:
-      return "aggregation";
+      return 'aggregation';
     case 1:
-      return "extension";
+      return 'extension';
     case 2:
-      return "composition";
+      return 'composition';
     case 3:
-      return "dependency";
+      return 'dependency';
     case 4:
-      return "lollipop";
+      return 'lollipop';
     default:
-      return "none";
+      return 'none';
   }
 }
 
@@ -78,8 +78,8 @@ function mapRelationType(type: number | string): RelationType {
  * Map line type number to string
  */
 function mapLineType(type: number | string): LineType {
-  if (typeof type === "string") return type as LineType;
-  return type === 0 ? "solid" : "dotted";
+  if (typeof type === 'string') return type as LineType;
+  return type === 0 ? 'solid' : 'dotted';
 }
 
 /**
@@ -139,7 +139,8 @@ function createClassYY(ast: ClassDiagramAST) {
       const cls = getOrCreateClass(id);
       for (const member of members) {
         const trimmed = member.trim();
-        if (trimmed) {  // Skip empty members
+        if (trimmed) {
+          // Skip empty members
           cls.members.push(parseMember(member));
         }
       }
@@ -149,7 +150,8 @@ function createClassYY(ast: ClassDiagramAST) {
     addMember(id: string, member: string) {
       const cls = getOrCreateClass(id);
       const trimmed = member.trim();
-      if (trimmed) {  // Skip empty members
+      if (trimmed) {
+        // Skip empty members
         cls.members.push(parseMember(member));
       }
     },
@@ -177,10 +179,10 @@ function createClassYY(ast: ClassDiagramAST) {
         },
       };
 
-      if (relation.relationTitle1 && relation.relationTitle1 !== "none") {
+      if (relation.relationTitle1 && relation.relationTitle1 !== 'none') {
         rel.relationTitle1 = relation.relationTitle1;
       }
-      if (relation.relationTitle2 && relation.relationTitle2 !== "none") {
+      if (relation.relationTitle2 && relation.relationTitle2 !== 'none') {
         rel.relationTitle2 = relation.relationTitle2;
       }
       if (relation.title) {
@@ -229,7 +231,10 @@ function createClassYY(ast: ClassDiagramAST) {
     // Set CSS class on a class (id can be comma-separated list like "C1,C2")
     setCssClass(id: string, className: string) {
       // Split by comma to handle "cssClass C1,C2 styleClass" syntax
-      const classIds = id.split(",").map(s => s.trim()).filter(s => s.length > 0);
+      const classIds = id
+        .split(',')
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0);
       for (const classId of classIds) {
         const cls = getOrCreateClass(classId);
         if (!cls.cssClasses.includes(className)) {
@@ -278,7 +283,7 @@ function createClassYY(ast: ClassDiagramAST) {
     // Clean up label (remove surrounding quotes, colons)
     cleanupLabel(label: string): string {
       let result = label;
-      if (result.startsWith(":")) {
+      if (result.startsWith(':')) {
         result = result.slice(1);
       }
       result = result.trim();
@@ -304,7 +309,7 @@ function createClassYY(ast: ClassDiagramAST) {
     getTooltip: () => undefined,
     lookUpDomId: (id: string) => id,
     setDiagramTitle: () => {},
-    getDiagramTitle: () => "",
+    getDiagramTitle: () => '',
     getConfig: () => ({}),
     clear: () => {},
   };
@@ -342,9 +347,6 @@ export function parseClassDiagram(input: string): ClassDiagramAST {
  */
 export function isClassDiagram(input: string): boolean {
   const trimmed = input.trim();
-  const firstLine = trimmed.split("\n")[0].trim().toLowerCase();
-  return (
-    firstLine.startsWith("classdiagram") ||
-    firstLine.startsWith("classdiagram-v2")
-  );
+  const firstLine = trimmed.split('\n')[0].trim().toLowerCase();
+  return firstLine.startsWith('classdiagram') || firstLine.startsWith('classdiagram-v2');
 }

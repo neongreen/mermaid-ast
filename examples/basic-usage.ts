@@ -2,7 +2,7 @@
  * Basic parsing and rendering example
  * This example mirrors the README "Basic Parsing and Rendering" section
  */
-import { parse, render } from "../src/index.js";
+import { parse, render } from '../src/index.js';
 
 // Parse any supported diagram
 const ast = parse(`flowchart LR
@@ -13,6 +13,6 @@ const ast = parse(`flowchart LR
 // Render back to Mermaid syntax
 const output = render(ast);
 
-console.log("Parsed AST type:", ast.type);
-console.log("Rendered output:");
+console.log('Parsed AST type:', ast.type);
+console.log('Rendered output:');
 console.log(output);

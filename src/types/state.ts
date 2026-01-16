@@ -7,19 +7,19 @@
 /**
  * Direction of the state diagram layout
  */
-export type StateDirection = "TB" | "BT" | "LR" | "RL";
+export type StateDirection = 'TB' | 'BT' | 'LR' | 'RL';
 
 /**
  * Type of state
  */
-export type StateType = "default" | "fork" | "join" | "choice" | "divider";
+export type StateType = 'default' | 'fork' | 'join' | 'choice' | 'divider';
 
 /**
  * A note attached to a state
  */
 export interface StateNote {
   /** Position relative to the state */
-  position: "left of" | "right of";
+  position: 'left of' | 'right of';
   /** Note text content */
   text: string;
 }
@@ -88,7 +88,7 @@ export interface StateApplyClass {
  * Direction statement
  */
 export interface StateDirectionStmt {
-  stmt: "dir";
+  stmt: 'dir';
   value: StateDirection;
 }
 
@@ -108,20 +108,20 @@ export interface StateClick {
  * Union of all statement types
  */
 export type StateStatement =
-  | { stmt: "state"; state: StateDefinition }
-  | { stmt: "relation"; transition: StateTransition }
-  | { stmt: "classDef"; classDef: StateClassDef }
-  | { stmt: "style"; style: StateStyleDef }
-  | { stmt: "applyClass"; applyClass: StateApplyClass }
-  | { stmt: "dir"; value: StateDirection }
-  | { stmt: "click"; click: StateClick };
+  | { stmt: 'state'; state: StateDefinition }
+  | { stmt: 'relation'; transition: StateTransition }
+  | { stmt: 'classDef'; classDef: StateClassDef }
+  | { stmt: 'style'; style: StateStyleDef }
+  | { stmt: 'applyClass'; applyClass: StateApplyClass }
+  | { stmt: 'dir'; value: StateDirection }
+  | { stmt: 'click'; click: StateClick };
 
 /**
  * State Diagram AST
  */
 export interface StateDiagramAST {
   /** Diagram type identifier */
-  type: "state";
+  type: 'state';
   /** Diagram direction */
   direction: StateDirection;
   /** All states in the diagram (flattened) */
@@ -147,8 +147,8 @@ export interface StateDiagramAST {
  */
 export function createEmptyStateDiagramAST(): StateDiagramAST {
   return {
-    type: "state",
-    direction: "TB",
+    type: 'state',
+    direction: 'TB',
     states: new Map(),
     transitions: [],
     classDefs: new Map(),

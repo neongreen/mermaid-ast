@@ -1,25 +1,23 @@
 /**
  * Fixture-based round-trip tests
- * 
+ *
  * These tests load fixtures from tests/fixtures/*.json and verify that
  * parse(render(parse(input))) produces semantically equivalent ASTs.
- * 
+ *
  * This provides comprehensive coverage using test cases extracted from
  * mermaid.js's own test suite (MIT licensed).
  */
 
-import { describe, it, expect } from "bun:test";
-import { readFileSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
-import { parseFlowchart, parseSequence, parseClassDiagram } from "../../src/parser/index.js";
-import { renderFlowchart, renderSequence, renderClassDiagram } from "../../src/renderer/index.js";
-import type { FlowchartAST } from "../../src/types/flowchart.js";
-import type { SequenceAST } from "../../src/types/sequence.js";
-import type { ClassDiagramAST } from "../../src/types/class.js";
+import { describe, expect, it } from 'bun:test';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { parseClassDiagram, parseFlowchart, parseSequence } from '../../src/parser/index.js';
+import { renderClassDiagram, renderFlowchart, renderSequence } from '../../src/renderer/index.js';
+import type { ClassDiagramAST, FlowchartAST, SequenceAST } from '../../src/types/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const fixturesDir = join(__dirname, "../fixtures");
+const fixturesDir = join(__dirname, '../fixtures');
 
 interface Fixture {
   name: string;
@@ -39,7 +37,7 @@ interface FixtureFile {
 }
 
 function loadFixtures(filename: string): FixtureFile {
-  const content = readFileSync(join(fixturesDir, filename), "utf-8");
+  const content = readFileSync(join(fixturesDir, filename), 'utf-8');
   return JSON.parse(content);
 }
 
@@ -59,14 +57,14 @@ function getAllFixtures(file: FixtureFile): Array<Fixture & { category: string }
 // ============================================
 // FLOWCHART FIXTURES
 // ============================================
-describe("Flowchart Fixture Round-trips", () => {
-  const flowchartFixtures = loadFixtures("flowchart.json");
-  
-  for (const [categoryName, category] of Object.entries(flowchartFixtures.categories)) {
+describe('Flowchart Fixture Round-trips', () => {
+  const flowchartFixtures = loadFixtures('flowchart.json');
+
+  for (const [_categoryName, category] of Object.entries(flowchartFixtures.categories)) {
     describe(category.description, () => {
       for (const fixture of category.fixtures) {
         it(`${fixture.name}: ${fixture.description}`, () => {
-          let ast1;
+          let ast1: FlowchartAST;
           try {
             ast1 = parseFlowchart(fixture.input);
           } catch (e) {
@@ -75,23 +73,25 @@ describe("Flowchart Fixture Round-trips", () => {
             console.log(`  [SKIP] Parse error: ${(e as Error).message.slice(0, 50)}`);
             return;
           }
-          
-          let rendered;
+
+          let rendered: string;
           try {
             rendered = renderFlowchart(ast1);
           } catch (e) {
             console.log(`  [SKIP] Render error: ${(e as Error).message.slice(0, 50)}`);
             return;
           }
-          
-          let ast2;
+
+          let ast2: FlowchartAST;
           try {
             ast2 = parseFlowchart(rendered);
           } catch (e) {
             // If we can't parse our own output, that's a real failure
-            throw new Error(`Failed to parse rendered output: ${(e as Error).message}\nRendered:\n${rendered}`);
+            throw new Error(
+              `Failed to parse rendered output: ${(e as Error).message}\nRendered:\n${rendered}`
+            );
           }
-          
+
           // Semantic equivalence checks
           expect(ast2.direction).toBe(ast1.direction);
           expect(ast2.nodes.size).toBe(ast1.nodes.size);
@@ -105,14 +105,14 @@ describe("Flowchart Fixture Round-trips", () => {
 // ============================================
 // SEQUENCE FIXTURES
 // ============================================
-describe("Sequence Fixture Round-trips", () => {
-  const sequenceFixtures = loadFixtures("sequence.json");
-  
-  for (const [categoryName, category] of Object.entries(sequenceFixtures.categories)) {
+describe('Sequence Fixture Round-trips', () => {
+  const sequenceFixtures = loadFixtures('sequence.json');
+
+  for (const [_categoryName, category] of Object.entries(sequenceFixtures.categories)) {
     describe(category.description, () => {
       for (const fixture of category.fixtures) {
         it(`${fixture.name}: ${fixture.description}`, () => {
-          let ast1;
+          let ast1: SequenceAST;
           try {
             ast1 = parseSequence(fixture.input);
           } catch (e) {
@@ -120,23 +120,25 @@ describe("Sequence Fixture Round-trips", () => {
             console.log(`  [SKIP] Parse error: ${(e as Error).message.slice(0, 50)}`);
             return;
           }
-          
-          let rendered;
+
+          let rendered: string;
           try {
             rendered = renderSequence(ast1);
           } catch (e) {
             console.log(`  [SKIP] Render error: ${(e as Error).message.slice(0, 50)}`);
             return;
           }
-          
-          let ast2;
+
+          let ast2: SequenceAST;
           try {
             ast2 = parseSequence(rendered);
           } catch (e) {
             // If we can't parse our own output, that's a real failure
-            throw new Error(`Failed to parse rendered output: ${(e as Error).message}\nRendered:\n${rendered}`);
+            throw new Error(
+              `Failed to parse rendered output: ${(e as Error).message}\nRendered:\n${rendered}`
+            );
           }
-          
+
           // Semantic equivalence checks
           expect(ast2.actors.size).toBe(ast1.actors.size);
           expect(ast2.statements.length).toBe(ast1.statements.length);
@@ -149,14 +151,14 @@ describe("Sequence Fixture Round-trips", () => {
 // ============================================
 // CLASS FIXTURES
 // ============================================
-describe("Class Fixture Round-trips", () => {
-  const classFixtures = loadFixtures("class.json");
-  
-  for (const [categoryName, category] of Object.entries(classFixtures.categories)) {
+describe('Class Fixture Round-trips', () => {
+  const classFixtures = loadFixtures('class.json');
+
+  for (const [_categoryName, category] of Object.entries(classFixtures.categories)) {
     describe(category.description, () => {
       for (const fixture of category.fixtures) {
         it(`${fixture.name}: ${fixture.description}`, () => {
-          let ast1;
+          let ast1: ClassDiagramAST;
           try {
             ast1 = parseClassDiagram(fixture.input);
           } catch (e) {
@@ -164,23 +166,25 @@ describe("Class Fixture Round-trips", () => {
             console.log(`  [SKIP] Parse error: ${(e as Error).message.slice(0, 50)}`);
             return;
           }
-          
-          let rendered;
+
+          let rendered: string;
           try {
             rendered = renderClassDiagram(ast1);
           } catch (e) {
             console.log(`  [SKIP] Render error: ${(e as Error).message.slice(0, 50)}`);
             return;
           }
-          
-          let ast2;
+
+          let ast2: ClassDiagramAST;
           try {
             ast2 = parseClassDiagram(rendered);
           } catch (e) {
             // If we can't parse our own output, that's a real failure
-            throw new Error(`Failed to parse rendered output: ${(e as Error).message}\nRendered:\n${rendered}`);
+            throw new Error(
+              `Failed to parse rendered output: ${(e as Error).message}\nRendered:\n${rendered}`
+            );
           }
-          
+
           // Semantic equivalence checks
           expect(ast2.classes.size).toBe(ast1.classes.size);
           expect(ast2.relations.length).toBe(ast1.relations.length);
@@ -193,7 +197,7 @@ describe("Class Fixture Round-trips", () => {
 // ============================================
 // STATE FIXTURES (placeholder - state not implemented yet)
 // ============================================
-describe.skip("State Fixture Round-trips", () => {
+describe.skip('State Fixture Round-trips', () => {
   // State diagram support not yet implemented
   // These tests will be enabled when state diagrams are added
 });
@@ -201,26 +205,26 @@ describe.skip("State Fixture Round-trips", () => {
 // ============================================
 // SUMMARY TEST
 // ============================================
-describe("Fixture Coverage Summary", () => {
-  it("should report fixture counts", () => {
-    const flowchart = loadFixtures("flowchart.json");
-    const sequence = loadFixtures("sequence.json");
-    const classFixtures = loadFixtures("class.json");
-    const state = loadFixtures("state.json");
-    
+describe('Fixture Coverage Summary', () => {
+  it('should report fixture counts', () => {
+    const flowchart = loadFixtures('flowchart.json');
+    const sequence = loadFixtures('sequence.json');
+    const classFixtures = loadFixtures('class.json');
+    const state = loadFixtures('state.json');
+
     const flowchartCount = getAllFixtures(flowchart).length;
     const sequenceCount = getAllFixtures(sequence).length;
     const classCount = getAllFixtures(classFixtures).length;
     const stateCount = getAllFixtures(state).length;
-    
-    console.log("\n=== Fixture Coverage ===");
+
+    console.log('\n=== Fixture Coverage ===');
     console.log(`Flowchart: ${flowchartCount} fixtures`);
     console.log(`Sequence:  ${sequenceCount} fixtures`);
     console.log(`Class:     ${classCount} fixtures`);
     console.log(`State:     ${stateCount} fixtures (pending implementation)`);
     console.log(`Total:     ${flowchartCount + sequenceCount + classCount + stateCount} fixtures`);
-    console.log("========================\n");
-    
+    console.log('========================\n');
+
     // Just verify we have fixtures
     expect(flowchartCount).toBeGreaterThan(0);
     expect(sequenceCount).toBeGreaterThan(0);

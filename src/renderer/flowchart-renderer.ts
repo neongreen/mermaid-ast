@@ -6,13 +6,13 @@
 
 import type {
   FlowchartAST,
-  FlowchartNode,
   FlowchartLink,
+  FlowchartNode,
   FlowchartSubgraph,
-} from "../types/flowchart.js";
-import type { RenderOptions, ResolvedRenderOptions } from "../types/render-options.js";
-import { resolveOptions } from "../types/render-options.js";
-import { type Doc, indent, when, block, render } from "./doc.js";
+} from '../types/flowchart.js';
+import type { RenderOptions, ResolvedRenderOptions } from '../types/render-options.js';
+import { resolveOptions } from '../types/render-options.js';
+import { block, type Doc, indent, render, when } from './doc.js';
 
 /**
  * Escape special characters in text
@@ -29,40 +29,39 @@ function renderNodeShape(node: FlowchartNode): string {
   const escapedText = escapeText(text);
 
   switch (node.shape) {
-    case "square":
+    case 'square':
       return `[${escapedText}]`;
-    case "round":
+    case 'round':
       return `(${escapedText})`;
-    case "circle":
+    case 'circle':
       return `((${escapedText}))`;
-    case "doublecircle":
+    case 'doublecircle':
       return `(((${escapedText})))`;
-    case "ellipse":
+    case 'ellipse':
       return `(-${escapedText}-)`;
-    case "stadium":
+    case 'stadium':
       return `([${escapedText}])`;
-    case "subroutine":
+    case 'subroutine':
       return `[[${escapedText}]]`;
-    case "cylinder":
+    case 'cylinder':
       return `[(${escapedText})]`;
-    case "diamond":
+    case 'diamond':
       return `{${escapedText}}`;
-    case "hexagon":
+    case 'hexagon':
       return `{{${escapedText}}}`;
-    case "odd":
+    case 'odd':
       return `>${escapedText}]`;
-    case "trapezoid":
+    case 'trapezoid':
       return `[/${escapedText}\\]`;
-    case "inv_trapezoid":
+    case 'inv_trapezoid':
       return `[\\${escapedText}/]`;
-    case "lean_right":
+    case 'lean_right':
       return `[/${escapedText}/]`;
-    case "lean_left":
+    case 'lean_left':
       return `[\\${escapedText}\\]`;
-    case "rect":
     default:
       if (!node.text) {
-        return "";
+        return '';
       }
       return `[${escapedText}]`;
   }
@@ -72,40 +71,39 @@ function renderNodeShape(node: FlowchartNode): string {
  * Render link arrow syntax
  */
 function renderLinkArrow(link: FlowchartLink): string {
-  const isOpen = link.type === "arrow_open";
+  const isOpen = link.type === 'arrow_open';
   const length = Math.max(1, link.length);
 
-  let arrow = "";
+  let arrow = '';
 
   // Start character based on type (for bidirectional)
-  if (link.type === "arrow_circle") {
-    arrow += "o";
-  } else if (link.type === "arrow_cross") {
-    arrow += "x";
+  if (link.type === 'arrow_circle') {
+    arrow += 'o';
+  } else if (link.type === 'arrow_cross') {
+    arrow += 'x';
   }
 
   // Build the arrow based on stroke type
   switch (link.stroke) {
-    case "thick":
+    case 'thick':
       if (isOpen) {
-        arrow += "=".repeat(length + 2);
+        arrow += '='.repeat(length + 2);
       } else {
-        arrow += "=".repeat(length + 1);
+        arrow += '='.repeat(length + 1);
       }
       break;
-    case "dotted":
+    case 'dotted':
       if (isOpen) {
-        arrow += "-.-";
+        arrow += '-.-';
       } else {
-        arrow += "-.-";
+        arrow += '-.-';
       }
       break;
-    case "normal":
     default:
       if (isOpen) {
-        arrow += "-".repeat(length + 2);
+        arrow += '-'.repeat(length + 2);
       } else {
-        arrow += "-".repeat(length + 1);
+        arrow += '-'.repeat(length + 1);
       }
       break;
   }
@@ -113,14 +111,14 @@ function renderLinkArrow(link: FlowchartLink): string {
   // End character based on type (only for non-open)
   if (!isOpen) {
     switch (link.type) {
-      case "arrow_point":
-        arrow += ">";
+      case 'arrow_point':
+        arrow += '>';
         break;
-      case "arrow_circle":
-        arrow += "o";
+      case 'arrow_circle':
+        arrow += 'o';
         break;
-      case "arrow_cross":
-        arrow += "x";
+      case 'arrow_cross':
+        arrow += 'x';
         break;
       default:
         break;
@@ -149,9 +147,9 @@ function renderLink(link: FlowchartLink): string {
 function getInlineClassSuffix(nodeId: string, ast: FlowchartAST): string {
   const classes = ast.classes.get(nodeId);
   if (classes && classes.length > 0) {
-    return `:::${classes.join(",")}`;
+    return `:::${classes.join(',')}`;
   }
-  return "";
+  return '';
 }
 
 /**
@@ -161,7 +159,7 @@ function renderClassDefs(ast: FlowchartAST): Doc {
   return [...ast.classDefs.entries()].map(([className, classDef]) => {
     const styles = Object.entries(classDef.styles)
       .map(([key, value]) => `${key}:${value}`)
-      .join(",");
+      .join(',');
     return `classDef ${className} ${styles}`;
   });
 }
@@ -181,7 +179,7 @@ function renderClassAssignments(ast: FlowchartAST): Doc {
   }
 
   return [...classToNodes.entries()].map(
-    ([className, nodes]) => `class ${nodes.join(",")} ${className}`
+    ([className, nodes]) => `class ${nodes.join(',')} ${className}`
   );
 }
 
@@ -191,10 +189,10 @@ function renderClassAssignments(ast: FlowchartAST): Doc {
 function renderClicks(ast: FlowchartAST): Doc {
   return ast.clicks.map((click) => {
     if (click.href) {
-      const target = click.target ? ` ${click.target}` : "";
+      const target = click.target ? ` ${click.target}` : '';
       return `click ${click.nodeId} href "${click.href}"${target}`;
     } else if (click.callback) {
-      const args = click.callbackArgs ? ` ${click.callbackArgs}` : "";
+      const args = click.callbackArgs ? ` ${click.callbackArgs}` : '';
       return `click ${click.nodeId} ${click.callback}${args}`;
     }
     return null;
@@ -208,11 +206,9 @@ function renderLinkStyles(ast: FlowchartAST): Doc {
   return ast.linkStyles.map((linkStyle) => {
     const styles = Object.entries(linkStyle.styles)
       .map(([key, value]) => `${key}:${value}`)
-      .join(",");
-    const index = linkStyle.index === "default" ? "default" : linkStyle.index;
-    const interpolate = linkStyle.interpolate
-      ? ` interpolate ${linkStyle.interpolate}`
-      : "";
+      .join(',');
+    const index = linkStyle.index === 'default' ? 'default' : linkStyle.index;
+    const interpolate = linkStyle.interpolate ? ` interpolate ${linkStyle.interpolate}` : '';
     return `linkStyle ${index} ${styles}${interpolate}`;
   });
 }
@@ -234,7 +230,7 @@ function renderSubgraph(
       : `subgraph ${subgraph.id}`;
 
   // Get nodes to render (optionally sorted)
-  let nodeIds = [...subgraph.nodes];
+  const nodeIds = [...subgraph.nodes];
   if (opts.sortNodes) {
     nodeIds.sort();
   }
@@ -253,9 +249,7 @@ function renderSubgraph(
       const node = ast.nodes.get(nodeId);
       if (node) {
         const shape = renderNodeShape(node);
-        const classSuffix = opts.inlineClasses
-          ? getInlineClassSuffix(nodeId, ast)
-          : "";
+        const classSuffix = opts.inlineClasses ? getInlineClassSuffix(nodeId, ast) : '';
         bodyContent.push(`${node.id}${shape}${classSuffix}`);
         renderedNodes.add(nodeId);
       }
@@ -276,7 +270,7 @@ function renderSubgraph(
     }
   }
 
-  return block(header, bodyContent, "end");
+  return block(header, bodyContent, 'end');
 }
 
 /**
@@ -293,10 +287,7 @@ function buildLinkChains(
   const usedLinkIndices = new Set<number>();
 
   // Build adjacency map: source -> list of (target, link, index)
-  const outgoing = new Map<
-    string,
-    { target: string; link: FlowchartLink; index: number }[]
-  >();
+  const outgoing = new Map<string, { target: string; link: FlowchartLink; index: number }[]>();
   for (let i = 0; i < ast.links.length; i++) {
     if (renderedLinks.has(i)) continue;
     const link = ast.links[i];
@@ -375,7 +366,7 @@ function renderCompactMode(
 
   // Render chains
   for (const chain of chains) {
-    let line = "";
+    let line = '';
     for (let i = 0; i < chain.nodeIds.length; i++) {
       const nodeId = chain.nodeIds[i];
       const node = ast.nodes.get(nodeId);
@@ -383,9 +374,7 @@ function renderCompactMode(
       if (i === 0) {
         if (node && !renderedNodes.has(nodeId)) {
           const shape = renderNodeShape(node);
-          const classSuffix = opts.inlineClasses
-            ? getInlineClassSuffix(nodeId, ast)
-            : "";
+          const classSuffix = opts.inlineClasses ? getInlineClassSuffix(nodeId, ast) : '';
           line += `${nodeId}${shape}${classSuffix}`;
           renderedNodes.add(nodeId);
         } else {
@@ -401,9 +390,7 @@ function renderCompactMode(
 
         if (targetNode && !renderedNodes.has(targetId)) {
           const targetShape = renderNodeShape(targetNode);
-          const classSuffix = opts.inlineClasses
-            ? getInlineClassSuffix(targetId, ast)
-            : "";
+          const classSuffix = opts.inlineClasses ? getInlineClassSuffix(targetId, ast) : '';
           line += ` ${linkStr} ${targetId}${targetShape}${classSuffix}`;
           renderedNodes.add(targetId);
         } else {
@@ -423,9 +410,7 @@ function renderCompactMode(
   for (const [nodeId, node] of nodeEntries) {
     if (renderedNodes.has(nodeId)) continue;
     const shape = renderNodeShape(node);
-    const classSuffix = opts.inlineClasses
-      ? getInlineClassSuffix(nodeId, ast)
-      : "";
+    const classSuffix = opts.inlineClasses ? getInlineClassSuffix(nodeId, ast) : '';
     content.push(`${node.id}${shape}${classSuffix}`);
     renderedNodes.add(nodeId);
   }
@@ -455,10 +440,7 @@ function renderNonCompactMode(
   const content: Doc[] = [];
 
   // Group links by source for cleaner output
-  const linksBySource = new Map<
-    string,
-    { link: FlowchartLink; index: number }[]
-  >();
+  const linksBySource = new Map<string, { link: FlowchartLink; index: number }[]>();
   for (let i = 0; i < ast.links.length; i++) {
     if (renderedLinks.has(i)) continue;
     const link = ast.links[i];
@@ -472,9 +454,7 @@ function renderNonCompactMode(
     if (renderedNodes.has(nodeId)) continue;
 
     const linksFromThis = linksBySource.get(nodeId) || [];
-    const classSuffix = opts.inlineClasses
-      ? getInlineClassSuffix(nodeId, ast)
-      : "";
+    const classSuffix = opts.inlineClasses ? getInlineClassSuffix(nodeId, ast) : '';
 
     if (linksFromThis.length === 0) {
       // Standalone node
@@ -489,11 +469,11 @@ function renderNonCompactMode(
       const targetNode = ast.nodes.get(firstLinkInfo.link.target);
       const targetClassSuffix = opts.inlineClasses
         ? getInlineClassSuffix(firstLinkInfo.link.target, ast)
-        : "";
+        : '';
       const targetShape =
         targetNode && !renderedNodes.has(firstLinkInfo.link.target)
           ? renderNodeShape(targetNode)
-          : "";
+          : '';
 
       content.push(
         `${node.id}${shape}${classSuffix} ${linkStr} ${firstLinkInfo.link.target}${targetShape}${targetClassSuffix}`
@@ -509,11 +489,9 @@ function renderNonCompactMode(
         const targetNode = ast.nodes.get(linkInfo.link.target);
         const targetClassSuffix = opts.inlineClasses
           ? getInlineClassSuffix(linkInfo.link.target, ast)
-          : "";
+          : '';
         const targetShape =
-          targetNode && !renderedNodes.has(linkInfo.link.target)
-            ? renderNodeShape(targetNode)
-            : "";
+          targetNode && !renderedNodes.has(linkInfo.link.target) ? renderNodeShape(targetNode) : '';
 
         content.push(
           `${node.id} ${linkStr} ${linkInfo.link.target}${targetShape}${targetClassSuffix}`
@@ -539,10 +517,7 @@ function renderNonCompactMode(
 /**
  * Render a FlowchartAST to Mermaid syntax
  */
-export function renderFlowchart(
-  ast: FlowchartAST,
-  options?: RenderOptions
-): string {
+export function renderFlowchart(ast: FlowchartAST, options?: RenderOptions): string {
   const opts = resolveOptions(options);
 
   // Track what we've rendered
@@ -550,7 +525,7 @@ export function renderFlowchart(
   const renderedLinks = new Set<number>();
 
   // Get node order (optionally sorted)
-  let nodeEntries = [...ast.nodes.entries()];
+  const nodeEntries = [...ast.nodes.entries()];
   if (opts.sortNodes) {
     nodeEntries.sort((a, b) => a[0].localeCompare(b[0]));
   }
@@ -566,20 +541,8 @@ export function renderFlowchart(
 
       // Nodes and links (compact or non-compact mode)
       opts.compactLinks
-        ? renderCompactMode(
-            ast,
-            nodeEntries,
-            renderedNodes,
-            renderedLinks,
-            opts
-          )
-        : renderNonCompactMode(
-            ast,
-            nodeEntries,
-            renderedNodes,
-            renderedLinks,
-            opts
-          ),
+        ? renderCompactMode(ast, nodeEntries, renderedNodes, renderedLinks, opts)
+        : renderNonCompactMode(ast, nodeEntries, renderedNodes, renderedLinks, opts),
 
       // Class definitions
       renderClassDefs(ast),

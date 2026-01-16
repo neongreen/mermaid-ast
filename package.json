@@ -35,9 +35,12 @@
     "test:roundtrip": "bun test tests/roundtrip",
     "test:compatibility": "bun test tests/compatibility",
     "typecheck": "tsc --noEmit",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
+    "format": "biome format --write",
     "examples": "bun run scripts/run-examples.ts",
     "sync-parsers": "bun run scripts/sync-parsers.ts",
-    "prepublishOnly": "bun run build && bun run test"
+    "prepublishOnly": "bun run build && bun run test && bun run lint"
   },
   "keywords": [
     "mermaid",
@@ -64,6 +67,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
     "@types/bun": "latest",
     "@types/node": "^20.0.0",
     "happy-dom": "^20.3.1",

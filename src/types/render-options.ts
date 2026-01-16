@@ -18,7 +18,7 @@ export interface RenderOptions {
    * render(ast, { indent: 'tab' }) // tab character
    * ```
    */
-  indent?: number | "tab";
+  indent?: number | 'tab';
 
   /**
    * Use inline class syntax (A:::className) instead of separate class statements.
@@ -56,7 +56,7 @@ export interface ResolvedRenderOptions {
  * Default render options
  */
 export const DEFAULT_RENDER_OPTIONS: ResolvedRenderOptions = {
-  indent: "    ",
+  indent: '    ',
   inlineClasses: false,
   compactLinks: false,
   sortNodes: false,
@@ -65,14 +65,14 @@ export const DEFAULT_RENDER_OPTIONS: ResolvedRenderOptions = {
 /**
  * Convert indent option to string
  */
-function resolveIndent(indent: number | "tab" | undefined): string {
+function resolveIndent(indent: number | 'tab' | undefined): string {
   if (indent === undefined) {
     return DEFAULT_RENDER_OPTIONS.indent;
   }
-  if (indent === "tab") {
-    return "\t";
+  if (indent === 'tab') {
+    return '\t';
   }
-  return " ".repeat(indent);
+  return ' '.repeat(indent);
 }
 
 /**

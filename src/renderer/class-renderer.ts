@@ -5,36 +5,35 @@
  */
 
 import type {
-  ClassDiagramAST,
   ClassDefinition,
-  ClassRelation,
-  ClassNote,
-  RelationType,
-  LineType,
+  ClassDiagramAST,
   ClassMember,
-} from "../types/class.js";
-import type { RenderOptions } from "../types/render-options.js";
-import { resolveOptions } from "../types/render-options.js";
-import { type Doc, indent, when, block, render } from "./doc.js";
+  ClassNote,
+  ClassRelation,
+  LineType,
+  RelationType,
+} from '../types/class.js';
+import type { RenderOptions } from '../types/render-options.js';
+import { resolveOptions } from '../types/render-options.js';
+import { block, type Doc, indent, render, when } from './doc.js';
 
 /**
  * Render relation type to symbol
  */
 function renderRelationType(type: RelationType, isStart: boolean): string {
   switch (type) {
-    case "aggregation":
-      return "o";
-    case "extension":
-      return isStart ? "<|" : "|>";
-    case "composition":
-      return "*";
-    case "dependency":
-      return isStart ? "<" : ">";
-    case "lollipop":
-      return "()";
-    case "none":
+    case 'aggregation':
+      return 'o';
+    case 'extension':
+      return isStart ? '<|' : '|>';
+    case 'composition':
+      return '*';
+    case 'dependency':
+      return isStart ? '<' : '>';
+    case 'lollipop':
+      return '()';
     default:
-      return "";
+      return '';
   }
 }
 
@@ -42,7 +41,7 @@ function renderRelationType(type: RelationType, isStart: boolean): string {
  * Render line type to symbol
  */
 function renderLineType(lineType: LineType): string {
-  return lineType === "dotted" ? ".." : "--";
+  return lineType === 'dotted' ? '..' : '--';
 }
 
 /**
@@ -70,25 +69,20 @@ function renderRelation(relation: ClassRelation): string {
  * Render a class member to a string
  */
 function renderMember(member: ClassMember): string {
-  const visibility = member.visibility || "";
+  const visibility = member.visibility || '';
   return `${visibility}${member.text}`;
 }
 
 /**
  * Render a class definition to a Doc
  */
-function renderClass(
-  cls: ClassDefinition,
-  isReferencedInRelations: boolean
-): Doc {
+function renderClass(cls: ClassDefinition, isReferencedInRelations: boolean): Doc {
   const hasBody = cls.members.length > 0;
   const hasLabel = cls.label && cls.label !== cls.id;
 
   if (hasBody) {
-    const header = hasLabel
-      ? `class ${cls.id}["${cls.label}"] {`
-      : `class ${cls.id} {`;
-    return block(header, cls.members.map(renderMember), "}");
+    const header = hasLabel ? `class ${cls.id}["${cls.label}"] {` : `class ${cls.id} {`;
+    return block(header, cls.members.map(renderMember), '}');
   }
 
   if (hasLabel) {
@@ -128,7 +122,7 @@ function renderNamespace(
     })
     .filter(Boolean);
 
-  return block(`namespace ${namespaceName} {`, classesDoc, "}");
+  return block(`namespace ${namespaceName} {`, classesDoc, '}');
 }
 
 /**
@@ -136,9 +130,7 @@ function renderNamespace(
  */
 function renderNotes(notes: ClassNote[]): Doc {
   return notes.map((note) =>
-    note.forClass
-      ? `note for ${note.forClass} "${note.text}"`
-      : `note "${note.text}"`
+    note.forClass ? `note for ${note.forClass} "${note.text}"` : `note "${note.text}"`
   );
 }
 
@@ -148,7 +140,7 @@ function renderNotes(notes: ClassNote[]): Doc {
 function renderClassDefs(ast: ClassDiagramAST): Doc {
   const entries = [...ast.classDefs.entries()];
   return entries.map(([name, def]) => {
-    const styles = def.styles.join(",");
+    const styles = def.styles.join(',');
     return `classDef ${name} ${styles}`;
   });
 }
@@ -173,12 +165,12 @@ function renderClicks(ast: ClassDiagramAST): Doc {
   const clicks: string[] = [];
   for (const [, cls] of ast.classes) {
     if (cls.link) {
-      const target = cls.linkTarget ? ` ${cls.linkTarget}` : "";
-      const tooltip = cls.tooltip ? ` "${cls.tooltip}"` : "";
+      const target = cls.linkTarget ? ` ${cls.linkTarget}` : '';
+      const tooltip = cls.tooltip ? ` "${cls.tooltip}"` : '';
       clicks.push(`link ${cls.id} "${cls.link}"${tooltip}${target}`);
     } else if (cls.callback) {
-      const args = cls.callbackArgs ? `("${cls.callbackArgs}")` : "";
-      const tooltip = cls.tooltip ? ` "${cls.tooltip}"` : "";
+      const args = cls.callbackArgs ? `("${cls.callbackArgs}")` : '';
+      const tooltip = cls.tooltip ? ` "${cls.tooltip}"` : '';
       clicks.push(`callback ${cls.id} "${cls.callback}"${args}${tooltip}`);
     }
   }
@@ -207,17 +199,17 @@ export function renderClassDiagram(ast: ClassDiagramAST, options?: RenderOptions
   }
 
   // Get classes (optionally sorted)
-  let classEntries = [...ast.classes.entries()];
+  const classEntries = [...ast.classes.entries()];
   if (opts.sortNodes) {
     classEntries.sort((a, b) => a[0].localeCompare(b[0]));
   }
 
   // Build the document
   const doc: Doc = [
-    "classDiagram",
+    'classDiagram',
     indent([
       // Direction
-      when(ast.direction && ast.direction !== "TB", `direction ${ast.direction}`),
+      when(ast.direction && ast.direction !== 'TB', `direction ${ast.direction}`),
 
       // Namespaces
       ...[...ast.namespaces.entries()].map(([name, ns]) =>

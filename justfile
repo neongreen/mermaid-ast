@@ -53,6 +53,18 @@ build:
 typecheck:
     bunx tsc --noEmit
 
+# Lint code with Biome
+lint:
+    bun run lint
+
+# Lint and fix issues
+lint-fix:
+    bun run lint:fix
+
+# Format code with Biome
+format:
+    bun run format
+
 # --- Dagger commands ---
 
 # Run tests in Bun via Dagger

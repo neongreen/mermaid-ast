@@ -1,6 +1,6 @@
 /**
  * Sequence Diagram AST Types
- * 
+ *
  * These types represent the Abstract Syntax Tree for Mermaid sequence diagrams.
  * They capture all the information parsed from the sequence diagram syntax.
  */
@@ -9,21 +9,21 @@
  * Arrow types for sequence diagram messages
  */
 export type SequenceArrowType =
-  | "solid"              // ->>
-  | "dotted"             // -->>
-  | "solid_open"         // ->
-  | "dotted_open"        // -->
-  | "solid_cross"        // -x
-  | "dotted_cross"       // --x
-  | "solid_point"        // -)
-  | "dotted_point"       // --)
-  | "bidirectional_solid"    // <<->>
-  | "bidirectional_dotted";  // <<-->>
+  | 'solid' // ->>
+  | 'dotted' // -->>
+  | 'solid_open' // ->
+  | 'dotted_open' // -->
+  | 'solid_cross' // -x
+  | 'dotted_cross' // --x
+  | 'solid_point' // -)
+  | 'dotted_point' // --)
+  | 'bidirectional_solid' // <<->>
+  | 'bidirectional_dotted'; // <<-->>
 
 /**
  * Note placement options
  */
-export type NotePlacement = "left_of" | "right_of" | "over";
+export type NotePlacement = 'left_of' | 'right_of' | 'over';
 
 /**
  * An actor/participant in the sequence diagram
@@ -32,21 +32,21 @@ export interface SequenceActor {
   id: string;
   name: string;
   alias?: string;
-  type: "participant" | "actor";
-  created?: boolean;  // If created mid-sequence with "create"
-  destroyed?: boolean;  // If destroyed with "destroy"
+  type: 'participant' | 'actor';
+  created?: boolean; // If created mid-sequence with "create"
+  destroyed?: boolean; // If destroyed with "destroy"
 }
 
 /**
  * A message between actors
  */
 export interface SequenceMessage {
-  type: "message";
+  type: 'message';
   from: string;
   to: string;
   text: string;
   arrowType: SequenceArrowType;
-  activate?: boolean;   // + after arrow
+  activate?: boolean; // + after arrow
   deactivate?: boolean; // - after arrow
 }
 
@@ -54,9 +54,9 @@ export interface SequenceMessage {
  * A note in the sequence diagram
  */
 export interface SequenceNote {
-  type: "note";
+  type: 'note';
   placement: NotePlacement;
-  actors: string[];  // Can be over multiple actors
+  actors: string[]; // Can be over multiple actors
   text: string;
 }
 
@@ -64,7 +64,7 @@ export interface SequenceNote {
  * Activation/deactivation statement
  */
 export interface SequenceActivation {
-  type: "activate" | "deactivate";
+  type: 'activate' | 'deactivate';
   actor: string;
 }
 
@@ -72,7 +72,7 @@ export interface SequenceActivation {
  * Loop block
  */
 export interface SequenceLoop {
-  type: "loop";
+  type: 'loop';
   text: string;
   statements: SequenceStatement[];
 }
@@ -81,7 +81,7 @@ export interface SequenceLoop {
  * Alt/else block (conditional)
  */
 export interface SequenceAlt {
-  type: "alt";
+  type: 'alt';
   sections: Array<{
     condition: string;
     statements: SequenceStatement[];
@@ -92,7 +92,7 @@ export interface SequenceAlt {
  * Opt block (optional)
  */
 export interface SequenceOpt {
-  type: "opt";
+  type: 'opt';
   text: string;
   statements: SequenceStatement[];
 }
@@ -101,7 +101,7 @@ export interface SequenceOpt {
  * Par block (parallel)
  */
 export interface SequencePar {
-  type: "par";
+  type: 'par';
   sections: Array<{
     text: string;
     statements: SequenceStatement[];
@@ -112,7 +112,7 @@ export interface SequencePar {
  * Critical block
  */
 export interface SequenceCritical {
-  type: "critical";
+  type: 'critical';
   text: string;
   statements: SequenceStatement[];
   options: Array<{
@@ -125,7 +125,7 @@ export interface SequenceCritical {
  * Break block
  */
 export interface SequenceBreak {
-  type: "break";
+  type: 'break';
   text: string;
   statements: SequenceStatement[];
 }
@@ -134,7 +134,7 @@ export interface SequenceBreak {
  * Rect (highlight) block
  */
 export interface SequenceRect {
-  type: "rect";
+  type: 'rect';
   color: string;
   statements: SequenceStatement[];
 }
@@ -143,7 +143,7 @@ export interface SequenceRect {
  * Box grouping for actors
  */
 export interface SequenceBox {
-  type: "box";
+  type: 'box';
   text?: string;
   color?: string;
   actors: string[];
@@ -153,7 +153,7 @@ export interface SequenceBox {
  * Autonumber configuration
  */
 export interface SequenceAutonumber {
-  type: "autonumber";
+  type: 'autonumber';
   start?: number;
   step?: number;
   visible: boolean;
@@ -163,7 +163,7 @@ export interface SequenceAutonumber {
  * Link definition for an actor
  */
 export interface SequenceLink {
-  type: "link";
+  type: 'link';
   actor: string;
   url: string;
   text: string;
@@ -173,16 +173,16 @@ export interface SequenceLink {
  * Links (multiple) definition for an actor
  */
 export interface SequenceLinks {
-  type: "links";
+  type: 'links';
   actor: string;
-  links: Record<string, string>;  // text -> url
+  links: Record<string, string>; // text -> url
 }
 
 /**
  * Properties definition for an actor
  */
 export interface SequenceProperties {
-  type: "properties";
+  type: 'properties';
   actor: string;
   properties: Record<string, string>;
 }
@@ -191,9 +191,9 @@ export interface SequenceProperties {
  * Details definition for an actor
  */
 export interface SequenceDetails {
-  type: "details";
+  type: 'details';
   actor: string;
-  details: string;  // JSON string
+  details: string; // JSON string
 }
 
 /**
@@ -220,7 +220,7 @@ export type SequenceStatement =
  * The complete Sequence Diagram AST
  */
 export interface SequenceAST {
-  type: "sequence";
+  type: 'sequence';
   actors: Map<string, SequenceActor>;
   boxes: SequenceBox[];
   statements: SequenceStatement[];
@@ -233,7 +233,7 @@ export interface SequenceAST {
  */
 export function createEmptySequenceAST(): SequenceAST {
   return {
-    type: "sequence",
+    type: 'sequence',
     actors: new Map(),
     boxes: [],
     statements: [],

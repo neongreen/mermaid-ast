@@ -1,48 +1,46 @@
 /**
  * Flowchart Parser
- * 
+ *
  * Parses Mermaid flowchart syntax into an AST using the vendored JISON parser.
  * The JISON parser calls methods on a `yy` object - we provide our own implementation
  * that builds an AST instead of mermaid's internal db structure.
  */
 
 import {
+  createEmptyFlowchartAST,
   type FlowchartAST,
-  type FlowchartNode,
-  type FlowchartLink,
-  type FlowchartSubgraph,
   type FlowchartDirection,
-  type FlowchartNodeShape,
+  type FlowchartLink,
   type FlowchartLinkStroke,
   type FlowchartLinkType,
-  type FlowchartText,
-  type FlowchartClassDef,
-  type FlowchartClickDef,
-  type FlowchartLinkStyle,
-  createEmptyFlowchartAST,
-} from "../types/flowchart.js";
+  type FlowchartNodeShape,
+  type FlowchartSubgraph,
+} from '../types/flowchart.js';
 
 // Import the vendored parser
-// @ts-ignore - Generated JS file without types
-import flowchartParser from "../vendored/parsers/flowchart.js";
+// @ts-expect-error - Generated JS file without types
+import flowchartParser from '../vendored/parsers/flowchart.js';
 
 /**
  * Destructure a link string to extract type, stroke, and length
  */
-function destructLink(linkStr: string, startStr?: string): {
+function destructLink(
+  linkStr: string,
+  startStr?: string
+): {
   type: FlowchartLinkType;
   stroke: FlowchartLinkStroke;
   length: number;
 } {
-  let type: FlowchartLinkType = "arrow_open";
-  let stroke: FlowchartLinkStroke = "normal";
+  let type: FlowchartLinkType = 'arrow_open';
+  let stroke: FlowchartLinkStroke = 'normal';
   let length = 1;
 
   // Determine stroke type based on characters
-  if (linkStr.includes("=")) {
-    stroke = "thick";
-  } else if (linkStr.includes(".")) {
-    stroke = "dotted";
+  if (linkStr.includes('=')) {
+    stroke = 'thick';
+  } else if (linkStr.includes('.')) {
+    stroke = 'dotted';
   }
 
   // Count length (number of dashes/equals/dots)
@@ -52,15 +50,15 @@ function destructLink(linkStr: string, startStr?: string): {
   }
 
   // Determine arrow type based on end characters
-  const combined = (startStr || "") + linkStr;
-  if (combined.includes("x")) {
-    type = "arrow_cross";
-  } else if (combined.includes("o")) {
-    type = "arrow_circle";
-  } else if (combined.includes(">")) {
-    type = "arrow_point";
+  const combined = (startStr || '') + linkStr;
+  if (combined.includes('x')) {
+    type = 'arrow_cross';
+  } else if (combined.includes('o')) {
+    type = 'arrow_circle';
+  } else if (combined.includes('>')) {
+    type = 'arrow_point';
   } else {
-    type = "arrow_open";
+    type = 'arrow_open';
   }
 
   return { type, stroke, length };
@@ -73,9 +71,9 @@ function parseStyles(styleStr: string): Record<string, string> {
   const styles: Record<string, string> = {};
   if (!styleStr) return styles;
 
-  const parts = styleStr.split(",");
+  const parts = styleStr.split(',');
   for (const part of parts) {
-    const colonIndex = part.indexOf(":");
+    const colonIndex = part.indexOf(':');
     if (colonIndex > 0) {
       const key = part.slice(0, colonIndex).trim();
       const value = part.slice(colonIndex + 1).trim();
@@ -91,14 +89,14 @@ function parseStyles(styleStr: string): Record<string, string> {
  */
 function parseStylesOpt(stylesOpt: unknown): Record<string, string> {
   const styles: Record<string, string> = {};
-  
+
   if (!stylesOpt) return styles;
-  
+
   // Handle array of style strings
   if (Array.isArray(stylesOpt)) {
     for (const styleStr of stylesOpt) {
-      if (typeof styleStr === "string") {
-        const colonIndex = styleStr.indexOf(":");
+      if (typeof styleStr === 'string') {
+        const colonIndex = styleStr.indexOf(':');
         if (colonIndex > 0) {
           const key = styleStr.slice(0, colonIndex).trim();
           const value = styleStr.slice(colonIndex + 1).trim();
@@ -108,22 +106,22 @@ function parseStylesOpt(stylesOpt: unknown): Record<string, string> {
     }
     return styles;
   }
-  
+
   // Handle single string
-  if (typeof stylesOpt === "string") {
+  if (typeof stylesOpt === 'string') {
     return parseStyles(stylesOpt);
   }
-  
+
   // Handle object (already parsed)
-  if (typeof stylesOpt === "object") {
+  if (typeof stylesOpt === 'object') {
     for (const [key, value] of Object.entries(stylesOpt)) {
-      if (typeof value === "string") {
+      if (typeof value === 'string') {
         styles[key] = value;
       }
     }
     return styles;
   }
-  
+
   return styles;
 }
 
@@ -172,19 +170,19 @@ function createFlowchartYY(ast: FlowchartAST) {
       if (!node) {
         node = {
           id,
-          shape: "rect" as FlowchartNodeShape,
+          shape: 'rect' as FlowchartNodeShape,
         };
         ast.nodes.set(id, node);
       }
 
       // Update text if provided
       if (text) {
-        if (typeof text === "string") {
-          node.text = { text, type: "text" };
+        if (typeof text === 'string') {
+          node.text = { text, type: 'text' };
         } else if (text.text) {
           node.text = {
             text: text.text,
-            type: text.type as "text" | "string" | "markdown",
+            type: text.type as 'text' | 'string' | 'markdown',
           };
         }
       }
@@ -231,8 +229,8 @@ function createFlowchartYY(ast: FlowchartAST) {
           const link: FlowchartLink = {
             source,
             target,
-            stroke: (linkInfo.stroke as FlowchartLinkStroke) || "normal",
-            type: (linkInfo.type as FlowchartLinkType) || "arrow_point",
+            stroke: (linkInfo.stroke as FlowchartLinkStroke) || 'normal',
+            type: (linkInfo.type as FlowchartLinkType) || 'arrow_point',
             length: linkInfo.length || 1,
           };
 
@@ -241,12 +239,12 @@ function createFlowchartYY(ast: FlowchartAST) {
           }
 
           if (linkInfo.text) {
-            if (typeof linkInfo.text === "string") {
-              link.text = { text: linkInfo.text, type: "text" };
+            if (typeof linkInfo.text === 'string') {
+              link.text = { text: linkInfo.text, type: 'text' };
             } else if (linkInfo.text.text) {
               link.text = {
                 text: linkInfo.text.text,
-                type: linkInfo.text.type as "text" | "string" | "markdown",
+                type: linkInfo.text.type as 'text' | 'string' | 'markdown',
               };
             }
           }
@@ -266,19 +264,19 @@ function createFlowchartYY(ast: FlowchartAST) {
       let subgraphId: string;
       if (!id) {
         subgraphId = `subGraph${subgraphIdCounter++}`;
-      } else if (typeof id === "object" && "text" in id) {
+      } else if (typeof id === 'object' && 'text' in id) {
         subgraphId = id.text.trim();
       } else {
         subgraphId = id.trim();
       }
-      
+
       // Collect node IDs from the nodeList and look for direction statements
       const nodes: string[] = [];
       let direction: FlowchartDirection | undefined;
-      
+
       if (Array.isArray(nodeList)) {
         for (const item of nodeList) {
-          if (typeof item === "string") {
+          if (typeof item === 'string') {
             // Trim and filter empty strings
             const trimmed = item.trim();
             if (trimmed) {
@@ -286,22 +284,22 @@ function createFlowchartYY(ast: FlowchartAST) {
             }
           } else if (Array.isArray(item)) {
             for (const x of item) {
-              if (typeof x === "string") {
+              if (typeof x === 'string') {
                 const trimmed = x.trim();
                 if (trimmed) {
                   nodes.push(trimmed);
                 }
               }
             }
-          } else if (item && typeof item === "object") {
+          } else if (item && typeof item === 'object') {
             // Check for direction statement: {stmt: 'dir', value: 'TB'}
-            if ("stmt" in item && (item as {stmt: string}).stmt === "dir" && "value" in item) {
-              direction = (item as {stmt: string; value: string}).value as FlowchartDirection;
-            } else if ("nodes" in item) {
+            if ('stmt' in item && (item as { stmt: string }).stmt === 'dir' && 'value' in item) {
+              direction = (item as { stmt: string; value: string }).value as FlowchartDirection;
+            } else if ('nodes' in item) {
               const itemNodes = (item as { nodes: string[] }).nodes;
               if (Array.isArray(itemNodes)) {
                 for (const x of itemNodes) {
-                  if (typeof x === "string") {
+                  if (typeof x === 'string') {
                     const trimmed = x.trim();
                     if (trimmed) {
                       nodes.push(trimmed);
@@ -312,12 +310,12 @@ function createFlowchartYY(ast: FlowchartAST) {
             }
           }
         }
-      } else if (typeof nodeList === "string") {
+      } else if (typeof nodeList === 'string') {
         // Handle case where nodeList is a string (might be space-separated node IDs)
         const trimmed = nodeList.trim();
         if (trimmed) {
           // Split by whitespace and filter empty strings
-          const parts = trimmed.split(/\s+/).filter(p => p.length > 0);
+          const parts = trimmed.split(/\s+/).filter((p) => p.length > 0);
           nodes.push(...parts);
         }
       }
@@ -332,12 +330,12 @@ function createFlowchartYY(ast: FlowchartAST) {
       }
 
       if (title) {
-        if (typeof title === "string") {
-          subgraph.title = { text: title, type: "text" };
+        if (typeof title === 'string') {
+          subgraph.title = { text: title, type: 'text' };
         } else if (title.text) {
           subgraph.title = {
             text: title.text,
-            type: title.type as "text" | "string" | "markdown",
+            type: title.type as 'text' | 'string' | 'markdown',
           };
         }
       }
@@ -349,7 +347,7 @@ function createFlowchartYY(ast: FlowchartAST) {
     // Set class on a node (nodeIds can be comma-separated)
     setClass(nodeIds: string, className: string) {
       // Handle comma-separated node IDs
-      const ids = nodeIds.split(",").map(id => id.trim());
+      const ids = nodeIds.split(',').map((id) => id.trim());
       for (const nodeId of ids) {
         if (!nodeId) continue;
         const existing = ast.classes.get(nodeId) || [];
@@ -388,12 +386,12 @@ function createFlowchartYY(ast: FlowchartAST) {
       const existing = ast.clicks.find((c) => c.nodeId === nodeId);
       if (existing) {
         existing.href = href;
-        if (target) existing.target = target as "_self" | "_blank" | "_parent" | "_top";
+        if (target) existing.target = target as '_self' | '_blank' | '_parent' | '_top';
       } else {
         ast.clicks.push({
           nodeId,
           href,
-          target: target as "_self" | "_blank" | "_parent" | "_top",
+          target: target as '_self' | '_blank' | '_parent' | '_top',
         });
       }
     },
@@ -401,12 +399,12 @@ function createFlowchartYY(ast: FlowchartAST) {
     // Add link style (called by parser as updateLink)
     updateLink(indices: (string | number)[], stylesOpt: unknown) {
       const parsedStyles = parseStylesOpt(stylesOpt);
-      
+
       for (const index of indices) {
-        const idx = index === "default" ? "default" : 
-                    typeof index === "number" ? index : parseInt(index, 10);
+        const idx =
+          index === 'default' ? 'default' : typeof index === 'number' ? index : parseInt(index, 10);
         ast.linkStyles.push({
-          index: idx as number | "default",
+          index: idx as number | 'default',
           styles: parsedStyles,
         });
       }
@@ -417,15 +415,15 @@ function createFlowchartYY(ast: FlowchartAST) {
       // Store interpolation info - will be merged with styles when updateLink is called
       // For now, just track it
       for (const index of indices) {
-        const idx = index === "default" ? "default" : 
-                    typeof index === "number" ? index : parseInt(index, 10);
+        const idx =
+          index === 'default' ? 'default' : typeof index === 'number' ? index : parseInt(index, 10);
         // Find existing linkStyle or create new one
-        const existing = ast.linkStyles.find(ls => ls.index === idx);
+        const existing = ast.linkStyles.find((ls) => ls.index === idx);
         if (existing) {
           existing.interpolate = interpolate;
         } else {
           ast.linkStyles.push({
-            index: idx as number | "default",
+            index: idx as number | 'default',
             styles: {},
             interpolate,
           });
@@ -457,7 +455,7 @@ function createFlowchartYY(ast: FlowchartAST) {
     setTooltip: () => {},
     lookUpDomId: (id: string) => id,
     setDiagramTitle: () => {},
-    getDiagramTitle: () => "",
+    getDiagramTitle: () => '',
   };
 }
 
@@ -489,10 +487,10 @@ export function parseFlowchart(input: string): FlowchartAST {
  */
 export function isFlowchartDiagram(input: string): boolean {
   const trimmed = input.trim();
-  const firstLine = trimmed.split("\n")[0].trim().toLowerCase();
+  const firstLine = trimmed.split('\n')[0].trim().toLowerCase();
   return (
-    firstLine.startsWith("flowchart") ||
-    firstLine.startsWith("graph") ||
-    firstLine.startsWith("flowchart-elk")
+    firstLine.startsWith('flowchart') ||
+    firstLine.startsWith('graph') ||
+    firstLine.startsWith('flowchart-elk')
   );
 }

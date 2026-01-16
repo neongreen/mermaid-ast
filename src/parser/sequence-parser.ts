@@ -1,33 +1,33 @@
 /**
  * Sequence Diagram Parser
- * 
+ *
  * Parses Mermaid sequence diagram syntax into an AST using the vendored JISON parser.
  * The sequence parser returns an array of statements that we process into our AST.
  */
 
 import {
-  type SequenceAST,
+  createEmptySequenceAST,
+  type SequenceActivation,
   type SequenceActor,
+  type SequenceAlt,
+  type SequenceArrowType,
+  type SequenceAST,
+  type SequenceAutonumber,
+  type SequenceBox,
+  type SequenceBreak,
+  type SequenceCritical,
+  type SequenceLoop,
   type SequenceMessage,
   type SequenceNote,
-  type SequenceActivation,
-  type SequenceLoop,
-  type SequenceAlt,
   type SequenceOpt,
   type SequencePar,
-  type SequenceCritical,
-  type SequenceBreak,
   type SequenceRect,
-  type SequenceBox,
-  type SequenceAutonumber,
-  type SequenceArrowType,
   type SequenceStatement,
-  createEmptySequenceAST,
-} from "../types/sequence.js";
+} from '../types/sequence.js';
 
 // Import the vendored parser
-// @ts-ignore - Generated JS file without types
-import sequenceParser from "../vendored/parsers/sequence.js";
+// @ts-expect-error - Generated JS file without types
+import sequenceParser from '../vendored/parsers/sequence.js';
 
 /**
  * Line types from mermaid's sequence diagram
@@ -73,27 +73,27 @@ const LINETYPE = {
 function getArrowType(signalType: number): SequenceArrowType {
   switch (signalType) {
     case LINETYPE.SOLID:
-      return "solid";
+      return 'solid';
     case LINETYPE.DOTTED:
-      return "dotted";
+      return 'dotted';
     case LINETYPE.SOLID_CROSS:
-      return "solid_cross";
+      return 'solid_cross';
     case LINETYPE.DOTTED_CROSS:
-      return "dotted_cross";
+      return 'dotted_cross';
     case LINETYPE.SOLID_OPEN:
-      return "solid_open";
+      return 'solid_open';
     case LINETYPE.DOTTED_OPEN:
-      return "dotted_open";
+      return 'dotted_open';
     case LINETYPE.SOLID_POINT:
-      return "solid_point";
+      return 'solid_point';
     case LINETYPE.DOTTED_POINT:
-      return "dotted_point";
+      return 'dotted_point';
     case LINETYPE.BIDIRECTIONAL_SOLID:
-      return "bidirectional_solid";
+      return 'bidirectional_solid';
     case LINETYPE.BIDIRECTIONAL_DOTTED:
-      return "bidirectional_dotted";
+      return 'bidirectional_dotted';
     default:
-      return "solid";
+      return 'solid';
   }
 }
 
@@ -105,7 +105,7 @@ function parseBoxData(boxData: string): { text?: string; color?: string } {
   if (!boxData) return result;
 
   const trimmed = boxData.trim();
-  
+
   // Check for color (starts with rgb, #, or color name)
   const colorMatch = trimmed.match(/^(rgb\([^)]+\)|#[0-9a-fA-F]+|\w+)/);
   if (colorMatch) {
@@ -125,18 +125,18 @@ function parseBoxData(boxData: string): { text?: string; color?: string } {
  * Parse message text, handling wrap/nowrap directives
  */
 function parseMessage(text: string): string {
-  if (!text) return "";
+  if (!text) return '';
   // Remove wrap/nowrap directives
-  return text.replace(/^:?(?:no)?wrap:/, "").trim();
+  return text.replace(/^:?(?:no)?wrap:/, '').trim();
 }
 
 /**
  * Placement constants for notes
  */
 const PLACEMENT = {
-  LEFTOF: "left_of",
-  RIGHTOF: "right_of",
-  OVER: "over",
+  LEFTOF: 'left_of',
+  RIGHTOF: 'right_of',
+  OVER: 'over',
 };
 
 /**
@@ -159,7 +159,7 @@ function createSequenceYY(ast: SequenceAST) {
     },
 
     // Add an actor - actors added via yy are handled in statement processing
-    addActor(id: string, name: string, description: string, type: "participant" | "actor") {
+    addActor(id: string, name: string, description: string, type: 'participant' | 'actor') {
       if (!ast.actors.has(id)) {
         ast.actors.set(id, {
           id,
@@ -184,7 +184,7 @@ function createSequenceYY(ast: SequenceAST) {
     },
 
     getDiagramTitle() {
-      return ast.title || "";
+      return ast.title || '';
     },
 
     // These are used but we handle them in statement processing
@@ -208,60 +208,60 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
   }
 
   function processStatement(stmt: unknown): void {
-    if (!stmt || typeof stmt !== "object") return;
-    
+    if (!stmt || typeof stmt !== 'object') return;
+
     const s = stmt as Record<string, unknown>;
     const type = s.type as string;
 
     switch (type) {
-      case "addParticipant":
-      case "addActor":
-      case "createParticipant": {
+      case 'addParticipant':
+      case 'addActor':
+      case 'createParticipant': {
         const actorId = s.actor as string;
-        
+
         // Check if this statement has detailed info (draw field indicates it's the primary declaration)
-        const hasDetailedInfo = "draw" in s || "description" in s || type === "addActor";
-        
+        const hasDetailedInfo = 'draw' in s || 'description' in s || type === 'addActor';
+
         // If actor already exists and this statement doesn't have detailed info, skip
         const existingActor = ast.actors.get(actorId);
         if (existingActor && !hasDetailedInfo) {
           break;
         }
-        
+
         // Determine actor type from draw field or statement type
-        let actorType: "participant" | "actor" = "participant";
-        if (s.draw === "actor" || type === "addActor") {
-          actorType = "actor";
+        let actorType: 'participant' | 'actor' = 'participant';
+        if (s.draw === 'actor' || type === 'addActor') {
+          actorType = 'actor';
         } else if (existingActor) {
           // Preserve existing type if not specified
           actorType = existingActor.type;
         }
-        
+
         // Handle description/alias - description field contains the display name
         const description = s.description as string | undefined;
         const displayName = description || actorId;
-        
+
         const actor: SequenceActor = {
           id: actorId,
           name: displayName,
           type: actorType,
-          created: type === "createParticipant",
+          created: type === 'createParticipant',
         };
-        
+
         // If description differs from id, it's an alias
         if (description && description !== actorId) {
           actor.alias = description;
         }
-        
+
         ast.actors.set(actorId, actor);
-        
+
         if (currentBox) {
           currentBox.actors.push(actorId);
         }
         break;
       }
 
-      case "destroyParticipant": {
+      case 'destroyParticipant': {
         const existing = ast.actors.get(s.actor as string);
         if (existing) {
           existing.destroyed = true;
@@ -269,9 +269,9 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "addMessage": {
+      case 'addMessage': {
         const msg: SequenceMessage = {
-          type: "message",
+          type: 'message',
           from: s.from as string,
           to: s.to as string,
           text: parseMessage(s.msg as string),
@@ -279,19 +279,19 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         };
         if (s.activate) msg.activate = true;
         if (s.deactivate) msg.deactivate = true;
-        
+
         // Ensure actors exist
         ensureActor(ast, msg.from);
         ensureActor(ast, msg.to);
-        
+
         currentStatements().push(msg);
         break;
       }
 
-      case "addNote": {
+      case 'addNote': {
         const note: SequenceNote = {
-          type: "note",
-          placement: s.placement as "left_of" | "right_of" | "over",
+          type: 'note',
+          placement: s.placement as 'left_of' | 'right_of' | 'over',
           actors: Array.isArray(s.actor) ? s.actor : [s.actor as string],
           text: s.msg as string,
         };
@@ -299,27 +299,27 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "activeStart": {
+      case 'activeStart': {
         const activation: SequenceActivation = {
-          type: "activate",
+          type: 'activate',
           actor: s.actor as string,
         };
         currentStatements().push(activation);
         break;
       }
 
-      case "activeEnd": {
+      case 'activeEnd': {
         const deactivation: SequenceActivation = {
-          type: "deactivate",
+          type: 'deactivate',
           actor: s.actor as string,
         };
         currentStatements().push(deactivation);
         break;
       }
 
-      case "loopStart": {
+      case 'loopStart': {
         const loop: SequenceLoop = {
-          type: "loop",
+          type: 'loop',
           text: s.loopText as string,
           statements: [],
         };
@@ -328,14 +328,14 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "loopEnd": {
+      case 'loopEnd': {
         statementStack.pop();
         break;
       }
 
-      case "altStart": {
+      case 'altStart': {
         const alt: SequenceAlt = {
-          type: "alt",
+          type: 'alt',
           sections: [
             {
               condition: s.altText as string,
@@ -348,15 +348,15 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "else": {
+      case 'else': {
         statementStack.pop();
         // Find the current alt block
         const parent = statementStack[statementStack.length - 1];
         const lastStmt = parent[parent.length - 1];
-        if (lastStmt && "sections" in lastStmt) {
+        if (lastStmt && 'sections' in lastStmt) {
           const alt = lastStmt as SequenceAlt;
           const newSection = {
-            condition: s.altText as string || "else",
+            condition: (s.altText as string) || 'else',
             statements: [],
           };
           alt.sections.push(newSection);
@@ -365,14 +365,14 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "altEnd": {
+      case 'altEnd': {
         statementStack.pop();
         break;
       }
 
-      case "optStart": {
+      case 'optStart': {
         const opt: SequenceOpt = {
-          type: "opt",
+          type: 'opt',
           text: s.optText as string,
           statements: [],
         };
@@ -381,14 +381,14 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "optEnd": {
+      case 'optEnd': {
         statementStack.pop();
         break;
       }
 
-      case "parStart": {
+      case 'parStart': {
         const par: SequencePar = {
-          type: "par",
+          type: 'par',
           sections: [
             {
               text: s.parText as string,
@@ -401,11 +401,11 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "and": {
+      case 'and': {
         statementStack.pop();
         const parent = statementStack[statementStack.length - 1];
         const lastStmt = parent[parent.length - 1];
-        if (lastStmt && "sections" in lastStmt && lastStmt.type === "par") {
+        if (lastStmt && 'sections' in lastStmt && lastStmt.type === 'par') {
           const par = lastStmt as SequencePar;
           const newSection = {
             text: s.parText as string,
@@ -417,14 +417,14 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "parEnd": {
+      case 'parEnd': {
         statementStack.pop();
         break;
       }
 
-      case "criticalStart": {
+      case 'criticalStart': {
         const critical: SequenceCritical = {
-          type: "critical",
+          type: 'critical',
           text: s.criticalText as string,
           statements: [],
           options: [],
@@ -434,11 +434,11 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "option": {
+      case 'option': {
         statementStack.pop();
         const parent = statementStack[statementStack.length - 1];
         const lastStmt = parent[parent.length - 1];
-        if (lastStmt && lastStmt.type === "critical") {
+        if (lastStmt && lastStmt.type === 'critical') {
           const critical = lastStmt as SequenceCritical;
           const newOption = {
             text: s.optionText as string,
@@ -450,14 +450,14 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "criticalEnd": {
+      case 'criticalEnd': {
         statementStack.pop();
         break;
       }
 
-      case "breakStart": {
+      case 'breakStart': {
         const brk: SequenceBreak = {
-          type: "break",
+          type: 'break',
           text: s.breakText as string,
           statements: [],
         };
@@ -466,14 +466,14 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "breakEnd": {
+      case 'breakEnd': {
         statementStack.pop();
         break;
       }
 
-      case "rectStart": {
+      case 'rectStart': {
         const rect: SequenceRect = {
-          type: "rect",
+          type: 'rect',
           color: s.color as string,
           statements: [],
         };
@@ -482,15 +482,15 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "rectEnd": {
+      case 'rectEnd': {
         statementStack.pop();
         break;
       }
 
-      case "boxStart": {
+      case 'boxStart': {
         const boxData = s.boxData as { text?: string; color?: string } | undefined;
         currentBox = {
-          type: "box",
+          type: 'box',
           text: boxData?.text,
           color: boxData?.color,
           actors: [],
@@ -498,7 +498,7 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "boxEnd": {
+      case 'boxEnd': {
         if (currentBox) {
           ast.boxes.push(currentBox);
           currentBox = null;
@@ -506,9 +506,9 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         break;
       }
 
-      case "sequenceIndex": {
+      case 'sequenceIndex': {
         const autonumber: SequenceAutonumber = {
-          type: "autonumber",
+          type: 'autonumber',
           start: s.sequenceIndex as number | undefined,
           step: s.sequenceIndexStep as number | undefined,
           visible: s.sequenceVisible as boolean,
@@ -516,6 +516,10 @@ function processStatements(statements: unknown[], ast: SequenceAST): void {
         currentStatements().push(autonumber);
         break;
       }
+
+      default:
+        // Unknown statement type - ignore
+        break;
     }
   }
 
@@ -539,18 +543,18 @@ function ensureActor(ast: SequenceAST, id: string): void {
     ast.actors.set(id, {
       id,
       name: id,
-      type: "participant",
+      type: 'participant',
     });
   }
 }
 
 /**
  * Post-process statements to normalize activate/deactivate shortcut syntax.
- * 
+ *
  * Mermaid's parser handles + and - shortcuts inconsistently:
  * - For +: Sets activate:true on message AND creates activeStart statement
  * - For -: Only creates activeEnd statement (doesn't set deactivate on message)
- * 
+ *
  * This function normalizes the AST by setting deactivate:true on messages
  * that are immediately followed by a deactivate for the message's from actor.
  */
@@ -558,38 +562,38 @@ function normalizeActivationShortcuts(statements: SequenceStatement[]): void {
   for (let i = 0; i < statements.length - 1; i++) {
     const current = statements[i];
     const next = statements[i + 1];
-    
+
     // Check if current is a message and next is a deactivate for the same actor
-    if (current.type === "message" && next.type === "deactivate") {
+    if (current.type === 'message' && next.type === 'deactivate') {
       const msg = current as SequenceMessage;
       const deactivation = next as SequenceActivation;
-      
+
       // The - shortcut deactivates the sender (from), not the receiver
       if (msg.from === deactivation.actor && !msg.deactivate) {
         msg.deactivate = true;
       }
     }
-    
+
     // Recursively process nested statements (loops, alt, etc.)
     // Using type narrowing based on statement type
     switch (current.type) {
-      case "loop":
-      case "opt":
-      case "break":
-      case "rect": {
+      case 'loop':
+      case 'opt':
+      case 'break':
+      case 'rect': {
         const stmt = current as SequenceLoop | SequenceOpt | SequenceBreak | SequenceRect;
         normalizeActivationShortcuts(stmt.statements);
         break;
       }
-      case "alt":
-      case "par": {
+      case 'alt':
+      case 'par': {
         const stmt = current as SequenceAlt | SequencePar;
         for (const section of stmt.sections) {
           normalizeActivationShortcuts(section.statements);
         }
         break;
       }
-      case "critical": {
+      case 'critical': {
         const stmt = current as SequenceCritical;
         normalizeActivationShortcuts(stmt.statements);
         for (const option of stmt.options) {
@@ -597,6 +601,10 @@ function normalizeActivationShortcuts(statements: SequenceStatement[]): void {
         }
         break;
       }
+
+      default:
+        // Other statement types don't have nested statements
+        break;
     }
   }
 }
@@ -633,6 +641,6 @@ export function parseSequence(input: string): SequenceAST {
  */
 export function isSequenceDiagram(input: string): boolean {
   const trimmed = input.trim();
-  const firstLine = trimmed.split("\n")[0].trim().toLowerCase();
-  return firstLine.startsWith("sequencediagram");
+  const firstLine = trimmed.split('\n')[0].trim().toLowerCase();
+  return firstLine.startsWith('sequencediagram');
 }

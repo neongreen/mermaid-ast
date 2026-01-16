@@ -4,59 +4,59 @@
  * Renders a Sequence Diagram AST back to Mermaid syntax.
  */
 
+import type { RenderOptions } from '../types/render-options.js';
+import { resolveOptions } from '../types/render-options.js';
 import type {
-  SequenceAST,
-  SequenceActor,
-  SequenceMessage,
-  SequenceNote,
   SequenceActivation,
-  SequenceLoop,
+  SequenceActor,
   SequenceAlt,
-  SequenceOpt,
-  SequencePar,
-  SequenceCritical,
-  SequenceBreak,
-  SequenceRect,
-  SequenceBox,
-  SequenceAutonumber,
   SequenceArrowType,
-  SequenceStatement,
+  SequenceAST,
+  SequenceAutonumber,
+  SequenceBox,
+  SequenceBreak,
+  SequenceCritical,
+  SequenceDetails,
   SequenceLink,
   SequenceLinks,
+  SequenceLoop,
+  SequenceMessage,
+  SequenceNote,
+  SequenceOpt,
+  SequencePar,
   SequenceProperties,
-  SequenceDetails,
-} from "../types/sequence.js";
-import type { RenderOptions } from "../types/render-options.js";
-import { resolveOptions } from "../types/render-options.js";
-import { type Doc, indent, block, render } from "./doc.js";
+  SequenceRect,
+  SequenceStatement,
+} from '../types/sequence.js';
+import { block, type Doc, indent, render } from './doc.js';
 
 /**
  * Convert arrow type to Mermaid syntax
  */
 function renderArrow(arrowType: SequenceArrowType): string {
   switch (arrowType) {
-    case "solid":
-      return "->>";
-    case "dotted":
-      return "-->>";
-    case "solid_open":
-      return "->";
-    case "dotted_open":
-      return "-->";
-    case "solid_cross":
-      return "-x";
-    case "dotted_cross":
-      return "--x";
-    case "solid_point":
-      return "-)";
-    case "dotted_point":
-      return "--)";
-    case "bidirectional_solid":
-      return "<<->>";
-    case "bidirectional_dotted":
-      return "<<-->>";
+    case 'solid':
+      return '->>';
+    case 'dotted':
+      return '-->>';
+    case 'solid_open':
+      return '->';
+    case 'dotted_open':
+      return '-->';
+    case 'solid_cross':
+      return '-x';
+    case 'dotted_cross':
+      return '--x';
+    case 'solid_point':
+      return '-)';
+    case 'dotted_point':
+      return '--)';
+    case 'bidirectional_solid':
+      return '<<->>';
+    case 'bidirectional_dotted':
+      return '<<-->>';
     default:
-      return "->>";
+      return '->>';
   }
 }
 
@@ -65,7 +65,7 @@ function renderArrow(arrowType: SequenceArrowType): string {
  */
 function renderStatement(stmt: SequenceStatement): Doc {
   switch (stmt.type) {
-    case "message": {
+    case 'message': {
       const msg = stmt as SequenceMessage;
       let arrow = renderArrow(msg.arrowType);
       if (msg.activate) {
@@ -81,33 +81,29 @@ function renderStatement(stmt: SequenceStatement): Doc {
       return line;
     }
 
-    case "note": {
+    case 'note': {
       const note = stmt as SequenceNote;
-      const placement = note.placement.replace("_", " ");
-      const actors = note.actors.join(",");
+      const placement = note.placement.replace('_', ' ');
+      const actors = note.actors.join(',');
       return `note ${placement} ${actors}: ${note.text}`;
     }
 
-    case "activate": {
+    case 'activate': {
       const activation = stmt as SequenceActivation;
       return `activate ${activation.actor}`;
     }
 
-    case "deactivate": {
+    case 'deactivate': {
       const deactivation = stmt as SequenceActivation;
       return `deactivate ${deactivation.actor}`;
     }
 
-    case "loop": {
+    case 'loop': {
       const loop = stmt as SequenceLoop;
-      return block(
-        `loop ${loop.text}`,
-        loop.statements.map(renderStatement),
-        "end"
-      );
+      return block(`loop ${loop.text}`, loop.statements.map(renderStatement), 'end');
     }
 
-    case "alt": {
+    case 'alt': {
       const alt = stmt as SequenceAlt;
       const content: Doc[] = [];
       for (let i = 0; i < alt.sections.length; i++) {
@@ -119,20 +115,16 @@ function renderStatement(stmt: SequenceStatement): Doc {
         }
         content.push(indent(section.statements.map(renderStatement)));
       }
-      content.push("end");
+      content.push('end');
       return content;
     }
 
-    case "opt": {
+    case 'opt': {
       const opt = stmt as SequenceOpt;
-      return block(
-        `opt ${opt.text}`,
-        opt.statements.map(renderStatement),
-        "end"
-      );
+      return block(`opt ${opt.text}`, opt.statements.map(renderStatement), 'end');
     }
 
-    case "par": {
+    case 'par': {
       const par = stmt as SequencePar;
       const content: Doc[] = [];
       for (let i = 0; i < par.sections.length; i++) {
@@ -144,11 +136,11 @@ function renderStatement(stmt: SequenceStatement): Doc {
         }
         content.push(indent(section.statements.map(renderStatement)));
       }
-      content.push("end");
+      content.push('end');
       return content;
     }
 
-    case "critical": {
+    case 'critical': {
       const critical = stmt as SequenceCritical;
       const content: Doc[] = [];
       content.push(`critical ${critical.text}`);
@@ -157,59 +149,51 @@ function renderStatement(stmt: SequenceStatement): Doc {
         content.push(`option ${option.text}`);
         content.push(indent(option.statements.map(renderStatement)));
       }
-      content.push("end");
+      content.push('end');
       return content;
     }
 
-    case "break": {
+    case 'break': {
       const brk = stmt as SequenceBreak;
-      return block(
-        `break ${brk.text}`,
-        brk.statements.map(renderStatement),
-        "end"
-      );
+      return block(`break ${brk.text}`, brk.statements.map(renderStatement), 'end');
     }
 
-    case "rect": {
+    case 'rect': {
       const rect = stmt as SequenceRect;
-      return block(
-        `rect ${rect.color}`,
-        rect.statements.map(renderStatement),
-        "end"
-      );
+      return block(`rect ${rect.color}`, rect.statements.map(renderStatement), 'end');
     }
 
-    case "autonumber": {
+    case 'autonumber': {
       const auto = stmt as SequenceAutonumber;
       if (!auto.visible) {
-        return "autonumber off";
+        return 'autonumber off';
       } else if (auto.start !== undefined && auto.step !== undefined) {
         return `autonumber ${auto.start} ${auto.step}`;
       } else if (auto.start !== undefined) {
         return `autonumber ${auto.start}`;
       } else {
-        return "autonumber";
+        return 'autonumber';
       }
     }
 
-    case "link": {
+    case 'link': {
       const link = stmt as SequenceLink;
       return `link ${link.actor}: ${link.text} @ ${link.url}`;
     }
 
-    case "links": {
+    case 'links': {
       const links = stmt as SequenceLinks;
       const linksJson = JSON.stringify(links.links);
       return `links ${links.actor}: ${linksJson}`;
     }
 
-    case "properties": {
+    case 'properties': {
       const props = stmt as SequenceProperties;
       const propsJson = JSON.stringify(props.properties);
       return `properties ${props.actor}: ${propsJson}`;
     }
 
-    case "details": {
+    case 'details': {
       const details = stmt as SequenceDetails;
       return `details ${details.actor}: ${details.details}`;
     }
@@ -223,8 +207,8 @@ function renderStatement(stmt: SequenceStatement): Doc {
  * Render actor declaration to string
  */
 function renderActor(actor: SequenceActor): string {
-  const keyword = actor.type === "actor" ? "actor" : "participant";
-  const created = actor.created ? "create " : "";
+  const keyword = actor.type === 'actor' ? 'actor' : 'participant';
+  const created = actor.created ? 'create ' : '';
 
   if (actor.alias && actor.alias !== actor.id) {
     return `${created}${keyword} ${actor.id} as ${actor.name}`;
@@ -241,7 +225,7 @@ function renderActor(actor: SequenceActor): string {
  * Render a box with its actors to Doc
  */
 function renderBox(box: SequenceBox, ast: SequenceAST): Doc {
-  let boxLine = "box";
+  let boxLine = 'box';
   if (box.color) {
     boxLine += ` ${box.color}`;
   }
@@ -257,7 +241,7 @@ function renderBox(box: SequenceBox, ast: SequenceAST): Doc {
     }
   }
 
-  return block(boxLine, actorDocs, "end");
+  return block(boxLine, actorDocs, 'end');
 }
 
 /**
@@ -275,7 +259,7 @@ function filterRedundantStatements(statements: SequenceStatement[]): SequenceSta
     const prevStmt = i > 0 ? statements[i - 1] : null;
 
     // Skip activate statement if previous message already has activate flag for same actor
-    if (stmt.type === "activate" && prevStmt?.type === "message") {
+    if (stmt.type === 'activate' && prevStmt?.type === 'message') {
       const msg = prevStmt as SequenceMessage;
       const activation = stmt as SequenceActivation;
       if (msg.activate && msg.to === activation.actor) {
@@ -284,7 +268,7 @@ function filterRedundantStatements(statements: SequenceStatement[]): SequenceSta
     }
 
     // Skip deactivate statement if previous message already has deactivate flag for same actor
-    if (stmt.type === "deactivate" && prevStmt?.type === "message") {
+    if (stmt.type === 'deactivate' && prevStmt?.type === 'message') {
       const msg = prevStmt as SequenceMessage;
       const deactivation = stmt as SequenceActivation;
       if (msg.deactivate && msg.from === deactivation.actor) {
@@ -308,7 +292,7 @@ export function renderSequence(ast: SequenceAST, options?: RenderOptions): strin
   const renderedActors = new Set<string>();
 
   // Get actors (optionally sorted)
-  let actorEntries = [...ast.actors.entries()];
+  const actorEntries = [...ast.actors.entries()];
   if (opts.sortNodes) {
     actorEntries.sort((a, b) => a[0].localeCompare(b[0]));
   }
@@ -318,7 +302,7 @@ export function renderSequence(ast: SequenceAST, options?: RenderOptions): strin
 
   // Build the document
   const doc: Doc = [
-    "sequenceDiagram",
+    'sequenceDiagram',
     indent([
       // Boxes (with their actors)
       ...ast.boxes.map((box) => {

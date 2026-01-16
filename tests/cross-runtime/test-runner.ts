@@ -1,11 +1,11 @@
 /**
  * Cross-runtime test runner
- * 
+ *
  * This file provides a unified test interface that works across:
  * - Bun (bun test)
  * - Node.js (node --test)
  * - Deno (deno test)
- * 
+ *
  * Usage:
  *   bun test tests/cross-runtime/
  *   node --test tests/cross-runtime/*.test.ts
@@ -14,9 +14,9 @@
 
 // Runtime detection
 export const runtime = (() => {
-  if (typeof Bun !== "undefined") return "bun" as const;
-  if (typeof Deno !== "undefined") return "deno" as const;
-  return "node" as const;
+  if (typeof Bun !== 'undefined') return 'bun' as const;
+  if (typeof Deno !== 'undefined') return 'deno' as const;
+  return 'node' as const;
 })();
 
 // Test abstraction that works across runtimes
@@ -51,19 +51,22 @@ export function assertDeepEqual<T>(actual: T, expected: T, message?: string): vo
 
 export function assertTrue(condition: boolean, message?: string): void {
   if (!condition) {
-    throw new Error(message || "Expected condition to be true");
+    throw new Error(message || 'Expected condition to be true');
   }
 }
 
 export function assertFalse(condition: boolean, message?: string): void {
   if (condition) {
-    throw new Error(message || "Expected condition to be false");
+    throw new Error(message || 'Expected condition to be false');
   }
 }
 
-export function assertDefined<T>(value: T | undefined | null, message?: string): asserts value is T {
+export function assertDefined<T>(
+  value: T | undefined | null,
+  message?: string
+): asserts value is T {
   if (value === undefined || value === null) {
-    throw new Error(message || "Expected value to be defined");
+    throw new Error(message || 'Expected value to be defined');
   }
 }
 
@@ -75,7 +78,7 @@ export function assertThrows(fn: () => void, message?: string): void {
     threw = true;
   }
   if (!threw) {
-    throw new Error(message || "Expected function to throw");
+    throw new Error(message || 'Expected function to throw');
   }
 }
 
@@ -94,11 +97,11 @@ export function logResult(name: string, passed: boolean, error?: Error): void {
 // Run a test suite
 export async function runSuite(suite: TestSuite): Promise<{ passed: number; failed: number }> {
   console.log(`\n${suite.name}`);
-  console.log("=".repeat(suite.name.length));
-  
+  console.log('='.repeat(suite.name.length));
+
   let passed = 0;
   let failed = 0;
-  
+
   for (const test of suite.tests) {
     try {
       await test.fn();
@@ -109,28 +112,28 @@ export async function runSuite(suite: TestSuite): Promise<{ passed: number; fail
       failed++;
     }
   }
-  
+
   return { passed, failed };
 }
 
 // Run multiple suites
 export async function runAllSuites(suites: TestSuite[]): Promise<void> {
   console.log(`Running tests on ${runtime}...\n`);
-  
+
   let totalPassed = 0;
   let totalFailed = 0;
-  
+
   for (const suite of suites) {
     const { passed, failed } = await runSuite(suite);
     totalPassed += passed;
     totalFailed += failed;
   }
-  
-  console.log(`\n${"=".repeat(40)}`);
+
+  console.log(`\n${'='.repeat(40)}`);
   console.log(`Total: ${totalPassed} passed, ${totalFailed} failed`);
-  
+
   if (totalFailed > 0) {
-    if (runtime === "deno") {
+    if (runtime === 'deno') {
       Deno.exit(1);
     } else {
       process.exit(1);

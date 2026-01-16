@@ -1,16 +1,16 @@
-import { describe, expect, test } from "bun:test";
-import { parseClassDiagram } from "../../src/parser/class-parser.js";
-import { renderClassDiagram } from "../../src/renderer/class-renderer.js";
+import { describe, expect, test } from 'bun:test';
+import { parseClassDiagram } from '../../src/parser/class-parser.js';
+import { renderClassDiagram } from '../../src/renderer/class-renderer.js';
 
 /**
  * Normalize whitespace for comparison
  */
-function normalize(text: string): string {
+function _normalize(text: string): string {
   return text
-    .split("\n")
+    .split('\n')
     .map((line) => line.trim())
     .filter((line) => line.length > 0)
-    .join("\n");
+    .join('\n');
 }
 
 /**
@@ -51,18 +51,18 @@ function testRoundTrip(input: string, description: string) {
   });
 }
 
-describe("Class Diagram Round-trip", () => {
-  describe("Basic Classes", () => {
+describe('Class Diagram Round-trip', () => {
+  describe('Basic Classes', () => {
     testRoundTrip(
       `classDiagram
     class Animal`,
-      "simple class declaration"
+      'simple class declaration'
     );
 
     testRoundTrip(
       `classDiagram
     class Animal["A cute animal"]`,
-      "class with label"
+      'class with label'
     );
 
     testRoundTrip(
@@ -73,7 +73,7 @@ describe("Class Diagram Round-trip", () => {
         +eat()
         +sleep()
     }`,
-      "class with members"
+      'class with members'
     );
 
     testRoundTrip(
@@ -84,81 +84,81 @@ describe("Class Diagram Round-trip", () => {
         #String protectedField
         ~String packageField
     }`,
-      "class with visibility modifiers"
+      'class with visibility modifiers'
     );
   });
 
-  describe("Relationships", () => {
+  describe('Relationships', () => {
     testRoundTrip(
       `classDiagram
     Animal <|-- Duck`,
-      "inheritance relationship"
+      'inheritance relationship'
     );
 
     testRoundTrip(
       `classDiagram
     Company *-- Employee`,
-      "composition relationship"
+      'composition relationship'
     );
 
     testRoundTrip(
       `classDiagram
     Pond o-- Duck`,
-      "aggregation relationship"
+      'aggregation relationship'
     );
 
     testRoundTrip(
       `classDiagram
     Class01 <|.. Class02`,
-      "dotted line relationship"
+      'dotted line relationship'
     );
 
     testRoundTrip(
       `classDiagram
     Animal <|-- Duck : extends`,
-      "relationship with label"
+      'relationship with label'
     );
 
     testRoundTrip(
       `classDiagram
     Customer "1" --> "*" Order`,
-      "relationship with cardinality"
+      'relationship with cardinality'
     );
   });
 
-  describe("Annotations", () => {
+  describe('Annotations', () => {
     testRoundTrip(
       `classDiagram
     class Shape
     <<interface>> Shape`,
-      "interface annotation"
+      'interface annotation'
     );
 
     testRoundTrip(
       `classDiagram
     class Animal
     <<abstract>> Animal`,
-      "abstract annotation"
+      'abstract annotation'
     );
   });
 
-  describe("Direction", () => {
+  describe('Direction', () => {
     testRoundTrip(
       `classDiagram
     direction LR
     class Animal`,
-      "LR direction"
+      'LR direction'
     );
 
     testRoundTrip(
       `classDiagram
     direction RL
     class Animal`,
-      "RL direction"
+      'RL direction'
     );
   });
 
-  describe("Complex Diagrams", () => {
+  describe('Complex Diagrams', () => {
     testRoundTrip(
       `classDiagram
     direction LR
@@ -179,7 +179,7 @@ describe("Class Diagram Round-trip", () => {
     }
     Animal <|-- Duck
     Animal <|-- Fish`,
-      "complete class diagram with multiple classes and relationships"
+      'complete class diagram with multiple classes and relationships'
     );
 
     testRoundTrip(
@@ -200,7 +200,7 @@ describe("Class Diagram Round-trip", () => {
     }
     BankAccount <|-- SavingsAccount
     BankAccount <|-- CheckingAccount`,
-      "banking class hierarchy"
+      'banking class hierarchy'
     );
   });
 });
