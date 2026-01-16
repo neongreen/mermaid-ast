@@ -1,5 +1,7 @@
 # mermaid-ast
 
+[![Built with Slate](https://img.shields.io/badge/Built%20with-Slate-blue)](https://github.com/codeium/slate)
+
 Parse and render Mermaid diagrams to/from AST (Abstract Syntax Tree).
 
 This library provides a way to programmatically work with Mermaid diagrams by parsing them into a structured AST and rendering them back to Mermaid syntax. It uses the official mermaid.js JISON parsers to ensure compatibility.
@@ -240,3 +242,61 @@ mermaid-ast/
 ## License
 
 MIT
+
+---
+
+## How This Library Was Built
+
+This library was built entirely through conversation with [Slate](https://github.com/codeium/slate), an AI coding assistant. Below are the prompts used:
+
+### Initial Request
+
+> I want a TypeScript library to parse and render Mermaid AST, with extensive unit tests, support for the entire syntax supported by the current version of mermaid-js, tests that show specifically that mermaid.js produces absolutely the same output for before-the-roundtrip and after-the-roundtrip diagrams, and documentation on how to bring itself up to date with newer versions of mermaid.js.
+
+### Runtime & Scope
+
+> go with bun
+>
+> tests in Dagger that demonstrate that it works the same in bun, deno, and node.js
+>
+> subset for now
+>
+> depend, sure (on @mermaid-js/parser)
+
+### Parser Approach
+
+> absolutely you must not use any regex approach whatsoever
+>
+> study the mermaidjs/parser package thoroughly
+>
+> ok please study first how mermaidjs parses diagrams and then we'll discuss
+>
+> ok but would you vendor the parsers and have like a script to re-vendor, or what would you do? how's it done usually?
+>
+> lets have a sync script ok
+
+### Project Setup
+
+> all these commands must be in justfile in mermaid-ast/
+>
+> can we make it work from the root?
+
+### Quality Check
+
+> ok cool now tell me if theres any tech debt or like anything halfassed
+
+### Final Polish
+
+> ok cool do 1 2, no need for 3, need everything in 5, need 6, need 7. make a todo list then discuss
+>
+> use mermaid js rendering to svg. readme should include just implemented. for (3) explain how exactly it happened
+
+### Publishing
+
+> create a repo in neongreen github and move the package there
+>
+> and make it private at first
+>
+> ok now finally in ~/code/mermaid-ast/AGENTS.md please document how this library was made etc. because i'm going to start a new agent there to continue work
+>
+> add a badge there: proudly built with Slate. and include my prompts from this convo
