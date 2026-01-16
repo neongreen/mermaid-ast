@@ -1,0 +1,261 @@
+{
+  "description": "Sequence diagram test fixtures extracted from mermaid.js (MIT licensed)",
+  "source": "https://github.com/mermaid-js/mermaid/tree/develop/packages/mermaid/src/diagrams/sequence",
+  "categories": {
+    "basic": {
+      "description": "Basic sequence diagram syntax",
+      "fixtures": [
+        {
+          "name": "simple_message",
+          "input": "sequenceDiagram\nAlice->Bob:Hello Bob, how are you?",
+          "description": "Simple solid line message"
+        },
+        {
+          "name": "dotted_reply",
+          "input": "sequenceDiagram\nAlice->Bob:Hello Bob, how are you?\nBob-->Alice: I am good thanks!",
+          "description": "Solid line and dotted reply"
+        },
+        {
+          "name": "with_note",
+          "input": "sequenceDiagram\nAlice->Bob:Hello Bob, how are you?\nNote right of Bob: Bob thinks\nBob-->Alice: I am good thanks!",
+          "description": "Message with note"
+        },
+        {
+          "name": "async_message",
+          "input": "sequenceDiagram\nAlice-xBob:Hello Bob, how are you?",
+          "description": "Async message with x"
+        },
+        {
+          "name": "arrow_types",
+          "input": "sequenceDiagram\nAlice->>Bob: Solid arrow\nBob-->>Alice: Dotted arrow\nAlice-)Bob: Solid open\nBob--)Alice: Dotted open",
+          "description": "Different arrow types"
+        }
+      ]
+    },
+    "participants": {
+      "description": "Participant and actor declarations",
+      "fixtures": [
+        {
+          "name": "explicit_participants",
+          "input": "sequenceDiagram\nparticipant Alice\nparticipant Bob\nAlice->Bob:Hello",
+          "description": "Explicit participant declaration"
+        },
+        {
+          "name": "participant_alias",
+          "input": "sequenceDiagram\nparticipant A as Alice\nparticipant B as Bob\nA->B:Hello Bob, how are you?\nB-->A: I am good thanks!",
+          "description": "Participants with aliases"
+        },
+        {
+          "name": "actors",
+          "input": "sequenceDiagram\nactor A as Alice\nactor B as Bob\nA->B:Hello Bob, how are you?\nB-->A: I am good thanks!",
+          "description": "Actors with aliases"
+        },
+        {
+          "name": "mixed_actors_participants",
+          "input": "sequenceDiagram\nactor Alice as Alice2\nactor Bob\nparticipant John as John2\nparticipant Mandy\nAlice->>Bob: Hi Bob\nBob->>Alice: Hi Alice",
+          "description": "Mix of actors and participants"
+        },
+        {
+          "name": "dashes_in_names",
+          "input": "sequenceDiagram\nparticipant Alice-in-Wonderland\nparticipant Bob\nAlice-in-Wonderland->Bob:Hello Bob, how are - you?\nBob-->Alice-in-Wonderland:I am good thanks!",
+          "description": "Dashes in participant names"
+        },
+        {
+          "name": "equals_in_names",
+          "input": "sequenceDiagram\nparticipant Alice=Wonderland\nparticipant Bob\nAlice=Wonderland->Bob:Hello Bob, how are - you?\nBob-->Alice=Wonderland:I am good thanks!",
+          "description": "Equals in participant names"
+        }
+      ]
+    },
+    "titles_and_accessibility": {
+      "description": "Titles and accessibility features",
+      "fixtures": [
+        {
+          "name": "title_with_colon",
+          "input": "sequenceDiagram\ntitle: Diagram Title\nAlice->Bob:Hello Bob, how are you?",
+          "description": "Title with colon"
+        },
+        {
+          "name": "title_without_colon",
+          "input": "sequenceDiagram\ntitle Diagram Title\nAlice->Bob:Hello Bob, how are you?",
+          "description": "Title without colon"
+        },
+        {
+          "name": "acc_title_and_descr",
+          "input": "sequenceDiagram\ntitle: Diagram Title\naccTitle: This is the title\naccDescr: Accessibility Description\nAlice->Bob:Hello Bob, how are you?",
+          "description": "Accessibility title and description"
+        },
+        {
+          "name": "acc_multiline_descr",
+          "input": "sequenceDiagram\naccTitle: This is the title\naccDescr {\nAccessibility\nDescription\n}\nAlice->Bob:Hello Bob, how are you?",
+          "description": "Multi-line accessibility description"
+        }
+      ]
+    },
+    "autonumber": {
+      "description": "Auto-numbering features",
+      "fixtures": [
+        {
+          "name": "autonumber_basic",
+          "input": "sequenceDiagram\nautonumber\nAlice->Bob:Hello Bob, how are you?\nBob-->Alice: I am good thanks!",
+          "description": "Basic autonumber"
+        }
+      ]
+    },
+    "notes": {
+      "description": "Note syntax variations",
+      "fixtures": [
+        {
+          "name": "note_right",
+          "input": "sequenceDiagram\nAlice->Bob:Hello\nNote right of Bob: Bob thinks",
+          "description": "Note right of actor"
+        },
+        {
+          "name": "note_left",
+          "input": "sequenceDiagram\nAlice->Bob:Hello\nNote left of Alice: Alice thinks",
+          "description": "Note left of actor"
+        },
+        {
+          "name": "note_over_single",
+          "input": "sequenceDiagram\nAlice->Bob:Hello\nNote over Alice: Important note",
+          "description": "Note over single actor"
+        },
+        {
+          "name": "note_over_multiple",
+          "input": "sequenceDiagram\nAlice->Bob:Hello\nNote over Alice,Bob: Shared note",
+          "description": "Note over multiple actors"
+        }
+      ]
+    },
+    "activation": {
+      "description": "Activation/deactivation syntax",
+      "fixtures": [
+        {
+          "name": "explicit_activation",
+          "input": "sequenceDiagram\nAlice->>Bob: Hello\nactivate Bob\nBob->>Alice: Hi\ndeactivate Bob",
+          "description": "Explicit activate/deactivate"
+        },
+        {
+          "name": "shortcut_activation",
+          "input": "sequenceDiagram\nAlice->>+Bob: Hello\nBob->>-Alice: Hi",
+          "description": "Shortcut +/- activation"
+        },
+        {
+          "name": "nested_activation",
+          "input": "sequenceDiagram\nAlice->>+Bob: Hello\nBob->>+Bob: Self call\nBob->>-Bob: Self return\nBob->>-Alice: Hi",
+          "description": "Nested activation"
+        }
+      ]
+    },
+    "loops": {
+      "description": "Loop syntax",
+      "fixtures": [
+        {
+          "name": "simple_loop",
+          "input": "sequenceDiagram\nAlice->Bob: Hello\nloop Every minute\n    Bob->Alice: Ping\nend",
+          "description": "Simple loop"
+        },
+        {
+          "name": "nested_loops",
+          "input": "sequenceDiagram\nAlice->Bob: Hello\nloop Outer\n    loop Inner\n        Bob->Alice: Ping\n    end\nend",
+          "description": "Nested loops"
+        }
+      ]
+    },
+    "alt_opt_par": {
+      "description": "Alt, opt, and par blocks",
+      "fixtures": [
+        {
+          "name": "alt_else",
+          "input": "sequenceDiagram\nAlice->>Bob: Hello\nalt is sick\n    Bob->>Alice: Not so good\nelse is well\n    Bob->>Alice: Great!\nend",
+          "description": "Alt with else"
+        },
+        {
+          "name": "opt_block",
+          "input": "sequenceDiagram\nAlice->>Bob: Hello\nopt Extra response\n    Bob->>Alice: Thanks for asking\nend",
+          "description": "Optional block"
+        },
+        {
+          "name": "par_block",
+          "input": "sequenceDiagram\npar Alice to Bob\n    Alice->>Bob: Hello\nand Alice to John\n    Alice->>John: Hello\nend",
+          "description": "Parallel block"
+        },
+        {
+          "name": "critical_block",
+          "input": "sequenceDiagram\ncritical Establish connection\n    Alice->>Bob: Connect\noption Connection failed\n    Alice->>Alice: Log error\nend",
+          "description": "Critical block with option"
+        },
+        {
+          "name": "break_block",
+          "input": "sequenceDiagram\nAlice->>Bob: Hello\nbreak when error\n    Bob->>Alice: Error!\nend",
+          "description": "Break block"
+        }
+      ]
+    },
+    "rect": {
+      "description": "Background highlighting",
+      "fixtures": [
+        {
+          "name": "rect_highlight",
+          "input": "sequenceDiagram\nrect rgb(200, 220, 255)\n    Alice->>Bob: Hello\n    Bob->>Alice: Hi\nend",
+          "description": "Rect with RGB color"
+        },
+        {
+          "name": "rect_rgba",
+          "input": "sequenceDiagram\nrect rgba(200, 220, 255, 0.5)\n    Alice->>Bob: Hello\nend",
+          "description": "Rect with RGBA color"
+        }
+      ]
+    },
+    "create_destroy": {
+      "description": "Create and destroy actors",
+      "fixtures": [
+        {
+          "name": "create_actor",
+          "input": "sequenceDiagram\nAlice->>Bob: Hello\ncreate participant Carl\nBob->>Carl: Hi Carl",
+          "description": "Create participant mid-diagram"
+        },
+        {
+          "name": "destroy_actor",
+          "input": "sequenceDiagram\nAlice->>Bob: Hello\ndestroy Bob\nAlice-xBob: Goodbye",
+          "description": "Destroy participant"
+        }
+      ]
+    },
+    "links": {
+      "description": "Links and properties",
+      "fixtures": [
+        {
+          "name": "link_single",
+          "input": "sequenceDiagram\nparticipant Alice\nlink Alice: Dashboard @ https://example.com",
+          "description": "Single link on participant"
+        },
+        {
+          "name": "links_multiple",
+          "input": "sequenceDiagram\nparticipant Alice\nlinks Alice: {\"Dashboard\": \"https://example.com\", \"Wiki\": \"https://wiki.example.com\"}",
+          "description": "Multiple links as JSON"
+        },
+        {
+          "name": "properties",
+          "input": "sequenceDiagram\nparticipant Alice\nproperties Alice: {\"Department\": \"Engineering\"}",
+          "description": "Properties on participant"
+        }
+      ]
+    },
+    "complex": {
+      "description": "Complex diagrams",
+      "fixtures": [
+        {
+          "name": "full_example",
+          "input": "sequenceDiagram\nautonumber\nparticipant A as Alice\nparticipant B as Bob\nA->>B: Hello Bob\nactivate B\nB-->>A: Hi Alice\nloop Health check\n    B->>B: Check status\nend\nNote right of B: Bob is thinking\nalt is healthy\n    B->>A: I'm good\nelse is sick\n    B->>A: Not feeling well\nend\ndeactivate B",
+          "description": "Full featured sequence diagram"
+        },
+        {
+          "name": "multi_participant",
+          "input": "sequenceDiagram\nparticipant A as Alice\nparticipant B as Bob\nparticipant C as Carol\nparticipant D as Dave\nA->>B: Hello\nB->>C: Hi\nC->>D: Hey\nD-->>A: Hello back",
+          "description": "Multiple participants"
+        }
+      ]
+    }
+  }
+}
