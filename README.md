@@ -345,6 +345,8 @@ mermaid-ast/
 
 MIT
 
+This project includes JISON parsers from [mermaid.js](https://github.com/mermaid-js/mermaid) (MIT License, Copyright (c) 2014 - 2022 Knut Sveidqvist). See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md) for details.
+
 ---
 
 ## How This Library Was Built
