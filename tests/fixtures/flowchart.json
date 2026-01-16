@@ -1,0 +1,431 @@
+{
+  "description": "Flowchart test fixtures extracted from mermaid.js (MIT licensed)",
+  "source": "https://github.com/mermaid-js/mermaid/tree/develop/packages/mermaid/src/diagrams/flowchart/parser",
+  "categories": {
+    "basic": {
+      "description": "Basic flowchart syntax",
+      "fixtures": [
+        {
+          "name": "simple_nodes_and_edges",
+          "input": "graph TD;A-->B;B-->C;",
+          "description": "Simple nodes with arrow edges"
+        },
+        {
+          "name": "trailing_whitespace",
+          "input": "graph TD;\n\n\n %% Comment\n A-->B; \n B-->C;",
+          "description": "Handle trailing whitespaces after statements"
+        },
+        {
+          "name": "node_names_with_end",
+          "input": "graph TD\nendpoint --> sender",
+          "description": "Node names containing 'end' substring"
+        },
+        {
+          "name": "node_names_ending_keywords",
+          "input": "graph TD\nblend --> monograph",
+          "description": "Node names ending with keywords"
+        },
+        {
+          "name": "default_in_node_name",
+          "input": "graph TD\ndefault --> monograph",
+          "description": "Allow 'default' in node name/id"
+        },
+        {
+          "name": "direction_in_node_ids",
+          "input": "graph TD;\n  node1TB",
+          "description": "Direction keywords in node ids"
+        },
+        {
+          "name": "numbers_as_labels",
+          "input": "graph TB;subgraph \"number as labels\";1;end;",
+          "description": "Numbers as node labels"
+        }
+      ]
+    },
+    "node_shapes": {
+      "description": "Different node shapes",
+      "fixtures": [
+        {
+          "name": "round_brackets",
+          "input": "graph TD;A(Round);",
+          "description": "Round edges with ()"
+        },
+        {
+          "name": "stadium",
+          "input": "graph TD;A([Stadium]);",
+          "description": "Stadium shape with ([])"
+        },
+        {
+          "name": "subroutine",
+          "input": "graph TD;A[[Subroutine]];",
+          "description": "Subroutine shape with [[]]"
+        },
+        {
+          "name": "cylinder",
+          "input": "graph TD;A[(Database)];",
+          "description": "Cylinder/database shape with [()]"
+        },
+        {
+          "name": "circle",
+          "input": "graph TD;A((Circle));",
+          "description": "Circle shape with (())"
+        },
+        {
+          "name": "asymmetric",
+          "input": "graph TD;A>Asymmetric];",
+          "description": "Asymmetric shape with >]"
+        },
+        {
+          "name": "rhombus",
+          "input": "graph TD;A{Rhombus};",
+          "description": "Rhombus/decision shape with {}"
+        },
+        {
+          "name": "hexagon",
+          "input": "graph TD;A{{Hexagon}};",
+          "description": "Hexagon shape with {{}}"
+        },
+        {
+          "name": "parallelogram",
+          "input": "graph TD;A[/Parallelogram/];",
+          "description": "Parallelogram shape with [//]"
+        },
+        {
+          "name": "parallelogram_alt",
+          "input": "graph TD;A[\\Parallelogram Alt\\];",
+          "description": "Alternate parallelogram with [\\\\]"
+        },
+        {
+          "name": "trapezoid",
+          "input": "graph TD;A[/Trapezoid\\];",
+          "description": "Trapezoid shape with [/\\]"
+        },
+        {
+          "name": "trapezoid_alt",
+          "input": "graph TD;A[\\Trapezoid Alt/];",
+          "description": "Alternate trapezoid with [\\/]"
+        },
+        {
+          "name": "double_circle",
+          "input": "graph TD;A(((Double Circle)));",
+          "description": "Double circle shape with ((()))"
+        }
+      ]
+    },
+    "edge_types": {
+      "description": "Different edge/arrow types",
+      "fixtures": [
+        {
+          "name": "arrow_point",
+          "input": "graph TD;A-->B;",
+          "description": "Standard arrow"
+        },
+        {
+          "name": "open_link",
+          "input": "graph TD;A---B;",
+          "description": "Open link (no arrow)"
+        },
+        {
+          "name": "arrow_cross",
+          "input": "graph TD;A--xB;",
+          "description": "Cross arrow end"
+        },
+        {
+          "name": "arrow_circle",
+          "input": "graph TD;A--oB;",
+          "description": "Circle arrow end"
+        },
+        {
+          "name": "thick_arrow",
+          "input": "graph TD;A==>B;",
+          "description": "Thick line with arrow"
+        },
+        {
+          "name": "thick_open",
+          "input": "graph TD;A===B;",
+          "description": "Thick open line"
+        },
+        {
+          "name": "dotted_arrow",
+          "input": "graph TD;A-.->B;",
+          "description": "Dotted line with arrow"
+        },
+        {
+          "name": "dotted_open",
+          "input": "graph TD;A-.-B;",
+          "description": "Dotted open line"
+        },
+        {
+          "name": "double_arrow_point",
+          "input": "graph TD;A<-->B;",
+          "description": "Double-ended arrow"
+        },
+        {
+          "name": "double_arrow_cross",
+          "input": "graph TD;A x--x B;",
+          "description": "Double-ended cross"
+        },
+        {
+          "name": "double_arrow_circle",
+          "input": "graph TD;A o--o B;",
+          "description": "Double-ended circle"
+        },
+        {
+          "name": "long_arrow",
+          "input": "graph TD;A---->B;",
+          "description": "Longer arrow (more dashes)"
+        },
+        {
+          "name": "edge_with_text",
+          "input": "graph TD;A-->|text|B;",
+          "description": "Edge with text label"
+        },
+        {
+          "name": "edge_with_text_alt",
+          "input": "graph TD;A-- text -->B;",
+          "description": "Edge with text label (alternate syntax)"
+        }
+      ]
+    },
+    "special_characters": {
+      "description": "Special characters in labels",
+      "fixtures": [
+        {
+          "name": "dot_in_label",
+          "input": "graph TD;A(.);",
+          "description": "Dot in label"
+        },
+        {
+          "name": "colon_in_label",
+          "input": "graph TD;A(:);",
+          "description": "Colon in label"
+        },
+        {
+          "name": "comma_in_label",
+          "input": "graph TD;A(,);",
+          "description": "Comma in label"
+        },
+        {
+          "name": "hyphen_in_label",
+          "input": "graph TD;A(a-b);",
+          "description": "Hyphen in label"
+        },
+        {
+          "name": "plus_in_label",
+          "input": "graph TD;A(+);",
+          "description": "Plus in label"
+        },
+        {
+          "name": "asterisk_in_label",
+          "input": "graph TD;A(*);",
+          "description": "Asterisk in label"
+        },
+        {
+          "name": "ampersand_in_label",
+          "input": "graph TD;A(&);",
+          "description": "Ampersand in label"
+        },
+        {
+          "name": "complex_label",
+          "input": "graph TD;A(Start 103a.a1);",
+          "description": "Complex label with multiple special chars"
+        }
+      ]
+    },
+    "subgraphs": {
+      "description": "Subgraph syntax",
+      "fixtures": [
+        {
+          "name": "simple_subgraph",
+          "input": "graph TD;A-->B;subgraph myTitle;c-->d;end;",
+          "description": "Simple subgraph"
+        },
+        {
+          "name": "subgraph_tab_indent",
+          "input": "graph TB\nsubgraph One\n\ta1-->a2\nend",
+          "description": "Subgraph with tab indentation"
+        },
+        {
+          "name": "subgraph_chaining",
+          "input": "graph TB\nsubgraph One\n\ta1-->a2-->a3\nend",
+          "description": "Subgraph with chaining nodes"
+        },
+        {
+          "name": "subgraph_quoted_title",
+          "input": "graph TB\nsubgraph \"Some Title\"\n\ta1-->a2\nend",
+          "description": "Subgraph with quoted title"
+        },
+        {
+          "name": "subgraph_id_and_title",
+          "input": "graph TB\nsubgraph some-id[Some Title]\n\ta1-->a2\nend",
+          "description": "Subgraph with id and title notation"
+        },
+        {
+          "name": "subgraph_numeric_id",
+          "input": "graph TD\n    A[Christmas] -->|Get money| B(Go shopping)\n    subgraph 1test\n    A\n    end",
+          "description": "Subgraph id starting with number"
+        },
+        {
+          "name": "subgraph_dashes_title",
+          "input": "graph TD;A-->B;subgraph a-b-c;c-->d;end;",
+          "description": "Subgraph with dashes in title"
+        },
+        {
+          "name": "subgraph_id_brackets",
+          "input": "graph TD;A-->B;subgraph uid1[text of doom];c-->d;end;",
+          "description": "Subgraph with id and title in brackets"
+        },
+        {
+          "name": "nested_subgraphs",
+          "input": "graph TB\n    subgraph outer\n        subgraph inner\n            A-->B\n        end\n    end",
+          "description": "Nested subgraphs"
+        },
+        {
+          "name": "subgraph_direction",
+          "input": "graph TB\n    subgraph sub1\n        direction LR\n        A-->B\n    end",
+          "description": "Subgraph with direction"
+        }
+      ]
+    },
+    "styling": {
+      "description": "Styling and classes",
+      "fixtures": [
+        {
+          "name": "class_def",
+          "input": "graph TD\n    classDef red fill:#f00,stroke:#333\n    A:::red",
+          "description": "Class definition and application"
+        },
+        {
+          "name": "class_statement",
+          "input": "graph TD\n    A\n    class A red",
+          "description": "Class statement"
+        },
+        {
+          "name": "inline_style",
+          "input": "graph TD\n    A\n    style A fill:#f9f,stroke:#333",
+          "description": "Inline style"
+        },
+        {
+          "name": "link_style",
+          "input": "graph TD\n    A-->B\n    linkStyle 0 stroke:#ff3,stroke-width:4px",
+          "description": "Link style"
+        },
+        {
+          "name": "default_class",
+          "input": "graph TD\n    classDef default fill:#f9f\n    A-->B",
+          "description": "Default class definition"
+        },
+        {
+          "name": "multiple_classes",
+          "input": "graph TD\n    A:::red:::bold",
+          "description": "Multiple classes on node"
+        }
+      ]
+    },
+    "directions": {
+      "description": "Different graph directions",
+      "fixtures": [
+        {
+          "name": "top_down",
+          "input": "graph TD\n    A-->B",
+          "description": "Top to bottom (TD)"
+        },
+        {
+          "name": "top_bottom",
+          "input": "graph TB\n    A-->B",
+          "description": "Top to bottom (TB)"
+        },
+        {
+          "name": "bottom_top",
+          "input": "graph BT\n    A-->B",
+          "description": "Bottom to top"
+        },
+        {
+          "name": "left_right",
+          "input": "graph LR\n    A-->B",
+          "description": "Left to right"
+        },
+        {
+          "name": "right_left",
+          "input": "graph RL\n    A-->B",
+          "description": "Right to left"
+        },
+        {
+          "name": "flowchart_keyword",
+          "input": "flowchart LR\n    A-->B",
+          "description": "Using flowchart keyword instead of graph"
+        }
+      ]
+    },
+    "accessibility": {
+      "description": "Accessibility features",
+      "fixtures": [
+        {
+          "name": "acc_title",
+          "input": "graph LR\n    accTitle: Big decisions\n    A-->B",
+          "description": "Accessibility title"
+        },
+        {
+          "name": "acc_descr",
+          "input": "graph LR\n    accDescr: Flow chart of decisions\n    A-->B",
+          "description": "Accessibility description"
+        },
+        {
+          "name": "acc_title_and_descr",
+          "input": "graph LR\n    accTitle: Big decisions\n    accDescr: Flow chart of the decision making process\n    A[Hard] -->|Text| B(Round)",
+          "description": "Both title and description"
+        },
+        {
+          "name": "acc_multiline_descr",
+          "input": "graph LR\n    accTitle: Big decisions\n    accDescr {\n        Flow chart of the decision making process\n        with a second line\n    }\n    A-->B",
+          "description": "Multi-line accessibility description"
+        }
+      ]
+    },
+    "click_and_links": {
+      "description": "Click handlers and links",
+      "fixtures": [
+        {
+          "name": "click_callback",
+          "input": "graph LR\n    A-->B\n    click A callback",
+          "description": "Click callback"
+        },
+        {
+          "name": "click_href",
+          "input": "graph LR\n    A-->B\n    click A href \"https://example.com\"",
+          "description": "Click href link"
+        },
+        {
+          "name": "click_href_target",
+          "input": "graph LR\n    A-->B\n    click A href \"https://example.com\" _blank",
+          "description": "Click href with target"
+        },
+        {
+          "name": "click_callback_tooltip",
+          "input": "graph LR\n    A-->B\n    click A callback \"Tooltip text\"",
+          "description": "Click callback with tooltip"
+        }
+      ]
+    },
+    "complex": {
+      "description": "Complex diagrams",
+      "fixtures": [
+        {
+          "name": "decision_flow",
+          "input": "graph LR\n    A[Hard] -->|Text| B(Round)\n    B --> C{Decision}\n    C -->|One| D[Result 1]\n    C -->|Two| E[Result 2]",
+          "description": "Decision flow chart"
+        },
+        {
+          "name": "multiple_subgraphs",
+          "input": "graph TB\n    subgraph one\n        a1-->a2\n    end\n    subgraph two\n        b1-->b2\n    end\n    a1-->b1",
+          "description": "Multiple subgraphs with connections"
+        },
+        {
+          "name": "full_example",
+          "input": "flowchart TD\n    A[Start] --> B{Is it?}\n    B -->|Yes| C[OK]\n    C --> D[Rethink]\n    D --> B\n    B ---->|No| E[End]",
+          "description": "Full example with loop"
+        }
+      ]
+    }
+  }
+}
