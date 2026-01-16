@@ -1,0 +1,226 @@
+{
+  "description": "State diagram test fixtures extracted from mermaid.js (MIT licensed)",
+  "source": "https://github.com/mermaid-js/mermaid/tree/develop/packages/mermaid/src/diagrams/state",
+  "categories": {
+    "basic": {
+      "description": "Basic state diagram syntax",
+      "fixtures": [
+        {
+          "name": "super_simple",
+          "input": "stateDiagram-v2\n[*] --> State1\nState1 --> [*]",
+          "description": "Super simple state diagram"
+        },
+        {
+          "name": "simple_with_description",
+          "input": "stateDiagram-v2\nState1 : this is another string\n[*] --> State1\nState1 --> [*]",
+          "description": "Simple state with description"
+        },
+        {
+          "name": "multiple_states",
+          "input": "stateDiagram-v2\n[*] --> State1\nState1 --> [*]\nState1 : this is a string\nState1 : this is another string\nState1 --> State2\nState2 --> [*]",
+          "description": "Multiple states with descriptions"
+        }
+      ]
+    },
+    "state_naming": {
+      "description": "State naming and aliases",
+      "fixtures": [
+        {
+          "name": "state_as_syntax",
+          "input": "stateDiagram-v2\nstate \"Small State 1\" as namedState1",
+          "description": "State with 'as' alias syntax"
+        },
+        {
+          "name": "state_colon_syntax",
+          "input": "stateDiagram-v2\nnamedState1 : Small State 1",
+          "description": "State with colon description syntax"
+        },
+        {
+          "name": "state_colon_no_space",
+          "input": "stateDiagram-v2\nnamedState1:Small State 1",
+          "description": "State with colon, no spaces"
+        },
+        {
+          "name": "as_in_state_name",
+          "input": "stateDiagram-v2\nassemble\nassemblies\nstate assemble\nstate assemblies",
+          "description": "Handle 'as' substring in state names"
+        },
+        {
+          "name": "state_named_as",
+          "input": "stateDiagram-v2\nstate \"as\" as as",
+          "description": "State literally named 'as'"
+        }
+      ]
+    },
+    "transitions": {
+      "description": "State transitions",
+      "fixtures": [
+        {
+          "name": "simple_transition",
+          "input": "stateDiagram-v2\nState1 --> State2",
+          "description": "Simple transition"
+        },
+        {
+          "name": "transition_with_label",
+          "input": "stateDiagram-v2\n[*] --> State1\nState1 --> State2 : Transition 1\nState1 --> State3 : Transition 2",
+          "description": "Transitions with labels"
+        },
+        {
+          "name": "transition_with_special_chars",
+          "input": "stateDiagram-v2\n[*] --> State1 : This is the description with - in it\nState1 --> [*]",
+          "description": "Transition label with special characters"
+        },
+        {
+          "name": "transition_plus_minus",
+          "input": "stateDiagram-v2\n[*] --> State1 : This is the description +-!\nState1 --> [*]",
+          "description": "Transition label with plus/minus"
+        },
+        {
+          "name": "self_transition",
+          "input": "stateDiagram-v2\nState1 --> State1 : Loop",
+          "description": "Self-referencing transition"
+        }
+      ]
+    },
+    "composite_states": {
+      "description": "Composite/nested states",
+      "fixtures": [
+        {
+          "name": "simple_composite",
+          "input": "stateDiagram-v2\nstate Configuring {\n  [*] --> NewValueSelection\n  NewValueSelection --> NewValuePreview : EvNewValue\n  NewValuePreview --> NewValueSelection : EvNewValueRejected\n}",
+          "description": "Simple composite state"
+        },
+        {
+          "name": "nested_composite",
+          "input": "stateDiagram-v2\nstate Configuring {\n  [*] --> NewValueSelection\n  NewValueSelection --> NewValuePreview : EvNewValue\n  state NewValuePreview {\n    State1 --> State2\n  }\n}",
+          "description": "Nested composite states"
+        },
+        {
+          "name": "multiple_composite",
+          "input": "stateDiagram-v2\n[*] --> NotShooting\nstate NotShooting {\n  [*] --> Idle\n  Idle --> Configuring : EvConfig\n  Configuring --> Idle : EvConfig\n}\nstate Configuring {\n  [*] --> NewValueSelection\n}",
+          "description": "Multiple composite states"
+        },
+        {
+          "name": "composite_with_alias",
+          "input": "stateDiagram-v2\nstate \"Not Shooting State\" as NotShooting {\n  state \"Idle mode\" as Idle\n  state \"Configuring mode\" as Configuring\n  [*] --> Idle\n  Idle --> Configuring : EvConfig\n}",
+          "description": "Composite state with aliases"
+        },
+        {
+          "name": "group_with_named_states",
+          "input": "stateDiagram-v2\nstate \"Big State 1\" as bigState1 {\n  state \"inner state 1\" as inner1\n  inner2: inner state 2\n  inner1 --> inner2\n}",
+          "description": "Group with different naming syntaxes"
+        }
+      ]
+    },
+    "fork_join": {
+      "description": "Fork and join states",
+      "fixtures": [
+        {
+          "name": "fork_join",
+          "input": "stateDiagram-v2\nstate fork_state <<fork>>\n[*] --> fork_state\nfork_state --> State2\nfork_state --> State3\nstate join_state <<join>>\nState2 --> join_state\nState3 --> join_state\njoin_state --> State4\nState4 --> [*]",
+          "description": "Fork and join states"
+        }
+      ]
+    },
+    "concurrent": {
+      "description": "Concurrent/parallel states",
+      "fixtures": [
+        {
+          "name": "concurrent_regions",
+          "input": "stateDiagram-v2\n[*] --> Active\nstate Active {\n  [*] --> NumLockOff\n  NumLockOff --> NumLockOn : EvNumLockPressed\n  NumLockOn --> NumLockOff : EvNumLockPressed\n  --\n  [*] --> CapsLockOff\n  CapsLockOff --> CapsLockOn : EvCapsLockPressed\n  CapsLockOn --> CapsLockOff : EvCapsLockPressed\n}",
+          "description": "Concurrent regions with --"
+        }
+      ]
+    },
+    "special_states": {
+      "description": "Special state types",
+      "fixtures": [
+        {
+          "name": "choice_state",
+          "input": "stateDiagram-v2\nstate if_state <<choice>>\n[*] --> if_state\nif_state --> State1 : condition 1\nif_state --> State2 : condition 2",
+          "description": "Choice/decision state"
+        },
+        {
+          "name": "history_state",
+          "input": "stateDiagram-v2\n[*] --> State1\nState1 --> [H]",
+          "description": "History state"
+        },
+        {
+          "name": "deep_history",
+          "input": "stateDiagram-v2\n[*] --> State1\nState1 --> [H*]",
+          "description": "Deep history state"
+        }
+      ]
+    },
+    "notes": {
+      "description": "Notes in state diagrams",
+      "fixtures": [
+        {
+          "name": "note_right",
+          "input": "stateDiagram-v2\nState1 --> State2\nnote right of State1 : Important note",
+          "description": "Note right of state"
+        },
+        {
+          "name": "note_left",
+          "input": "stateDiagram-v2\nState1 --> State2\nnote left of State1 : Important note",
+          "description": "Note left of state"
+        }
+      ]
+    },
+    "accessibility": {
+      "description": "Accessibility features",
+      "fixtures": [
+        {
+          "name": "acc_description",
+          "input": "stateDiagram-v2\naccDescr: a simple description of the diagram\nState1 : this is another string\n[*] --> State1\nState1 --> [*]",
+          "description": "Accessibility description"
+        },
+        {
+          "name": "acc_title",
+          "input": "stateDiagram-v2\naccTitle: a simple title of the diagram\nState1 : this is another string\n[*] --> State1\nState1 --> [*]",
+          "description": "Accessibility title"
+        }
+      ]
+    },
+    "direction": {
+      "description": "Diagram direction",
+      "fixtures": [
+        {
+          "name": "direction_lr",
+          "input": "stateDiagram-v2\ndirection LR\n[*] --> State1\nState1 --> [*]",
+          "description": "Left to right direction"
+        },
+        {
+          "name": "direction_tb",
+          "input": "stateDiagram-v2\ndirection TB\n[*] --> State1\nState1 --> [*]",
+          "description": "Top to bottom direction"
+        }
+      ]
+    },
+    "styling": {
+      "description": "Styling and classes",
+      "fixtures": [
+        {
+          "name": "class_def",
+          "input": "stateDiagram-v2\nclassDef badState fill:#f00,color:white\nState1:::badState --> State2",
+          "description": "Class definition and application"
+        }
+      ]
+    },
+    "complex": {
+      "description": "Complex diagrams",
+      "fixtures": [
+        {
+          "name": "full_example",
+          "input": "stateDiagram-v2\n[*] --> State1\nState1 --> State2 : Succeeded\nState1 --> [*] : Aborted\nState2 --> State3 : Succeeded\nState2 --> [*] : Aborted\nstate State3 {\n  state \"Accumulate Enough Data\" as long1\n  long1 : Just a test\n  [*] --> long1\n  long1 --> long1 : New Data\n  long1 --> ProcessData : Enough Data\n}\nState3 --> State3 : Failed\nState3 --> [*] : Succeeded / Save Result\nState3 --> [*] : Aborted",
+          "description": "Full featured state diagram"
+        },
+        {
+          "name": "v1_syntax",
+          "input": "stateDiagram\n[*] --> State1\nState1 --> [*]",
+          "description": "V1 syntax (stateDiagram without -v2)"
+        }
+      ]
+    }
+  }
+}
