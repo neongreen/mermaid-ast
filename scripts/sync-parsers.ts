@@ -8,10 +8,19 @@
  *   bun run scripts/sync-parsers.ts [version]
  * 
  * Examples:
- *   bun run scripts/sync-parsers.ts           # Uses latest release
+ *   bun run scripts/sync-parsers.ts           # Uses locked version
+ *   bun run scripts/sync-parsers.ts --latest  # Uses latest release
  *   bun run scripts/sync-parsers.ts 11.12.2   # Uses specific version
  *   bun run scripts/sync-parsers.ts v11.12.2  # Also accepts v-prefixed versions
  */
+
+/**
+ * LOCKED MERMAID VERSION
+ * 
+ * All parsers should be synced from this version for consistency.
+ * Update this when upgrading to a new mermaid.js version.
+ */
+const LOCKED_MERMAID_VERSION = "11.12.2";
 
 import { $ } from "bun";
 import { existsSync, mkdirSync, rmSync, writeFileSync, readFileSync } from "node:fs";
@@ -205,9 +214,10 @@ async function syncParsers(options: SyncOptions): Promise<void> {
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
   
-  let version: string;
+  let version: string | undefined;
   let subset = INITIAL_SUBSET;
   let force = false;
+  let useLatest = false;
   
   // Parse arguments
   for (let i = 0; i < args.length; i++) {
@@ -215,6 +225,8 @@ async function main(): Promise<void> {
     
     if (arg === "--force" || arg === "-f") {
       force = true;
+    } else if (arg === "--latest" || arg === "-l") {
+      useLatest = true;
     } else if (arg === "--all") {
       subset = Object.keys(JISON_DIAGRAMS);
     } else if (arg === "--subset" && args[i + 1]) {
@@ -224,9 +236,18 @@ async function main(): Promise<void> {
     }
   }
   
-  // Get version if not specified
-  if (!version!) {
+  // Determine version to use
+  if (version) {
+    // Explicit version provided
+    console.log(`Using specified version: ${version}`);
+  } else if (useLatest) {
+    // --latest flag: fetch latest from npm
     version = await getLatestMermaidVersion();
+    console.log(`Using latest version from npm: ${version}`);
+  } else {
+    // Default: use locked version
+    version = LOCKED_MERMAID_VERSION;
+    console.log(`Using locked version: ${version}`);
   }
   
   console.log(`Syncing parsers from mermaid@${version}`);
