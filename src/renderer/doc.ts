@@ -28,13 +28,15 @@
  *
  * @example With helpers
  * ```typescript
- * import { Doc, indent, block, when, render } from './doc.js';
+ * import { Doc, indent, block, when, blank, render } from './doc.js';
  *
  * const doc: Doc = [
  *   'flowchart LR',
- *   when(hasTitle, `title ${title}`),
+ *   when(hasTitle, () => `title ${title}`),
  *   indent([
  *     block('subgraph sub1', nodes.map(renderNode), 'end'),
+ *     blank,
+ *     'A --> B',
  *   ]),
  * ];
  * ```
@@ -49,6 +51,7 @@
  * - `string` - Literal text (rendered as a single line)
  * - `Doc[]` - Concatenation of documents (each rendered on its own line)
  * - `{ _indent: Doc }` - Indented content (increases indent level)
+ * - `{ _blank: true }` - An empty line (no indentation)
  * - `null | undefined | false` - Skipped (useful for conditional rendering)
  *
  * @example
@@ -70,15 +73,51 @@
  *   'always shown',
  *   condition ? 'sometimes shown' : null,
  * ];
+ *
+ * // With blank lines for visual separation
+ * const e: Doc = [
+ *   'section 1',
+ *   blank,
+ *   'section 2',
+ * ];
  * ```
  */
 export type Doc =
   | string
   | Doc[]
   | { _indent: Doc }
+  | { _blank: true }
   | null
   | undefined
   | false;
+
+/**
+ * An empty line marker.
+ *
+ * Use this to add visual separation between sections.
+ * Unlike an empty string, this produces an actual blank line in the output.
+ *
+ * @example
+ * ```typescript
+ * const doc: Doc = [
+ *   'class Foo {',
+ *   indent([
+ *     '+name: string',
+ *     blank,
+ *     '+getName(): string',
+ *   ]),
+ *   '}',
+ * ];
+ *
+ * render(doc);
+ * // class Foo {
+ * //     +name: string
+ * //
+ * //     +getName(): string
+ * // }
+ * ```
+ */
+export const blank: Doc = { _blank: true };
 
 /**
  * Increases the indentation level for the given content.
@@ -114,11 +153,14 @@ export const indent = (content: Doc): Doc => ({ _indent: content });
  * Returns the document if the condition is truthy, otherwise returns `null`
  * (which is skipped during rendering).
  *
+ * The document can be provided directly or as a function (lazy evaluation).
+ * Use the function form when the document is expensive to compute.
+ *
  * @param condition - The condition to evaluate
- * @param doc - The document to include if condition is truthy
+ * @param doc - The document to include if condition is truthy, or a function that returns it
  * @returns The document or null
  *
- * @example
+ * @example Direct value
  * ```typescript
  * const doc: Doc = [
  *   'flowchart LR',
@@ -126,21 +168,47 @@ export const indent = (content: Doc): Doc => ({ _indent: content });
  *   indent(nodes),
  * ];
  * ```
+ *
+ * @example Lazy evaluation (function)
+ * ```typescript
+ * const doc: Doc = [
+ *   'flowchart LR',
+ *   when(hasComplexSubgraph, () => renderComplexSubgraph(data)),
+ *   indent(nodes),
+ * ];
+ * ```
  */
-export const when = (condition: unknown, doc: Doc): Doc =>
-  condition ? doc : null;
+export const when = (condition: unknown, doc: Doc | (() => Doc)): Doc => {
+  if (!condition) return null;
+  return typeof doc === "function" ? doc() : doc;
+};
 
 /**
- * Creates a block structure with opening line, indented body, and closing line.
+ * Options for the block helper.
+ */
+export interface BlockOptions {
+  /**
+   * Whether to indent the body content.
+   * Set to false for blocks where the body should not be indented
+   * (e.g., alt/else sections in sequence diagrams).
+   * @default true
+   */
+  indent?: boolean;
+}
+
+/**
+ * Creates a block structure with opening line, body, and closing line.
  *
  * This is a common pattern for class definitions, subgraphs, loops, etc.
+ * By default, the body is indented. Use `options.indent: false` to disable.
  *
  * @param open - The opening line (e.g., 'class Foo {', 'subgraph sub1')
- * @param body - The body content (will be indented)
+ * @param body - The body content (will be indented by default)
  * @param close - The closing line (e.g., '}', 'end')
+ * @param options - Optional settings for the block
  * @returns A document representing the block
  *
- * @example
+ * @example Default (indented body)
  * ```typescript
  * const doc = block(
  *   'class Animal {',
@@ -155,6 +223,21 @@ export const when = (condition: unknown, doc: Doc): Doc =>
  * // }
  * ```
  *
+ * @example No indent (for alt/else sections)
+ * ```typescript
+ * const doc = block(
+ *   'alt condition',
+ *   ['A->>B: message'],
+ *   'end',
+ *   { indent: false }
+ * );
+ *
+ * render(doc);
+ * // alt condition
+ * // A->>B: message
+ * // end
+ * ```
+ *
  * @example Nested blocks
  * ```typescript
  * const doc = block(
@@ -167,30 +250,46 @@ export const when = (condition: unknown, doc: Doc): Doc =>
  * );
  * ```
  */
-export const block = (open: string, body: Doc, close: string): Doc => [
-  open,
-  indent(body),
-  close,
-];
+export const block = (
+  open: string,
+  body: Doc,
+  close: string,
+  options?: BlockOptions
+): Doc => {
+  const shouldIndent = options?.indent !== false;
+  return [open, shouldIndent ? indent(body) : body, close];
+};
 
 /**
  * Joins multiple documents with a separator document between each.
  *
- * Similar to `Array.join()` but for documents.
+ * Similar to `Array.join()` but for documents. Filters out falsy values
+ * before joining.
  *
  * @param docs - The documents to join
  * @param separator - The separator to insert between documents
  * @returns A flattened document array with separators
  *
- * @example
+ * @example Join with comma
  * ```typescript
  * const items = ['a', 'b', 'c'];
  * const doc = join(items, ', ');
  * render(doc); // 'a, b, c' (on one line since separator isn't a newline)
  * ```
+ *
+ * @example Join with blank line
+ * ```typescript
+ * const sections = [renderClasses(), renderRelations()];
+ * const doc = join(sections, blank);
+ * // Adds blank line between sections
+ * ```
  */
-export const join = (docs: Doc[], separator: Doc): Doc =>
-  docs.flatMap((d, i) => (i === 0 ? [d] : [separator, d]));
+export const join = (docs: Doc[], separator: Doc): Doc => {
+  const filtered = docs.filter(
+    (d): d is Exclude<Doc, null | undefined | false> => Boolean(d)
+  );
+  return filtered.flatMap((d, i) => (i === 0 ? [d] : [separator, d]));
+};
 
 /**
  * Renders a document to a string.
@@ -224,7 +323,7 @@ export const join = (docs: Doc[], separator: Doc): Doc =>
  * // \tchild
  * ```
  */
-export function render(doc: Doc, indentStr = '    '): string {
+export function render(doc: Doc, indentStr = "    "): string {
   const lines: string[] = [];
 
   function walk(d: Doc, level: number): void {
@@ -232,7 +331,7 @@ export function render(doc: Doc, indentStr = '    '): string {
     // Note: empty string '' is falsy but we skip it intentionally
     if (!d) return;
 
-    if (typeof d === 'string') {
+    if (typeof d === "string") {
       // String = single line with current indentation
       lines.push(indentStr.repeat(level) + d);
     } else if (Array.isArray(d)) {
@@ -240,14 +339,17 @@ export function render(doc: Doc, indentStr = '    '): string {
       for (const child of d) {
         walk(child, level);
       }
-    } else if (typeof d === 'object' && '_indent' in d) {
+    } else if (typeof d === "object" && "_indent" in d) {
       // Indent marker = increase level for content
       walk(d._indent, level + 1);
+    } else if (typeof d === "object" && "_blank" in d) {
+      // Blank line marker = empty line (no indentation)
+      lines.push("");
     }
   }
 
   walk(doc, 0);
-  return lines.join('\n');
+  return lines.join("\n");
 }
 
 /**
@@ -257,5 +359,15 @@ export function render(doc: Doc, indentStr = '    '): string {
  * @returns True if the value is an indent node
  */
 export function isIndent(d: Doc): d is { _indent: Doc } {
-  return typeof d === 'object' && d !== null && '_indent' in d;
+  return typeof d === "object" && d !== null && "_indent" in d;
+}
+
+/**
+ * Type guard to check if a value is a Doc blank node.
+ *
+ * @param d - The value to check
+ * @returns True if the value is a blank node
+ */
+export function isBlank(d: Doc): d is { _blank: true } {
+  return typeof d === "object" && d !== null && "_blank" in d;
 }
