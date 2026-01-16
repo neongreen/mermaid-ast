@@ -19,6 +19,7 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 
 - **Flowchart** (`flowchart`, `graph`)
 - **Sequence Diagram** (`sequenceDiagram`)
+- **Class Diagram** (`classDiagram`)
 
 ## Installation
 
@@ -92,6 +93,33 @@ console.log(ast.statements.length); // 2
 const output = renderSequence(ast);
 ```
 
+### Class Diagrams
+
+```typescript
+import { parseClassDiagram, renderClassDiagram } from "mermaid-ast";
+
+const ast = parseClassDiagram(`classDiagram
+    class Animal {
+        +String name
+        +int age
+        +eat()
+        +sleep()
+    }
+    class Duck {
+        +String beakColor
+        +swim()
+        +quack()
+    }
+    Animal <|-- Duck`);
+
+// Access AST properties
+console.log(ast.classes.size); // 2
+console.log(ast.relations.length); // 1
+
+// Render back
+const output = renderClassDiagram(ast);
+```
+
 ### Diagram Type Detection
 
 ```typescript
@@ -99,6 +127,7 @@ import { detectDiagramType } from "mermaid-ast";
 
 detectDiagramType("flowchart LR\n  A --> B"); // "flowchart"
 detectDiagramType("sequenceDiagram\n  A->>B: Hi"); // "sequence"
+detectDiagramType("classDiagram\n  class Animal"); // "class"
 detectDiagramType("unknown diagram"); // null
 ```
 
@@ -128,6 +157,14 @@ detectDiagramType("unknown diagram"); // null
 | `renderSequence(ast: SequenceAST): string` | Render sequence AST |
 | `isSequenceDiagram(input: string): boolean` | Check if input is sequence |
 
+### Class Diagram Functions
+
+| Function | Description |
+|----------|-------------|
+| `parseClassDiagram(input: string): ClassDiagramAST` | Parse class diagram |
+| `renderClassDiagram(ast: ClassDiagramAST): string` | Render class diagram AST |
+| `isClassDiagram(input: string): boolean` | Check if input is class diagram |
+
 ## Supported Flowchart Features
 
 - **Directions**: LR, RL, TB, TD, BT
@@ -148,6 +185,21 @@ detectDiagramType("unknown diagram"); // null
 - **Grouping**: `rect` backgrounds
 - **Notes**: `note left of`, `note right of`, `note over`
 - **Actor lifecycle**: `create`, `destroy`
+
+## Supported Class Diagram Features
+
+- **Classes**: With labels, members (attributes and methods)
+- **Visibility modifiers**: `+` (public), `-` (private), `#` (protected), `~` (package)
+- **Relationships**: Inheritance (`<|--`), composition (`*--`), aggregation (`o--`), dependency (`<--`), lollipop (`()--`)
+- **Line types**: Solid (`--`), dotted (`..`)
+- **Cardinality**: `"1" --> "*"` relationship labels
+- **Annotations**: `<<interface>>`, `<<abstract>>`, `<<service>>`, etc.
+- **Namespaces**: Group related classes
+- **Notes**: `note for Class "text"`
+- **Direction**: `direction LR`, `direction TB`, etc.
+- **Styling**: `cssClass`, `classDef`
+- **Interactions**: `callback`, `link`
+- **Generic types**: `class List~T~`
 
 ## Development
 

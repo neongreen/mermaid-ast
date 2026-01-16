@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-01-17
+
+### Added
+
+- **Class Diagram support** - Full parsing and rendering of class diagrams
+  - Classes with labels and members (attributes and methods)
+  - Visibility modifiers: `+` (public), `-` (private), `#` (protected), `~` (package)
+  - Relationships: inheritance (`<|--`), composition (`*--`), aggregation (`o--`), dependency (`<--`), lollipop (`()--`)
+  - Line types: solid (`--`), dotted (`..`)
+  - Cardinality labels on relationships
+  - Annotations: `<<interface>>`, `<<abstract>>`, `<<service>>`, etc.
+  - Namespaces for grouping classes
+  - Notes: `note for Class "text"`
+  - Direction: `direction LR`, `direction TB`, etc.
+  - Styling: `cssClass`, `classDef`
+  - Interactions: `callback`, `link`
+  - Generic types: `class List~T~`
+
+### Prompts Used
+
+```
+add ci
+perfect. add more diagram types. one per commit. make a plan first
+looks good. make a todo list
+oh and in the changelog i want each entry to include all prompts i used for that version
+Oh also can you do very good documentation and usage examples and stuff? And is there actually a way to test or check examples in documentation as well? How does documentation stuff work in JavaScript land
+first diagram types
+eh ok lets go with (1) for now but we'll talk about this later
+ok and dont forget to update changelog, make atomic commits, and include prompts
+```
+
 ## [0.1.1] - 2025-01-17
 
 ### Fixed
