@@ -1,0 +1,311 @@
+{
+  "description": "Class diagram test fixtures extracted from mermaid.js (MIT licensed)",
+  "source": "https://github.com/mermaid-js/mermaid/tree/develop/packages/mermaid/src/diagrams/class",
+  "categories": {
+    "basic": {
+      "description": "Basic class diagram syntax",
+      "fixtures": [
+        {
+          "name": "simple_class",
+          "input": "classDiagram\nclass Animal",
+          "description": "Simple class declaration"
+        },
+        {
+          "name": "class_with_label",
+          "input": "classDiagram\nclass C1[\"Class 1 with text label\"]",
+          "description": "Class with text label"
+        },
+        {
+          "name": "multiple_classes",
+          "input": "classDiagram\nclass C1[\"Class 1 with text label\"]\nclass C2[\"Class 2 with chars @?\"]",
+          "description": "Multiple classes with labels"
+        },
+        {
+          "name": "class_with_body",
+          "input": "classDiagram\nclass Animal {\n  +String name\n  +int age\n  +eat()\n}",
+          "description": "Class with members and methods in body"
+        }
+      ]
+    },
+    "members": {
+      "description": "Class members and methods",
+      "fixtures": [
+        {
+          "name": "member_colon_syntax",
+          "input": "classDiagram\nclass C1\nC1: member1",
+          "description": "Member with colon syntax"
+        },
+        {
+          "name": "typed_member",
+          "input": "classDiagram\nclass C1\nC1 : int member1",
+          "description": "Member with type"
+        },
+        {
+          "name": "visibility_public",
+          "input": "classDiagram\nclass Animal {\n  +String name\n}",
+          "description": "Public member with +"
+        },
+        {
+          "name": "visibility_private",
+          "input": "classDiagram\nclass Animal {\n  -String name\n}",
+          "description": "Private member with -"
+        },
+        {
+          "name": "visibility_protected",
+          "input": "classDiagram\nclass Animal {\n  #String name\n}",
+          "description": "Protected member with #"
+        },
+        {
+          "name": "visibility_package",
+          "input": "classDiagram\nclass Animal {\n  ~String name\n}",
+          "description": "Package/internal member with ~"
+        },
+        {
+          "name": "method_with_params",
+          "input": "classDiagram\nclass Animal {\n  +eat(food: String)\n  +sleep(hours: int): void\n}",
+          "description": "Methods with parameters and return types"
+        },
+        {
+          "name": "static_member",
+          "input": "classDiagram\nclass Animal {\n  +String name$\n}",
+          "description": "Static member with $"
+        },
+        {
+          "name": "abstract_method",
+          "input": "classDiagram\nclass Animal {\n  +eat()*\n}",
+          "description": "Abstract method with *"
+        }
+      ]
+    },
+    "relationships": {
+      "description": "Class relationships",
+      "fixtures": [
+        {
+          "name": "inheritance",
+          "input": "classDiagram\nAnimal <|-- Dog",
+          "description": "Inheritance (extends)"
+        },
+        {
+          "name": "composition",
+          "input": "classDiagram\nCar *-- Engine",
+          "description": "Composition"
+        },
+        {
+          "name": "aggregation",
+          "input": "classDiagram\nLibrary o-- Book",
+          "description": "Aggregation"
+        },
+        {
+          "name": "association",
+          "input": "classDiagram\nStudent -- Course",
+          "description": "Association"
+        },
+        {
+          "name": "dependency",
+          "input": "classDiagram\nClass01 ..> Class02",
+          "description": "Dependency"
+        },
+        {
+          "name": "realization",
+          "input": "classDiagram\nClass01 ..|> Interface01",
+          "description": "Realization (implements)"
+        },
+        {
+          "name": "link_with_label",
+          "input": "classDiagram\nStudent \"1\" --> \"*\" Course : enrolls",
+          "description": "Link with cardinality and label"
+        },
+        {
+          "name": "bidirectional",
+          "input": "classDiagram\nAnimal <|--|> Mammal",
+          "description": "Bidirectional relationship"
+        }
+      ]
+    },
+    "annotations": {
+      "description": "Class annotations/stereotypes",
+      "fixtures": [
+        {
+          "name": "interface",
+          "input": "classDiagram\nclass Shape\n<<interface>> Shape",
+          "description": "Interface annotation"
+        },
+        {
+          "name": "abstract",
+          "input": "classDiagram\nclass Animal\n<<abstract>> Animal",
+          "description": "Abstract annotation"
+        },
+        {
+          "name": "service",
+          "input": "classDiagram\nclass UserService\n<<service>> UserService",
+          "description": "Service annotation"
+        },
+        {
+          "name": "enumeration",
+          "input": "classDiagram\nclass Color\n<<enumeration>> Color\nColor : RED\nColor : GREEN\nColor : BLUE",
+          "description": "Enumeration annotation"
+        },
+        {
+          "name": "annotation_with_label",
+          "input": "classDiagram\nclass C1[\"Class 1 with text label\"]\n<<interface>> C1\nC1 : int member1",
+          "description": "Annotation with text label and member"
+        }
+      ]
+    },
+    "styling": {
+      "description": "CSS styling",
+      "fixtures": [
+        {
+          "name": "css_class_shorthand",
+          "input": "classDiagram\nclass C1[\"Class 1 with text label\"]:::styleClass",
+          "description": "CSS class shorthand with :::"
+        },
+        {
+          "name": "css_class_statement",
+          "input": "classDiagram\nclass C1[\"Class 1 with text label\"]\nC1 : int member1\ncssClass \"C1\" styleClass",
+          "description": "CSS class statement"
+        },
+        {
+          "name": "css_class_multiple",
+          "input": "classDiagram\nclass C1[\"Class 1\"]\nclass C2[\"Class 2\"]\ncssClass \"C1,C2\" styleClass",
+          "description": "CSS class on multiple classes"
+        },
+        {
+          "name": "style_definition",
+          "input": "classDiagram\nclass Animal\nstyle Animal fill:#f9f,stroke:#333",
+          "description": "Inline style definition"
+        }
+      ]
+    },
+    "notes": {
+      "description": "Notes in class diagrams",
+      "fixtures": [
+        {
+          "name": "note_simple",
+          "input": "classDiagram\nnote \"test\"",
+          "description": "Simple note"
+        },
+        {
+          "name": "note_for_class",
+          "input": "classDiagram\nClass11 <|.. Class12\nnote for Class11 \"test\"",
+          "description": "Note for specific class"
+        },
+        {
+          "name": "note_with_keywords",
+          "input": "classDiagram\nnote \"This is a keyword: class. It truly is.\"",
+          "description": "Note containing keywords"
+        }
+      ]
+    },
+    "namespaces": {
+      "description": "Namespace grouping",
+      "fixtures": [
+        {
+          "name": "simple_namespace",
+          "input": "classDiagram\nnamespace Animals {\n  class Dog\n  class Cat\n}",
+          "description": "Simple namespace"
+        },
+        {
+          "name": "nested_namespaces",
+          "input": "classDiagram\nnamespace Outer {\n  namespace Inner {\n    class MyClass\n  }\n}",
+          "description": "Nested namespaces"
+        }
+      ]
+    },
+    "generics": {
+      "description": "Generic types",
+      "fixtures": [
+        {
+          "name": "generic_class",
+          "input": "classDiagram\nclass List~T~",
+          "description": "Generic class"
+        },
+        {
+          "name": "generic_member",
+          "input": "classDiagram\nclass Container {\n  +List~String~ items\n}",
+          "description": "Generic member type"
+        },
+        {
+          "name": "generic_method",
+          "input": "classDiagram\nclass Service {\n  +get~T~(id: int): T\n}",
+          "description": "Generic method"
+        }
+      ]
+    },
+    "direction": {
+      "description": "Diagram direction",
+      "fixtures": [
+        {
+          "name": "direction_tb",
+          "input": "classDiagram\ndirection TB\nclass Student {\n  -idCard : IdCard\n}\nclass IdCard {\n  -id : int\n}",
+          "description": "Top to bottom direction"
+        },
+        {
+          "name": "direction_lr",
+          "input": "classDiagram\ndirection LR\nAnimal <|-- Dog",
+          "description": "Left to right direction"
+        }
+      ]
+    },
+    "click_and_links": {
+      "description": "Click handlers and links",
+      "fixtures": [
+        {
+          "name": "click_callback",
+          "input": "classDiagram\nclass Animal\ncallback Animal \"callbackFunction\"",
+          "description": "Click callback"
+        },
+        {
+          "name": "click_link",
+          "input": "classDiagram\nclass Animal\nlink Animal \"https://example.com\"",
+          "description": "Click link"
+        },
+        {
+          "name": "click_link_target",
+          "input": "classDiagram\nclass Animal\nlink Animal \"https://example.com\" _blank",
+          "description": "Click link with target"
+        }
+      ]
+    },
+    "special_labels": {
+      "description": "Special characters in labels",
+      "fixtures": [
+        {
+          "name": "label_with_comma",
+          "input": "classDiagram\nclass C2[\"With, Comma\"]",
+          "description": "Label with comma"
+        },
+        {
+          "name": "label_with_brackets",
+          "input": "classDiagram\nclass C3[\"With (Brackets)\"]\nclass C4[\"With [Brackets]\"]\nclass C5[\"With {Brackets}\"]",
+          "description": "Labels with various brackets"
+        },
+        {
+          "name": "label_with_special_chars",
+          "input": "classDiagram\nclass C12[\"With ~!@#$%^&*()_+=-/?\"]",
+          "description": "Label with special characters"
+        },
+        {
+          "name": "label_foreign_language",
+          "input": "classDiagram\nclass C13[\"With Città foreign language\"]",
+          "description": "Label with foreign language characters"
+        }
+      ]
+    },
+    "complex": {
+      "description": "Complex diagrams",
+      "fixtures": [
+        {
+          "name": "full_example",
+          "input": "classDiagram\ndirection TB\nclass Student {\n  -idCard : IdCard\n}\nclass IdCard {\n  -id : int\n  -name : string\n}\nclass Bike {\n  -id : int\n  -name : string\n}\nStudent \"1\" --o \"1\" IdCard : carries\nStudent \"1\" --o \"1\" Bike : rides",
+          "description": "Full featured class diagram"
+        },
+        {
+          "name": "inheritance_hierarchy",
+          "input": "classDiagram\nAnimal <|-- Duck\nAnimal <|-- Fish\nAnimal <|-- Zebra\nAnimal : +int age\nAnimal : +String gender\nAnimal: +isMammal()\nAnimal: +mate()\nclass Duck {\n  +String beakColor\n  +swim()\n  +quack()\n}\nclass Fish {\n  -int sizeInFeet\n  -canEat()\n}\nclass Zebra {\n  +bool is_wild\n  +run()\n}",
+          "description": "Inheritance hierarchy with members"
+        }
+      ]
+    }
+  }
+}
