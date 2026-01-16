@@ -1,17 +1,12 @@
 {
-  "mermaidVersion": "11.9.0",
-  "syncedAt": "2026-01-16T18:43:57.934Z",
+  "mermaidVersion": "11.12.2",
+  "syncedAt": "2026-01-16T22:03:02.626Z",
   "diagrams": [
-    "flowchart",
-    "sequence"
+    "class"
   ],
   "results": [
     {
-      "name": "flowchart",
-      "success": true
-    },
-    {
-      "name": "sequence",
+      "name": "class",
       "success": true
     }
   ]

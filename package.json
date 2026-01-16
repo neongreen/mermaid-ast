@@ -1,6 +1,6 @@
 {
   "name": "mermaid-ast",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Parse and render Mermaid diagrams to/from AST",
   "type": "module",
   "main": "dist/index.js",
@@ -29,7 +29,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && cp -r src/vendored dist/",
     "test": "bun test",
     "test:unit": "bun test tests/unit",
     "test:roundtrip": "bun test tests/roundtrip",

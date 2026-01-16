@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2025-01-17
+
+### Fixed
+
+- Fixed npm package missing vendored parsers - build now copies `src/vendored/` to `dist/vendored/`
+
+### Prompts Used
+
+```
+how can you make sure that this is now ok?
+did you update the changelog
+```
+
 ## [0.1.0] - 2025-01-17
 
 ### Added
