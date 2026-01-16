@@ -88,3 +88,34 @@ clean:
 # Show vendored parser version
 version:
     @cat src/vendored/VERSION
+
+# --- Publishing ---
+
+# Preview what would be published to npm
+publish-dry-run:
+    bun run build
+    npm pack --dry-run
+
+# Publish to npm (runs tests and build first)
+publish:
+    bun test tests/unit tests/roundtrip
+    bun run build
+    npm publish
+
+# Publish to npm with public access (for scoped packages)
+publish-public:
+    bun test tests/unit tests/roundtrip
+    bun run build
+    npm publish --access public
+
+# Bump patch version (0.1.0 -> 0.1.1)
+bump-patch:
+    npm version patch --no-git-tag-version
+
+# Bump minor version (0.1.0 -> 0.2.0)
+bump-minor:
+    npm version minor --no-git-tag-version
+
+# Bump major version (0.1.0 -> 1.0.0)
+bump-major:
+    npm version major --no-git-tag-version
