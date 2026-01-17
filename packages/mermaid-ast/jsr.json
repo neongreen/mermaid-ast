@@ -1,6 +1,6 @@
 {
   "name": "@emily/mermaid-ast",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Parse and render Mermaid diagrams to/from AST",
   "exports": "./src/index.ts",
   "publish": {

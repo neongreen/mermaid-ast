@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.1] - 2025-01-17
+
+### Fixed
+
+- **Biome version mismatch** - Upgraded root biome from 1.9.4 to 2.3.11 to match package version. Biome 1.x and 2.x have different config syntax which caused CI failures.
+- **CI/Publish test parity** - Both CI and publish workflows now run lint and tests from subdirectories, matching what `prepublishOnly` runs. This prevents publish failures that CI didn't catch.
+- **bun.lock validation** - Added CI step to verify bun.lock is up to date before running tests.
+
+### Changed
+
+- **Disabled noisy lints** - Disabled `assist/source/organizeImports` and `correctness/noUnusedImports` for faster iteration.
+
 ## [0.6.0] - 2025-01-17
 
 ### Added

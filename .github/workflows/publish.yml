@@ -34,6 +34,14 @@ jobs:
         run: bun install
         working-directory: .
 
+      - name: Check bun.lock is up to date
+        run: |
+          if ! git diff --exit-code bun.lock; then
+            echo "::error::bun.lock is out of date. Run 'bun install' locally and commit the updated lockfile."
+            exit 1
+          fi
+        working-directory: .
+
       - name: Lint (root)
         run: bun run lint
         working-directory: .
@@ -44,8 +52,8 @@ jobs:
       - name: Type check
         run: bun run typecheck
 
-      - name: Run tests (mermaid-ast)
-        run: bun run test
+      - name: Run tests with coverage (mermaid-ast)
+        run: bun run test:coverage
 
       - name: Verify examples compile and run
         run: bun run examples
