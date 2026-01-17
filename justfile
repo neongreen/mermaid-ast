@@ -127,15 +127,45 @@ ast-publish-public:
 
 # Bump patch version (0.1.0 -> 0.1.1)
 ast-bump-patch:
-    cd packages/mermaid-ast && npm version patch --no-git-tag-version
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd packages/mermaid-ast
+    npm version patch --no-git-tag-version
+    VERSION=$(node -p "require('./package.json').version")
+    # Update jsr.json with the same version
+    jq --arg v "$VERSION" '.version = $v' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+    # Update bun.lock
+    cd ../..
+    bun install
+    echo "Bumped to v$VERSION (package.json, jsr.json, bun.lock updated)"
 
 # Bump minor version (0.1.0 -> 0.2.0)
 ast-bump-minor:
-    cd packages/mermaid-ast && npm version minor --no-git-tag-version
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd packages/mermaid-ast
+    npm version minor --no-git-tag-version
+    VERSION=$(node -p "require('./package.json').version")
+    # Update jsr.json with the same version
+    jq --arg v "$VERSION" '.version = $v' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+    # Update bun.lock
+    cd ../..
+    bun install
+    echo "Bumped to v$VERSION (package.json, jsr.json, bun.lock updated)"
 
 # Bump major version (0.1.0 -> 1.0.0)
 ast-bump-major:
-    cd packages/mermaid-ast && npm version major --no-git-tag-version
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd packages/mermaid-ast
+    npm version major --no-git-tag-version
+    VERSION=$(node -p "require('./package.json').version")
+    # Update jsr.json with the same version
+    jq --arg v "$VERSION" '.version = $v' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+    # Update bun.lock
+    cd ../..
+    bun install
+    echo "Bumped to v$VERSION (package.json, jsr.json, bun.lock updated)"
 
 # Preview what would be published to JSR
 ast-jsr-dry-run:
