@@ -34,15 +34,18 @@ jobs:
         run: bun install
         working-directory: .
 
-      - name: Lint
+      - name: Lint (root)
         run: bun run lint
         working-directory: .
+
+      - name: Lint (mermaid-ast)
+        run: bun run lint
 
       - name: Type check
         run: bun run typecheck
 
-      - name: Run tests with coverage
-        run: bun test --coverage tests/unit tests/roundtrip
+      - name: Run tests (mermaid-ast)
+        run: bun run test
 
       - name: Verify examples compile and run
         run: bun run examples
