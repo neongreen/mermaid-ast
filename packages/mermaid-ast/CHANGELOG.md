@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.2] - 2025-01-17
+
+### Fixed
+- **ast-bump-* commands** - Fixed justfile bump commands to use jq instead of npm version, which doesn't work with bun workspace dependencies
+- **README in npm package** - Restored README.md to the published npm package
+
 ## [0.6.1] - 2025-01-17
 
 ### Fixed
