@@ -49,15 +49,15 @@ describe('Kanban Renderer', () => {
     n2[Square]
     n3{{Diamond}}
     n4((Stadium))`;
-      
+
       const ast = parseKanban(input);
       const rendered = renderKanban(ast);
       const reparsed = parseKanban(rendered);
       const rerendered = renderKanban(reparsed);
-      
+
       // Round-trip should be stable
       expect(rerendered).toBe(rendered);
-      
+
       // All parseable shapes should be preserved
       expect(rendered).toContain('(Round)');
       expect(rendered).toContain('[Square]');
@@ -68,8 +68,9 @@ describe('Kanban Renderer', () => {
     it('should render programmatically-created SUBROUTINE nodes', () => {
       // SUBROUTINE can be created programmatically but NOT parsed from Mermaid syntax
       // This tests that the renderer outputs the correct delimiters
-      const diagram = Kanban.create()
-        .addNode('n1', 'Subroutine', { type: KanbanNodeType.SUBROUTINE });
+      const diagram = Kanban.create().addNode('n1', 'Subroutine', {
+        type: KanbanNodeType.SUBROUTINE,
+      });
       const rendered = diagram.render();
       expect(rendered).toContain('([-Subroutine-])');
     });
@@ -77,8 +78,9 @@ describe('Kanban Renderer', () => {
     it('should render programmatically-created ASYMMETRIC nodes', () => {
       // ASYMMETRIC can be created programmatically but NOT parsed from Mermaid syntax
       // This tests that the renderer outputs the correct delimiters
-      const diagram = Kanban.create()
-        .addNode('n1', 'Asymmetric', { type: KanbanNodeType.ASYMMETRIC });
+      const diagram = Kanban.create().addNode('n1', 'Asymmetric', {
+        type: KanbanNodeType.ASYMMETRIC,
+      });
       const rendered = diagram.render();
       expect(rendered).toContain('(-)Asymmetric-)');
     });

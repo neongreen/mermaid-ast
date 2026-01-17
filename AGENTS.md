@@ -307,60 +307,21 @@ Use these categories in this order (skip empty ones):
 
 ## Releasing a New Version
 
-### Pre-release Checklist
+See [.agents/release-checklist.md](.agents/release-checklist.md) for the complete release checklist.
 
-1. **All tests pass**: `bun test`
-2. **Biome passes**: `bun run biome check .`
-3. **Build works**: `bun run build`
-4. **Changelog is updated**: All changes documented in `CHANGELOG.md`
-
-### Release Steps
-
-1. **Update version numbers** in both files:
-   - `package.json`: `"version": "X.Y.Z"`
-   - `jsr.json`: `"version": "X.Y.Z"`
-
-2. **Update CHANGELOG.md**:
-   - Change `[Unreleased]` to `[X.Y.Z] - YYYY-MM-DD`
-   - Add a new empty `[Unreleased]` section at the top
-
-3. **Commit the release**:
-   ```bash
-   jj commit -m "Release vX.Y.Z"
-   ```
-
-4. **Push to GitHub**:
-   ```bash
-   jj bookmark set main -r @-
-   jj git push --bookmark main
-   ```
-
-5. **Create GitHub release** (triggers automatic npm publish):
-   ```bash
-   gh release create vX.Y.Z --title "vX.Y.Z"
-   ```
-   
-   **Important:** Do NOT use `--notes` flag with long markdown content. Long markdown-heavy release notes cause bash/zsh escaping issues. The changelog already documents everything - release notes are not needed.
-
-6. **Publish to JSR** (optional):
-   ```bash
-   just jsr-publish
-   ```
-
-### Version Guidelines
-
-- **Patch (0.0.X)**: Bug fixes, documentation improvements, test additions
-- **Minor (0.X.0)**: New features, new diagram types, API additions
-- **Major (X.0.0)**: Breaking changes to existing APIs
-
-### Justfile Commands
-
-The justfile provides convenience commands for releases:
+**Quick reference:**
 ```bash
-just mermaid-ast-build      # Build for npm
-just mermaid-ast-publish    # Publish to npm (runs build first)
-just mermaid-ast-jsr-publish # Publish to JSR
-just mermaid-ast-publish-all # Publish to both npm and JSR
+# Bump version (choose one)
+just ast-bump-minor   # For new features
+just ast-bump-patch   # For bug fixes
+
+# Update CHANGELOG.md, then:
+jj commit -m "Release vX.Y.Z"
+jj bookmark set main -r @-
+jj git push --bookmark main
+
+# Wait for CI to pass, then:
+just ast-release      # Creates GitHub release, publishes to npm and JSR
 ```
 
 ## Adding a New Diagram Type - Complete Checklist
