@@ -82,4 +82,20 @@ describe('ClassDiagram Renderer', () => {
       expect(output).toContain('callback MyClass "handleClick"("arg1, arg2") "Click me"');
     });
   });
+
+  describe('Style Definitions', () => {
+    it('should render classDef style definitions', () => {
+      // Create a diagram with classDef style definitions
+      const diagram = ClassDiagram.create()
+        .addClass('MyClass')
+        .addMethod('MyClass', 'doSomething()', '+');
+
+      // Manually add classDef to the AST (no wrapper method for this yet)
+      const ast = diagram.toAST();
+      ast.classDefs.set('highlight', { styles: ['fill:#f9f', 'stroke:#333', 'stroke-width:2px'] });
+      ast.classDefs.set('error', { styles: ['fill:#f00', 'color:#fff'] });
+
+      expectGolden(renderClassDiagram(ast), 'class/render-classdef-styles.mmd');
+    });
+  });
 });
