@@ -548,7 +548,7 @@ export function renderFlowchart(ast: FlowchartAST, options?: RenderOptions): str
       renderClassDefs(ast),
 
       // Class assignments (only if not using inline classes)
-      when(!opts.inlineClasses, renderClassAssignments(ast)),
+      when(!opts.inlineClasses, () => renderClassAssignments(ast)),
 
       // Click handlers
       renderClicks(ast),
