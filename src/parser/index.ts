@@ -36,7 +36,9 @@ export function parse(input: string): MermaidAST {
   const type = detectDiagramType(input);
 
   if (!type) {
-    throw new Error('Unable to detect diagram type. Supported types: flowchart, sequence, class, sankey, quadrant');
+    throw new Error(
+      'Unable to detect diagram type. Supported types: flowchart, sequence, class, sankey, quadrant'
+    );
   }
 
   switch (type) {

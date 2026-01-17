@@ -40,7 +40,13 @@ function createQuadrantYY(ast: QuadrantAST) {
     },
 
     // Add data point
-    addPoint(name: string, className: string, xValue: number, yValue: number, styles: string[]): void {
+    addPoint(
+      name: string,
+      className: string,
+      xValue: number,
+      yValue: number,
+      styles: string[]
+    ): void {
       const point: QuadrantPoint = {
         name,
         x: xValue,

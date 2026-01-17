@@ -11,7 +11,13 @@ export { renderSankey } from './sankey-renderer.js';
 export { renderSequence } from './sequence-renderer.js';
 
 import type { MermaidAST, RenderOptions } from '../types/index.js';
-import { isClassDiagramAST, isFlowchartAST, isQuadrantAST, isSankeyAST, isSequenceAST } from '../types/index.js';
+import {
+  isClassDiagramAST,
+  isFlowchartAST,
+  isQuadrantAST,
+  isSankeyAST,
+  isSequenceAST,
+} from '../types/index.js';
 import { renderClassDiagram } from './class-renderer.js';
 import { renderFlowchart } from './flowchart-renderer.js';
 import { renderQuadrant } from './quadrant-renderer.js';

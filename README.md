@@ -18,26 +18,26 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 
 ## Supported Diagram Types
 
-| Diagram Type | Parse | Render | Wrapper Class |
-|--------------|-------|--------|---------------|
-| Flowchart (`flowchart`, `graph`) | ✅ | ✅ | ✅ `Flowchart` |
-| Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ `Sequence` |
-| Class (`classDiagram`) | ✅ | ✅ | ✅ `ClassDiagram` |
-| State (`stateDiagram`) | ✅ | ✅ | ✅ `StateDiagram` |
-| ER Diagram (`erDiagram`) | ✅ | ✅ | ✅ `ErDiagram` |
-| Gantt (`gantt`) | ✅ | ✅ | ✅ `Gantt` |
-| Mindmap (`mindmap`) | ✅ | ✅ | ✅ `Mindmap` |
-| Journey (`journey`) | ✅ | ✅ | ✅ `Journey` |
-| Timeline (`timeline`) | ✅ | ✅ | ✅ `Timeline` |
-| Sankey (`sankey-beta`, `sankey`) | ✅ | ✅ | ✅ `Sankey` |
-| Quadrant (`quadrantChart`) | ✅ | ✅ | ✅ `Quadrant` |
-| Pie (`pie`) | ❌ | ❌ | ❌ |
-| Requirement (`requirementDiagram`) | ❌ | ❌ | ❌ |
-| Git Graph (`gitGraph`) | ❌ | ❌ | ❌ |
-| C4 (`C4Context`, etc.) | ❌ | ❌ | ❌ |
-| XY Chart (`xychart`) | ❌ | ❌ | ❌ |
-| Block (`block`) | ❌ | ❌ | ❌ |
-| Kanban (`kanban`) | ❌ | ❌ | ❌ |
+| Diagram Type | Parse | Render | Wrapper | Manipulation | Notes |
+|--------------|-------|--------|---------|--------------|-------|
+| Flowchart (`flowchart`, `graph`) | ✅ | ✅ | ✅ `Flowchart` | Full | Chain ops, subgraphs, graph traversal |
+| Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ `Sequence` | Rich | Actors, messages, control flow blocks |
+| Class (`classDiagram`) | ✅ | ✅ | ✅ `ClassDiagram` | Rich | Classes, relations, namespaces |
+| State (`stateDiagram`) | ✅ | ✅ | ✅ `StateDiagram` | Rich | States, transitions, composites |
+| ER Diagram (`erDiagram`) | ✅ | ✅ | ✅ `ErDiagram` | Moderate | Entities, relationships, attributes |
+| Gantt (`gantt`) | ✅ | ✅ | ✅ `Gantt` | Moderate | Tasks, sections, dependencies |
+| Mindmap (`mindmap`) | ✅ | ✅ | ✅ `Mindmap` | Moderate | Nodes, tree traversal |
+| Journey (`journey`) | ✅ | ✅ | ✅ `Journey` | Basic | Sections, tasks |
+| Timeline (`timeline`) | ✅ | ✅ | ✅ `Timeline` | Basic | Sections, periods, events |
+| Sankey (`sankey-beta`, `sankey`) | ✅ | ✅ | ✅ `Sankey` | Basic | Nodes, links, flow queries |
+| Quadrant (`quadrantChart`) | ✅ | ✅ | ✅ `Quadrant` | Basic | Points, axes, quadrant queries |
+| Pie (`pie`) | ❌ | ❌ | ❌ | - | No JISON parser |
+| Git Graph (`gitGraph`) | ❌ | ❌ | ❌ | - | No JISON parser |
+| Requirement (`requirementDiagram`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
+| C4 (`C4Context`, etc.) | ❌ | ❌ | ❌ | - | JISON parser vendored |
+| XY Chart (`xychart`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
+| Block (`block`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
+| Kanban (`kanban`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
 
 ## Installation
 

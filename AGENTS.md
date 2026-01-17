@@ -168,6 +168,16 @@ jj commit -m "message"
 jj git push --bookmark main
 ```
 
+### Code Quality
+**Always run biome lint fix before committing:**
+```bash
+npm run lint:fix     # Run biome check --write
+# OR
+npx @biomejs/biome check --write .
+```
+
+This will automatically fix formatting issues and apply safe code transformations.
+
 ### Running Tests
 ```bash
 bun test                      # All tests

@@ -8,9 +8,9 @@
 import { DiagramWrapper } from './diagram-wrapper.js';
 import { parseQuadrant } from './parser/quadrant-parser.js';
 import { renderQuadrant } from './renderer/quadrant-renderer.js';
-import type { RenderOptions } from './types/render-options.js';
 import type { QuadrantAST, QuadrantClass, QuadrantPoint } from './types/quadrant.js';
 import { createEmptyQuadrantAST } from './types/quadrant.js';
+import type { RenderOptions } from './types/render-options.js';
 
 /**
  * Options for adding a point

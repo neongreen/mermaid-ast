@@ -31,7 +31,10 @@ describe('Quadrant Wrapper', () => {
     });
 
     it('should remove points', () => {
-      const quadrant = Quadrant.create().addPoint('A', 0.5, 0.5).addPoint('B', 0.7, 0.8).removePoint('A');
+      const quadrant = Quadrant.create()
+        .addPoint('A', 0.5, 0.5)
+        .addPoint('B', 0.7, 0.8)
+        .removePoint('A');
 
       expect(quadrant.pointCount).toBe(1);
       expect(quadrant.getPoint('A')).toBeUndefined();

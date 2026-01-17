@@ -114,7 +114,10 @@ B,C,20`);
     });
 
     it('should get links from a source', () => {
-      const sankey = Sankey.create().addLink('A', 'B', 10).addLink('A', 'C', 20).addLink('B', 'C', 5);
+      const sankey = Sankey.create()
+        .addLink('A', 'B', 10)
+        .addLink('A', 'C', 20)
+        .addLink('B', 'C', 5);
 
       const linksFromA = sankey.getLinksFrom('A');
       expect(linksFromA.length).toBe(2);
@@ -122,7 +125,10 @@ B,C,20`);
     });
 
     it('should get links to a target', () => {
-      const sankey = Sankey.create().addLink('A', 'C', 10).addLink('B', 'C', 20).addLink('B', 'D', 5);
+      const sankey = Sankey.create()
+        .addLink('A', 'C', 10)
+        .addLink('B', 'C', 20)
+        .addLink('B', 'D', 5);
 
       const linksToC = sankey.getLinksTo('C');
       expect(linksToC.length).toBe(2);
@@ -130,7 +136,10 @@ B,C,20`);
     });
 
     it('should remove links', () => {
-      const sankey = Sankey.create().addLink('A', 'B', 10).addLink('B', 'C', 20).removeLink('A', 'B');
+      const sankey = Sankey.create()
+        .addLink('A', 'B', 10)
+        .addLink('B', 'C', 20)
+        .removeLink('A', 'B');
 
       expect(sankey.linkCount).toBe(1);
       expect(sankey.links[0].source).toBe('B');
@@ -155,21 +164,30 @@ B,C,20`);
     });
 
     it('should find links by source', () => {
-      const sankey = Sankey.create().addLink('A', 'B', 10).addLink('A', 'C', 20).addLink('B', 'C', 5);
+      const sankey = Sankey.create()
+        .addLink('A', 'B', 10)
+        .addLink('A', 'C', 20)
+        .addLink('B', 'C', 5);
 
       const links = sankey.findLinks({ source: 'A' });
       expect(links.length).toBe(2);
     });
 
     it('should find links by target', () => {
-      const sankey = Sankey.create().addLink('A', 'C', 10).addLink('B', 'C', 20).addLink('B', 'D', 5);
+      const sankey = Sankey.create()
+        .addLink('A', 'C', 10)
+        .addLink('B', 'C', 20)
+        .addLink('B', 'D', 5);
 
       const links = sankey.findLinks({ target: 'C' });
       expect(links.length).toBe(2);
     });
 
     it('should find links by value range', () => {
-      const sankey = Sankey.create().addLink('A', 'B', 5).addLink('B', 'C', 15).addLink('C', 'D', 25);
+      const sankey = Sankey.create()
+        .addLink('A', 'B', 5)
+        .addLink('B', 'C', 15)
+        .addLink('C', 'D', 25);
 
       const links = sankey.findLinks({ minValue: 10, maxValue: 20 });
       expect(links.length).toBe(1);
@@ -177,7 +195,10 @@ B,C,20`);
     });
 
     it('should calculate total flow', () => {
-      const sankey = Sankey.create().addLink('A', 'B', 10).addLink('B', 'C', 20).addLink('A', 'C', 5);
+      const sankey = Sankey.create()
+        .addLink('A', 'B', 10)
+        .addLink('B', 'C', 20)
+        .addLink('A', 'C', 5);
 
       expect(sankey.getTotalFlow()).toBe(35);
     });

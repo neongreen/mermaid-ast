@@ -70,6 +70,12 @@ export {
   parseSankey,
   parseSequence,
 } from './parser/index.js';
+export type {
+  AddQuadrantPointOptions,
+  FindQuadrantPointsQuery,
+} from './quadrant.js';
+// Export Quadrant wrapper class
+export { Quadrant } from './quadrant.js';
 export { renderErDiagram } from './renderer/er-renderer.js';
 // Export renderer functions
 export {
@@ -80,12 +86,6 @@ export {
   renderSankey,
   renderSequence,
 } from './renderer/index.js';
-export type {
-  AddQuadrantPointOptions,
-  FindQuadrantPointsQuery,
-} from './quadrant.js';
-// Export Quadrant wrapper class
-export { Quadrant } from './quadrant.js';
 export type {
   FindSankeyLinksQuery,
   FindSankeyNodesQuery,

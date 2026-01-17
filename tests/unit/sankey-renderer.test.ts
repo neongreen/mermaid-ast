@@ -76,7 +76,9 @@ B,C,20.75`);
     });
 
     it('should handle decimal values', () => {
-      const diagram = Sankey.create().addLink('Source', 'Target', 10.5).addLink('Target', 'End', 20.75);
+      const diagram = Sankey.create()
+        .addLink('Source', 'Target', 10.5)
+        .addLink('Target', 'End', 20.75);
 
       expectGolden(diagram.render(), 'sankey/render-decimal.mmd');
     });

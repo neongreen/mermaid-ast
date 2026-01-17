@@ -4,9 +4,9 @@
  * Renders a Quadrant Chart AST back to Mermaid syntax.
  */
 
+import type { QuadrantAST } from '../types/quadrant.js';
 import type { RenderOptions } from '../types/render-options.js';
 import { resolveOptions } from '../types/render-options.js';
-import type { QuadrantAST } from '../types/quadrant.js';
 
 /**
  * Render a Quadrant Chart AST to Mermaid syntax

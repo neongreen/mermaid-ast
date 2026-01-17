@@ -1,17 +1,24 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S deno run --allow-read --allow-write --allow-run --allow-net --allow-env
 /**
  * sync-parsers.ts
  *
  * Syncs JISON parser grammars from the mermaid.js repository and compiles them.
  *
- * Usage:
+ * WHY DENO?
+ * We use Deno instead of Bun because GitHub Copilot agent couldn't run Bun.
+ * Deno's npm: specifier allows importing jison without npm install or package-lock.json,
+ * making this script runnable by any agent without setup.
+ *
+ * Usage (Deno - recommended, no npm install needed):
+ *   deno run --allow-all scripts/sync-parsers.ts [version]
+ *
+ * Usage (Bun - also works):
  *   bun run scripts/sync-parsers.ts [version]
  *
  * Examples:
- *   bun run scripts/sync-parsers.ts           # Uses locked version
- *   bun run scripts/sync-parsers.ts --latest  # Uses latest release
- *   bun run scripts/sync-parsers.ts 11.12.2   # Uses specific version
- *   bun run scripts/sync-parsers.ts v11.12.2  # Also accepts v-prefixed versions
+ *   deno run --allow-all scripts/sync-parsers.ts           # Uses locked version
+ *   deno run --allow-all scripts/sync-parsers.ts --latest  # Uses latest release
+ *   deno run --allow-all scripts/sync-parsers.ts 11.12.2   # Uses specific version
  */
 
 /**
@@ -27,8 +34,9 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+// Import jison via npm: specifier (works in both Deno and Bun)
 // @ts-expect-error - jison doesn't have types
-import jison from 'jison';
+import jison from 'npm:jison';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = join(__dirname, '..');
@@ -83,16 +91,22 @@ function cloneMermaidSource(version: string, targetDir: string): void {
 
   // Clone with specific tag, depth 1 for speed
   try {
-    execSync(`git clone --depth 1 --branch ${tag} https://github.com/mermaid-js/mermaid.git ${targetDir}`, {
-      stdio: 'ignore',
-    });
+    execSync(
+      `git clone --depth 1 --branch ${tag} https://github.com/mermaid-js/mermaid.git ${targetDir}`,
+      {
+        stdio: 'ignore',
+      }
+    );
   } catch (_e) {
     // Try with v prefix as fallback
     const vTag = `v${cleanVersion}`;
     console.log(`Tag ${tag} not found, trying ${vTag}...`);
-    execSync(`git clone --depth 1 --branch ${vTag} https://github.com/mermaid-js/mermaid.git ${targetDir}`, {
-      stdio: 'ignore',
-    });
+    execSync(
+      `git clone --depth 1 --branch ${vTag} https://github.com/mermaid-js/mermaid.git ${targetDir}`,
+      {
+        stdio: 'ignore',
+      }
+    );
   }
 }
 

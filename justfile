@@ -41,13 +41,13 @@ test-roundtrip:
 test-cross-runtime:
     bun run tests/cross-runtime/mermaid-ast.test.ts
 
-# Sync parsers from a specific mermaid version
+# Sync parsers from a specific mermaid version (uses Deno - no npm install needed)
 sync-parsers version:
-    bun run scripts/sync-parsers.ts {{version}}
+    deno run --allow-all scripts/sync-parsers.ts {{version}}
 
-# Sync parsers from latest mermaid version
+# Sync parsers from latest mermaid version (uses Deno - no npm install needed)
 sync-parsers-latest:
-    bun run scripts/sync-parsers.ts
+    deno run --allow-all scripts/sync-parsers.ts
 
 # Build the library
 build:

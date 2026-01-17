@@ -86,9 +86,7 @@ export class Sankey extends DiagramWrapper<SankeyAST> {
   clone(): Sankey {
     const cloned: SankeyAST = {
       type: 'sankey',
-      nodes: new Map(
-        Array.from(this.ast.nodes.entries()).map(([id, node]) => [id, { ...node }])
-      ),
+      nodes: new Map(Array.from(this.ast.nodes.entries()).map(([id, node]) => [id, { ...node }])),
       links: this.ast.links.map((link) => ({ ...link })),
     };
     return new Sankey(cloned);
@@ -211,7 +209,9 @@ export class Sankey extends DiagramWrapper<SankeyAST> {
    * Remove a specific link
    */
   removeLink(source: string, target: string): this {
-    const idx = this.ast.links.findIndex((link) => link.source === source && link.target === target);
+    const idx = this.ast.links.findIndex(
+      (link) => link.source === source && link.target === target
+    );
     if (idx !== -1) {
       this.ast.links.splice(idx, 1);
     }
