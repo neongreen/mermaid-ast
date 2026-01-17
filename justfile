@@ -169,3 +169,53 @@ release-dry-run:
 # Create a GitHub release from CHANGELOG.md
 release:
     bun run scripts/release.ts
+
+# --- mermaid-svg commands ---
+
+# Install mermaid-svg dependencies
+svg-install:
+    cd mermaid-svg && bun install
+
+# Run mermaid-svg tests
+svg-test:
+    cd mermaid-svg && bun test
+
+# Run mermaid-svg unit tests only
+svg-test-unit:
+    cd mermaid-svg && bun test tests/unit
+
+# Run mermaid-svg integration tests
+svg-test-integration:
+    cd mermaid-svg && bun test tests/integration
+
+# Run mermaid-svg visual regression tests
+svg-test-visual:
+    cd mermaid-svg && bun test tests/visual
+
+# Update mermaid-svg visual snapshots
+svg-update-snapshots:
+    cd mermaid-svg && UPDATE_SNAPSHOTS=1 bun test tests/visual
+
+# Run mermaid-svg cross-runtime test (bun)
+svg-test-cross-runtime:
+    cd mermaid-svg && bun run tests/cross-runtime/test-runtime.ts
+
+# Build mermaid-svg
+svg-build:
+    cd mermaid-svg && bun run build
+
+# Type check mermaid-svg
+svg-typecheck:
+    cd mermaid-svg && bunx tsc --noEmit
+
+# Preview mermaid-svg npm package
+svg-publish-dry-run:
+    cd mermaid-svg && bun run build && npm pack --dry-run
+
+# Publish mermaid-svg to npm
+svg-publish:
+    cd mermaid-svg && bun test && bun run build && npm publish
+
+# Publish mermaid-svg to npm with public access
+svg-publish-public:
+    cd mermaid-svg && bun test && bun run build && npm publish --access public
