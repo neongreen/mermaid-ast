@@ -9,6 +9,7 @@ export * from './er.js';
 export * from './flowchart.js';
 export * from './gantt.js';
 export * from './journey.js';
+export * from './kanban.js';
 export * from './mindmap.js';
 export * from './quadrant.js';
 export * from './render-options.js';
@@ -22,6 +23,7 @@ import type { ErDiagramAST } from './er.js';
 import type { FlowchartAST } from './flowchart.js';
 import type { GanttAST } from './gantt.js';
 import type { JourneyAST } from './journey.js';
+import type { KanbanAST } from './kanban.js';
 import type { MindmapAST } from './mindmap.js';
 import type { QuadrantAST } from './quadrant.js';
 import type { SankeyAST } from './sankey.js';
@@ -41,6 +43,7 @@ export type MermaidAST =
   | GanttAST
   | MindmapAST
   | JourneyAST
+  | KanbanAST
   | QuadrantAST
   | SankeyAST
   | TimelineAST;
@@ -57,6 +60,7 @@ export type DiagramType =
   | 'gantt'
   | 'mindmap'
   | 'journey'
+  | 'kanban'
   | 'quadrant'
   | 'sankey'
   | 'timeline';
@@ -115,6 +119,13 @@ export function isMindmapAST(ast: MermaidAST): ast is MindmapAST {
  */
 export function isJourneyAST(ast: MermaidAST): ast is JourneyAST {
   return ast.type === 'journey';
+}
+
+/**
+ * Check if an AST is a Kanban diagram
+ */
+export function isKanbanAST(ast: MermaidAST): ast is KanbanAST {
+  return ast.type === 'kanban';
 }
 
 /**

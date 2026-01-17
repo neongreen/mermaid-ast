@@ -6,6 +6,7 @@
 
 export { renderClassDiagram } from './class-renderer.js';
 export { renderFlowchart } from './flowchart-renderer.js';
+export { renderKanban } from './kanban-renderer.js';
 export { renderQuadrant } from './quadrant-renderer.js';
 export { renderSankey } from './sankey-renderer.js';
 export { renderSequence } from './sequence-renderer.js';

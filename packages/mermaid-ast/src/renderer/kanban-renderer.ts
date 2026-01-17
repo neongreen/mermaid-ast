@@ -8,6 +8,8 @@ import type { KanbanAST, KanbanNode } from '../types/kanban.js';
 import { KanbanNodeType } from '../types/kanban.js';
 import type { RenderOptions } from '../types/render-options.js';
 import { resolveOptions } from '../types/render-options.js';
+import type { Doc } from './doc.js';
+import { indent, render } from './doc.js';
 
 /**
  * Get node delimiter pair for a given type
@@ -47,40 +49,34 @@ function renderNode(node: KanbanNode): string {
 }
 
 /**
- * Render nodes recursively
+ * Render nodes recursively as Doc
  */
-function renderNodes(
-  nodes: KanbanNode[],
-  baseIndent: string,
-  singleIndent: string,
-  lines: string[]
-): void {
-  for (const node of nodes) {
-    // Root nodes (indent=0) get 1 level of indentation in output
-    // Children get their parent's indentation + 1
-    const indent = singleIndent.repeat(node.indent + 1);
-    let line = `${indent}${renderNode(node)}`;
+function renderNodesDoc(nodes: KanbanNode[]): Doc {
+  return nodes.map((node) => {
+    let line = renderNode(node);
     
     // Add shape data if present
     if (node.shapeData) {
       line += `@{${node.shapeData}}`;
     }
     
-    lines.push(line);
+    const parts: Doc[] = [line];
     
     // Add decorations on separate lines
     if (node.icon) {
-      lines.push(`${indent}::icon(${node.icon})`);
+      parts.push(`::icon(${node.icon})`);
     }
     if (node.class) {
-      lines.push(`${indent}:::${node.class}`);
+      parts.push(`:::${node.class}`);
     }
     
-    // Render children
+    // Render children (indented)
     if (node.children.length > 0) {
-      renderNodes(node.children, baseIndent, singleIndent, lines);
+      parts.push(indent(renderNodesDoc(node.children)));
     }
-  }
+    
+    return parts;
+  });
 }
 
 /**
@@ -88,14 +84,11 @@ function renderNodes(
  */
 export function renderKanban(ast: KanbanAST, options?: RenderOptions): string {
   const opts = resolveOptions(options);
-  const indent = opts.indent;
-  const lines: string[] = [];
+  
+  const doc: Doc = [
+    'kanban',
+    indent(renderNodesDoc(ast.nodes)),
+  ];
 
-  // Header
-  lines.push('kanban');
-
-  // Render all nodes
-  renderNodes(ast.nodes, indent, indent, lines);
-
-  return lines.join('\n');
+  return render(doc, opts.indent);
 }

@@ -51,6 +51,12 @@ export type { AddJourneyTaskOptions, FindJourneyTasksQuery } from './journey.js'
 
 // Export Journey wrapper class
 export { Journey } from './journey.js';
+export type {
+  AddKanbanNodeOptions,
+  FindKanbanNodesQuery,
+} from './kanban.js';
+// Export Kanban wrapper class
+export { Kanban } from './kanban.js';
 export type { AddMindmapNodeOptions, FindMindmapNodesQuery } from './mindmap.js';
 // Export Mindmap wrapper class
 export { Mindmap } from './mindmap.js';

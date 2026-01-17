@@ -630,6 +630,10 @@ flowchart LR
 
 - [Bun](https://bun.sh/) runtime
 
+### TODO
+
+- [ ] Migrate existing renderers to use `doc.ts` library for consistent formatting (journey, timeline, er, gantt, mindmap, sankey, quadrant renderers currently use manual string building)
+
 ### Commands
 
 ```bash

@@ -389,7 +389,12 @@ just mermaid-ast-publish-all # Publish to both npm and JSR
    - Import the compiled parser from `src/vendored/parsers/`
    - Create a custom `yy` object that builds your AST
    - Export `parse<Type>()` and `is<Type>Diagram()` functions
-5. **Create renderer** in `src/renderer/<diagram>-renderer.ts`
+5. **Create renderer** in `src/renderer/<diagram>-renderer.ts`:
+   - **IMPORTANT**: Use the `doc.ts` library for rendering (see `src/renderer/doc.ts`)
+   - Import `Doc`, `indent`, `render`, and other helpers from `./doc.js`
+   - Build a document tree using the Doc API instead of manual string concatenation
+   - See `flowchart-renderer.ts`, `class-renderer.ts`, or `sequence-renderer.ts` for examples
+   - This provides consistent formatting, easier maintenance, and better composability
 6. **Create wrapper class** in `src/<diagram>.ts`
 7. **Add tests**:
    - `tests/unit/<diagram>.test.ts` - Wrapper class tests
@@ -404,10 +409,13 @@ just mermaid-ast-publish-all # Publish to both npm and JSR
 - `src/vendored/grammars/flowchart.jison` - Shows what methods the parser calls on yy
 - `src/flowchart.ts` - Best example of a wrapper class with full operations
 - `tests/unit/flowchart.test.ts` - Comprehensive test examples
+- `src/renderer/doc.ts` - Document builder library for rendering (use this!)
+- `src/renderer/flowchart-renderer.ts` - Example of using doc.ts for rendering
 
 ## Constraints
 
 - **No regex parsing** - All parsing must use the JISON grammar-based parsers
+- **Use doc.ts for rendering** - All new renderers should use the doc.ts library instead of manual string building
 - **Round-trip fidelity** - `render(parse(text))` must produce equivalent diagrams
 - **Cross-runtime support** - Must work in Bun, Node.js, and Deno
 - **Consistent test structure** - All diagram types should follow the same test pattern
