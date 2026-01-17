@@ -151,3 +151,13 @@ jsr-publish:
 publish-all:
     just publish
     just jsr-publish
+
+# --- GitHub Releases ---
+
+# Create a GitHub release from CHANGELOG.md (dry run)
+release-dry-run:
+    bun run scripts/release.ts --dry-run
+
+# Create a GitHub release from CHANGELOG.md
+release:
+    bun run scripts/release.ts
