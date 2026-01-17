@@ -439,3 +439,27 @@ rm bun.lock
 bun install
 jj commit -m "Update bun.lock"
 ```
+
+### Biome Version Mismatch Between Root and Package
+
+**Problem:** Lint passed locally but failed in CI with errors like `Found an unknown key 'include'` or `Found an unknown key 'includes'`.
+
+**Root cause:** The root `package.json` had `@biomejs/biome: "1.9.4"` while `packages/mermaid-ast/package.json` had `@biomejs/biome: "^2.3.11"`. Biome 1.x and 2.x have different config syntax:
+- Biome 1.x: `files.include` and `files.ignore` (singular)
+- Biome 2.x: `files.includes` (plural), no `ignore` in files section
+
+Locally, the root's biome 1.9.4 was used. CI installed fresh and got biome 2.x from the package.
+
+**Solution:** Keep biome versions consistent across all `package.json` files in the workspace. Currently using `^2.3.11` everywhere.
+
+**Lesson:** When you see config syntax errors in CI that don't appear locally, check for version mismatches in dependencies.
+
+### Disabled Lints for Fast Iteration
+
+The following biome rules are disabled because they slow down development without genuine improvement:
+
+- `assist/source/organizeImports` - Just reorders imports alphabetically, no functional benefit
+- `correctness/noUnusedImports` - Too noisy during active development; unused imports get cleaned up naturally
+- `style/recommended` - All style rules disabled; we care about correctness, not style preferences
+
+These are configured in `biome.json`. Re-enable them if the project matures and needs stricter linting.
