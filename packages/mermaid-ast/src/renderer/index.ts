@@ -16,6 +16,7 @@ import type { MermaidAST, RenderOptions } from '../types/index.js';
 import {
   isClassDiagramAST,
   isFlowchartAST,
+  isKanbanAST,
   isQuadrantAST,
   isSankeyAST,
   isSequenceAST,
@@ -23,6 +24,7 @@ import {
 } from '../types/index.js';
 import { renderClassDiagram } from './class-renderer.js';
 import { renderFlowchart } from './flowchart-renderer.js';
+import { renderKanban } from './kanban-renderer.js';
 import { renderQuadrant } from './quadrant-renderer.js';
 import { renderSankey } from './sankey-renderer.js';
 import { renderSequence } from './sequence-renderer.js';
@@ -54,6 +56,10 @@ export function render(ast: MermaidAST, options?: RenderOptions): string {
 
   if (isXYChartAST(ast)) {
     return renderXYChart(ast, options);
+  }
+
+  if (isKanbanAST(ast)) {
+    return renderKanban(ast, options);
   }
 
   throw new Error(`Unsupported AST type: ${(ast as { type: string }).type}`);

@@ -75,24 +75,7 @@ mermaid-ast/
 
 ## Implemented Diagram Types
 
-| Diagram Type | Parser | Renderer | Wrapper Class |
-|--------------|--------|----------|---------------|
-| Flowchart | ✅ | ✅ | ✅ `Flowchart` |
-| Sequence | ✅ | ✅ | ✅ `Sequence` |
-| Class | ✅ | ✅ | ✅ `ClassDiagram` |
-| State | ✅ | ✅ | ✅ `StateDiagram` |
-| ER | ✅ | ✅ | ✅ `ErDiagram` |
-| Gantt | ✅ | ✅ | ✅ `Gantt` |
-| Mindmap | ✅ | ✅ | ✅ `Mindmap` |
-| Journey | ✅ | ✅ | ✅ `Journey` |
-| Timeline | ✅ | ✅ | ✅ `Timeline` |
-| Sankey | ✅ | ✅ | ✅ `Sankey` |
-| Quadrant | ✅ | ✅ | ✅ `Quadrant` |
-
-### Not Yet Implemented
-- Pie (no JISON parser in mermaid.js)
-- Git Graph (no JISON parser in mermaid.js)
-- Requirement, C4, XY Chart, Block, Kanban (JISON parsers available but not yet implemented)
+See the [README](packages/mermaid-ast/README.md) for the current list of implemented diagram types.
 
 ## Test Structure
 
@@ -380,28 +363,160 @@ just mermaid-ast-jsr-publish # Publish to JSR
 just mermaid-ast-publish-all # Publish to both npm and JSR
 ```
 
-## Adding a New Diagram Type
+## Adding a New Diagram Type - Complete Checklist
 
-1. **Add the JISON grammar** to `scripts/sync-parsers.ts` in the `GRAMMARS` array
-2. **Run sync**: `bun run sync-parsers -- <version>`
-3. **Create types** in `src/types/<diagram>.ts`
-4. **Create parser** in `src/parser/<diagram>-parser.ts`:
-   - Import the compiled parser from `src/vendored/parsers/`
-   - Create a custom `yy` object that builds your AST
-   - Export `parse<Type>()` and `is<Type>Diagram()` functions
-5. **Create renderer** in `src/renderer/<diagram>-renderer.ts`:
-   - **IMPORTANT**: Use the `doc.ts` library for rendering (see `src/renderer/doc.ts`)
-   - Import `Doc`, `indent`, `render`, and other helpers from `./doc.js`
-   - Build a document tree using the Doc API instead of manual string concatenation
-   - See `flowchart-renderer.ts`, `class-renderer.ts`, or `sequence-renderer.ts` for examples
-   - This provides consistent formatting, easier maintenance, and better composability
-6. **Create wrapper class** in `src/<diagram>.ts`
-7. **Add tests**:
-   - `tests/unit/<diagram>.test.ts` - Wrapper class tests
-   - `tests/unit/<diagram>-parser.test.ts` - Parser tests
-   - `tests/unit/<diagram>-renderer.test.ts` - Renderer tests
-8. **Add round-trip tests** in `tests/roundtrip/<diagram>-roundtrip.test.ts`
-9. **Export** from `src/index.ts`
+This is a comprehensive checklist for adding a new diagram type. Every item must be completed.
+
+### Phase 1: Setup
+
+- [ ] **Verify JISON grammar exists** in mermaid.js for the diagram type
+- [ ] **Add grammar to sync script** - Add entry to `GRAMMARS` array in `scripts/sync-parsers.ts`
+- [ ] **Run sync**: `bun run sync-parsers -- <version>` to download and compile the parser
+- [ ] **Verify parser compiled** - Check `src/vendored/parsers/<diagram>.js` exists
+
+### Phase 2: Types (`src/types/<diagram>.ts`)
+
+- [ ] **Create AST interface** - e.g., `KanbanAST`, `XYChartAST`
+  - Must have `type: '<diagram>'` field for type discrimination
+- [ ] **Create supporting types** - Nodes, edges, options, enums as needed
+- [ ] **Create factory function** - `createEmpty<Diagram>AST()` that returns a valid empty AST
+- [ ] **Add JSDoc comments** to all exported types
+
+### Phase 3: Parser (`src/parser/<diagram>-parser.ts`)
+
+- [ ] **Import vendored parser** with `@ts-expect-error` comment:
+  ```typescript
+  // @ts-expect-error - JISON parser has no types
+  import <diagram>Parser from '../vendored/parsers/<diagram>.js';
+  ```
+- [ ] **Create custom yy object** - `create<Diagram>YY(ast)` function that:
+  - Implements all methods the JISON parser calls (check the `.jison` grammar file)
+  - Populates the AST as the parser runs
+  - Includes `getLogger()` stub if parser uses logging
+- [ ] **Export parse function** - `parse<Diagram>(input: string): <Diagram>AST`
+- [ ] **Export detection function** - `is<Diagram>Diagram(input: string): boolean`
+- [ ] **Handle input normalization** - Ensure diagram header is present, handle edge cases
+
+### Phase 4: Renderer (`src/renderer/<diagram>-renderer.ts`)
+
+- [ ] **Use doc.ts library** - Import from `./doc.js`:
+  ```typescript
+  import type { Doc } from './doc.js';
+  import { indent, render, when } from './doc.js';
+  ```
+- [ ] **Import RenderOptions** and use `resolveOptions()`:
+  ```typescript
+  import type { RenderOptions } from '../types/render-options.js';
+  import { resolveOptions } from '../types/render-options.js';
+  ```
+- [ ] **Build document tree** - Use `Doc` type, `indent()`, `when()` helpers
+- [ ] **Export render function** - `render<Diagram>(ast: <Diagram>AST, options?: RenderOptions): string`
+- [ ] **Add JSDoc comments** to exported function
+
+### Phase 5: Wrapper Class (`src/<diagram>.ts`)
+
+- [ ] **Extend DiagramWrapper**:
+  ```typescript
+  export class <Diagram> extends DiagramWrapper<<Diagram>AST> {
+    private constructor(ast: <Diagram>AST) {
+      super(ast);
+    }
+  ```
+- [ ] **Static factory methods**:
+  - [ ] `static create(): <Diagram>` - Create empty diagram
+  - [ ] `static from(ast: <Diagram>AST): <Diagram>` - Wrap existing AST
+  - [ ] `static parse(text: string): <Diagram>` - Parse from Mermaid syntax
+- [ ] **Core methods**:
+  - [ ] `render(options?: RenderOptions): string` - Render to Mermaid syntax
+  - [ ] `clone(): <Diagram>` - Deep clone the diagram
+- [ ] **Domain-specific operations** - Add/remove/update methods for diagram elements
+- [ ] **Query operations** - Find/get methods for querying diagram elements
+- [ ] **Export option types** - e.g., `AddNodeOptions`, `FindNodesQuery`
+
+### Phase 6: Exports
+
+#### `src/types/index.ts`
+- [ ] **Export all types**: `export * from './<diagram>.js';`
+- [ ] **Import AST type** for union: `import type { <Diagram>AST } from './<diagram>.js';`
+- [ ] **Add to MermaidAST union** type
+- [ ] **Add to DiagramType union** type
+- [ ] **Add type guard function**: `is<Diagram>AST(ast: MermaidAST): ast is <Diagram>AST`
+
+#### `src/parser/index.ts`
+- [ ] **Export parse and detect functions**:
+  ```typescript
+  export { is<Diagram>Diagram, parse<Diagram> } from './<diagram>-parser.js';
+  ```
+- [ ] **Import for internal use**
+- [ ] **Add to detectDiagramType()** function
+- [ ] **Add case to parse()** function switch statement
+
+#### `src/renderer/index.ts`
+- [ ] **Export render function**: `export { render<Diagram> } from './<diagram>-renderer.js';`
+- [ ] **Import type guard**: `is<Diagram>AST` from types
+- [ ] **Import render function** for internal use
+- [ ] **Add case to render()** function - **THIS IS OFTEN FORGOTTEN!**
+
+#### `src/index.ts`
+- [ ] **Export wrapper class**: `export { <Diagram> } from './<diagram>.js';`
+- [ ] **Export option types**: `export type { Add<X>Options, Find<X>Query } from './<diagram>.js';`
+
+### Phase 7: Tests
+
+#### Unit Tests (`tests/unit/<diagram>.test.ts`)
+- [ ] **Factory Methods** - Test `create()`, `from()`, `parse()`
+- [ ] **Core Methods** - Test `toAST()`, `clone()`, `render()`
+- [ ] **Domain Operations** - Test add/remove/update methods
+- [ ] **Query Operations** - Test find/get methods
+
+#### Parser Tests (`tests/unit/<diagram>-parser.test.ts`)
+- [ ] **Detection tests** - Test `is<Diagram>Diagram()` with valid/invalid inputs
+- [ ] **Basic parsing** - Simple diagram cases
+- [ ] **Advanced parsing** - Complex features, edge cases
+
+#### Renderer Tests (`tests/unit/<diagram>-renderer.test.ts`)
+- [ ] **Basic rendering** - Simple diagram cases
+- [ ] **Advanced rendering** - All features (styling, options, etc.)
+- [ ] **Golden tests** - Use `expectGolden()` for round-trip verification
+
+#### Round-trip Tests (`tests/roundtrip/<diagram>-roundtrip.test.ts`)
+- [ ] **Simple round-trips** - Basic diagrams
+- [ ] **Complex round-trips** - All features
+- [ ] **Idempotency test** - `render(parse(render(parse(x)))) === render(parse(x))`
+
+#### Golden Test Files (`tests/golden/<diagram>/`)
+- [ ] **Create golden directory**
+- [ ] **Add .json files** - Expected AST structures
+- [ ] **Add .mmd files** - Expected rendered output
+
+### Phase 8: Documentation
+
+#### README.md (`packages/mermaid-ast/README.md`)
+- [ ] **Add to diagram types table**
+- [ ] **Add usage example** if significantly different from others
+
+#### CHANGELOG.md (`packages/mermaid-ast/CHANGELOG.md`)
+- [ ] **Add to [Unreleased] section** under "Added"
+- [ ] **Include test count** and key features
+
+### Phase 9: Verification
+
+- [ ] **Run all tests**: `bun test` - All tests must pass
+- [ ] **Run linter**: `bun run lint` - No lint errors
+- [ ] **Run type check**: `bun run typecheck` - No type errors
+- [ ] **Run build**: `bun run build` - Build succeeds
+- [ ] **Test unified parse()**: Verify `parse('<diagram>...')` works
+- [ ] **Test unified render()**: Verify `render(ast)` works for the new type
+- [ ] **Commit with descriptive message**
+
+### Common Mistakes to Avoid
+
+1. **Forgetting to add to `render()` in `src/renderer/index.ts`** - The unified render function must handle the new type
+2. **Missing type guard in types/index.ts** - The `is<Diagram>AST()` function is needed
+3. **Not using doc.ts for rendering** - All new renderers must use the doc.ts library
+4. **Incomplete exports** - Check all four export locations (types, parser, renderer, main index)
+5. **Missing round-trip tests** - These catch subtle parsing/rendering mismatches
+6. **Not testing the unified `parse()` and `render()` functions** - Test both direct imports AND the unified functions
 
 ## Key Files to Understand
 
