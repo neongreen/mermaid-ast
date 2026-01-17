@@ -523,11 +523,20 @@ export class Sequence extends DiagramWrapper<SequenceAST> {
       if (stmt.type === 'loop' || stmt.type === 'opt' || stmt.type === 'break') {
         return { ...stmt, statements: this.filterStatements(stmt.statements, predicate) };
       }
-      if (stmt.type === 'alt' || stmt.type === 'par') {
+      if (stmt.type === 'alt') {
         return {
           ...stmt,
           sections: stmt.sections.map((s) => ({
-            ...s,
+            condition: s.condition,
+            statements: this.filterStatements(s.statements, predicate),
+          })),
+        };
+      }
+      if (stmt.type === 'par') {
+        return {
+          ...stmt,
+          sections: stmt.sections.map((s) => ({
+            text: s.text,
             statements: this.filterStatements(s.statements, predicate),
           })),
         };

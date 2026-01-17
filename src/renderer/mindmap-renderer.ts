@@ -5,13 +5,15 @@
  */
 
 import type { MindmapAST, MindmapNode, MindmapNodeShape } from '../types/mindmap.js';
+import type { RenderOptions } from '../types/render-options.js';
+import { resolveOptions } from '../types/render-options.js';
 
 /**
  * Render options for mindmaps
  */
 export interface MindmapRenderOptions {
-  /** Indentation string per level (default: '    ') */
-  indent?: string;
+  /** Number of spaces for indentation, or 'tab' for tab character (default: 4) */
+  indent?: number | 'tab';
 }
 
 /**
@@ -101,8 +103,9 @@ function renderNode(node: MindmapNode, indent: string, lines: string[]): void {
 /**
  * Render a Mindmap AST to Mermaid syntax
  */
-export function renderMindmap(ast: MindmapAST, options: MindmapRenderOptions = {}): string {
-  const indent = options.indent ?? '    ';
+export function renderMindmap(ast: MindmapAST, options?: RenderOptions): string {
+  const opts = resolveOptions(options);
+  const indent = opts.indent;
   const lines: string[] = [];
 
   // Header

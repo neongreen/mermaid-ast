@@ -4,21 +4,24 @@
  * Renders a Timeline AST back to Mermaid syntax.
  */
 
+import type { RenderOptions } from '../types/render-options.js';
+import { resolveOptions } from '../types/render-options.js';
 import type { TimelineAST } from '../types/timeline.js';
 
 /**
  * Render options for timeline diagrams
  */
 export interface TimelineRenderOptions {
-  /** Indentation string (default: '    ') */
-  indent?: string;
+  /** Number of spaces for indentation, or 'tab' for tab character (default: 4) */
+  indent?: number | 'tab';
 }
 
 /**
  * Render a Timeline AST to Mermaid syntax
  */
-export function renderTimeline(ast: TimelineAST, options: TimelineRenderOptions = {}): string {
-  const indent = options.indent ?? '    ';
+export function renderTimeline(ast: TimelineAST, options?: RenderOptions): string {
+  const opts = resolveOptions(options);
+  const indent = opts.indent;
   const lines: string[] = [];
 
   // Header

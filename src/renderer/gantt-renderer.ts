@@ -5,13 +5,15 @@
  */
 
 import type { GanttAST, GanttTask } from '../types/gantt.js';
+import type { RenderOptions } from '../types/render-options.js';
+import { resolveOptions } from '../types/render-options.js';
 
 /**
  * Render options for Gantt charts
  */
 export interface GanttRenderOptions {
-  /** Indentation string (default: '    ') */
-  indent?: string;
+  /** Number of spaces for indentation, or 'tab' for tab character (default: 4) */
+  indent?: number | 'tab';
 }
 
 /**
@@ -49,8 +51,9 @@ function renderTask(task: GanttTask, indent: string): string {
 /**
  * Render a Gantt Chart AST to Mermaid syntax
  */
-export function renderGantt(ast: GanttAST, options: GanttRenderOptions = {}): string {
-  const indent = options.indent ?? '    ';
+export function renderGantt(ast: GanttAST, options?: RenderOptions): string {
+  const opts = resolveOptions(options);
+  const indent = opts.indent;
   const lines: string[] = [];
 
   // Header

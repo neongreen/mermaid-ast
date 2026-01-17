@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Test file reorganization** - Split wrapper tests from renderer tests for all diagram types:
+  - `sequence-wrapper.test.ts` → `sequence-renderer.test.ts` (render/golden tests)
+  - `class-diagram-wrapper.test.ts` → `class-diagram-renderer.test.ts`
+  - `state-diagram-wrapper.test.ts` → `state-diagram-renderer.test.ts`
+  - `er-diagram.test.ts` → `er-diagram-renderer.test.ts`
+  - `gantt.test.ts` → `gantt-renderer.test.ts`
+  - `journey.test.ts` → `journey-renderer.test.ts`
+  - `mindmap.test.ts` → `mindmap-renderer.test.ts`
+  - `timeline.test.ts` → `timeline-renderer.test.ts`
+  - `flowchart-wrapper.test.ts` → `flowchart-renderer.test.ts`
+
+### Fixed
+
+- **RenderOptions type consistency** - All diagram renderers now use the base `RenderOptions` type with `indent: number | 'tab'` instead of custom types with `indent: string`
+- **Sequence filterStatements type error** - Fixed TypeScript error by handling 'alt' and 'par' sections separately (they have different section shapes)
+
+### Prompts Used
+
+```
+perfect now what is left to do? biome, changelog, ......, ?
+
+oh please split it as well. with amp. make a full todo list for whats needed for the release and dont make stuff optional i want to make a good library
+
+lets fix build errors. use number|"tab"
+```
+
 ## [0.6.0] - 2025-01-18
 
 ### Added

@@ -5,13 +5,15 @@
  */
 
 import type { JourneyAST, JourneyTask } from '../types/journey.js';
+import type { RenderOptions } from '../types/render-options.js';
+import { resolveOptions } from '../types/render-options.js';
 
 /**
  * Render options for journey diagrams
  */
 export interface JourneyRenderOptions {
-  /** Indentation string (default: '    ') */
-  indent?: string;
+  /** Number of spaces for indentation, or 'tab' for tab character (default: 4) */
+  indent?: number | 'tab';
 }
 
 /**
@@ -28,8 +30,9 @@ function renderTask(task: JourneyTask): string {
 /**
  * Render a Journey AST to Mermaid syntax
  */
-export function renderJourney(ast: JourneyAST, options: JourneyRenderOptions = {}): string {
-  const indent = options.indent ?? '    ';
+export function renderJourney(ast: JourneyAST, options?: RenderOptions): string {
+  const opts = resolveOptions(options);
+  const indent = opts.indent;
   const lines: string[] = [];
 
   // Header

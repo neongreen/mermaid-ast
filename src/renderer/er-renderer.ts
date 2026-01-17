@@ -11,13 +11,15 @@ import type {
   ErIdentification,
   ErRelationship,
 } from '../types/er.js';
+import type { RenderOptions } from '../types/render-options.js';
+import { resolveOptions } from '../types/render-options.js';
 
 /**
  * Render options for ER diagrams
  */
 export interface ErRenderOptions {
-  /** Indentation string (default: '    ') */
-  indent?: string;
+  /** Number of spaces for indentation, or 'tab' for tab character (default: 4) */
+  indent?: number | 'tab';
 }
 
 /**
@@ -96,8 +98,9 @@ function quoteEntityName(name: string): string {
 /**
  * Render an ER Diagram AST to Mermaid syntax
  */
-export function renderErDiagram(ast: ErDiagramAST, options: ErRenderOptions = {}): string {
-  const indent = options.indent ?? '    ';
+export function renderErDiagram(ast: ErDiagramAST, options?: RenderOptions): string {
+  const opts = resolveOptions(options);
+  const indent = opts.indent;
   const lines: string[] = [];
 
   // Header
