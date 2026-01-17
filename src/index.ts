@@ -43,6 +43,10 @@ export type {
 export { Gantt } from './gantt.js';
 export type { AddTaskOptions, FindTasksQuery } from './gantt.js';
 
+// Export Mindmap wrapper class
+export { Mindmap } from './mindmap.js';
+export type { AddMindmapNodeOptions, FindMindmapNodesQuery } from './mindmap.js';
+
 // Export builders (legacy - will be replaced by wrapper classes)
 export * from './builder/index.js';
 // Export parser functions
