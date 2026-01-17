@@ -78,7 +78,7 @@ Root
     expect(ast.root).toBeDefined();
     expect(ast.root?.id).toBe('Root');
     expect(ast.root?.children.length).toBe(2);
-    
+
     // accTitle/accDescr are not supported by the mindmap grammar
     expect(ast.accTitle).toBeUndefined();
     expect(ast.accDescription).toBeUndefined();
