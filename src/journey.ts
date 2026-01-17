@@ -128,6 +128,13 @@ export class Journey extends DiagramWrapper<JourneyAST> {
   }
 
   /**
+   * Get section count
+   */
+  get sectionCount(): number {
+    return this.ast.sections.length;
+  }
+
+  /**
    * Get total task count
    */
   get taskCount(): number {

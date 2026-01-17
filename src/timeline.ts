@@ -129,6 +129,13 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
   }
 
   /**
+   * Get section count
+   */
+  get sectionCount(): number {
+    return this.ast.sections.length;
+  }
+
+  /**
    * Get total period count
    */
   get periodCount(): number {
