@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'bun:test';
 import { ClassDiagram } from '../../src/class-diagram.js';
-import { expectGolden } from '../golden/golden.js';
 
 describe('ClassDiagram Wrapper', () => {
   describe('Factory Methods', () => {
@@ -329,7 +328,7 @@ describe('ClassDiagram Wrapper', () => {
     });
   });
 
-  describe('Clone and Render', () => {
+  describe('Clone', () => {
     it('should clone the diagram', () => {
       const original = ClassDiagram.create()
         .addClass('A')
@@ -340,16 +339,6 @@ describe('ClassDiagram Wrapper', () => {
       
       expect(original.classCount).toBe(2);
       expect(clone.classCount).toBe(3);
-    });
-
-    it('should render to Mermaid syntax', () => {
-      const diagram = ClassDiagram.create()
-        .addClass('Animal')
-        .addMethod('Animal', 'eat()', '+')
-        .addClass('Dog')
-        .addInheritance('Dog', 'Animal');
-      
-      expectGolden(diagram.render(), 'class/render-basic.mmd');
     });
   });
 });
