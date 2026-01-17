@@ -346,11 +346,12 @@ Use these categories in this order (skip empty ones):
    jj git push --bookmark main
    ```
 
-5. **Publish to npm**:
+5. **Create GitHub release** (triggers automatic npm publish):
    ```bash
-   bun run build
-   npm publish
+   gh release create vX.Y.Z --title "vX.Y.Z"
    ```
+   
+   **Important:** Do NOT use `--notes` flag with long markdown content. Long markdown-heavy release notes cause bash/zsh escaping issues. The changelog already documents everything - release notes are not needed.
 
 6. **Publish to JSR** (optional):
    ```bash
