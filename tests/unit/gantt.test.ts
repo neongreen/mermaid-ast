@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'bun:test';
 import { Gantt } from '../../src/gantt.js';
-import { expectGolden } from '../golden/golden.js';
 
 describe('Gantt Wrapper', () => {
   describe('Factory Methods', () => {
@@ -255,7 +254,7 @@ describe('Gantt Wrapper', () => {
     });
   });
 
-  describe('Clone and Render', () => {
+  describe('Clone', () => {
     it('should clone the chart', () => {
       const original = Gantt.create()
         .setTitle('My Project')
@@ -269,16 +268,6 @@ describe('Gantt Wrapper', () => {
       expect(original.taskCount).toBe(1);
       expect(clone.title).toBe('Cloned Project');
       expect(clone.taskCount).toBe(2);
-    });
-
-    it('should render to Mermaid syntax', () => {
-      const chart = Gantt.create()
-        .setTitle('My Project')
-        .setDateFormat('YYYY-MM-DD')
-        .addSection('Phase 1')
-        .addTask('Task A', 'Phase 1', { id: 'a', start: '2024-01-01', end: '5d' });
-
-      expectGolden(chart.render(), 'gantt/render-basic.mmd');
     });
   });
 

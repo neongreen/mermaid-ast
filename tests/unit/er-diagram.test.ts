@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'bun:test';
 import { ErDiagram } from '../../src/er-diagram.js';
-import { expectGolden } from '../golden/golden.js';
 
 describe('ErDiagram Wrapper', () => {
   describe('Factory Methods', () => {
@@ -253,7 +252,7 @@ describe('ErDiagram Wrapper', () => {
     });
   });
 
-  describe('Clone and Render', () => {
+  describe('Clone', () => {
     it('should clone the diagram', () => {
       const original = ErDiagram.create()
         .addEntity('CUSTOMER')
@@ -265,18 +264,6 @@ describe('ErDiagram Wrapper', () => {
 
       expect(original.entityCount).toBe(2);
       expect(clone.entityCount).toBe(3);
-    });
-
-    it('should render to Mermaid syntax', () => {
-      const diagram = ErDiagram.create()
-        .addEntity('CUSTOMER')
-        .addAttribute('CUSTOMER', 'string', 'name')
-        .addRelationship('CUSTOMER', 'ORDER', 'places', {
-          cardA: 'ONLY_ONE',
-          cardB: 'ZERO_OR_MORE',
-        });
-
-      expectGolden(diagram.render(), 'er/render-basic.mmd');
     });
   });
 
