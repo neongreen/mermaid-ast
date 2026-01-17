@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2025-01-17
+
 ### Added
 
 - **JSON golden tests for AST parsing** - New test infrastructure in `tests/golden/golden.test.ts` that validates complete AST structure using canonical JSON snapshots. Catches structural bugs that property-based tests might miss (e.g., storing strings as objects).
@@ -18,14 +20,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Parser sync improvements** - Updated `sync-parsers` script to sync all available JISON parsers by default
 - **Node.js compatibility** - Converted `sync-parsers` script from Bun-specific APIs to Node.js for broader compatibility
 - **API consistency** - Added `sectionCount` getter to `Journey` and `Timeline` wrapper classes to match `Gantt`
+- **Bun workspace structure** - Migrated to monorepo with `packages/mermaid-ast/` and `packages/mermaid-svg/`
 
 ### Changed
 
 - **JISON parser collection** - Synced additional parsers from mermaid.js including: sankey, xychart, quadrant, requirement, c4, block, kanban
+- **Biome configuration** - Disabled `lint/style/` rules for less noisy linting
+- **Project structure** - Moved to `packages/` directory for workspace support
 
 ### Prompts Used
 
-This update was implemented using GitHub Copilot Workspace agent with the following prompts:
+This update was implemented using GitHub Copilot Workspace agent and Slate with the following prompts:
 
 1. **Initial request**: "add all missing diagram types, exactly following the test structure, existing conventions etc etc etc, there must be complete feature parity"
 
@@ -43,17 +48,13 @@ This update was implemented using GitHub Copilot Workspace agent with the follow
    - "but only if FULLY done. tests, impl, readme, changelog"
    - "add my prompts from this session to the changelog! i want all agent changes to be accompanied with prompts so that ppl see how easy stuff is"
 
-3. **Result**: Fully implemented 2 new diagram types (Sankey and Quadrant) with complete feature parity, all tests passing (1045 tests, 0 failures), comprehensive documentation, and improved sync-parsers script.
+3. **Workspace migration** (Slate):
+   - "ok and afterwards lets migrate to have /packages/mermaid-ast,mermaid-svg and a bun workspace ? is this ok? or do you have ideas"
+   - "lets disable lint/style/ lints"
 
-The agent successfully:
-- Analyzed JISON grammar files to understand parser requirements
-- Implemented types, parsers, renderers, and wrapper classes following existing patterns
-- Created comprehensive test suites (parser, renderer, wrapper tests)
-- Updated all documentation (README, AGENTS.md, CHANGELOG)
-- Ensured round-trip fidelity with golden test files
-- Made sync-parsers script more robust and sync all available parsers by default
+4. **Result**: Fully implemented 2 new diagram types (Sankey and Quadrant) with complete feature parity, all tests passing (1051 tests, 0 failures), comprehensive documentation, improved sync-parsers script, and migrated to bun workspace structure.
 
-## [0.5.1] - 2026-01-17
+## [0.5.1] - 2025-01-17
 
 ### Fixed
 
