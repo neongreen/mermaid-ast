@@ -1,0 +1,25 @@
+{
+  "actors": {},
+  "boxes": [],
+  "statements": [
+    {
+      "type": "autonumber",
+      "visible": true
+    },
+    {
+      "arrowType": "solid",
+      "from": "A",
+      "text": "First",
+      "to": "B",
+      "type": "message"
+    },
+    {
+      "arrowType": "solid",
+      "from": "A",
+      "text": "Second",
+      "to": "B",
+      "type": "message"
+    }
+  ],
+  "type": "sequence"
+}

@@ -1,0 +1,12 @@
+{
+  "actors": {},
+  "boxes": [],
+  "statements": [
+    {
+      "statements": [],
+      "text": "Every minute",
+      "type": "loop"
+    }
+  ],
+  "type": "sequence"
+}

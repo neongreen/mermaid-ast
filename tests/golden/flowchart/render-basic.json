@@ -1,0 +1,19 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "LR",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {},
+  "subgraphs": [],
+  "type": "flowchart"
+}

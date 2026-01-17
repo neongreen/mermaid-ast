@@ -1,0 +1,14 @@
+{
+  "actors": {},
+  "boxes": [],
+  "statements": [
+    {
+      "arrowType": "solid",
+      "from": "A",
+      "text": "Hello!",
+      "to": "B",
+      "type": "message"
+    }
+  ],
+  "type": "sequence"
+}

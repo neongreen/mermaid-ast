@@ -152,3 +152,12 @@ export function parseErDiagram(input: string): ErDiagramAST {
 
   return ast;
 }
+
+/**
+ * Check if input is an ER diagram
+ */
+export function isErDiagram(input: string): boolean {
+  const trimmed = input.trim();
+  const firstLine = trimmed.split('\n')[0].trim().toLowerCase();
+  return firstLine.startsWith('erdiagram') || firstLine.startsWith('er-diagram');
+}

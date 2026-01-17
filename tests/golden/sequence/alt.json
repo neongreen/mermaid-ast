@@ -1,0 +1,20 @@
+{
+  "actors": {},
+  "boxes": [],
+  "statements": [
+    {
+      "sections": [
+        {
+          "condition": "Success",
+          "statements": []
+        },
+        {
+          "condition": "Failure",
+          "statements": []
+        }
+      ],
+      "type": "alt"
+    }
+  ],
+  "type": "sequence"
+}

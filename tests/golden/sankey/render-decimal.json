@@ -1,0 +1,16 @@
+{
+  "links": [
+    {
+      "source": "Source",
+      "target": "Target",
+      "value": 10.5
+    },
+    {
+      "source": "Target",
+      "target": "End",
+      "value": 20.75
+    }
+  ],
+  "nodes": {},
+  "type": "sankey"
+}

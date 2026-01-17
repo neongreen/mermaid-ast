@@ -1,0 +1,21 @@
+{
+  "links": [
+    {
+      "source": "A",
+      "target": "B",
+      "value": 10
+    },
+    {
+      "source": "B",
+      "target": "C",
+      "value": 20
+    },
+    {
+      "source": "A",
+      "target": "C",
+      "value": 5
+    }
+  ],
+  "nodes": {},
+  "type": "sankey"
+}

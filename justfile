@@ -13,9 +13,17 @@ install:
 test:
     bun test tests/unit tests/roundtrip tests/cross-runtime
 
-# Update golden test files (regenerate expected outputs)
+# Run JSON golden tests (AST parsing)
+test-golden:
+    bun test tests/golden
+
+# Update golden test files (regenerate expected outputs for rendering)
 update-golden:
     UPDATE_GOLDEN=1 bun test tests/unit
+
+# Update JSON golden test files (regenerate expected AST outputs)
+update-golden-json:
+    UPDATE_GOLDEN=1 bun test tests/golden
 
 # Run flowchart parser tests
 test-flowchart:

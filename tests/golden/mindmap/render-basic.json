@@ -1,0 +1,25 @@
+{
+  "root": {
+    "children": [
+      {
+        "children": [],
+        "description": "A",
+        "id": "A",
+        "level": 1,
+        "shape": "default"
+      },
+      {
+        "children": [],
+        "description": "B",
+        "id": "B",
+        "level": 1,
+        "shape": "default"
+      }
+    ],
+    "description": "Root",
+    "id": "Root",
+    "level": 0,
+    "shape": "default"
+  },
+  "type": "mindmap"
+}

@@ -1,0 +1,19 @@
+{
+  "sections": [
+    {
+      "name": "2020s",
+      "periods": [
+        {
+          "events": [
+            {
+              "text": "Major event"
+            }
+          ],
+          "name": "2020"
+        }
+      ]
+    }
+  ],
+  "title": "My Timeline",
+  "type": "timeline"
+}

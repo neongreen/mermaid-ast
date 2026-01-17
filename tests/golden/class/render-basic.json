@@ -1,0 +1,19 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "direction": "TB",
+  "namespaces": {},
+  "notes": [],
+  "relations": [
+    {
+      "id1": "Animal",
+      "id2": "Dog",
+      "relation": {
+        "lineType": "solid",
+        "type1": "extension",
+        "type2": "none"
+      }
+    }
+  ],
+  "type": "classDiagram"
+}

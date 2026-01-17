@@ -1,0 +1,18 @@
+{
+  "sections": [
+    {
+      "name": "Morning",
+      "tasks": [
+        {
+          "actors": [
+            "Me"
+          ],
+          "name": "Wake up",
+          "score": 3
+        }
+      ]
+    }
+  ],
+  "title": "My Journey",
+  "type": "journey"
+}

@@ -1,0 +1,12 @@
+{
+  "actors": {},
+  "boxes": [],
+  "statements": [
+    {
+      "color": "rgb(200, 200, 200)",
+      "statements": [],
+      "type": "rect"
+    }
+  ],
+  "type": "sequence"
+}

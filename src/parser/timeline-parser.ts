@@ -111,3 +111,12 @@ export function parseTimeline(input: string): TimelineAST {
 
   return ast;
 }
+
+/**
+ * Check if input is a timeline diagram
+ */
+export function isTimelineDiagram(input: string): boolean {
+  const trimmed = input.trim();
+  const firstLine = trimmed.split('\n')[0].trim().toLowerCase();
+  return firstLine.startsWith('timeline');
+}

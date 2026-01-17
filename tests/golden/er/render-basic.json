@@ -1,0 +1,20 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "direction": "TB",
+  "entities": {},
+  "relationships": [
+    {
+      "entityA": "CUSTOMER",
+      "entityB": "ORDER",
+      "relSpec": {
+        "cardA": "ONLY_ONE",
+        "cardB": "ZERO_OR_MORE",
+        "relType": "IDENTIFYING"
+      },
+      "role": "places"
+    }
+  ],
+  "styles": {},
+  "type": "erDiagram"
+}
