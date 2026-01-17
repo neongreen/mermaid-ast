@@ -130,9 +130,14 @@ ast-bump-patch:
     #!/usr/bin/env bash
     set -euo pipefail
     cd packages/mermaid-ast
-    npm version patch --no-git-tag-version
-    VERSION=$(node -p "require('./package.json').version")
-    # Update jsr.json with the same version
+    # Get current version and bump patch
+    CURRENT=$(jq -r '.version' package.json)
+    IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+    NEW_PATCH=$((PATCH + 1))
+    VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+    # Update package.json
+    jq --arg v "$VERSION" '.version = $v' package.json > package.json.tmp && mv package.json.tmp package.json
+    # Update jsr.json
     jq --arg v "$VERSION" '.version = $v' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
     # Update bun.lock
     cd ../..
@@ -144,9 +149,14 @@ ast-bump-minor:
     #!/usr/bin/env bash
     set -euo pipefail
     cd packages/mermaid-ast
-    npm version minor --no-git-tag-version
-    VERSION=$(node -p "require('./package.json').version")
-    # Update jsr.json with the same version
+    # Get current version and bump minor
+    CURRENT=$(jq -r '.version' package.json)
+    IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+    NEW_MINOR=$((MINOR + 1))
+    VERSION="$MAJOR.$NEW_MINOR.0"
+    # Update package.json
+    jq --arg v "$VERSION" '.version = $v' package.json > package.json.tmp && mv package.json.tmp package.json
+    # Update jsr.json
     jq --arg v "$VERSION" '.version = $v' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
     # Update bun.lock
     cd ../..
@@ -158,9 +168,14 @@ ast-bump-major:
     #!/usr/bin/env bash
     set -euo pipefail
     cd packages/mermaid-ast
-    npm version major --no-git-tag-version
-    VERSION=$(node -p "require('./package.json').version")
-    # Update jsr.json with the same version
+    # Get current version and bump major
+    CURRENT=$(jq -r '.version' package.json)
+    IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+    NEW_MAJOR=$((MAJOR + 1))
+    VERSION="$NEW_MAJOR.0.0"
+    # Update package.json
+    jq --arg v "$VERSION" '.version = $v' package.json > package.json.tmp && mv package.json.tmp package.json
+    # Update jsr.json
     jq --arg v "$VERSION" '.version = $v' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
     # Update bun.lock
     cd ../..
