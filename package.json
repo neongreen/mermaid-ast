@@ -21,10 +21,6 @@
     "./types": {
       "import": "./dist/types/index.js",
       "types": "./dist/types/index.d.ts"
-    },
-    "./builder": {
-      "import": "./dist/builder/index.js",
-      "types": "./dist/builder/index.d.ts"
     }
   },
   "files": [
