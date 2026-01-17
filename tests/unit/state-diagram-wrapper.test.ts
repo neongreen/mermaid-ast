@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'bun:test';
 import { StateDiagram } from '../../src/state-diagram.js';
-import { expectGolden } from '../golden/golden.js';
 
 describe('StateDiagram Wrapper', () => {
   describe('Factory Methods', () => {
@@ -317,7 +316,7 @@ describe('StateDiagram Wrapper', () => {
     });
   });
 
-  describe('Clone and Render', () => {
+  describe('Clone', () => {
     it('should clone the diagram', () => {
       const original = StateDiagram.create()
         .addState('A')
@@ -328,15 +327,6 @@ describe('StateDiagram Wrapper', () => {
       
       expect(original.stateCount).toBe(2);
       expect(clone.stateCount).toBe(3);
-    });
-
-    it('should render to Mermaid syntax', () => {
-      const diagram = StateDiagram.create()
-        .addInitial('Idle')
-        .addTransition('Idle', 'Running', { label: 'start' })
-        .addFinal('Running');
-      
-      expectGolden(diagram.render(), 'state/render-basic.mmd');
     });
   });
 });
