@@ -5,7 +5,27 @@
  */
 
 /**
- * Node shape types mapped from parser
+ * Node shape types for Kanban diagrams.
+ *
+ * **IMPORTANT:** Only some shapes are actually parseable from Mermaid syntax.
+ * The JISON lexer only has tokens for these delimiter pairs:
+ *
+ * | Shape    | Delimiters | Parseable |
+ * |----------|------------|-----------|
+ * | ROUND    | `()`       | Yes       |
+ * | SQUARE   | `[]`       | Yes       |
+ * | DIAMOND  | `{{}}`     | Yes       |
+ * | STADIUM  | `(())`     | Yes       |
+ * | SUBROUTINE | `([-])` | **No** - can render but not parse |
+ * | ASYMMETRIC | `(-)-)` | **No** - can render but not parse |
+ * | Others   | N/A        | **No** - enum values exist but unsupported |
+ *
+ * The non-parseable shapes exist in the enum (inherited from mermaid.js flowchart)
+ * but the Kanban JISON grammar doesn't have lexer tokens for them.
+ * You can create nodes with these types programmatically and render them,
+ * but parsing the rendered output will fail.
+ *
+ * This is a limitation in mermaid.js's Kanban grammar, not this library.
  */
 export enum KanbanNodeType {
   ROUND = 0,

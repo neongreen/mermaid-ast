@@ -25,9 +25,9 @@ function getNodeDelimiters(type: KanbanNodeType): [string, string] {
     case KanbanNodeType.STADIUM:
       return ['((', '))'];
     case KanbanNodeType.SUBROUTINE:
-      return ['([', '])'];
+      return ['([-', '-])'];
     case KanbanNodeType.ASYMMETRIC:
-      return ['(-', '-)'];
+      return ['(-)', '-)'];
     default:
       return ['[', ']'];
   }

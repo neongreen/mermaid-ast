@@ -38,6 +38,50 @@ describe('Kanban Renderer', () => {
       expect(rendered).toContain('{{Diamond}}');
       expect(rendered).toContain('((Stadium))');
     });
+
+    it('should round-trip all parseable node shapes', () => {
+      // Note: Only 4 shapes are actually parseable by the Kanban JISON grammar.
+      // SUBROUTINE and ASYMMETRIC exist in the enum but the lexer doesn't have
+      // tokens to produce their delimiter combinations. This is a limitation
+      // in mermaid.js's Kanban grammar (dead code in getType()).
+      const input = `kanban
+    n1(Round)
+    n2[Square]
+    n3{{Diamond}}
+    n4((Stadium))`;
+      
+      const ast = parseKanban(input);
+      const rendered = renderKanban(ast);
+      const reparsed = parseKanban(rendered);
+      const rerendered = renderKanban(reparsed);
+      
+      // Round-trip should be stable
+      expect(rerendered).toBe(rendered);
+      
+      // All parseable shapes should be preserved
+      expect(rendered).toContain('(Round)');
+      expect(rendered).toContain('[Square]');
+      expect(rendered).toContain('{{Diamond}}');
+      expect(rendered).toContain('((Stadium))');
+    });
+
+    it('should render programmatically-created SUBROUTINE nodes', () => {
+      // SUBROUTINE can be created programmatically but NOT parsed from Mermaid syntax
+      // This tests that the renderer outputs the correct delimiters
+      const diagram = Kanban.create()
+        .addNode('n1', 'Subroutine', { type: KanbanNodeType.SUBROUTINE });
+      const rendered = diagram.render();
+      expect(rendered).toContain('([-Subroutine-])');
+    });
+
+    it('should render programmatically-created ASYMMETRIC nodes', () => {
+      // ASYMMETRIC can be created programmatically but NOT parsed from Mermaid syntax
+      // This tests that the renderer outputs the correct delimiters
+      const diagram = Kanban.create()
+        .addNode('n1', 'Asymmetric', { type: KanbanNodeType.ASYMMETRIC });
+      const rendered = diagram.render();
+      expect(rendered).toContain('(-)Asymmetric-)');
+    });
   });
 
   describe('Hierarchical Rendering', () => {

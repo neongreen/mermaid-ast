@@ -517,6 +517,7 @@ This is a comprehensive checklist for adding a new diagram type. Every item must
 4. **Incomplete exports** - Check all four export locations (types, parser, renderer, main index)
 5. **Missing round-trip tests** - These catch subtle parsing/rendering mismatches
 6. **Not testing the unified `parse()` and `render()` functions** - Test both direct imports AND the unified functions
+7. **Not testing ALL enum values** - Tests must cover every value in enums (e.g., all node shapes, all arrow types). If tests only cover commonly-used values, bugs in rarely-used values go undetected until production.
 
 ## Key Files to Understand
 
