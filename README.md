@@ -17,9 +17,25 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 
 ## Supported Diagram Types
 
-- **Flowchart** (`flowchart`, `graph`)
-- **Sequence Diagram** (`sequenceDiagram`)
-- **Class Diagram** (`classDiagram`)
+| Diagram Type | Parse | Render | Builder |
+|--------------|-------|--------|---------|
+| Flowchart (`flowchart`, `graph`) | ✅ | ✅ | ✅ |
+| Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ |
+| Class (`classDiagram`) | ✅ | ✅ | ✅ |
+| State (`stateDiagram`) | ✅ | ✅ | ✅ |
+| ER Diagram (`erDiagram`) | ❌ | ❌ | ❌ |
+| Gantt (`gantt`) | ❌ | ❌ | ❌ |
+| Journey (`journey`) | ❌ | ❌ | ❌ |
+| Mindmap (`mindmap`) | ❌ | ❌ | ❌ |
+| Timeline (`timeline`) | ❌ | ❌ | ❌ |
+| Pie (`pie`) | ❌ | ❌ | ❌ |
+| Quadrant (`quadrantChart`) | ❌ | ❌ | ❌ |
+| Requirement (`requirementDiagram`) | ❌ | ❌ | ❌ |
+| Git Graph (`gitGraph`) | ❌ | ❌ | ❌ |
+| C4 (`C4Context`, etc.) | ❌ | ❌ | ❌ |
+| Sankey (`sankey`) | ❌ | ❌ | ❌ |
+| XY Chart (`xychart`) | ❌ | ❌ | ❌ |
+| Block (`block`) | ❌ | ❌ | ❌ |
 
 ## Installation
 
@@ -129,6 +145,107 @@ detectDiagramType("flowchart LR\n  A --> B"); // "flowchart"
 detectDiagramType("sequenceDiagram\n  A->>B: Hi"); // "sequence"
 detectDiagramType("classDiagram\n  class Animal"); // "class"
 detectDiagramType("unknown diagram"); // null
+```
+
+## Fluent Builder API
+
+Build diagrams programmatically with a chainable, type-safe API:
+
+### Flowchart Builder
+
+```typescript
+import { flowchart, render } from "mermaid-ast";
+
+const ast = flowchart("LR")
+  .node("A", "Start", { shape: "stadium" })
+  .node("B", "Process")
+  .node("C", "End", { shape: "circle" })
+  .link("A", "B", { text: "begin" })
+  .link("B", "C", { stroke: "dotted" })
+  .subgraph("sub1", "My Group", (s) => {
+    s.node("D", "Inner").link("D", "B");
+  })
+  .classDef("highlight", { fill: "#f9f" })
+  .class("A", "highlight")
+  .build();
+
+const text = render(ast);
+```
+
+### Sequence Builder
+
+```typescript
+import { sequence, render } from "mermaid-ast";
+
+const ast = sequence()
+  .participant("A", "Alice")
+  .actor("B", "Bob")
+  .message("A", "B", "Hello!", { arrow: "solid" })
+  .loop("Every minute", (l) => {
+    l.message("B", "A", "Ping");
+  })
+  .alt([
+    { condition: "Success", build: (b) => b.message("A", "B", "OK") },
+    { condition: "Failure", build: (b) => b.message("A", "B", "Error") },
+  ])
+  .note("A", "Important!", { placement: "right_of" })
+  .build();
+
+const text = render(ast);
+```
+
+### Class Diagram Builder
+
+```typescript
+import { classDiagram, render } from "mermaid-ast";
+
+const ast = classDiagram()
+  .class("Animal", (c) => {
+    c.property("name: string", "+")
+      .property("age: int", "-")
+      .method("speak()", "+");
+  })
+  .class("Dog")
+  .extends("Dog", "Animal")
+  .composition("Dog", "Tail")
+  .class("Tail")
+  .build();
+
+const text = render(ast);
+```
+
+### State Diagram Builder
+
+```typescript
+import { stateDiagram, render } from "mermaid-ast";
+
+const ast = stateDiagram()
+  .state("Idle", { description: "Waiting for input" })
+  .state("Running")
+  .state("Done")
+  .initial("Idle")
+  .transition("Idle", "Running", { label: "start" })
+  .transition("Running", "Done", { label: "complete" })
+  .final("Done")
+  .composite("Running", (c) => {
+    c.state("Step1").state("Step2").transition("Step1", "Step2");
+  })
+  .build();
+
+const text = render(ast);
+```
+
+### Builder Validation
+
+By default, `.build()` validates the diagram (e.g., ensures links reference existing nodes):
+
+```typescript
+// This throws FlowchartValidationError
+flowchart().node("A").link("A", "B").build();
+// Error: Link target node 'B' does not exist
+
+// Skip validation if needed
+flowchart().node("A").link("A", "B").build({ validate: false });
 ```
 
 ### Render Options (Pretty-Print)

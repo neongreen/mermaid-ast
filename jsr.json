@@ -1,0 +1,16 @@
+{
+  "name": "@emily/mermaid-ast",
+  "version": "0.3.0",
+  "exports": "./src/index.ts",
+  "publish": {
+    "include": [
+      "src/**/*.ts",
+      "src/vendored/**/*",
+      "README.md",
+      "LICENSE"
+    ],
+    "exclude": [
+      "src/**/*.test.ts"
+    ]
+  }
+}

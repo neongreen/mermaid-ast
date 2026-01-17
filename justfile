@@ -131,3 +131,19 @@ bump-minor:
 # Bump major version (0.1.0 -> 1.0.0)
 bump-major:
     npm version major --no-git-tag-version
+
+# --- JSR Publishing ---
+
+# Preview what would be published to JSR
+jsr-dry-run:
+    bunx jsr publish --dry-run
+
+# Publish to JSR (as @emily/mermaid-ast)
+jsr-publish:
+    bun test tests/unit tests/roundtrip
+    bunx jsr publish
+
+# Publish to both npm and JSR
+publish-all:
+    just publish
+    just jsr-publish

@@ -17,6 +17,8 @@
  * ```
  */
 
+// Export builders
+export * from './builder/index.js';
 // Export parser functions
 export {
   detectDiagramType,
