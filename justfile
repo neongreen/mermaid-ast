@@ -17,6 +17,10 @@ test:
 test-golden:
     bun test tests/golden
 
+# Run tests with coverage report
+test-coverage:
+    bun test --coverage tests/unit tests/roundtrip
+
 # Update golden test files (regenerate expected outputs for rendering)
 update-golden:
     UPDATE_GOLDEN=1 bun test tests/unit

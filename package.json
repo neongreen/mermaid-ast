@@ -34,6 +34,7 @@
     "test:unit": "bun test tests/unit",
     "test:roundtrip": "bun test tests/roundtrip",
     "test:compatibility": "bun test tests/compatibility",
+    "test:coverage": "bun test --coverage",
     "typecheck": "tsc --noEmit",
     "lint": "biome check",
     "lint:fix": "biome check --write",

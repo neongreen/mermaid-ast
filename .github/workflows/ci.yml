@@ -27,8 +27,8 @@ jobs:
       - name: Type check
         run: bun run typecheck
 
-      - name: Run tests
-        run: bun test tests/unit tests/roundtrip
+      - name: Run tests with coverage
+        run: bun test --coverage tests/unit tests/roundtrip
 
       - name: Verify examples compile and run
         run: bun run examples
