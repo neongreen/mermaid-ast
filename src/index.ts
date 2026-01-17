@@ -51,6 +51,10 @@ export type { AddMindmapNodeOptions, FindMindmapNodesQuery } from './mindmap.js'
 export { Journey } from './journey.js';
 export type { AddJourneyTaskOptions, FindJourneyTasksQuery } from './journey.js';
 
+// Export Timeline wrapper class
+export { Timeline } from './timeline.js';
+export type { FindTimelinePeriodsQuery, FindTimelineEventsQuery } from './timeline.js';
+
 // Export builders (legacy - will be replaced by wrapper classes)
 export * from './builder/index.js';
 // Export parser functions

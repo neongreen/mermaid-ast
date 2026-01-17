@@ -12,6 +12,7 @@ export * from './journey.js';
 export * from './mindmap.js';
 export * from './render-options.js';
 export * from './sequence.js';
+export * from './timeline.js';
 
 import type { ClassDiagramAST } from './class.js';
 import type { ErDiagramAST } from './er.js';
@@ -20,16 +21,17 @@ import type { GanttAST } from './gantt.js';
 import type { JourneyAST } from './journey.js';
 import type { MindmapAST } from './mindmap.js';
 import type { SequenceAST } from './sequence.js';
+import type { TimelineAST } from './timeline.js';
 
 /**
  * Union type for all supported diagram ASTs
  */
-export type MermaidAST = FlowchartAST | SequenceAST | ClassDiagramAST | ErDiagramAST | GanttAST | MindmapAST | JourneyAST;
+export type MermaidAST = FlowchartAST | SequenceAST | ClassDiagramAST | ErDiagramAST | GanttAST | MindmapAST | JourneyAST | TimelineAST;
 
 /**
  * Diagram type identifiers
  */
-export type DiagramType = 'flowchart' | 'sequence' | 'class' | 'erDiagram' | 'gantt' | 'mindmap' | 'journey';
+export type DiagramType = 'flowchart' | 'sequence' | 'class' | 'erDiagram' | 'gantt' | 'mindmap' | 'journey' | 'timeline';
 
 /**
  * Check if an AST is a flowchart
@@ -78,4 +80,11 @@ export function isMindmapAST(ast: MermaidAST): ast is MindmapAST {
  */
 export function isJourneyAST(ast: MermaidAST): ast is JourneyAST {
   return ast.type === 'journey';
+}
+
+/**
+ * Check if an AST is a Timeline diagram
+ */
+export function isTimelineAST(ast: MermaidAST): ast is TimelineAST {
+  return ast.type === 'timeline';
 }
