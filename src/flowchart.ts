@@ -882,4 +882,229 @@ export class Flowchart {
 
     return [];
   }
+
+  // ============================================
+  // Chain Operations (jj-style)
+  // ============================================
+
+  /**
+   * Get a linear chain of nodes between two points.
+   * Only works if there's a single path (no branching).
+   * @param startId - Start node ID
+   * @param endId - End node ID
+   * @returns Array of node IDs in the chain, or empty if no linear chain exists
+   */
+  getChain(startId: string, endId: string): string[] {
+    if (startId === endId) return [startId];
+
+    const chain: string[] = [startId];
+    let current = startId;
+
+    while (current !== endId) {
+      const outgoing = this.ast.links.filter((l) => l.source === current);
+
+      // Must have exactly one outgoing link for a linear chain
+      if (outgoing.length !== 1) {
+        return [];
+      }
+
+      const next = outgoing[0].target;
+      chain.push(next);
+      current = next;
+
+      // Prevent infinite loops
+      if (chain.length > this.ast.nodes.size) {
+        return [];
+      }
+    }
+
+    return chain;
+  }
+
+  /**
+   * Yank (remove) a chain of nodes and reconnect around them.
+   * If we have X -> A -> B -> C -> Y and we yank [A, B, C], we get X -> Y.
+   * @param nodeIds - Array of node IDs to remove (must be connected in order)
+   * @returns this (for chaining)
+   */
+  yankChain(nodeIds: string[]): this {
+    if (nodeIds.length === 0) return this;
+
+    const firstNode = nodeIds[0];
+    const lastNode = nodeIds[nodeIds.length - 1];
+
+    // Find all incoming links to the first node (from outside the chain)
+    const incomingSources = this.ast.links
+      .filter((l) => l.target === firstNode && !nodeIds.includes(l.source))
+      .map((l) => ({ source: l.source, link: l }));
+
+    // Find all outgoing links from the last node (to outside the chain)
+    const outgoingTargets = this.ast.links
+      .filter((l) => l.source === lastNode && !nodeIds.includes(l.target))
+      .map((l) => ({ target: l.target, link: l }));
+
+    // Create new links from each incoming source to each outgoing target
+    for (const { source, link: inLink } of incomingSources) {
+      for (const { target, link: outLink } of outgoingTargets) {
+        // Avoid self-loops
+        if (source !== target) {
+          this.ast.links.push({
+            source,
+            target,
+            type: inLink.type,
+            stroke: inLink.stroke,
+            length: inLink.length,
+            // Don't preserve text - would be confusing
+          });
+        }
+      }
+    }
+
+    // Remove all nodes in the chain (this also removes their links)
+    for (const nodeId of nodeIds) {
+      this.removeNode(nodeId);
+    }
+
+    return this;
+  }
+
+  /**
+   * Splice a chain of existing nodes between two points.
+   * If we have X -> Y and nodes [A, B, C] (already connected A -> B -> C),
+   * spliceChain(['A', 'B', 'C'], 'X', 'Y') creates X -> A -> B -> C -> Y.
+   * @param nodeIds - Array of node IDs to splice in (must already be connected)
+   * @param source - Node to connect from
+   * @param target - Node to connect to
+   * @param options - Link options for the new connections
+   * @returns this (for chaining)
+   */
+  spliceChain(nodeIds: string[], source: string, target: string, options?: AddLinkOptions): this {
+    if (nodeIds.length === 0) {
+      // Just connect source to target directly
+      this.addLink(source, target, options);
+      return this;
+    }
+
+    const firstNode = nodeIds[0];
+    const lastNode = nodeIds[nodeIds.length - 1];
+
+    // Remove existing link between source and target if it exists
+    this.removeLinksBetween(source, target);
+
+    // Connect source to first node in chain
+    this.addLink(source, firstNode, options);
+
+    // Connect last node in chain to target
+    this.addLink(lastNode, target, options);
+
+    return this;
+  }
+
+  /**
+   * Reverse the direction of all links in a chain.
+   * If we have A -> B -> C, reverseChain(['A', 'B', 'C']) creates A <- B <- C.
+   * @param nodeIds - Array of node IDs in the chain (in current order)
+   * @returns this (for chaining)
+   */
+  reverseChain(nodeIds: string[]): this {
+    if (nodeIds.length < 2) return this;
+
+    // Find and flip all links between consecutive nodes in the chain
+    for (let i = 0; i < nodeIds.length - 1; i++) {
+      const source = nodeIds[i];
+      const target = nodeIds[i + 1];
+
+      // Find the link from source to target
+      const linkIndex = this.ast.links.findIndex(
+        (l) => l.source === source && l.target === target
+      );
+
+      if (linkIndex !== -1) {
+        this.flipLink(linkIndex);
+      }
+    }
+
+    return this;
+  }
+
+  /**
+   * Extract a subchain from the graph, removing it but keeping internal links intact.
+   * Returns the extracted nodes as a new Flowchart.
+   * @param nodeIds - Array of node IDs to extract
+   * @returns A new Flowchart containing only the extracted nodes and their internal links
+   */
+  extractChain(nodeIds: string[]): Flowchart {
+    const nodeIdSet = new Set(nodeIds);
+    const extracted = Flowchart.create(this.direction);
+
+    // Copy nodes
+    for (const nodeId of nodeIds) {
+      const node = this.ast.nodes.get(nodeId);
+      if (node) {
+        extracted.addNode(nodeId, node.text?.text, { shape: node.shape });
+        // Copy classes
+        const classes = this.ast.classes.get(nodeId);
+        if (classes) {
+          for (const cls of classes) {
+            extracted.addClass(nodeId, cls);
+          }
+        }
+      }
+    }
+
+    // Copy internal links (links where both source and target are in the chain)
+    for (const link of this.ast.links) {
+      if (nodeIdSet.has(link.source) && nodeIdSet.has(link.target)) {
+        extracted.addLink(link.source, link.target, {
+          text: link.text?.text,
+          type: link.type,
+          stroke: link.stroke,
+          length: link.length,
+        });
+      }
+    }
+
+    // Remove the chain from this graph (with reconnect to preserve external connections)
+    this.yankChain(nodeIds);
+
+    return extracted;
+  }
+
+  /**
+   * Rebase nodes - move a set of nodes to be children of a new parent.
+   * All links between the nodes are preserved, but external links are updated.
+   * @param nodeIds - Array of node IDs to rebase
+   * @param newParent - The new parent node ID (links will go from parent to first node)
+   * @returns this (for chaining)
+   */
+  rebaseNodes(nodeIds: string[], newParent: string): this {
+    if (nodeIds.length === 0) return this;
+
+    const nodeIdSet = new Set(nodeIds);
+
+    // Find all incoming links from outside the set
+    const externalIncoming = this.ast.links.filter(
+      (l) => !nodeIdSet.has(l.source) && nodeIdSet.has(l.target)
+    );
+
+    // Remove external incoming links
+    for (const link of externalIncoming) {
+      const idx = this.ast.links.indexOf(link);
+      if (idx !== -1) {
+        this.ast.links.splice(idx, 1);
+      }
+    }
+
+    // Find "root" nodes in the set (nodes with no incoming links from within the set)
+    const rootNodes = nodeIds.filter((id) => {
+      return !this.ast.links.some((l) => l.target === id && nodeIdSet.has(l.source));
+    });
+
+    // Connect new parent to all root nodes
+    for (const rootNode of rootNodes) {
+      this.addLink(newParent, rootNode);
+    }
+
+    return this;
+  }
 }

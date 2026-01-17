@@ -531,6 +531,186 @@ describe('Flowchart Wrapper', () => {
     });
   });
 
+  describe('Chain Operations', () => {
+    test('getChain() returns linear chain', () => {
+      const f = Flowchart.create()
+        .addNode('A')
+        .addNode('B')
+        .addNode('C')
+        .addNode('D')
+        .addLink('A', 'B')
+        .addLink('B', 'C')
+        .addLink('C', 'D');
+
+      const chain = f.getChain('A', 'D');
+      expect(chain).toEqual(['A', 'B', 'C', 'D']);
+    });
+
+    test('getChain() returns empty for branching paths', () => {
+      const f = Flowchart.create()
+        .addNode('A')
+        .addNode('B')
+        .addNode('C')
+        .addNode('D')
+        .addLink('A', 'B')
+        .addLink('A', 'C') // Branch!
+        .addLink('B', 'D')
+        .addLink('C', 'D');
+
+      const chain = f.getChain('A', 'D');
+      expect(chain).toEqual([]); // No linear chain
+    });
+
+    test('getChain() returns single node for same start and end', () => {
+      const f = Flowchart.create().addNode('A');
+      const chain = f.getChain('A', 'A');
+      expect(chain).toEqual(['A']);
+    });
+
+    test('yankChain() removes chain and reconnects', () => {
+      const f = Flowchart.create()
+        .addNode('X')
+        .addNode('A')
+        .addNode('B')
+        .addNode('C')
+        .addNode('Y')
+        .addLink('X', 'A')
+        .addLink('A', 'B')
+        .addLink('B', 'C')
+        .addLink('C', 'Y')
+        .yankChain(['A', 'B', 'C']);
+
+      expect(f.hasNode('A')).toBe(false);
+      expect(f.hasNode('B')).toBe(false);
+      expect(f.hasNode('C')).toBe(false);
+      expect(f.hasNode('X')).toBe(true);
+      expect(f.hasNode('Y')).toBe(true);
+
+      // X should now link directly to Y
+      const linksFromX = f.getLinksFrom('X');
+      expect(linksFromX.length).toBe(1);
+      expect(linksFromX[0].link.target).toBe('Y');
+    });
+
+    test('yankChain() handles multiple incoming/outgoing', () => {
+      const f = Flowchart.create()
+        .addNode('X1')
+        .addNode('X2')
+        .addNode('A')
+        .addNode('Y1')
+        .addNode('Y2')
+        .addLink('X1', 'A')
+        .addLink('X2', 'A')
+        .addLink('A', 'Y1')
+        .addLink('A', 'Y2')
+        .yankChain(['A']);
+
+      // Should have 4 links: X1->Y1, X1->Y2, X2->Y1, X2->Y2
+      expect(f.linkCount).toBe(4);
+    });
+
+    test('spliceChain() inserts chain between nodes', () => {
+      const f = Flowchart.create()
+        .addNode('X')
+        .addNode('Y')
+        .addNode('A')
+        .addNode('B')
+        .addNode('C')
+        .addLink('X', 'Y')
+        .addLink('A', 'B')
+        .addLink('B', 'C')
+        .spliceChain(['A', 'B', 'C'], 'X', 'Y');
+
+      // X -> Y should be replaced with X -> A -> B -> C -> Y
+      const linksFromX = f.getLinksFrom('X');
+      expect(linksFromX.length).toBe(1);
+      expect(linksFromX[0].link.target).toBe('A');
+
+      const linksFromC = f.getLinksFrom('C');
+      expect(linksFromC.length).toBe(1);
+      expect(linksFromC[0].link.target).toBe('Y');
+    });
+
+    test('spliceChain() with empty chain just connects source to target', () => {
+      const f = Flowchart.create().addNode('X').addNode('Y').spliceChain([], 'X', 'Y');
+
+      expect(f.linkCount).toBe(1);
+      expect(f.getLink(0)?.source).toBe('X');
+      expect(f.getLink(0)?.target).toBe('Y');
+    });
+
+    test('reverseChain() flips link directions', () => {
+      const f = Flowchart.create()
+        .addNode('A')
+        .addNode('B')
+        .addNode('C')
+        .addLink('A', 'B')
+        .addLink('B', 'C')
+        .reverseChain(['A', 'B', 'C']);
+
+      // Links should now be B -> A and C -> B
+      const linksToA = f.getLinksTo('A');
+      expect(linksToA.length).toBe(1);
+      expect(linksToA[0].link.source).toBe('B');
+
+      const linksToB = f.getLinksTo('B');
+      expect(linksToB.length).toBe(1);
+      expect(linksToB[0].link.source).toBe('C');
+    });
+
+    test('extractChain() removes and returns chain as new Flowchart', () => {
+      const f = Flowchart.create()
+        .addNode('X')
+        .addNode('A')
+        .addNode('B')
+        .addNode('Y')
+        .addLink('X', 'A')
+        .addLink('A', 'B')
+        .addLink('B', 'Y');
+
+      const extracted = f.extractChain(['A', 'B']);
+
+      // Original should have X -> Y
+      expect(f.hasNode('A')).toBe(false);
+      expect(f.hasNode('B')).toBe(false);
+      expect(f.linkCount).toBe(1);
+      expect(f.getLink(0)?.source).toBe('X');
+      expect(f.getLink(0)?.target).toBe('Y');
+
+      // Extracted should have A -> B
+      expect(extracted.hasNode('A')).toBe(true);
+      expect(extracted.hasNode('B')).toBe(true);
+      expect(extracted.linkCount).toBe(1);
+      expect(extracted.getLink(0)?.source).toBe('A');
+      expect(extracted.getLink(0)?.target).toBe('B');
+    });
+
+    test('rebaseNodes() moves nodes to new parent', () => {
+      const f = Flowchart.create()
+        .addNode('OldParent')
+        .addNode('A')
+        .addNode('B')
+        .addNode('NewParent')
+        .addLink('OldParent', 'A')
+        .addLink('A', 'B')
+        .rebaseNodes(['A', 'B'], 'NewParent');
+
+      // OldParent should no longer link to A
+      const linksFromOld = f.getLinksFrom('OldParent');
+      expect(linksFromOld.length).toBe(0);
+
+      // NewParent should link to A
+      const linksFromNew = f.getLinksFrom('NewParent');
+      expect(linksFromNew.length).toBe(1);
+      expect(linksFromNew[0].link.target).toBe('A');
+
+      // A -> B should still exist
+      const linksFromA = f.getLinksFrom('A');
+      expect(linksFromA.length).toBe(1);
+      expect(linksFromA[0].link.target).toBe('B');
+    });
+  });
+
   describe('Round-trip', () => {
     test('parse -> render -> parse produces equivalent AST', () => {
       const input = `flowchart LR
