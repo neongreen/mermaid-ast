@@ -484,3 +484,23 @@ These are configured in `biome.json`. Re-enable them if the project matures and 
 ```
 
 **Lesson:** If package.json has prepublishOnly hooks, the CI test job must validate those exact same commands to catch issues before publish.
+
+### npm version Doesn't Work with Bun Workspace Dependencies
+
+**Problem:** Running `npm version patch --no-git-tag-version` failed with `Unsupported URL Type "workspace:": workspace:*`.
+
+**Root cause:** The package has dependencies using bun's `workspace:*` protocol, which npm doesn't understand.
+
+**Solution:** Use `jq` to manually bump versions instead of `npm version`:
+```bash
+# Get current version and bump patch
+CURRENT=$(jq -r '.version' package.json)
+IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+NEW_PATCH=$((PATCH + 1))
+VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+
+# Update package.json
+jq --arg v "$VERSION" '.version = $v' package.json > package.json.tmp && mv package.json.tmp package.json
+```
+
+**Lesson:** In bun workspaces, avoid npm commands that parse package.json dependencies. Use `jq` for JSON manipulation instead.
