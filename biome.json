@@ -36,6 +36,9 @@
       },
       "complexity": {
         "noForEach": "off"
+      },
+      "correctness": {
+        "noUnreachable": "error"
       }
     }
   },
