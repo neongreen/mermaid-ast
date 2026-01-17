@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Parser tests for missing diagram types**:
+  - `journey-parser.test.ts` - Tests for journey diagram parsing (7 tests)
+  - `mindmap-parser.test.ts` - Tests for mindmap diagram parsing (4 tests + 1 skipped)
+  - `timeline-parser.test.ts` - Tests for timeline diagram parsing (5 tests)
+
+- **Test structure documentation** in AGENTS.md:
+  - Standard test file naming conventions
+  - Expected test categories for each diagram type
+  - Test coverage status table
+
 ### Changed
 
 - **Test file reorganization** - Split wrapper tests from renderer tests for all diagram types:
@@ -20,10 +32,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `timeline.test.ts` → `timeline-renderer.test.ts`
   - `flowchart-wrapper.test.ts` → `flowchart-renderer.test.ts`
 
+- **Consolidated ER renderer tests** - Merged `er-renderer.test.ts` into `er-diagram-renderer.test.ts` (was duplicate)
+
+- **Standardized test naming** - Removed `-wrapper` suffix from test files since wrappers are the main API
+
 ### Fixed
 
 - **RenderOptions type consistency** - All diagram renderers now use the base `RenderOptions` type with `indent: number | 'tab'` instead of custom types with `indent: string`
 - **Sequence filterStatements type error** - Fixed TypeScript error by handling 'alt' and 'par' sections separately (they have different section shapes)
+- **Biome formatting** - Fixed trailing newline issues in test files
 
 ### Prompts Used
 
@@ -33,6 +50,12 @@ perfect now what is left to do? biome, changelog, ......, ?
 oh please split it as well. with amp. make a full todo list for whats needed for the release and dont make stuff optional i want to make a good library
 
 lets fix build errors. use number|"tab"
+
+document the expected test structure etc in AGENTS.md and then do all of the above
+
+also i dont think we need the -wrapper name? like the wrappers are our main way to use the library
+
+Also try using AMP for some of these tasks, but also always make a commit before and always review the changes after
 ```
 
 ## [0.6.0] - 2025-01-18
