@@ -463,3 +463,24 @@ The following biome rules are disabled because they slow down development withou
 - `style/recommended` - All style rules disabled; we care about correctness, not style preferences
 
 These are configured in `biome.json`. Re-enable them if the project matures and needs stricter linting.
+
+### Test Job Must Match prepublishOnly Checks
+
+**Problem:** The test job in publish.yml passed, but npm publish failed because `prepublishOnly` in package.json runs additional checks (`bun run build && bun run test && bun run lint`) from within the package directory.
+
+**Root cause:** The test job ran lint at the root level, but prepublishOnly ran lint from within `packages/mermaid-ast`, which could use different biome versions or configurations.
+
+**Solution:** The test job must run the same checks from the same directories as prepublishOnly:
+```yaml
+- name: Lint (root)
+  run: bun run lint
+  working-directory: .
+
+- name: Lint (mermaid-ast)
+  run: bun run lint
+
+- name: Run tests (mermaid-ast)
+  run: bun run test
+```
+
+**Lesson:** If package.json has prepublishOnly hooks, the CI test job must validate those exact same commands to catch issues before publish.
