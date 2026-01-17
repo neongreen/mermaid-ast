@@ -1,6 +1,7 @@
 # mermaid-ast
 
 [![npm version](https://img.shields.io/npm/v/mermaid-ast)](https://www.npmjs.com/package/mermaid-ast)
+[![JSR](https://jsr.io/badges/@emily/mermaid-ast)](https://jsr.io/@emily/mermaid-ast)
 [![Built with Slate](https://img.shields.io/badge/Built%20with-Slate-blue)](https://randomlabs.ai)
 
 Parse and render Mermaid diagrams to/from AST (Abstract Syntax Tree).
