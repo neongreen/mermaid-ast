@@ -186,6 +186,41 @@ bun test tests/roundtrip      # Round-trip tests
 bun test tests/compatibility  # Mermaid.js SVG compatibility
 ```
 
+### CI (GitHub Actions)
+
+CI runs automatically on:
+- Every push to `main`
+- Every pull request targeting `main`
+
+**Check CI status:**
+```bash
+# List recent CI runs
+gh run list --limit 5
+
+# Get run details as JSON (useful for getting full run IDs)
+gh run list --limit 3 --json databaseId,status,conclusion,displayTitle,headBranch
+```
+
+**View failed run logs:**
+```bash
+# View failed logs for a specific run (use databaseId from above)
+gh run view <run_id> --log-failed
+
+# View full logs
+gh run view <run_id> --log
+```
+
+**CI steps:**
+1. Install dependencies (`bun install`)
+2. Lint (`bun run lint`)
+3. Type check (`bun run typecheck`)
+4. Run tests with coverage
+5. Verify examples compile and run
+6. Build (`bun run build`)
+7. Verify JSR publish (dry-run)
+
+**Note:** The `mermaid-svg/` subdirectory is currently excluded from CI tests (not yet set up as a workspace).
+
 ### Updating Vendored Parsers
 ```bash
 bun run sync-parsers -- 11.4.2  # Specific version
