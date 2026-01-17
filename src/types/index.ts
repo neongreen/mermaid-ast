@@ -26,12 +26,28 @@ import type { TimelineAST } from './timeline.js';
 /**
  * Union type for all supported diagram ASTs
  */
-export type MermaidAST = FlowchartAST | SequenceAST | ClassDiagramAST | ErDiagramAST | GanttAST | MindmapAST | JourneyAST | TimelineAST;
+export type MermaidAST =
+  | FlowchartAST
+  | SequenceAST
+  | ClassDiagramAST
+  | ErDiagramAST
+  | GanttAST
+  | MindmapAST
+  | JourneyAST
+  | TimelineAST;
 
 /**
  * Diagram type identifiers
  */
-export type DiagramType = 'flowchart' | 'sequence' | 'class' | 'erDiagram' | 'gantt' | 'mindmap' | 'journey' | 'timeline';
+export type DiagramType =
+  | 'flowchart'
+  | 'sequence'
+  | 'class'
+  | 'erDiagram'
+  | 'gantt'
+  | 'mindmap'
+  | 'journey'
+  | 'timeline';
 
 /**
  * Check if an AST is a flowchart

@@ -8,7 +8,6 @@ import type {
   GanttAST,
   GanttSection,
   GanttTask,
-  GanttTaskStatus,
   GanttWeekday,
   GanttWeekendStart,
 } from '../types/gantt.js';
@@ -22,13 +21,13 @@ import ganttParser from '../vendored/parsers/gantt.js';
  */
 function parseTaskData(taskData: string): Partial<GanttTask> {
   const result: Partial<GanttTask> = {};
-  
+
   // Remove leading colon if present
   const data = taskData.startsWith(':') ? taskData.slice(1).trim() : taskData.trim();
-  
+
   // Split by comma
-  const parts = data.split(',').map(p => p.trim());
-  
+  const parts = data.split(',').map((p) => p.trim());
+
   for (const part of parts) {
     if (part === 'done') {
       result.status = 'done';
@@ -55,7 +54,7 @@ function parseTaskData(taskData: string): Partial<GanttTask> {
       result.id = part;
     }
   }
-  
+
   return result;
 }
 
@@ -143,7 +142,7 @@ function createGanttYY(ast: GanttAST) {
     },
 
     setClickEvent(taskId: string, callback: string | null, args: string | null): void {
-      const existing = ast.clickEvents.find(e => e.taskId === taskId);
+      const existing = ast.clickEvents.find((e) => e.taskId === taskId);
       if (existing) {
         if (callback) existing.callback = callback;
         if (args) existing.callbackArgs = args;
@@ -157,7 +156,7 @@ function createGanttYY(ast: GanttAST) {
     },
 
     setLink(taskId: string, href: string): void {
-      const existing = ast.clickEvents.find(e => e.taskId === taskId);
+      const existing = ast.clickEvents.find((e) => e.taskId === taskId);
       if (existing) {
         existing.href = href;
       } else {
@@ -170,10 +169,18 @@ function createGanttYY(ast: GanttAST) {
 
     // Required by parser but not used
     clear(): void {},
-    getAxisFormat(): string { return ''; },
-    getDateFormat(): string { return ''; },
-    getTasks(): GanttTask[] { return []; },
-    getSections(): GanttSection[] { return []; },
+    getAxisFormat(): string {
+      return '';
+    },
+    getDateFormat(): string {
+      return '';
+    },
+    getTasks(): GanttTask[] {
+      return [];
+    },
+    getSections(): GanttSection[] {
+      return [];
+    },
   };
 }
 
@@ -188,7 +195,7 @@ export function parseGantt(input: string): GanttAST {
   // Normalize input - ensure it starts with gantt
   let normalizedInput = input.trim();
   if (!normalizedInput.toLowerCase().startsWith('gantt')) {
-    normalizedInput = 'gantt\n' + normalizedInput;
+    normalizedInput = `gantt\n${normalizedInput}`;
   }
 
   // Set up the yy object

@@ -77,19 +77,19 @@ describe('ER Diagram Parsing', () => {
     const ast = parseErDiagram(input);
 
     expect(ast.relationships.length).toBe(4);
-    
+
     // A ||--|| B (one to one)
     expect(ast.relationships[0].relSpec.cardA).toBe('ONLY_ONE');
     expect(ast.relationships[0].relSpec.cardB).toBe('ONLY_ONE');
-    
+
     // C ||--o{ D (one to many)
     expect(ast.relationships[1].relSpec.cardB).toBe('ONLY_ONE');
     expect(ast.relationships[1].relSpec.cardA).toBe('ZERO_OR_MORE');
-    
+
     // E }o--o{ F (many to many)
     expect(ast.relationships[2].relSpec.cardB).toBe('ZERO_OR_MORE');
     expect(ast.relationships[2].relSpec.cardA).toBe('ZERO_OR_MORE');
-    
+
     // G |o--o| H (zero or one)
     expect(ast.relationships[3].relSpec.cardB).toBe('ZERO_OR_ONE');
     expect(ast.relationships[3].relSpec.cardA).toBe('ZERO_OR_ONE');

@@ -8,9 +8,14 @@
 import { DiagramWrapper } from './diagram-wrapper.js';
 import { parseTimeline } from './parser/timeline-parser.js';
 import { renderTimeline } from './renderer/timeline-renderer.js';
-import type { TimelineAST, TimelineSection, TimelinePeriod, TimelineEvent } from './types/timeline.js';
-import { createEmptyTimelineAST } from './types/timeline.js';
 import type { RenderOptions } from './types/render-options.js';
+import type {
+  TimelineAST,
+  TimelineEvent,
+  TimelinePeriod,
+  TimelineSection,
+} from './types/timeline.js';
+import { createEmptyTimelineAST } from './types/timeline.js';
 
 /**
  * Query options for finding periods
@@ -92,11 +97,11 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
     const cloned: TimelineAST = {
       type: 'timeline',
       title: this.ast.title,
-      sections: this.ast.sections.map(section => ({
+      sections: this.ast.sections.map((section) => ({
         ...section,
-        periods: section.periods.map(period => ({
+        periods: section.periods.map((period) => ({
           ...period,
-          events: period.events.map(event => ({ ...event })),
+          events: period.events.map((event) => ({ ...event })),
         })),
       })),
       accTitle: this.ast.accTitle,
@@ -171,14 +176,14 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
    * Get a section by name
    */
   getSection(name: string): TimelineSection | undefined {
-    return this.ast.sections.find(s => s.name === name);
+    return this.ast.sections.find((s) => s.name === name);
   }
 
   /**
    * Remove a section and all its periods/events
    */
   removeSection(name: string): this {
-    const idx = this.ast.sections.findIndex(s => s.name === name);
+    const idx = this.ast.sections.findIndex((s) => s.name === name);
     if (idx !== -1) {
       this.ast.sections.splice(idx, 1);
     }
@@ -205,7 +210,7 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
    */
   addPeriod(sectionName: string, periodName: string): this {
     let section = this.getSection(sectionName);
-    
+
     // Create section if it doesn't exist
     if (!section) {
       this.addSection(sectionName);
@@ -225,7 +230,7 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
    */
   getPeriod(periodName: string): TimelinePeriod | undefined {
     for (const section of this.ast.sections) {
-      const period = section.periods.find(p => p.name === periodName);
+      const period = section.periods.find((p) => p.name === periodName);
       if (period) return period;
     }
     return undefined;
@@ -236,7 +241,7 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
    */
   removePeriod(periodName: string): this {
     for (const section of this.ast.sections) {
-      const idx = section.periods.findIndex(p => p.name === periodName);
+      const idx = section.periods.findIndex((p) => p.name === periodName);
       if (idx !== -1) {
         section.periods.splice(idx, 1);
         break;
@@ -276,7 +281,7 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
    */
   addEventWithPeriod(sectionName: string, periodName: string, eventText: string): this {
     let period = this.getPeriod(periodName);
-    
+
     if (!period) {
       this.addPeriod(sectionName, periodName);
       period = this.getPeriod(periodName)!;
@@ -292,7 +297,7 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
   removeEvent(periodName: string, eventText: string): this {
     const period = this.getPeriod(periodName);
     if (period) {
-      const idx = period.events.findIndex(e => e.text === eventText);
+      const idx = period.events.findIndex((e) => e.text === eventText);
       if (idx !== -1) {
         period.events.splice(idx, 1);
       }
@@ -306,7 +311,7 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
   updateEvent(periodName: string, oldText: string, newText: string): this {
     const period = this.getPeriod(periodName);
     if (period) {
-      const event = period.events.find(e => e.text === oldText);
+      const event = period.events.find((e) => e.text === oldText);
       if (event) {
         event.text = newText;
       }
@@ -322,14 +327,14 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
    * Get all periods
    */
   getAllPeriods(): TimelinePeriod[] {
-    return this.ast.sections.flatMap(s => s.periods);
+    return this.ast.sections.flatMap((s) => s.periods);
   }
 
   /**
    * Get all events
    */
   getAllEvents(): TimelineEvent[] {
-    return this.ast.sections.flatMap(s => s.periods.flatMap(p => p.events));
+    return this.ast.sections.flatMap((s) => s.periods.flatMap((p) => p.events));
   }
 
   /**
@@ -343,7 +348,7 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
       periods = section ? section.periods : [];
     }
 
-    return periods.filter(period => {
+    return periods.filter((period) => {
       if (query.nameContains && !period.name.includes(query.nameContains)) return false;
       if (query.hasEvents !== undefined) {
         const hasEvents = period.events.length > 0;
@@ -363,10 +368,10 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
       const section = this.getSection(query.section);
       if (section) {
         if (query.period) {
-          const period = section.periods.find(p => p.name === query.period);
+          const period = section.periods.find((p) => p.name === query.period);
           events = period ? period.events : [];
         } else {
-          events = section.periods.flatMap(p => p.events);
+          events = section.periods.flatMap((p) => p.events);
         }
       }
     } else if (query.period) {
@@ -377,7 +382,7 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
     }
 
     if (query.textContains) {
-      events = events.filter(e => e.text.includes(query.textContains!));
+      events = events.filter((e) => e.text.includes(query.textContains!));
     }
 
     return events;
@@ -396,7 +401,7 @@ export class Timeline extends DiagramWrapper<TimelineAST> {
    */
   getSectionForPeriod(periodName: string): TimelineSection | undefined {
     for (const section of this.ast.sections) {
-      if (section.periods.some(p => p.name === periodName)) {
+      if (section.periods.some((p) => p.name === periodName)) {
         return section;
       }
     }

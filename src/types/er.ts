@@ -7,7 +7,12 @@
 /**
  * Cardinality types for relationships
  */
-export type ErCardinality = 'ZERO_OR_ONE' | 'ZERO_OR_MORE' | 'ONE_OR_MORE' | 'ONLY_ONE' | 'MD_PARENT';
+export type ErCardinality =
+  | 'ZERO_OR_ONE'
+  | 'ZERO_OR_MORE'
+  | 'ONE_OR_MORE'
+  | 'ONLY_ONE'
+  | 'MD_PARENT';
 
 /**
  * Identification types for relationships

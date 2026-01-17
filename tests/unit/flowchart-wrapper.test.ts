@@ -225,7 +225,10 @@ describe('Flowchart Wrapper', () => {
     });
 
     test('addLink() with stroke', () => {
-      const f = Flowchart.create().addNode('A').addNode('B').addLink('A', 'B', { stroke: 'dotted' });
+      const f = Flowchart.create()
+        .addNode('A')
+        .addNode('B')
+        .addLink('A', 'B', { stroke: 'dotted' });
       expect(f.getLink(0)?.stroke).toBe('dotted');
     });
 
@@ -261,17 +264,29 @@ describe('Flowchart Wrapper', () => {
     });
 
     test('setLinkType() changes arrow type', () => {
-      const f = Flowchart.create().addNode('A').addNode('B').addLink('A', 'B').setLinkType(0, 'arrow_cross');
+      const f = Flowchart.create()
+        .addNode('A')
+        .addNode('B')
+        .addLink('A', 'B')
+        .setLinkType(0, 'arrow_cross');
       expect(f.getLink(0)?.type).toBe('arrow_cross');
     });
 
     test('setLinkStroke() changes stroke style', () => {
-      const f = Flowchart.create().addNode('A').addNode('B').addLink('A', 'B').setLinkStroke(0, 'thick');
+      const f = Flowchart.create()
+        .addNode('A')
+        .addNode('B')
+        .addLink('A', 'B')
+        .setLinkStroke(0, 'thick');
       expect(f.getLink(0)?.stroke).toBe('thick');
     });
 
     test('setLinkText() changes link text', () => {
-      const f = Flowchart.create().addNode('A').addNode('B').addLink('A', 'B').setLinkText(0, 'label');
+      const f = Flowchart.create()
+        .addNode('A')
+        .addNode('B')
+        .addLink('A', 'B')
+        .setLinkText(0, 'label');
       expect(f.getLink(0)?.text?.text).toBe('label');
     });
 
@@ -421,10 +436,7 @@ describe('Flowchart Wrapper', () => {
     });
 
     test('insertBetween() creates links when no direct link exists', () => {
-      const f = Flowchart.create()
-        .addNode('A')
-        .addNode('C')
-        .insertBetween('B', 'A', 'C');
+      const f = Flowchart.create().addNode('A').addNode('C').insertBetween('B', 'A', 'C');
 
       expect(f.hasNode('B')).toBe(true);
       expect(f.linkCount).toBe(2);

@@ -80,7 +80,7 @@ function createMindmapYY(ast: MindmapAST) {
   // Last node added (for decoration)
   let lastNode: MindmapNode | null = null;
   // Next logical level to assign
-  let nextLogicalLevel = 0;
+  let _nextLogicalLevel = 0;
 
   return {
     nodeType: NodeType,
@@ -92,13 +92,13 @@ function createMindmapYY(ast: MindmapAST) {
     addNode(rawIndent: number, id: string, descr: string, type: number): void {
       // Convert raw indent to logical level
       let logicalLevel: number;
-      
+
       if (rawIndent === 0) {
         // Root node
         logicalLevel = 0;
         indentToLevel.clear();
         indentToLevel.set(0, 0);
-        nextLogicalLevel = 1;
+        _nextLogicalLevel = 1;
       } else if (indentToLevel.has(rawIndent)) {
         // We've seen this indent before
         logicalLevel = indentToLevel.get(rawIndent)!;
@@ -106,7 +106,7 @@ function createMindmapYY(ast: MindmapAST) {
         // New indent level - find where it fits
         // Get all known indents sorted
         const knownIndents = Array.from(indentToLevel.keys()).sort((a, b) => a - b);
-        
+
         // Find the largest known indent smaller than rawIndent
         let parentIndent = 0;
         for (const indent of knownIndents) {
@@ -116,11 +116,11 @@ function createMindmapYY(ast: MindmapAST) {
             break;
           }
         }
-        
+
         const parentLevel = indentToLevel.get(parentIndent) ?? 0;
         logicalLevel = parentLevel + 1;
         indentToLevel.set(rawIndent, logicalLevel);
-        
+
         // Clear any indent levels greater than this one (they're outdated)
         for (const [indent, _level] of indentToLevel) {
           if (indent > rawIndent) {
@@ -206,7 +206,7 @@ export function parseMindmap(input: string): MindmapAST {
   // Normalize input - ensure it starts with mindmap
   let normalizedInput = input.trim();
   if (!normalizedInput.toLowerCase().startsWith('mindmap')) {
-    normalizedInput = 'mindmap\n' + normalizedInput;
+    normalizedInput = `mindmap\n${normalizedInput}`;
   }
 
   // Set up the yy object

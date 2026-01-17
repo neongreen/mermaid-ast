@@ -14,7 +14,7 @@ describe('Gantt Wrapper', () => {
         title My Project
         section Phase 1
         Task A :a, 2024-01-01, 5d`);
-      
+
       expect(chart.title).toBe('My Project');
       expect(chart.sectionCount).toBe(1);
       expect(chart.taskCount).toBe(1);
@@ -72,20 +72,16 @@ describe('Gantt Wrapper', () => {
 
   describe('Section Operations', () => {
     it('should add sections', () => {
-      const chart = Gantt.create()
-        .addSection('Phase 1')
-        .addSection('Phase 2');
-      
+      const chart = Gantt.create().addSection('Phase 1').addSection('Phase 2');
+
       expect(chart.sectionCount).toBe(2);
       expect(chart.sections[0].name).toBe('Phase 1');
       expect(chart.sections[1].name).toBe('Phase 2');
     });
 
     it('should get section by name', () => {
-      const chart = Gantt.create()
-        .addSection('Phase 1')
-        .addTask('Task A', 'Phase 1');
-      
+      const chart = Gantt.create().addSection('Phase 1').addTask('Task A', 'Phase 1');
+
       const section = chart.getSection('Phase 1');
       expect(section).toBeDefined();
       expect(section!.tasks.length).toBe(1);
@@ -96,7 +92,7 @@ describe('Gantt Wrapper', () => {
         .addSection('Phase 1')
         .addSection('Phase 2')
         .removeSection('Phase 1');
-      
+
       expect(chart.sectionCount).toBe(1);
       expect(chart.sections[0].name).toBe('Phase 2');
     });
@@ -106,7 +102,7 @@ describe('Gantt Wrapper', () => {
         .addSection('Old Name')
         .addTask('Task A', 'Old Name')
         .renameSection('Old Name', 'New Name');
-      
+
       expect(chart.sections[0].name).toBe('New Name');
       expect(chart.sections[0].tasks[0].section).toBe('New Name');
     });
@@ -114,9 +110,12 @@ describe('Gantt Wrapper', () => {
 
   describe('Task Operations', () => {
     it('should add tasks to sections', () => {
-      const chart = Gantt.create()
-        .addTask('Task A', 'Phase 1', { id: 'a', start: '2024-01-01', end: '5d' });
-      
+      const chart = Gantt.create().addTask('Task A', 'Phase 1', {
+        id: 'a',
+        start: '2024-01-01',
+        end: '5d',
+      });
+
       expect(chart.taskCount).toBe(1);
       expect(chart.sectionCount).toBe(1);
       const task = chart.getTask('a');
@@ -125,9 +124,8 @@ describe('Gantt Wrapper', () => {
     });
 
     it('should add tasks without section', () => {
-      const chart = Gantt.create()
-        .addTask('Task A', undefined, { id: 'a' });
-      
+      const chart = Gantt.create().addTask('Task A', undefined, { id: 'a' });
+
       expect(chart.taskCount).toBe(1);
       expect(chart.sectionCount).toBe(0);
     });
@@ -137,7 +135,7 @@ describe('Gantt Wrapper', () => {
         .addTask('Task A', 'Phase 1', { id: 'a' })
         .addTask('Task B', 'Phase 1', { id: 'b' })
         .removeTask('a');
-      
+
       expect(chart.taskCount).toBe(1);
       expect(chart.getTask('a')).toBeUndefined();
     });
@@ -146,15 +144,13 @@ describe('Gantt Wrapper', () => {
       const chart = Gantt.create()
         .addTask('Task A', undefined, { id: 'a' })
         .setTaskStatus('a', 'done');
-      
+
       expect(chart.getTask('a')!.status).toBe('done');
     });
 
     it('should set milestone', () => {
-      const chart = Gantt.create()
-        .addTask('Milestone', undefined, { id: 'm' })
-        .setMilestone('m');
-      
+      const chart = Gantt.create().addTask('Milestone', undefined, { id: 'm' }).setMilestone('m');
+
       expect(chart.getTask('m')!.status).toBe('milestone');
     });
 
@@ -162,7 +158,7 @@ describe('Gantt Wrapper', () => {
       const chart = Gantt.create()
         .addTask('Critical Task', undefined, { id: 'c' })
         .setCritical('c');
-      
+
       expect(chart.getTask('c')!.status).toBe('crit');
     });
 
@@ -170,7 +166,7 @@ describe('Gantt Wrapper', () => {
       const chart = Gantt.create()
         .addTask('Task A', 'Phase 1', { id: 'a' })
         .moveTask('a', 'Phase 2');
-      
+
       expect(chart.getTasksInSection('Phase 1').length).toBe(0);
       expect(chart.getTasksInSection('Phase 2').length).toBe(1);
     });
@@ -181,7 +177,7 @@ describe('Gantt Wrapper', () => {
       const chart = Gantt.create()
         .addTask('Task A', undefined, { id: 'a' })
         .setClickCallback('a', 'handleClick', 'arg1');
-      
+
       const events = chart.toAST().clickEvents;
       expect(events.length).toBe(1);
       expect(events[0].callback).toBe('handleClick');
@@ -192,7 +188,7 @@ describe('Gantt Wrapper', () => {
       const chart = Gantt.create()
         .addTask('Task A', undefined, { id: 'a' })
         .setLink('a', 'https://example.com');
-      
+
       const events = chart.toAST().clickEvents;
       expect(events.length).toBe(1);
       expect(events[0].href).toBe('https://example.com');
@@ -205,7 +201,7 @@ describe('Gantt Wrapper', () => {
         .addTask('Task A', 'Phase 1', { id: 'a' })
         .addTask('Task B', 'Phase 2', { id: 'b' })
         .addTask('Task C', undefined, { id: 'c' });
-      
+
       expect(chart.getAllTasks().length).toBe(3);
     });
 
@@ -214,7 +210,7 @@ describe('Gantt Wrapper', () => {
         .addTask('Task A', 'Phase 1', { id: 'a' })
         .addTask('Task B', 'Phase 1', { id: 'b' })
         .addTask('Task C', 'Phase 2', { id: 'c' });
-      
+
       const found = chart.findTasks({ section: 'Phase 1' });
       expect(found.length).toBe(2);
     });
@@ -224,7 +220,7 @@ describe('Gantt Wrapper', () => {
         .addTask('Task A', undefined, { id: 'a', status: 'done' })
         .addTask('Task B', undefined, { id: 'b', status: 'crit' })
         .addTask('Task C', undefined, { id: 'c', status: 'done' });
-      
+
       const found = chart.findTasks({ status: 'done' });
       expect(found.length).toBe(2);
     });
@@ -234,7 +230,7 @@ describe('Gantt Wrapper', () => {
         .addTask('Design UI', undefined, { id: 'a' })
         .addTask('Design API', undefined, { id: 'b' })
         .addTask('Implement API', undefined, { id: 'c' });
-      
+
       const found = chart.findTasks({ nameContains: 'Design' });
       expect(found.length).toBe(2);
     });
@@ -244,7 +240,7 @@ describe('Gantt Wrapper', () => {
         .addTask('Task A', undefined, { id: 'a', status: 'crit' })
         .addTask('Task B', undefined, { id: 'b' })
         .addTask('Task C', undefined, { id: 'c', status: 'crit' });
-      
+
       expect(chart.getCriticalTasks().length).toBe(2);
     });
 
@@ -253,7 +249,7 @@ describe('Gantt Wrapper', () => {
         .addTask('Milestone 1', undefined, { id: 'm1', status: 'milestone' })
         .addTask('Task A', undefined, { id: 'a' })
         .addTask('Milestone 2', undefined, { id: 'm2', status: 'milestone' });
-      
+
       expect(chart.getMilestones().length).toBe(2);
     });
   });
@@ -263,11 +259,11 @@ describe('Gantt Wrapper', () => {
       const original = Gantt.create()
         .setTitle('My Project')
         .addTask('Task A', 'Phase 1', { id: 'a' });
-      
+
       const clone = original.clone();
       clone.setTitle('Cloned Project');
       clone.addTask('Task B', 'Phase 1', { id: 'b' });
-      
+
       expect(original.title).toBe('My Project');
       expect(original.taskCount).toBe(1);
       expect(clone.title).toBe('Cloned Project');
@@ -280,7 +276,7 @@ describe('Gantt Wrapper', () => {
         .setDateFormat('YYYY-MM-DD')
         .addSection('Phase 1')
         .addTask('Task A', 'Phase 1', { id: 'a', start: '2024-01-01', end: '5d' });
-      
+
       const output = chart.render();
       expect(output).toContain('gantt');
       expect(output).toContain('title My Project');
@@ -298,11 +294,11 @@ describe('Gantt Wrapper', () => {
     section Phase 1
     Task A :a, 2024-01-01, 5d
     Task B :b, after a, 3d`;
-      
+
       const chart = Gantt.parse(input);
       const output = chart.render();
       const reparsed = Gantt.parse(output);
-      
+
       expect(reparsed.title).toBe(chart.title);
       expect(reparsed.sectionCount).toBe(chart.sectionCount);
       expect(reparsed.taskCount).toBe(chart.taskCount);

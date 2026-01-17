@@ -4,7 +4,7 @@
  * Renders a Journey AST back to Mermaid syntax.
  */
 
-import type { JourneyAST, JourneySection, JourneyTask } from '../types/journey.js';
+import type { JourneyAST, JourneyTask } from '../types/journey.js';
 
 /**
  * Render options for journey diagrams

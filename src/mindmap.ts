@@ -55,7 +55,11 @@ export class Mindmap extends DiagramWrapper<MindmapAST> {
   /**
    * Create a new mindmap with a root node
    */
-  static create(rootId: string, rootDescription?: string, options?: AddMindmapNodeOptions): Mindmap {
+  static create(
+    rootId: string,
+    rootDescription?: string,
+    options?: AddMindmapNodeOptions
+  ): Mindmap {
     const ast = createEmptyMindmapAST();
     ast.root = {
       id: rootId,
@@ -129,11 +133,11 @@ export class Mindmap extends DiagramWrapper<MindmapAST> {
    */
   get nodeCount(): number {
     if (!this.ast.root) return 0;
-    
+
     const countNodes = (node: MindmapNode): number => {
       return 1 + node.children.reduce((sum, child) => sum + countNodes(child), 0);
     };
-    
+
     return countNodes(this.ast.root);
   }
 
@@ -142,12 +146,12 @@ export class Mindmap extends DiagramWrapper<MindmapAST> {
    */
   get maxDepth(): number {
     if (!this.ast.root) return 0;
-    
+
     const getDepth = (node: MindmapNode): number => {
       if (node.children.length === 0) return 1;
       return 1 + Math.max(...node.children.map(getDepth));
     };
-    
+
     return getDepth(this.ast.root);
   }
 
@@ -228,7 +232,7 @@ export class Mindmap extends DiagramWrapper<MindmapAST> {
 
     const parent = this.getParent(id);
     if (parent) {
-      const idx = parent.children.findIndex(c => c.id === id);
+      const idx = parent.children.findIndex((c) => c.id === id);
       if (idx !== -1) {
         parent.children.splice(idx, 1);
       }
@@ -314,7 +318,7 @@ export class Mindmap extends DiagramWrapper<MindmapAST> {
 
     if (node && newParent && oldParent) {
       // Remove from old parent
-      const idx = oldParent.children.findIndex(c => c.id === id);
+      const idx = oldParent.children.findIndex((c) => c.id === id);
       if (idx !== -1) {
         oldParent.children.splice(idx, 1);
       }
@@ -361,7 +365,7 @@ export class Mindmap extends DiagramWrapper<MindmapAST> {
    * Find nodes matching a query
    */
   findNodes(query: FindMindmapNodesQuery): MindmapNode[] {
-    return this.getAllNodes().filter(node => {
+    return this.getAllNodes().filter((node) => {
       if (query.shape && node.shape !== query.shape) return false;
       if (query.textContains && !node.description.includes(query.textContains)) return false;
       if (query.icon && node.icon !== query.icon) return false;
@@ -382,7 +386,7 @@ export class Mindmap extends DiagramWrapper<MindmapAST> {
    * Get all leaf nodes (nodes with no children)
    */
   getLeafNodes(): MindmapNode[] {
-    return this.getAllNodes().filter(node => node.children.length === 0);
+    return this.getAllNodes().filter((node) => node.children.length === 0);
   }
 
   /**
@@ -391,15 +395,19 @@ export class Mindmap extends DiagramWrapper<MindmapAST> {
   getPath(id: string): MindmapNode[] {
     if (!this.ast.root) return [];
 
-    const findPath = (node: MindmapNode, targetId: string, path: MindmapNode[]): MindmapNode[] | null => {
+    const findPath = (
+      node: MindmapNode,
+      targetId: string,
+      path: MindmapNode[]
+    ): MindmapNode[] | null => {
       path.push(node);
       if (node.id === targetId) return path;
-      
+
       for (const child of node.children) {
         const result = findPath(child, targetId, [...path]);
         if (result) return result;
       }
-      
+
       return null;
     };
 
@@ -412,6 +420,6 @@ export class Mindmap extends DiagramWrapper<MindmapAST> {
   getSiblings(id: string): MindmapNode[] {
     const parent = this.getParent(id);
     if (!parent) return [];
-    return parent.children.filter(c => c.id !== id);
+    return parent.children.filter((c) => c.id !== id);
   }
 }

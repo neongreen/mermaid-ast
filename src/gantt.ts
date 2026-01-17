@@ -10,7 +10,6 @@ import { parseGantt } from './parser/gantt-parser.js';
 import { renderGantt } from './renderer/gantt-renderer.js';
 import type {
   GanttAST,
-  GanttClickEvent,
   GanttSection,
   GanttTask,
   GanttTaskStatus,
@@ -110,12 +109,12 @@ export class Gantt extends DiagramWrapper<GanttAST> {
       todayMarker: this.ast.todayMarker,
       weekday: this.ast.weekday,
       weekend: this.ast.weekend,
-      sections: this.ast.sections.map(s => ({
+      sections: this.ast.sections.map((s) => ({
         ...s,
-        tasks: s.tasks.map(t => ({ ...t })),
+        tasks: s.tasks.map((t) => ({ ...t })),
       })),
-      tasks: this.ast.tasks.map(t => ({ ...t })),
-      clickEvents: this.ast.clickEvents.map(c => ({ ...c })),
+      tasks: this.ast.tasks.map((t) => ({ ...t })),
+      clickEvents: this.ast.clickEvents.map((c) => ({ ...c })),
       accTitle: this.ast.accTitle,
       accDescription: this.ast.accDescription,
     };
@@ -155,8 +154,7 @@ export class Gantt extends DiagramWrapper<GanttAST> {
   }
 
   get taskCount(): number {
-    return this.ast.tasks.length + 
-      this.ast.sections.reduce((sum, s) => sum + s.tasks.length, 0);
+    return this.ast.tasks.length + this.ast.sections.reduce((sum, s) => sum + s.tasks.length, 0);
   }
 
   get sectionCount(): number {
@@ -282,14 +280,14 @@ export class Gantt extends DiagramWrapper<GanttAST> {
    * Get a section by name
    */
   getSection(name: string): GanttSection | undefined {
-    return this.ast.sections.find(s => s.name === name);
+    return this.ast.sections.find((s) => s.name === name);
   }
 
   /**
    * Remove a section
    */
   removeSection(name: string): this {
-    const idx = this.ast.sections.findIndex(s => s.name === name);
+    const idx = this.ast.sections.findIndex((s) => s.name === name);
     if (idx !== -1) {
       this.ast.sections.splice(idx, 1);
     }
@@ -300,7 +298,7 @@ export class Gantt extends DiagramWrapper<GanttAST> {
    * Rename a section
    */
   renameSection(oldName: string, newName: string): this {
-    const section = this.ast.sections.find(s => s.name === oldName);
+    const section = this.ast.sections.find((s) => s.name === oldName);
     if (section) {
       section.name = newName;
       // Update task section references
@@ -326,7 +324,7 @@ export class Gantt extends DiagramWrapper<GanttAST> {
     };
 
     if (sectionName) {
-      let section = this.ast.sections.find(s => s.name === sectionName);
+      let section = this.ast.sections.find((s) => s.name === sectionName);
       if (!section) {
         section = { name: sectionName, tasks: [] };
         this.ast.sections.push(section);
@@ -344,12 +342,12 @@ export class Gantt extends DiagramWrapper<GanttAST> {
    */
   getTask(id: string): GanttTask | undefined {
     // Search in root tasks
-    const rootTask = this.ast.tasks.find(t => t.id === id);
+    const rootTask = this.ast.tasks.find((t) => t.id === id);
     if (rootTask) return rootTask;
 
     // Search in sections
     for (const section of this.ast.sections) {
-      const task = section.tasks.find(t => t.id === id);
+      const task = section.tasks.find((t) => t.id === id);
       if (task) return task;
     }
 
@@ -361,7 +359,7 @@ export class Gantt extends DiagramWrapper<GanttAST> {
    */
   removeTask(id: string): this {
     // Remove from root tasks
-    const rootIdx = this.ast.tasks.findIndex(t => t.id === id);
+    const rootIdx = this.ast.tasks.findIndex((t) => t.id === id);
     if (rootIdx !== -1) {
       this.ast.tasks.splice(rootIdx, 1);
       return this;
@@ -369,7 +367,7 @@ export class Gantt extends DiagramWrapper<GanttAST> {
 
     // Remove from sections
     for (const section of this.ast.sections) {
-      const idx = section.tasks.findIndex(t => t.id === id);
+      const idx = section.tasks.findIndex((t) => t.id === id);
       if (idx !== -1) {
         section.tasks.splice(idx, 1);
         return this;
@@ -425,12 +423,12 @@ export class Gantt extends DiagramWrapper<GanttAST> {
     // Find and remove the task
     let task: GanttTask | undefined;
 
-    const rootIdx = this.ast.tasks.findIndex(t => t.id === id);
+    const rootIdx = this.ast.tasks.findIndex((t) => t.id === id);
     if (rootIdx !== -1) {
       task = this.ast.tasks.splice(rootIdx, 1)[0];
     } else {
       for (const section of this.ast.sections) {
-        const idx = section.tasks.findIndex(t => t.id === id);
+        const idx = section.tasks.findIndex((t) => t.id === id);
         if (idx !== -1) {
           task = section.tasks.splice(idx, 1)[0];
           break;
@@ -440,7 +438,7 @@ export class Gantt extends DiagramWrapper<GanttAST> {
 
     if (task) {
       task.section = toSection;
-      let section = this.ast.sections.find(s => s.name === toSection);
+      let section = this.ast.sections.find((s) => s.name === toSection);
       if (!section) {
         section = { name: toSection, tasks: [] };
         this.ast.sections.push(section);
@@ -459,7 +457,7 @@ export class Gantt extends DiagramWrapper<GanttAST> {
    * Set a click callback for a task
    */
   setClickCallback(taskId: string, callback: string, args?: string): this {
-    const existing = this.ast.clickEvents.find(c => c.taskId === taskId);
+    const existing = this.ast.clickEvents.find((c) => c.taskId === taskId);
     if (existing) {
       existing.callback = callback;
       existing.callbackArgs = args;
@@ -477,7 +475,7 @@ export class Gantt extends DiagramWrapper<GanttAST> {
    * Set a link for a task
    */
   setLink(taskId: string, href: string): this {
-    const existing = this.ast.clickEvents.find(c => c.taskId === taskId);
+    const existing = this.ast.clickEvents.find((c) => c.taskId === taskId);
     if (existing) {
       existing.href = href;
     } else {
@@ -509,8 +507,8 @@ export class Gantt extends DiagramWrapper<GanttAST> {
    */
   findTasks(query: FindTasksQuery): GanttTask[] {
     const allTasks = this.getAllTasks();
-    
-    return allTasks.filter(task => {
+
+    return allTasks.filter((task) => {
       if (query.section && task.section !== query.section) {
         return false;
       }
@@ -531,7 +529,7 @@ export class Gantt extends DiagramWrapper<GanttAST> {
    * Get tasks in a section
    */
   getTasksInSection(sectionName: string): GanttTask[] {
-    const section = this.ast.sections.find(s => s.name === sectionName);
+    const section = this.ast.sections.find((s) => s.name === sectionName);
     return section ? section.tasks : [];
   }
 

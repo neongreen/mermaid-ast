@@ -686,4 +686,5 @@ export class Flowchart extends DiagramWrapper<FlowchartAST> {
 
 // Augment Flowchart with graph operations
 import { augmentFlowchartWithGraphOps } from './flowchart-graph-ops.js';
+
 augmentFlowchartWithGraphOps(Flowchart);

@@ -4,7 +4,7 @@
  * Renders a Timeline AST back to Mermaid syntax.
  */
 
-import type { TimelineAST, TimelineSection, TimelinePeriod } from '../types/timeline.js';
+import type { TimelineAST } from '../types/timeline.js';
 
 /**
  * Render options for timeline diagrams
@@ -34,13 +34,13 @@ export function renderTimeline(ast: TimelineAST, options: TimelineRenderOptions 
     if (section.name) {
       lines.push(`${indent}section ${section.name}`);
     }
-    
+
     for (const period of section.periods) {
       // Period name
       if (period.name) {
         lines.push(`${indent}${indent}${period.name}`);
       }
-      
+
       // Events under this period
       for (const event of period.events) {
         lines.push(`${indent}${indent}${indent}: ${event.text}`);

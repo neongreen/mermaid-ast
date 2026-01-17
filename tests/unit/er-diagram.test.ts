@@ -18,7 +18,7 @@ describe('ErDiagram Wrapper', () => {
     it('should parse Mermaid syntax', () => {
       const diagram = ErDiagram.parse(`erDiagram
         CUSTOMER ||--o{ ORDER : places`);
-      
+
       expect(diagram.entityCount).toBe(2);
       expect(diagram.hasEntity('CUSTOMER')).toBe(true);
       expect(diagram.hasEntity('ORDER')).toBe(true);
@@ -34,19 +34,16 @@ describe('ErDiagram Wrapper', () => {
 
   describe('Entity Operations', () => {
     it('should add entities', () => {
-      const diagram = ErDiagram.create()
-        .addEntity('CUSTOMER')
-        .addEntity('ORDER');
-      
+      const diagram = ErDiagram.create().addEntity('CUSTOMER').addEntity('ORDER');
+
       expect(diagram.entityCount).toBe(2);
       expect(diagram.entityNames).toContain('CUSTOMER');
       expect(diagram.entityNames).toContain('ORDER');
     });
 
     it('should add entity with alias', () => {
-      const diagram = ErDiagram.create()
-        .addEntity('CUSTOMER', 'Customer Entity');
-      
+      const diagram = ErDiagram.create().addEntity('CUSTOMER', 'Customer Entity');
+
       const entity = diagram.getEntity('CUSTOMER');
       expect(entity?.alias).toBe('Customer Entity');
     });
@@ -55,7 +52,7 @@ describe('ErDiagram Wrapper', () => {
       const diagram = ErDiagram.create()
         .addEntity('CUSTOMER')
         .setEntityAlias('CUSTOMER', 'My Customer');
-      
+
       expect(diagram.getEntity('CUSTOMER')?.alias).toBe('My Customer');
     });
 
@@ -65,7 +62,7 @@ describe('ErDiagram Wrapper', () => {
         .addEntity('B')
         .addRelationship('A', 'B', 'relates')
         .removeEntity('A');
-      
+
       expect(diagram.entityCount).toBe(1);
       expect(diagram.hasEntity('A')).toBe(false);
       expect(diagram.relationshipCount).toBe(0); // Relationship should be removed too
@@ -78,7 +75,7 @@ describe('ErDiagram Wrapper', () => {
         .addEntity('CUSTOMER')
         .addAttribute('CUSTOMER', 'string', 'name')
         .addAttribute('CUSTOMER', 'int', 'age');
-      
+
       const attrs = diagram.getAttributes('CUSTOMER');
       expect(attrs.length).toBe(2);
       expect(attrs[0].type).toBe('string');
@@ -86,17 +83,18 @@ describe('ErDiagram Wrapper', () => {
     });
 
     it('should add attributes with keys', () => {
-      const diagram = ErDiagram.create()
-        .addAttribute('CUSTOMER', 'int', 'id', { keys: ['PK'] });
-      
+      const diagram = ErDiagram.create().addAttribute('CUSTOMER', 'int', 'id', { keys: ['PK'] });
+
       const attrs = diagram.getAttributes('CUSTOMER');
       expect(attrs[0].keys).toEqual(['PK']);
     });
 
     it('should add attributes with comments', () => {
-      const diagram = ErDiagram.create()
-        .addAttribute('CUSTOMER', 'int', 'id', { keys: ['PK'], comment: 'Primary key' });
-      
+      const diagram = ErDiagram.create().addAttribute('CUSTOMER', 'int', 'id', {
+        keys: ['PK'],
+        comment: 'Primary key',
+      });
+
       const attrs = diagram.getAttributes('CUSTOMER');
       expect(attrs[0].comment).toBe('Primary key');
     });
@@ -106,7 +104,7 @@ describe('ErDiagram Wrapper', () => {
         .addAttribute('CUSTOMER', 'string', 'name')
         .addAttribute('CUSTOMER', 'int', 'age')
         .removeAttribute('CUSTOMER', 'name');
-      
+
       const attrs = diagram.getAttributes('CUSTOMER');
       expect(attrs.length).toBe(1);
       expect(attrs[0].name).toBe('age');
@@ -115,9 +113,8 @@ describe('ErDiagram Wrapper', () => {
 
   describe('Relationship Operations', () => {
     it('should add relationships', () => {
-      const diagram = ErDiagram.create()
-        .addRelationship('CUSTOMER', 'ORDER', 'places');
-      
+      const diagram = ErDiagram.create().addRelationship('CUSTOMER', 'ORDER', 'places');
+
       expect(diagram.relationshipCount).toBe(1);
       expect(diagram.relationships[0].entityA).toBe('CUSTOMER');
       expect(diagram.relationships[0].entityB).toBe('ORDER');
@@ -125,13 +122,12 @@ describe('ErDiagram Wrapper', () => {
     });
 
     it('should add relationships with cardinality', () => {
-      const diagram = ErDiagram.create()
-        .addRelationship('CUSTOMER', 'ORDER', 'places', {
-          cardA: 'ONLY_ONE',
-          cardB: 'ZERO_OR_MORE',
-          relType: 'IDENTIFYING',
-        });
-      
+      const diagram = ErDiagram.create().addRelationship('CUSTOMER', 'ORDER', 'places', {
+        cardA: 'ONLY_ONE',
+        cardB: 'ZERO_OR_MORE',
+        relType: 'IDENTIFYING',
+      });
+
       const rel = diagram.relationships[0];
       expect(rel.relSpec.cardA).toBe('ONLY_ONE');
       expect(rel.relSpec.cardB).toBe('ZERO_OR_MORE');
@@ -139,9 +135,8 @@ describe('ErDiagram Wrapper', () => {
     });
 
     it('should auto-create entities when adding relationships', () => {
-      const diagram = ErDiagram.create()
-        .addRelationship('A', 'B', 'relates');
-      
+      const diagram = ErDiagram.create().addRelationship('A', 'B', 'relates');
+
       expect(diagram.hasEntity('A')).toBe(true);
       expect(diagram.hasEntity('B')).toBe(true);
     });
@@ -151,7 +146,7 @@ describe('ErDiagram Wrapper', () => {
         .addRelationship('A', 'B', 'rel1')
         .addRelationship('B', 'C', 'rel2')
         .removeRelationship(0);
-      
+
       expect(diagram.relationshipCount).toBe(1);
       expect(diagram.relationships[0].role).toBe('rel2');
     });
@@ -162,7 +157,7 @@ describe('ErDiagram Wrapper', () => {
         .addRelationship('A', 'B', 'rel2')
         .addRelationship('B', 'C', 'rel3')
         .removeRelationshipsBetween('A', 'B');
-      
+
       expect(diagram.relationshipCount).toBe(1);
       expect(diagram.relationships[0].role).toBe('rel3');
     });
@@ -172,7 +167,7 @@ describe('ErDiagram Wrapper', () => {
         .addRelationship('A', 'B', 'rel1')
         .addRelationship('B', 'C', 'rel2')
         .addRelationship('A', 'C', 'rel3');
-      
+
       const rels = diagram.getRelationshipsFor('A');
       expect(rels.length).toBe(2);
     });
@@ -180,10 +175,8 @@ describe('ErDiagram Wrapper', () => {
 
   describe('Class Operations', () => {
     it('should add classes to entities', () => {
-      const diagram = ErDiagram.create()
-        .addEntity('CUSTOMER')
-        .addClass('CUSTOMER', 'highlight');
-      
+      const diagram = ErDiagram.create().addEntity('CUSTOMER').addClass('CUSTOMER', 'highlight');
+
       expect(diagram.getClasses('CUSTOMER')).toContain('highlight');
     });
 
@@ -193,7 +186,7 @@ describe('ErDiagram Wrapper', () => {
         .addClass('CUSTOMER', 'highlight')
         .addClass('CUSTOMER', 'important')
         .removeClass('CUSTOMER', 'highlight');
-      
+
       const classes = diagram.getClasses('CUSTOMER');
       expect(classes).not.toContain('highlight');
       expect(classes).toContain('important');
@@ -208,7 +201,7 @@ describe('ErDiagram Wrapper', () => {
         .addEntity('C')
         .addClass('A', 'important')
         .addClass('B', 'important');
-      
+
       const found = diagram.findEntities({ class: 'important' });
       expect(found).toContain('A');
       expect(found).toContain('B');
@@ -220,7 +213,7 @@ describe('ErDiagram Wrapper', () => {
         .addEntity('CUSTOMER')
         .addEntity('CUSTOMER_ORDER')
         .addEntity('PRODUCT');
-      
+
       const found = diagram.findEntities({ nameContains: 'CUSTOMER' });
       expect(found.length).toBe(2);
       expect(found).toContain('CUSTOMER');
@@ -232,17 +225,15 @@ describe('ErDiagram Wrapper', () => {
         .addAttribute('CUSTOMER', 'string', 'email')
         .addAttribute('ORDER', 'int', 'total')
         .addEntity('PRODUCT');
-      
+
       const found = diagram.findEntities({ hasAttribute: 'email' });
       expect(found).toContain('CUSTOMER');
       expect(found).not.toContain('ORDER');
     });
 
     it('should find entities by relationship', () => {
-      const diagram = ErDiagram.create()
-        .addRelationship('A', 'B', 'rel')
-        .addEntity('C');
-      
+      const diagram = ErDiagram.create().addRelationship('A', 'B', 'rel').addEntity('C');
+
       const found = diagram.findEntities({ relatedTo: 'A' });
       expect(found).toContain('B');
       expect(found).not.toContain('C');
@@ -253,7 +244,7 @@ describe('ErDiagram Wrapper', () => {
         .addRelationship('A', 'B', 'rel1')
         .addRelationship('A', 'C', 'rel2')
         .addEntity('D');
-      
+
       const related = diagram.getRelatedEntities('A');
       expect(related).toContain('B');
       expect(related).toContain('C');
@@ -267,10 +258,10 @@ describe('ErDiagram Wrapper', () => {
         .addEntity('CUSTOMER')
         .addAttribute('CUSTOMER', 'string', 'name')
         .addRelationship('CUSTOMER', 'ORDER', 'places');
-      
+
       const clone = original.clone();
       clone.addEntity('PRODUCT');
-      
+
       expect(original.entityCount).toBe(2);
       expect(clone.entityCount).toBe(3);
     });
@@ -283,7 +274,7 @@ describe('ErDiagram Wrapper', () => {
           cardA: 'ONLY_ONE',
           cardB: 'ZERO_OR_MORE',
         });
-      
+
       const output = diagram.render();
       expect(output).toContain('erDiagram');
       expect(output).toContain('CUSTOMER');
@@ -297,11 +288,11 @@ describe('ErDiagram Wrapper', () => {
       const input = `erDiagram
     CUSTOMER ||--o{ ORDER : places
     ORDER ||--|{ LINE-ITEM : contains`;
-      
+
       const diagram = ErDiagram.parse(input);
       const output = diagram.render();
       const reparsed = ErDiagram.parse(output);
-      
+
       expect(reparsed.entityCount).toBe(diagram.entityCount);
       expect(reparsed.relationshipCount).toBe(diagram.relationshipCount);
     });
@@ -313,11 +304,11 @@ describe('ErDiagram Wrapper', () => {
         string name
         string email UK
     }`;
-      
+
       const diagram = ErDiagram.parse(input);
       const output = diagram.render();
       const reparsed = ErDiagram.parse(output);
-      
+
       const attrs = reparsed.getAttributes('CUSTOMER');
       expect(attrs.length).toBe(3);
     });

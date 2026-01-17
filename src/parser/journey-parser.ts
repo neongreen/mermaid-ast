@@ -18,17 +18,22 @@ function parseTaskData(taskData: string): { score: number; actors: string[] } {
   // taskData comes in format ": 5: Me, You" or ": 5"
   const trimmed = taskData.replace(/^:\s*/, '').trim();
   const parts = trimmed.split(':');
-  
+
   const score = parseInt(parts[0].trim(), 10) || 5;
   const actors: string[] = [];
-  
+
   if (parts.length > 1) {
     const actorPart = parts.slice(1).join(':').trim();
     if (actorPart) {
-      actors.push(...actorPart.split(',').map(a => a.trim()).filter(a => a));
+      actors.push(
+        ...actorPart
+          .split(',')
+          .map((a) => a.trim())
+          .filter((a) => a)
+      );
     }
   }
-  
+
   return { score, actors };
 }
 
@@ -53,7 +58,7 @@ function createJourneyYY(ast: JourneyAST) {
 
     addTask(taskName: string, taskData: string): void {
       const { score, actors } = parseTaskData(taskData);
-      
+
       const task: JourneyTask = {
         name: taskName.trim(),
         score,
@@ -82,10 +87,14 @@ function createJourneyYY(ast: JourneyAST) {
 
     // Required by parser but not used for our purposes
     clear(): void {},
-    getTitle(): string { return ast.title ?? ''; },
-    getSections(): JourneySection[] { return ast.sections; },
+    getTitle(): string {
+      return ast.title ?? '';
+    },
+    getSections(): JourneySection[] {
+      return ast.sections;
+    },
     getTasks(): JourneyTask[] {
-      return ast.sections.flatMap(s => s.tasks);
+      return ast.sections.flatMap((s) => s.tasks);
     },
   };
 }
@@ -101,7 +110,7 @@ export function parseJourney(input: string): JourneyAST {
   // Normalize input - ensure it starts with journey
   let normalizedInput = input.trim();
   if (!normalizedInput.toLowerCase().startsWith('journey')) {
-    normalizedInput = 'journey\n' + normalizedInput;
+    normalizedInput = `journey\n${normalizedInput}`;
   }
 
   // Set up the yy object

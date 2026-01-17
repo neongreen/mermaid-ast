@@ -17,10 +17,19 @@
  * ```
  */
 
+// Export builders (legacy - will be replaced by wrapper classes)
+export * from './builder/index.js';
+export type { ASTOf, BaseDiagramAST } from './diagram-wrapper.js';
 // Export base class
 export { DiagramWrapper } from './diagram-wrapper.js';
-export type { BaseDiagramAST, ASTOf } from './diagram-wrapper.js';
+export type {
+  AddAttributeOptions,
+  AddRelationshipOptions,
+  FindEntitiesQuery,
+} from './er-diagram.js';
 
+// Export ErDiagram wrapper class
+export { ErDiagram } from './er-diagram.js';
 // Export Flowchart wrapper class
 export { Flowchart } from './flowchart.js';
 export type {
@@ -30,33 +39,17 @@ export type {
   LinkInfo,
   RemoveNodeOptions,
 } from './flowchart-types.js';
-
-// Export ErDiagram wrapper class
-export { ErDiagram } from './er-diagram.js';
-export type {
-  AddAttributeOptions,
-  AddRelationshipOptions,
-  FindEntitiesQuery,
-} from './er-diagram.js';
-
+export type { AddTaskOptions, FindTasksQuery } from './gantt.js';
 // Export Gantt wrapper class
 export { Gantt } from './gantt.js';
-export type { AddTaskOptions, FindTasksQuery } from './gantt.js';
-
-// Export Mindmap wrapper class
-export { Mindmap } from './mindmap.js';
-export type { AddMindmapNodeOptions, FindMindmapNodesQuery } from './mindmap.js';
+export type { AddJourneyTaskOptions, FindJourneyTasksQuery } from './journey.js';
 
 // Export Journey wrapper class
 export { Journey } from './journey.js';
-export type { AddJourneyTaskOptions, FindJourneyTasksQuery } from './journey.js';
-
-// Export Timeline wrapper class
-export { Timeline } from './timeline.js';
-export type { FindTimelinePeriodsQuery, FindTimelineEventsQuery } from './timeline.js';
-
-// Export builders (legacy - will be replaced by wrapper classes)
-export * from './builder/index.js';
+export type { AddMindmapNodeOptions, FindMindmapNodesQuery } from './mindmap.js';
+// Export Mindmap wrapper class
+export { Mindmap } from './mindmap.js';
+export { parseErDiagram } from './parser/er-parser.js';
 // Export parser functions
 export {
   detectDiagramType,
@@ -68,8 +61,7 @@ export {
   parseFlowchart,
   parseSequence,
 } from './parser/index.js';
-export { parseErDiagram } from './parser/er-parser.js';
-
+export { renderErDiagram } from './renderer/er-renderer.js';
 // Export renderer functions
 export {
   render,
@@ -77,7 +69,9 @@ export {
   renderFlowchart,
   renderSequence,
 } from './renderer/index.js';
-export { renderErDiagram } from './renderer/er-renderer.js';
+export type { FindTimelineEventsQuery, FindTimelinePeriodsQuery } from './timeline.js';
+// Export Timeline wrapper class
+export { Timeline } from './timeline.js';
 
 // Export types
 export * from './types/index.js';

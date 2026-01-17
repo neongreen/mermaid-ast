@@ -80,12 +80,7 @@ function createErYY(ast: ErDiagramAST) {
       }
     },
 
-    addRelationship(
-      entityA: string,
-      role: string,
-      entityB: string,
-      relSpec: ErRelSpec
-    ): void {
+    addRelationship(entityA: string, role: string, entityB: string, relSpec: ErRelSpec): void {
       ast.relationships.push({
         entityA,
         entityB,
@@ -146,7 +141,7 @@ export function parseErDiagram(input: string): ErDiagramAST {
   // Normalize input - ensure it starts with erDiagram
   let normalizedInput = input.trim();
   if (!normalizedInput.toLowerCase().startsWith('erdiagram')) {
-    normalizedInput = 'erDiagram\n' + normalizedInput;
+    normalizedInput = `erDiagram\n${normalizedInput}`;
   }
 
   // Set up the yy object

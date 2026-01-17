@@ -8,13 +8,13 @@
  * Node shape types
  */
 export type MindmapNodeShape =
-  | 'default'      // No brackets - just text
-  | 'square'       // [text]
-  | 'rounded'      // (text)
-  | 'circle'       // ((text))
-  | 'bang'         // ))text((
-  | 'cloud'        // )text(
-  | 'hexagon';     // {{text}}
+  | 'default' // No brackets - just text
+  | 'square' // [text]
+  | 'rounded' // (text)
+  | 'circle' // ((text))
+  | 'bang' // ))text((
+  | 'cloud' // )text(
+  | 'hexagon'; // {{text}}
 
 /**
  * A node in the mindmap

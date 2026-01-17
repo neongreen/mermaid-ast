@@ -56,7 +56,14 @@ export interface GanttClickEvent {
 /**
  * Weekday options
  */
-export type GanttWeekday = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+export type GanttWeekday =
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
+  | 'sunday';
 
 /**
  * Weekend start options

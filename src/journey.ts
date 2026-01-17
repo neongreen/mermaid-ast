@@ -96,9 +96,9 @@ export class Journey extends DiagramWrapper<JourneyAST> {
     const cloned: JourneyAST = {
       type: 'journey',
       title: this.ast.title,
-      sections: this.ast.sections.map(section => ({
+      sections: this.ast.sections.map((section) => ({
         ...section,
-        tasks: section.tasks.map(task => ({
+        tasks: section.tasks.map((task) => ({
           ...task,
           actors: [...task.actors],
         })),
@@ -180,14 +180,14 @@ export class Journey extends DiagramWrapper<JourneyAST> {
    * Get a section by name
    */
   getSection(name: string): JourneySection | undefined {
-    return this.ast.sections.find(s => s.name === name);
+    return this.ast.sections.find((s) => s.name === name);
   }
 
   /**
    * Remove a section and all its tasks
    */
   removeSection(name: string): this {
-    const idx = this.ast.sections.findIndex(s => s.name === name);
+    const idx = this.ast.sections.findIndex((s) => s.name === name);
     if (idx !== -1) {
       this.ast.sections.splice(idx, 1);
     }
@@ -214,7 +214,7 @@ export class Journey extends DiagramWrapper<JourneyAST> {
    */
   addTask(sectionName: string, taskName: string, options?: AddJourneyTaskOptions): this {
     let section = this.getSection(sectionName);
-    
+
     // Create section if it doesn't exist
     if (!section) {
       this.addSection(sectionName);
@@ -236,7 +236,7 @@ export class Journey extends DiagramWrapper<JourneyAST> {
   removeTask(sectionName: string, taskName: string): this {
     const section = this.getSection(sectionName);
     if (section) {
-      const idx = section.tasks.findIndex(t => t.name === taskName);
+      const idx = section.tasks.findIndex((t) => t.name === taskName);
       if (idx !== -1) {
         section.tasks.splice(idx, 1);
       }
@@ -249,7 +249,7 @@ export class Journey extends DiagramWrapper<JourneyAST> {
    */
   getTask(taskName: string): JourneyTask | undefined {
     for (const section of this.ast.sections) {
-      const task = section.tasks.find(t => t.name === taskName);
+      const task = section.tasks.find((t) => t.name === taskName);
       if (task) return task;
     }
     return undefined;
@@ -298,7 +298,7 @@ export class Journey extends DiagramWrapper<JourneyAST> {
     // Find and remove from current section
     let task: JourneyTask | undefined;
     for (const section of this.ast.sections) {
-      const idx = section.tasks.findIndex(t => t.name === taskName);
+      const idx = section.tasks.findIndex((t) => t.name === taskName);
       if (idx !== -1) {
         task = section.tasks.splice(idx, 1)[0];
         break;
@@ -326,7 +326,7 @@ export class Journey extends DiagramWrapper<JourneyAST> {
    * Get all tasks
    */
   getAllTasks(): JourneyTask[] {
-    return this.ast.sections.flatMap(s => s.tasks);
+    return this.ast.sections.flatMap((s) => s.tasks);
   }
 
   /**
@@ -340,7 +340,7 @@ export class Journey extends DiagramWrapper<JourneyAST> {
       tasks = section ? section.tasks : [];
     }
 
-    return tasks.filter(task => {
+    return tasks.filter((task) => {
       if (query.score !== undefined && task.score !== query.score) return false;
       if (query.minScore !== undefined && task.score < query.minScore) return false;
       if (query.maxScore !== undefined && task.score > query.maxScore) return false;

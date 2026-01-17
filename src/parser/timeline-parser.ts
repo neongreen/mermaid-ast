@@ -4,7 +4,7 @@
  * Parses Mermaid timeline diagram syntax into an AST using the vendored JISON parser.
  */
 
-import type { TimelineAST, TimelineSection, TimelinePeriod, TimelineEvent } from '../types/timeline.js';
+import type { TimelineAST, TimelinePeriod, TimelineSection } from '../types/timeline.js';
 import { createEmptyTimelineAST } from '../types/timeline.js';
 
 // @ts-expect-error - JISON parser has no types
@@ -100,7 +100,7 @@ export function parseTimeline(input: string): TimelineAST {
   // Normalize input - ensure it starts with timeline
   let normalizedInput = input.trim();
   if (!normalizedInput.toLowerCase().startsWith('timeline')) {
-    normalizedInput = 'timeline\n' + normalizedInput;
+    normalizedInput = `timeline\n${normalizedInput}`;
   }
 
   // Set up the yy object

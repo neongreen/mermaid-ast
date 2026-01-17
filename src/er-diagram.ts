@@ -119,11 +119,18 @@ export class ErDiagram extends DiagramWrapper<ErDiagramAST> {
       entities: new Map(
         [...this.ast.entities].map(([k, v]) => [
           k,
-          { ...v, attributes: [...v.attributes.map((a) => ({ ...a, keys: a.keys ? [...a.keys] : undefined }))] },
+          {
+            ...v,
+            attributes: [
+              ...v.attributes.map((a) => ({ ...a, keys: a.keys ? [...a.keys] : undefined })),
+            ],
+          },
         ])
       ),
       relationships: [...this.ast.relationships.map((r) => ({ ...r, relSpec: { ...r.relSpec } }))],
-      classDefs: new Map([...this.ast.classDefs].map(([k, v]) => [k, { ...v, styles: [...v.styles] }])),
+      classDefs: new Map(
+        [...this.ast.classDefs].map(([k, v]) => [k, { ...v, styles: [...v.styles] }])
+      ),
       classes: new Map([...this.ast.classes].map(([k, v]) => [k, [...v]])),
       styles: new Map([...this.ast.styles].map(([k, v]) => [k, [...v]])),
       accTitle: this.ast.accTitle,
@@ -382,8 +389,11 @@ export class ErDiagram extends DiagramWrapper<ErDiagramAST> {
    */
   removeRelationshipsBetween(entityA: string, entityB: string): this {
     this.ast.relationships = this.ast.relationships.filter(
-      (r) => !((r.entityA === entityA && r.entityB === entityB) || 
-               (r.entityA === entityB && r.entityB === entityA))
+      (r) =>
+        !(
+          (r.entityA === entityA && r.entityB === entityB) ||
+          (r.entityA === entityB && r.entityB === entityA)
+        )
     );
     return this;
   }

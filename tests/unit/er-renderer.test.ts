@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'bun:test';
 import { renderErDiagram } from '../../src/renderer/er-renderer.js';
-import type { ErDiagramAST } from '../../src/types/er.js';
 import { createEmptyErDiagramAST } from '../../src/types/er.js';
 
 describe('ER Diagram Rendering', () => {

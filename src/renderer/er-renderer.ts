@@ -70,15 +70,15 @@ function renderRelSpec(rel: ErRelationship): string {
  */
 function renderAttribute(attr: ErAttribute, indent: string): string {
   let result = `${indent}${attr.type} ${attr.name}`;
-  
+
   if (attr.keys && attr.keys.length > 0) {
     result += ` ${attr.keys.join(',')}`;
   }
-  
+
   if (attr.comment) {
     result += ` "${attr.comment}"`;
   }
-  
+
   return result;
 }
 
@@ -87,7 +87,7 @@ function renderAttribute(attr: ErAttribute, indent: string): string {
  */
 function quoteEntityName(name: string): string {
   // Quote if contains spaces or special characters
-  if (/\s|[^a-zA-Z0-9_\-]/.test(name)) {
+  if (/\s|[^a-zA-Z0-9_-]/.test(name)) {
     return `"${name}"`;
   }
   return name;
@@ -148,7 +148,7 @@ export function renderErDiagram(ast: ErDiagramAST, options: ErRenderOptions = {}
     const entityB = quoteEntityName(rel.entityB);
     const relSpec = renderRelSpec(rel);
     const role = rel.role.includes(' ') ? `"${rel.role}"` : rel.role;
-    
+
     lines.push(`${indent}${entityA} ${relSpec} ${entityB} : ${role}`);
   }
 

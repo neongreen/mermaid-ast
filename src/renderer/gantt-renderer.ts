@@ -4,7 +4,7 @@
  * Renders a Gantt Chart AST back to Mermaid syntax.
  */
 
-import type { GanttAST, GanttSection, GanttTask } from '../types/gantt.js';
+import type { GanttAST, GanttTask } from '../types/gantt.js';
 
 /**
  * Render options for Gantt charts
