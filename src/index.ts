@@ -60,11 +60,13 @@ export {
   detectDiagramType,
   isClassDiagram,
   isFlowchartDiagram,
+  isQuadrantDiagram,
   isSankeyDiagram,
   isSequenceDiagram,
   parse,
   parseClassDiagram,
   parseFlowchart,
+  parseQuadrant,
   parseSankey,
   parseSequence,
 } from './parser/index.js';
@@ -74,9 +76,16 @@ export {
   render,
   renderClassDiagram,
   renderFlowchart,
+  renderQuadrant,
   renderSankey,
   renderSequence,
 } from './renderer/index.js';
+export type {
+  AddQuadrantPointOptions,
+  FindQuadrantPointsQuery,
+} from './quadrant.js';
+// Export Quadrant wrapper class
+export { Quadrant } from './quadrant.js';
 export type {
   FindSankeyLinksQuery,
   FindSankeyNodesQuery,
