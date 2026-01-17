@@ -39,6 +39,10 @@ export type {
   FindEntitiesQuery,
 } from './er-diagram.js';
 
+// Export Gantt wrapper class
+export { Gantt } from './gantt.js';
+export type { AddTaskOptions, FindTasksQuery } from './gantt.js';
+
 // Export builders (legacy - will be replaced by wrapper classes)
 export * from './builder/index.js';
 // Export parser functions
