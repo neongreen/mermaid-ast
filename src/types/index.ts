@@ -11,6 +11,7 @@ export * from './gantt.js';
 export * from './journey.js';
 export * from './mindmap.js';
 export * from './render-options.js';
+export * from './sankey.js';
 export * from './sequence.js';
 export * from './timeline.js';
 
@@ -20,6 +21,7 @@ import type { FlowchartAST } from './flowchart.js';
 import type { GanttAST } from './gantt.js';
 import type { JourneyAST } from './journey.js';
 import type { MindmapAST } from './mindmap.js';
+import type { SankeyAST } from './sankey.js';
 import type { SequenceAST } from './sequence.js';
 import type { TimelineAST } from './timeline.js';
 
@@ -34,6 +36,7 @@ export type MermaidAST =
   | GanttAST
   | MindmapAST
   | JourneyAST
+  | SankeyAST
   | TimelineAST;
 
 /**
@@ -47,6 +50,7 @@ export type DiagramType =
   | 'gantt'
   | 'mindmap'
   | 'journey'
+  | 'sankey'
   | 'timeline';
 
 /**
@@ -103,4 +107,11 @@ export function isJourneyAST(ast: MermaidAST): ast is JourneyAST {
  */
 export function isTimelineAST(ast: MermaidAST): ast is TimelineAST {
   return ast.type === 'timeline';
+}
+
+/**
+ * Check if an AST is a Sankey diagram
+ */
+export function isSankeyAST(ast: MermaidAST): ast is SankeyAST {
+  return ast.type === 'sankey';
 }

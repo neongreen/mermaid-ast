@@ -60,10 +60,12 @@ export {
   detectDiagramType,
   isClassDiagram,
   isFlowchartDiagram,
+  isSankeyDiagram,
   isSequenceDiagram,
   parse,
   parseClassDiagram,
   parseFlowchart,
+  parseSankey,
   parseSequence,
 } from './parser/index.js';
 export { renderErDiagram } from './renderer/er-renderer.js';
@@ -72,8 +74,15 @@ export {
   render,
   renderClassDiagram,
   renderFlowchart,
+  renderSankey,
   renderSequence,
 } from './renderer/index.js';
+export type {
+  FindSankeyLinksQuery,
+  FindSankeyNodesQuery,
+} from './sankey.js';
+// Export Sankey wrapper class
+export { Sankey } from './sankey.js';
 export type {
   AddActorOptions,
   AddMessageOptions,
