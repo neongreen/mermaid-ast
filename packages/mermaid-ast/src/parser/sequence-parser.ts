@@ -6,11 +6,12 @@
  */
 
 import {
-  type SequenceAST,
+  createEmptySequenceAST,
   type SequenceActivation,
   type SequenceActor,
   type SequenceAlt,
   type SequenceArrowType,
+  type SequenceAST,
   type SequenceAutonumber,
   type SequenceBox,
   type SequenceBreak,
@@ -22,7 +23,6 @@ import {
   type SequencePar,
   type SequenceRect,
   type SequenceStatement,
-  createEmptySequenceAST,
 } from '../types/sequence.js';
 
 // Import the vendored parser

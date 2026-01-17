@@ -16,8 +16,8 @@ import type {
   ErDirection,
   ErEntity,
   ErIdentification,
-  ErRelSpec,
   ErRelationship,
+  ErRelSpec,
 } from './types/er.js';
 import { createEmptyErDiagramAST } from './types/er.js';
 import type { RenderOptions } from './types/render-options.js';

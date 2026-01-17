@@ -7,6 +7,7 @@
  */
 
 import {
+  createEmptyFlowchartAST,
   type FlowchartAST,
   type FlowchartDirection,
   type FlowchartLink,
@@ -14,7 +15,6 @@ import {
   type FlowchartLinkType,
   type FlowchartNodeShape,
   type FlowchartSubgraph,
-  createEmptyFlowchartAST,
 } from '../types/flowchart.js';
 
 // Import the vendored parser

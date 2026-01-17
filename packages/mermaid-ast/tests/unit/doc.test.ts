@@ -4,9 +4,9 @@
 
 import { describe, expect, test } from 'bun:test';
 import {
-  type Doc,
   blank,
   block,
+  type Doc,
   indent,
   isBlank,
   isIndent,

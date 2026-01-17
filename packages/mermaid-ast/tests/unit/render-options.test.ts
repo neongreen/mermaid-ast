@@ -25,27 +25,27 @@ describe('Render Options', () => {
       { options: { indent: 8 }, expectedIndent: '        ' },
     ];
 
-    test.each(indentOptions)(
-      'flowchart with indent $options.indent',
-      ({ options, expectedIndent }) => {
-        const input = `flowchart LR
+    test.each(indentOptions)('flowchart with indent $options.indent', ({
+      options,
+      expectedIndent,
+    }) => {
+      const input = `flowchart LR
     A[Start] --> B[End]
     B --> C[Done]`;
 
-        const ast = parseFlowchart(input);
-        const rendered = renderFlowchart(ast, options);
+      const ast = parseFlowchart(input);
+      const rendered = renderFlowchart(ast, options);
 
-        // Should be re-parseable
-        const ast2 = parseFlowchart(rendered);
-        expect(ast2.nodes.size).toBe(ast.nodes.size);
-        expect(ast2.links.length).toBe(ast.links.length);
+      // Should be re-parseable
+      const ast2 = parseFlowchart(rendered);
+      expect(ast2.nodes.size).toBe(ast.nodes.size);
+      expect(ast2.links.length).toBe(ast.links.length);
 
-        // Should use the specified indent
-        const lines = rendered.split('\n');
-        const indentedLines = lines.filter((l) => l.startsWith(expectedIndent));
-        expect(indentedLines.length).toBeGreaterThan(0);
-      }
-    );
+      // Should use the specified indent
+      const lines = rendered.split('\n');
+      const indentedLines = lines.filter((l) => l.startsWith(expectedIndent));
+      expect(indentedLines.length).toBeGreaterThan(0);
+    });
 
     test.each(indentOptions)('sequence with indent $options.indent', ({ options }) => {
       const input = `sequenceDiagram

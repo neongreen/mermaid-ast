@@ -6,8 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "include": ["**/src/**/*.ts", "**/tests/**/*.ts", "**/scripts/**/*.ts", "**/examples/**/*.ts"],
-    "ignore": ["**/src/vendored", "**/dist", "**/node_modules", "**/dagger"]
+    "includes": ["**/src/**/*.ts", "**/tests/**/*.ts", "**/scripts/**/*.ts", "**/examples/**/*.ts"]
   },
   "formatter": {
     "enabled": true,
@@ -29,7 +28,15 @@
         "noForEach": "off"
       },
       "correctness": {
-        "noUnreachable": "error"
+        "noUnreachable": "error",
+        "noUnusedImports": "off"
+      }
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "off"
       }
     }
   },

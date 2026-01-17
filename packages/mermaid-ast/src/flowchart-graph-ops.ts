@@ -5,8 +5,8 @@
  * These methods are added to the Flowchart prototype.
  */
 
-import type { AddLinkOptions } from './flowchart-types.js';
 import type { Flowchart } from './flowchart.js';
+import type { AddLinkOptions } from './flowchart-types.js';
 
 /**
  * Insert a node between two connected nodes.

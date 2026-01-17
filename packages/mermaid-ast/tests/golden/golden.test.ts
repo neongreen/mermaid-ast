@@ -11,7 +11,7 @@
  */
 
 import { describe, expect, it } from 'bun:test';
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { parse } from '../../src/index.js';
 

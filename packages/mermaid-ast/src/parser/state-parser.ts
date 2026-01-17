@@ -7,13 +7,13 @@
  */
 
 import {
+  createEmptyStateDiagramAST,
   type StateDefinition,
   type StateDiagramAST,
   type StateDirection,
   type StateNote,
   type StateTransition,
   type StateType,
-  createEmptyStateDiagramAST,
 } from '../types/state.js';
 
 // Import the vendored parser

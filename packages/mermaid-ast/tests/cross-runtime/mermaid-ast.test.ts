@@ -10,11 +10,11 @@
 // Import the library
 import { parseFlowchart, parseSequence, renderFlowchart, renderSequence } from '../../src/index.ts';
 import {
-  type TestSuite,
   assertDefined,
   assertEqual,
   assertTrue,
   runAllSuites,
+  type TestSuite,
 } from './test-runner.ts';
 
 // ============================================================================

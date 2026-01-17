@@ -11,10 +11,10 @@ import { renderSequence } from './renderer/sequence-renderer.js';
 import type { RenderOptions } from './types/render-options.js';
 import type {
   NotePlacement,
-  SequenceAST,
   SequenceActivation,
   SequenceAlt,
   SequenceArrowType,
+  SequenceAST,
   SequenceAutonumber,
   SequenceBox,
   SequenceBreak,

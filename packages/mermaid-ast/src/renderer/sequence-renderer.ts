@@ -7,11 +7,11 @@
 import type { RenderOptions } from '../types/render-options.js';
 import { resolveOptions } from '../types/render-options.js';
 import type {
-  SequenceAST,
   SequenceActivation,
   SequenceActor,
   SequenceAlt,
   SequenceArrowType,
+  SequenceAST,
   SequenceAutonumber,
   SequenceBox,
   SequenceBreak,
@@ -29,7 +29,7 @@ import type {
   SequenceStatement,
 } from '../types/sequence.js';
 import { assertNever } from '../utils.js';
-import { type Doc, block, indent, render } from './doc.js';
+import { block, type Doc, indent, render } from './doc.js';
 
 /**
  * Convert arrow type to Mermaid syntax

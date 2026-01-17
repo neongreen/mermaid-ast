@@ -11,9 +11,9 @@ import {
   type ClassMember,
   type ClassNote,
   type ClassRelation,
+  createClassDiagramAST,
   type LineType,
   type RelationType,
-  createClassDiagramAST,
 } from '../types/class.js';
 
 // Import the vendored parser

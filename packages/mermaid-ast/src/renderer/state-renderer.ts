@@ -7,7 +7,7 @@
 import type { RenderOptions } from '../types/render-options.js';
 import { resolveOptions } from '../types/render-options.js';
 import type { StateDefinition, StateDiagramAST, StateTransition } from '../types/state.js';
-import { type Doc, block, indent, render, when } from './doc.js';
+import { block, type Doc, indent, render, when } from './doc.js';
 
 /**
  * Render a state ID, handling special start/end state

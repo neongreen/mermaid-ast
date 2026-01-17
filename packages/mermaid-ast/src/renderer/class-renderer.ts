@@ -16,7 +16,7 @@ import type {
 import type { RenderOptions } from '../types/render-options.js';
 import { resolveOptions } from '../types/render-options.js';
 import { assertNever } from '../utils.js';
-import { type Doc, block, indent, render, when } from './doc.js';
+import { block, type Doc, indent, render, when } from './doc.js';
 
 /**
  * Render relation type to symbol
