@@ -405,3 +405,37 @@ just mermaid-ast-publish-all # Publish to both npm and JSR
 - **Round-trip fidelity** - `render(parse(text))` must produce equivalent diagrams
 - **Cross-runtime support** - Must work in Bun, Node.js, and Deno
 - **Consistent test structure** - All diagram types should follow the same test pattern
+
+## Troubleshooting & Lessons Learned
+
+### CI and Publish Must Run the Same Tests
+
+**Problem:** The v0.6.0 release failed because the publish workflow ran `bun test` (all tests) while CI only ran `bun test tests/unit tests/roundtrip`. The `mermaid-svg` tests failed in publish because they depend on `mermaid-ast` via workspace link.
+
+**Solution:** Both CI and publish workflows must run exactly the same test command. Currently: `bun test --coverage tests/unit tests/roundtrip`
+
+**Lesson:** When adding new packages to the workspace, update both `ci.yml` and `publish.yml` to include their tests, or explicitly exclude them from both.
+
+### gh run rerun Uses the Original Workflow File
+
+**Problem:** After fixing a workflow file and pushing, `gh run rerun <run_id>` still uses the workflow file from the original commit, not the updated one.
+
+**Solution:** Instead of rerunning, trigger a new workflow run:
+```bash
+# Trigger publish workflow manually
+gh workflow run publish.yml -f target=npm
+
+# Or for both npm and jsr
+gh workflow run publish.yml -f target=both
+```
+
+### Always Keep bun.lock Up to Date
+
+**Problem:** CI failed because `bun install` modified `bun.lock` (platform differences between local macOS and CI Linux).
+
+**Solution:** Always run `bun install` locally and commit the updated `bun.lock` before pushing. The lockfile should be regenerated after any dependency changes:
+```bash
+rm bun.lock
+bun install
+jj commit -m "Update bun.lock"
+```
