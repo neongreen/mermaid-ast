@@ -7,6 +7,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-01-17
+
+### Added
+
+- **Fluent Builder API** - Chainable, type-safe builders for all diagram types:
+  - `flowchart()` - Build flowcharts with nodes, links, subgraphs, classDef, styles
+  - `sequence()` - Build sequence diagrams with participants, actors, messages, loops, alt, notes
+  - `classDiagram()` - Build class diagrams with classes, members, relations, namespaces
+  - `stateDiagram()` - Build state diagrams with states, transitions, composites, fork/join/choice
+
+- **Builder validation** - `.build()` validates by default (e.g., errors if link references non-existent node)
+  - Can be disabled with `.build({ validate: false })`
+
+- **JSR.io publishing support** - Added `jsr.json` for publishing as `@emily/mermaid-ast`
+  - `just jsr-publish` - Publish to JSR
+  - `just publish-all` - Publish to both npm and JSR
+
+- **Biome linting** - Added Biome for code quality
+  - `useDefaultSwitchClause` rule enabled
+  - `assertNever()` helper for exhaustive type checking
+
+- **README improvements**
+  - Diagram type checklist showing implemented vs not-implemented
+  - Builder API examples for all 4 diagram types
+
+### Changed
+
+- State diagram builder no longer auto-creates states in transitions (allows validation to catch missing states)
+
+### Prompts Used
+
+```
+ok just in case for default/case/switch could you have used assertNever() or smth at least in some cases?
+yes lets go. make a plan
+we support more than just flowchart and sequence tho?
+1 - what do you suggest? 2 - nah
+ok. create todos and start
+also in the readme lets have a checkboxes list with diagram types that are and arent implemented
+also do you link to my github repo in the package json?
+also i want to publish to jsr.io
+for jsr it'll be @emily/mermaid-ast i think because scopes
+also if you can create smaller test files like idk break them into several please do
+i dont want 500+ loc test files
+ok so which version should it be
+yes
+```
+
 ## [0.3.0] - 2025-01-17
 
 ### Added
