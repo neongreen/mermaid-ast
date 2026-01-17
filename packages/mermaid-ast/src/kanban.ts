@@ -152,12 +152,7 @@ export class Kanban extends DiagramWrapper<KanbanAST> {
   /**
    * Add a child node to a parent
    */
-  addChild(
-    parentId: string,
-    id: string,
-    descr?: string,
-    options?: AddKanbanNodeOptions
-  ): this {
+  addChild(parentId: string, id: string, descr?: string, options?: AddKanbanNodeOptions): this {
     const parent = this.findNodeById(parentId);
     if (!parent) {
       throw new Error(`Parent node with id "${parentId}" not found`);
@@ -349,9 +344,7 @@ export class Kanban extends DiagramWrapper<KanbanAST> {
   getDepth(): number {
     const getMaxDepth = (nodes: KanbanNode[], currentDepth: number): number => {
       if (nodes.length === 0) return currentDepth;
-      return Math.max(
-        ...nodes.map((node) => getMaxDepth(node.children, currentDepth + 1))
-      );
+      return Math.max(...nodes.map((node) => getMaxDepth(node.children, currentDepth + 1)));
     };
     return getMaxDepth(this.ast.nodes, 0);
   }

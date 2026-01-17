@@ -38,12 +38,12 @@ function getNodeDelimiters(type: KanbanNodeType): [string, string] {
  */
 function renderNode(node: KanbanNode): string {
   const [start, end] = getNodeDelimiters(node.type);
-  
+
   // If id equals descr, render without delimiters
   if (node.id === node.descr) {
     return node.id;
   }
-  
+
   // Otherwise, render with id and description
   return `${node.id}${start}${node.descr}${end}`;
 }
@@ -54,14 +54,14 @@ function renderNode(node: KanbanNode): string {
 function renderNodesDoc(nodes: KanbanNode[]): Doc {
   return nodes.map((node) => {
     let line = renderNode(node);
-    
+
     // Add shape data if present
     if (node.shapeData) {
       line += `@{${node.shapeData}}`;
     }
-    
+
     const parts: Doc[] = [line];
-    
+
     // Add decorations on separate lines
     if (node.icon) {
       parts.push(`::icon(${node.icon})`);
@@ -69,12 +69,12 @@ function renderNodesDoc(nodes: KanbanNode[]): Doc {
     if (node.class) {
       parts.push(`:::${node.class}`);
     }
-    
+
     // Render children (indented)
     if (node.children.length > 0) {
       parts.push(indent(renderNodesDoc(node.children)));
     }
-    
+
     return parts;
   });
 }
@@ -84,11 +84,8 @@ function renderNodesDoc(nodes: KanbanNode[]): Doc {
  */
 export function renderKanban(ast: KanbanAST, options?: RenderOptions): string {
   const opts = resolveOptions(options);
-  
-  const doc: Doc = [
-    'kanban',
-    indent(renderNodesDoc(ast.nodes)),
-  ];
+
+  const doc: Doc = ['kanban', indent(renderNodesDoc(ast.nodes))];
 
   return render(doc, opts.indent);
 }

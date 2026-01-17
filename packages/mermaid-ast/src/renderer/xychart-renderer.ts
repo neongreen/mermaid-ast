@@ -17,7 +17,7 @@ function renderXAxis(xAxis: XYChartAST['xAxis']): Doc {
   if (!xAxis) return null;
 
   const parts: string[] = [];
-  
+
   // Add title if present
   if (xAxis.title) {
     parts.push(`"${xAxis.title}"`);
@@ -43,7 +43,7 @@ function renderYAxis(yAxis: XYChartAST['yAxis']): Doc {
   if (!yAxis) return null;
 
   const parts: string[] = [];
-  
+
   // Add title if present
   if (yAxis.title) {
     parts.push(`"${yAxis.title}"`);
@@ -69,13 +69,13 @@ function renderSeries(series: XYChartAST['series'][0]): string {
  */
 export function renderXYChart(ast: XYChartAST, options?: RenderOptions): string {
   const opts = resolveOptions(options);
-  
+
   const header = ast.orientation ? `xychart-beta ${ast.orientation}` : 'xychart-beta';
-  
+
   const doc: Doc = [
     header,
     indent([
-      when(ast.title, () => `title ${ast.title}`),
+      when(ast.title, () => `title "${ast.title}"`),
       when(ast.accTitle, () => `accTitle: ${ast.accTitle}`),
       when(ast.accDescription, () => `accDescr: ${ast.accDescription}`),
       renderXAxis(ast.xAxis),

@@ -166,7 +166,7 @@ describe('XY Chart Parser', () => {
     y-axis "Revenue ($K)" 0 --> 500
     line "2023" [100, 150, 200, 250]
     bar "2024" [120, 180, 220, 280]`);
-      
+
       expect(ast.title).toBe('Quarterly Revenue');
       expect(ast.orientation).toBe('horizontal');
       expect(ast.accTitle).toBe('Q Revenue Chart');

@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Kanban diagram support** - Complete implementation with parser, renderer (using doc.ts), wrapper class, and 71 tests
+  - Hierarchical node structure with indent levels
+  - Multiple node shapes (round, square, diamond, stadium, subroutine, asymmetric)
+  - Node decorations (icons and CSS classes)
+  - Shape data support
+  - Full fluent API with query operations
+- **XY Chart diagram support** - Complete implementation with parser, renderer (using doc.ts), wrapper class, and 98 tests
+  - Line and bar series with labels
+  - X-axis: categorical bands or numeric ranges
+  - Y-axis: numeric ranges
+  - Chart orientation (vertical/horizontal)
+  - Accessibility metadata (accTitle, accDescription)
+  - Full fluent API for building and querying charts
+- **doc.ts rendering guideline** - Updated AGENTS.md to require all new renderers to use doc.ts library
+- **Migration TODO** - Added TODO in README for migrating existing renderers to doc.ts
+
 ## [0.6.2] - 2025-01-17
 
 ### Fixed

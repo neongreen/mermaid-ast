@@ -109,7 +109,7 @@ describe('Kanban Renderer', () => {
       const diagram = Kanban.create()
         .addNode('todo', 'To Do')
         .addChild('todo', 'task1', 'Write code');
-      
+
       expectGolden(diagram.render(), 'kanban/render-simple.mmd');
     });
 
@@ -118,17 +118,16 @@ describe('Kanban Renderer', () => {
         .addNode('n1', 'Round', { type: KanbanNodeType.ROUND })
         .addNode('n2', 'Square', { type: KanbanNodeType.SQUARE })
         .addNode('n3', 'Diamond', { type: KanbanNodeType.DIAMOND });
-      
+
       expectGolden(diagram.render(), 'kanban/render-shapes.mmd');
     });
 
     it('should render kanban with decorations', () => {
-      const diagram = Kanban.create()
-        .addNode('task1', 'Important Task', { 
-          icon: 'fas fa-star',
-          class: 'highlight'
-        });
-      
+      const diagram = Kanban.create().addNode('task1', 'Important Task', {
+        icon: 'fas fa-star',
+        class: 'highlight',
+      });
+
       expectGolden(diagram.render(), 'kanban/render-decorations.mmd');
     });
 
@@ -141,7 +140,7 @@ describe('Kanban Renderer', () => {
         .addChild('inprogress', 'task1', 'Implementing', { type: KanbanNodeType.ROUND })
         .addNode('done', 'Done')
         .addChild('done', 'task2', 'Completed', { type: KanbanNodeType.STADIUM });
-      
+
       expectGolden(diagram.render(), 'kanban/render-complex.mmd');
     });
   });

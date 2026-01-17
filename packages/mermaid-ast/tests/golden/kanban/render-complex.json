@@ -1,0 +1,59 @@
+{
+  "nodes": [
+    {
+      "children": [
+        {
+          "children": [],
+          "descr": "New Feature",
+          "icon": "fas fa-lightbulb",
+          "id": "feature1",
+          "indent": 1,
+          "type": 1
+        },
+        {
+          "children": [],
+          "class": "urgent",
+          "descr": "Bug Fix",
+          "id": "bug1",
+          "indent": 1,
+          "type": 1
+        }
+      ],
+      "descr": "Backlog",
+      "id": "backlog",
+      "indent": 0,
+      "type": 1
+    },
+    {
+      "children": [
+        {
+          "children": [],
+          "descr": "Implementing",
+          "id": "task1",
+          "indent": 1,
+          "type": 0
+        }
+      ],
+      "descr": "In Progress",
+      "id": "inprogress",
+      "indent": 0,
+      "type": 1
+    },
+    {
+      "children": [
+        {
+          "children": [],
+          "descr": "Completed",
+          "id": "task2",
+          "indent": 1,
+          "type": 11
+        }
+      ],
+      "descr": "Done",
+      "id": "done",
+      "indent": 0,
+      "type": 1
+    }
+  ],
+  "type": "kanban"
+}

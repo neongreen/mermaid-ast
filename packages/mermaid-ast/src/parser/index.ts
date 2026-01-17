@@ -16,6 +16,7 @@ export { isSankeyDiagram, parseSankey } from './sankey-parser.js';
 export { isSequenceDiagram, parseSequence } from './sequence-parser.js';
 export { isStateDiagram, parseStateDiagram } from './state-parser.js';
 export { isTimelineDiagram, parseTimeline } from './timeline-parser.js';
+export { isXYChartDiagram, parseXYChart } from './xychart-parser.js';
 
 import type { DiagramType, MermaidAST } from '../types/index.js';
 import { assertNever } from '../utils.js';
@@ -31,6 +32,7 @@ import { isSankeyDiagram, parseSankey } from './sankey-parser.js';
 import { isSequenceDiagram, parseSequence } from './sequence-parser.js';
 import { isStateDiagram, parseStateDiagram } from './state-parser.js';
 import { isTimelineDiagram, parseTimeline } from './timeline-parser.js';
+import { isXYChartDiagram, parseXYChart } from './xychart-parser.js';
 
 /**
  * Detect the diagram type from input text
@@ -48,6 +50,7 @@ export function detectDiagramType(input: string): DiagramType | null {
   if (isTimelineDiagram(input)) return 'timeline';
   if (isSankeyDiagram(input)) return 'sankey';
   if (isQuadrantDiagram(input)) return 'quadrant';
+  if (isXYChartDiagram(input)) return 'xychart';
   return null;
 }
 
@@ -59,7 +62,7 @@ export function parse(input: string): MermaidAST {
 
   if (!type) {
     throw new Error(
-      'Unable to detect diagram type. Supported types: flowchart, sequence, class, state, erDiagram, gantt, mindmap, journey, kanban, timeline, sankey, quadrant'
+      'Unable to detect diagram type. Supported types: flowchart, sequence, class, state, erDiagram, gantt, mindmap, journey, kanban, timeline, sankey, quadrant, xychart'
     );
   }
 
@@ -88,6 +91,8 @@ export function parse(input: string): MermaidAST {
       return parseSankey(input);
     case 'quadrant':
       return parseQuadrant(input);
+    case 'xychart':
+      return parseXYChart(input);
     default:
       return assertNever(type);
   }

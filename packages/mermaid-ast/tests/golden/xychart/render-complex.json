@@ -1,0 +1,44 @@
+{
+  "accDescription": "Quarterly revenue comparison",
+  "accTitle": "Q Revenue Chart",
+  "orientation": "horizontal",
+  "series": [
+    {
+      "label": "2023",
+      "type": "line",
+      "values": [
+        100,
+        150,
+        200,
+        250
+      ]
+    },
+    {
+      "label": "2024",
+      "type": "bar",
+      "values": [
+        120,
+        180,
+        220,
+        280
+      ]
+    }
+  ],
+  "title": "Quarterly Revenue",
+  "type": "xychart",
+  "xAxis": {
+    "categories": [
+      "Q1",
+      "Q2",
+      "Q3",
+      "Q4"
+    ],
+    "title": "Quarter",
+    "type": "band"
+  },
+  "yAxis": {
+    "max": 500,
+    "min": 0,
+    "title": "Revenue ($K)"
+  }
+}

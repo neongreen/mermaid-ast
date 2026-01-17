@@ -17,6 +17,7 @@ export * from './sankey.js';
 export * from './sequence.js';
 export * from './state.js';
 export * from './timeline.js';
+export * from './xychart.js';
 
 import type { ClassDiagramAST } from './class.js';
 import type { ErDiagramAST } from './er.js';
@@ -30,6 +31,7 @@ import type { SankeyAST } from './sankey.js';
 import type { SequenceAST } from './sequence.js';
 import type { StateDiagramAST } from './state.js';
 import type { TimelineAST } from './timeline.js';
+import type { XYChartAST } from './xychart.js';
 
 /**
  * Union type for all supported diagram ASTs
@@ -46,7 +48,8 @@ export type MermaidAST =
   | KanbanAST
   | QuadrantAST
   | SankeyAST
-  | TimelineAST;
+  | TimelineAST
+  | XYChartAST;
 
 /**
  * Diagram type identifiers
@@ -63,7 +66,8 @@ export type DiagramType =
   | 'kanban'
   | 'quadrant'
   | 'sankey'
-  | 'timeline';
+  | 'timeline'
+  | 'xychart';
 
 /**
  * Check if an AST is a flowchart
@@ -147,4 +151,11 @@ export function isSankeyAST(ast: MermaidAST): ast is SankeyAST {
  */
 export function isQuadrantAST(ast: MermaidAST): ast is QuadrantAST {
   return ast.type === 'quadrant';
+}
+
+/**
+ * Check if an AST is an XY Chart
+ */
+export function isXYChartAST(ast: MermaidAST): ast is XYChartAST {
+  return ast.type === 'xychart';
 }

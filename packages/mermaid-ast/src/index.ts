@@ -114,6 +114,9 @@ export { StateDiagram } from './state-diagram.js';
 export type { FindTimelineEventsQuery, FindTimelinePeriodsQuery } from './timeline.js';
 // Export Timeline wrapper class
 export { Timeline } from './timeline.js';
+export type { FindSeriesQuery } from './xychart.js';
+// Export XYChart wrapper class
+export { XYChart } from './xychart.js';
 
 // Export types
 export * from './types/index.js';

@@ -18,11 +18,11 @@ function testRoundTrip(input: string, description: string) {
     // Deep compare nodes recursively
     function compareNodes(nodes1: typeof ast1.nodes, nodes2: typeof ast2.nodes) {
       expect(nodes2.length).toBe(nodes1.length);
-      
+
       for (let i = 0; i < nodes1.length; i++) {
         const node1 = nodes1[i];
         const node2 = nodes2[i];
-        
+
         expect(node2.id).toBe(node1.id);
         expect(node2.descr).toBe(node1.descr);
         expect(node2.type).toBe(node1.type);
@@ -30,7 +30,7 @@ function testRoundTrip(input: string, description: string) {
         expect(node2.icon).toBe(node1.icon);
         expect(node2.class).toBe(node1.class);
         expect(node2.shapeData).toBe(node1.shapeData);
-        
+
         // Compare children recursively
         compareNodes(node1.children, node2.children);
       }

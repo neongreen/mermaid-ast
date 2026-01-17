@@ -52,10 +52,10 @@ describe('Kanban', () => {
       const original = Kanban.create()
         .addNode('node1', 'Node 1')
         .addChild('node1', 'child1', 'Child 1');
-      
+
       const cloned = original.clone();
       cloned.setNodeDescr('node1', 'Modified');
-      
+
       expect(original.findNodeById('node1')?.descr).toBe('Node 1');
       expect(cloned.findNodeById('node1')?.descr).toBe('Modified');
     });
@@ -70,10 +70,8 @@ describe('Kanban', () => {
 
   describe('Node Operations', () => {
     it('should add root nodes', () => {
-      const kanban = Kanban.create()
-        .addNode('n1', 'Node 1')
-        .addNode('n2', 'Node 2');
-      
+      const kanban = Kanban.create().addNode('n1', 'Node 1').addNode('n2', 'Node 2');
+
       expect(kanban.nodes).toHaveLength(2);
       expect(kanban.nodes[0].id).toBe('n1');
       expect(kanban.nodes[1].id).toBe('n2');
@@ -84,7 +82,7 @@ describe('Kanban', () => {
         .addNode('parent', 'Parent')
         .addChild('parent', 'child1', 'Child 1')
         .addChild('parent', 'child2', 'Child 2');
-      
+
       expect(kanban.nodes[0].children).toHaveLength(2);
       expect(kanban.getChildren('parent')).toHaveLength(2);
     });
@@ -96,7 +94,7 @@ describe('Kanban', () => {
         class: 'highlight',
         shapeData: 'priority:high',
       });
-      
+
       const node = kanban.findNodeById('task');
       expect(node?.type).toBe(KanbanNodeType.DIAMOND);
       expect(node?.icon).toBe('fas fa-star');
@@ -116,7 +114,7 @@ describe('Kanban', () => {
         .addNode('n1', 'Node 1')
         .addNode('n2', 'Node 2')
         .removeNode('n1');
-      
+
       expect(kanban.nodes).toHaveLength(1);
       expect(kanban.findNodeById('n1')).toBeUndefined();
     });
@@ -127,7 +125,7 @@ describe('Kanban', () => {
         .addChild('parent', 'child1', 'Child 1')
         .addChild('parent', 'child2', 'Child 2')
         .removeNode('child1');
-      
+
       expect(kanban.getChildren('parent')).toHaveLength(1);
     });
 
@@ -135,7 +133,7 @@ describe('Kanban', () => {
       const kanban = Kanban.create()
         .addNode('task', 'Old Description')
         .setNodeDescr('task', 'New Description');
-      
+
       expect(kanban.findNodeById('task')?.descr).toBe('New Description');
     });
 
@@ -143,28 +141,24 @@ describe('Kanban', () => {
       const kanban = Kanban.create()
         .addNode('task', 'Task')
         .setNodeType('task', KanbanNodeType.STADIUM);
-      
+
       expect(kanban.findNodeById('task')?.type).toBe(KanbanNodeType.STADIUM);
     });
 
     it('should set and remove node icon', () => {
-      const kanban = Kanban.create()
-        .addNode('task', 'Task')
-        .setNodeIcon('task', 'fas fa-check');
-      
+      const kanban = Kanban.create().addNode('task', 'Task').setNodeIcon('task', 'fas fa-check');
+
       expect(kanban.findNodeById('task')?.icon).toBe('fas fa-check');
-      
+
       kanban.removeNodeIcon('task');
       expect(kanban.findNodeById('task')?.icon).toBeUndefined();
     });
 
     it('should set and remove node class', () => {
-      const kanban = Kanban.create()
-        .addNode('task', 'Task')
-        .setNodeClass('task', 'highlight');
-      
+      const kanban = Kanban.create().addNode('task', 'Task').setNodeClass('task', 'highlight');
+
       expect(kanban.findNodeById('task')?.class).toBe('highlight');
-      
+
       kanban.removeNodeClass('task');
       expect(kanban.findNodeById('task')?.class).toBeUndefined();
     });
@@ -176,7 +170,7 @@ describe('Kanban', () => {
         .addNode('n1', 'Node 1')
         .addChild('n1', 'n2', 'Node 2')
         .addChild('n2', 'n3', 'Node 3');
-      
+
       const allNodes = kanban.getAllNodes();
       expect(allNodes).toHaveLength(3);
     });
@@ -185,7 +179,7 @@ describe('Kanban', () => {
       const kanban = Kanban.create()
         .addNode('parent', 'Parent')
         .addChild('parent', 'child', 'Child');
-      
+
       const child = kanban.findNodeById('child');
       expect(child?.id).toBe('child');
       expect(child?.descr).toBe('Child');
@@ -196,7 +190,7 @@ describe('Kanban', () => {
         .addNode('n1', 'Node 1', { type: KanbanNodeType.DIAMOND })
         .addNode('n2', 'Node 2', { type: KanbanNodeType.SQUARE })
         .addNode('n3', 'Node 3', { type: KanbanNodeType.DIAMOND });
-      
+
       const diamonds = kanban.findNodes({ type: KanbanNodeType.DIAMOND });
       expect(diamonds).toHaveLength(2);
     });
@@ -206,7 +200,7 @@ describe('Kanban', () => {
         .addNode('n1', 'Node 1', { icon: 'fas fa-star' })
         .addNode('n2', 'Node 2', { icon: 'fas fa-check' })
         .addNode('n3', 'Node 3', { icon: 'fas fa-star' });
-      
+
       const starred = kanban.findNodes({ icon: 'fas fa-star' });
       expect(starred).toHaveLength(2);
     });
@@ -216,7 +210,7 @@ describe('Kanban', () => {
         .addNode('n1', 'Node 1', { class: 'highlight' })
         .addNode('n2', 'Node 2')
         .addNode('n3', 'Node 3', { class: 'highlight' });
-      
+
       const highlighted = kanban.findNodes({ class: 'highlight' });
       expect(highlighted).toHaveLength(2);
     });
@@ -226,7 +220,7 @@ describe('Kanban', () => {
         .addNode('n1', 'Bug Fix')
         .addNode('n2', 'New Feature')
         .addNode('n3', 'Fix Documentation');
-      
+
       const fixes = kanban.findNodes({ descrContains: 'Fix' });
       expect(fixes).toHaveLength(2);
     });
@@ -236,11 +230,11 @@ describe('Kanban', () => {
         .addNode('root', 'Root')
         .addChild('root', 'child1', 'Child 1')
         .addChild('child1', 'grandchild', 'Grandchild');
-      
+
       const level0 = kanban.findNodes({ indent: 0 });
       const level1 = kanban.findNodes({ indent: 1 });
       const level2 = kanban.findNodes({ indent: 2 });
-      
+
       expect(level0).toHaveLength(1);
       expect(level1).toHaveLength(1);
       expect(level2).toHaveLength(1);
@@ -251,7 +245,7 @@ describe('Kanban', () => {
         .addNode('parent', 'Parent')
         .addChild('parent', 'child1', 'Child 1')
         .addChild('parent', 'child2', 'Child 2');
-      
+
       const children = kanban.getChildren('parent');
       expect(children).toHaveLength(2);
       expect(children[0].id).toBe('child1');
@@ -262,7 +256,7 @@ describe('Kanban', () => {
       const kanban = Kanban.create()
         .addNode('parent', 'Parent')
         .addChild('parent', 'child', 'Child');
-      
+
       const parent = kanban.getParent('child');
       expect(parent?.id).toBe('parent');
     });
@@ -279,17 +273,17 @@ describe('Kanban', () => {
         .addChild('root', 'branch', 'Branch')
         .addChild('branch', 'leaf1', 'Leaf 1')
         .addChild('root', 'leaf2', 'Leaf 2');
-      
+
       const leaves = kanban.getLeafNodes();
       expect(leaves).toHaveLength(2);
-      expect(leaves.map(n => n.id)).toContain('leaf1');
-      expect(leaves.map(n => n.id)).toContain('leaf2');
+      expect(leaves.map((n) => n.id)).toContain('leaf1');
+      expect(leaves.map((n) => n.id)).toContain('leaf2');
     });
 
     it('should get tree depth', () => {
       const kanban1 = Kanban.create().addNode('root', 'Root');
       expect(kanban1.getDepth()).toBe(1);
-      
+
       const kanban2 = Kanban.create()
         .addNode('root', 'Root')
         .addChild('root', 'child', 'Child')
@@ -302,35 +296,35 @@ describe('Kanban', () => {
     it('should build a complete kanban board', () => {
       const kanban = Kanban.create()
         .addNode('backlog', 'Backlog')
-        .addChild('backlog', 'feat1', 'New Feature', { 
+        .addChild('backlog', 'feat1', 'New Feature', {
           type: KanbanNodeType.SQUARE,
-          icon: 'fas fa-lightbulb' 
+          icon: 'fas fa-lightbulb',
         })
-        .addChild('backlog', 'bug1', 'Bug Fix', { 
-          class: 'urgent' 
+        .addChild('backlog', 'bug1', 'Bug Fix', {
+          class: 'urgent',
         })
         .addNode('inprogress', 'In Progress')
-        .addChild('inprogress', 'task1', 'Implementing', { 
+        .addChild('inprogress', 'task1', 'Implementing', {
           type: KanbanNodeType.ROUND,
-          icon: 'fas fa-code'
+          icon: 'fas fa-code',
         })
         .addNode('review', 'In Review')
-        .addChild('review', 'pr1', 'PR #123', { 
-          icon: 'fas fa-code-review'
+        .addChild('review', 'pr1', 'PR #123', {
+          icon: 'fas fa-code-review',
         })
         .addNode('done', 'Done')
-        .addChild('done', 'task2', 'Completed', { 
+        .addChild('done', 'task2', 'Completed', {
           type: KanbanNodeType.STADIUM,
-          class: 'complete'
+          class: 'complete',
         });
-      
+
       expect(kanban.nodes).toHaveLength(4);
       expect(kanban.nodeCount).toBe(9); // 4 root + 5 children
       expect(kanban.getDepth()).toBe(2);
-      
+
       const urgentTasks = kanban.findNodes({ class: 'urgent' });
       expect(urgentTasks).toHaveLength(1);
-      
+
       const rendered = kanban.render();
       expect(rendered).toContain('backlog');
       expect(rendered).toContain('::icon(fas fa-lightbulb)');

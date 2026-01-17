@@ -1,0 +1,29 @@
+{
+  "series": [
+    {
+      "label": "Sales",
+      "type": "line",
+      "values": [
+        100,
+        200,
+        300
+      ]
+    }
+  ],
+  "title": "Sales Report",
+  "type": "xychart",
+  "xAxis": {
+    "categories": [
+      "Jan",
+      "Feb",
+      "Mar"
+    ],
+    "title": "Month",
+    "type": "band"
+  },
+  "yAxis": {
+    "max": 500,
+    "min": 0,
+    "title": "Revenue"
+  }
+}

@@ -50,13 +50,7 @@ function createKanbanYY(ast: KanbanAST) {
      * @param type - Node type
      * @param shapeData - Optional shape data
      */
-    addNode(
-      spaceCount: number,
-      id: string,
-      descr: string,
-      type: number,
-      shapeData?: string
-    ): void {
+    addNode(spaceCount: number, id: string, descr: string, type: number, shapeData?: string): void {
       // Find parent node based on space count
       while (nodeStack.length > 0 && nodeStack[nodeStack.length - 1].indent >= spaceCount) {
         nodeStack.pop();
@@ -140,7 +134,7 @@ export function parseKanban(input: string): KanbanAST {
   if (!normalizedInput.toLowerCase().startsWith('kanban')) {
     normalizedInput = `kanban\n${normalizedInput}`;
   }
-  
+
   // Ensure there's a newline after kanban to avoid EOF parse error
   if (normalizedInput.toLowerCase() === 'kanban') {
     normalizedInput = 'kanban\n';

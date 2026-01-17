@@ -1,0 +1,14 @@
+{
+  "series": [
+    {
+      "label": "",
+      "type": "line",
+      "values": [
+        10,
+        20,
+        30
+      ]
+    }
+  ],
+  "type": "xychart"
+}

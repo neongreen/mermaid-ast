@@ -157,7 +157,7 @@ describe('Kanban Parser', () => {
   Done
     task4[Deploy]
     :::complete`);
-      
+
       expect(ast.nodes).toHaveLength(3);
       expect(ast.nodes[0].id).toBe('Todo');
       expect(ast.nodes[0].children).toHaveLength(2);

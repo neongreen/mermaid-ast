@@ -1,0 +1,14 @@
+{
+  "nodes": [
+    {
+      "children": [],
+      "class": "highlight",
+      "descr": "Important Task",
+      "icon": "fas fa-star",
+      "id": "task1",
+      "indent": 0,
+      "type": 1
+    }
+  ],
+  "type": "kanban"
+}
