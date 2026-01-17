@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2025-01-17
+
+### Added
+
+- **Flowchart Wrapper Class** - Unified API for building, mutating, and querying flowcharts:
+  - `Flowchart.create()`, `.from()`, `.parse()` - Factory methods
+  - `toAST()`, `render()`, `clone()` - Core methods
+  - **Node operations**: `addNode`, `removeNode`, `getNode`, `setNodeText`, `setNodeShape`, `addClass`, `removeClass`, `findNodes`
+  - **Link operations**: `addLink`, `removeLink`, `flipLink`, `setLinkType`, `setLinkStroke`, `setLinkText`, `getLinksFrom`, `getLinksTo`, `addLinksFromMany`, `addLinksToMany`
+  - **Subgraph operations**: `createSubgraph`, `dissolveSubgraph`, `moveToSubgraph`, `extractFromSubgraph`, `mergeSubgraphs`
+  - **Graph surgery**: `insertBetween`, `removeAndReconnect`, `getReachable`, `getAncestors`, `getPath`
+  - **Chain operations (jj-style)**: `getChain`, `yankChain`, `spliceChain`, `reverseChain`, `extractChain`, `rebaseNodes`
+
+- **65 new tests** for the Flowchart wrapper class
+
+### Fixed
+
+- Lazy evaluation for `renderClassAssignments` in flowchart renderer (was being eagerly evaluated even when `inlineClasses: true`)
+
+### Prompts Used
+
+```
+i want ast manipulations and i want like Imagine what I'm building is an interactive diagram editor, and I'm focused on flow chart graphs and diagrams first and foremost. What I need is stuff like: Insert a node between two other nodes in the graph, like splice or remove unsplice. If I have an arrow A to B and B to C, I should be able to yank B out and just get A to C. Flip the direction of an arrow, or change an arrow. Get all arrows coming from some node and where they are going. Move nodes, like some subsets of nodes, between clusters. Outside of clusters, group into a subcluster. Move a subcluster into another, or do various stuff with subclusters. Change the class of a node, add class, remove class. Find all nodes with a certain class. Change the text of a node. Create arrows from many nodes to one, or from one to many. Take a chain of nodes and splice it, or yank it, sort of like JJ operations, and rebase a set of revisions.
+
+Ok, which of these are already handled by Fluent API?
+
+Do you feel like the Fluent API can also be used for the mutation?
+
+Okay, can you iterate on this a bit more? We don't have users yet. So if you had to design from scratch and you knew that you'd have to have building, mutating, and querying, what would you do?
+
+and if you want to ask me if i want behavior A or B, lets just support both and clean it up later. im going to sleep so i wont be able to reply
+
+you dont have to mark anything as deprecated btw its completely fine to overhaul stuff before 1.0.0
+
+nah its ok. whats next. fluent api overhaul with methods for mutability? how would you break this down into phases
+```
+
 ## [0.4.0] - 2025-01-17
 
 ### Added

@@ -148,6 +148,139 @@ detectDiagramType("classDiagram\n  class Animal"); // "class"
 detectDiagramType("unknown diagram"); // null
 ```
 
+## Flowchart Wrapper Class (Recommended)
+
+The `Flowchart` class provides a unified API for building, mutating, and querying flowchart diagrams. This is the recommended way to work with flowcharts programmatically.
+
+### Creating Flowcharts
+
+```typescript
+import { Flowchart } from "mermaid-ast";
+
+// Create empty flowchart
+const f = Flowchart.create("LR");
+
+// Parse existing diagram
+const f = Flowchart.parse(`flowchart LR
+    A --> B --> C`);
+
+// Wrap existing AST
+const f = Flowchart.from(existingAst);
+```
+
+### Building Flowcharts
+
+```typescript
+const diagram = Flowchart.create("LR")
+  .addNode("A", "Start", { shape: "stadium" })
+  .addNode("B", "Process")
+  .addNode("C", "End", { shape: "circle" })
+  .addLink("A", "B", { text: "begin" })
+  .addLink("B", "C")
+  .createSubgraph("sub1", ["B"], "Processing")
+  .addClass("A", "highlight");
+
+console.log(diagram.render());
+```
+
+### Mutating Flowcharts
+
+```typescript
+const diagram = Flowchart.parse(`flowchart LR
+    A --> B --> C --> D`);
+
+// Change node properties
+diagram.setNodeText("A", "New Start");
+diagram.setNodeShape("A", "diamond");
+
+// Modify links
+diagram.flipLink(0);  // Reverse direction
+diagram.setLinkText(0, "label");
+
+// Add/remove classes
+diagram.addClass("B", "highlight");
+diagram.removeClass("B", "highlight");
+
+// Remove a node and reconnect neighbors
+diagram.removeNode("B", { reconnect: true });
+// Result: A --> C --> D
+```
+
+### Querying Flowcharts
+
+```typescript
+const diagram = Flowchart.parse(`flowchart TD
+    A[Start] --> B{Decision}
+    B -->|Yes| C[OK]
+    B -->|No| D[Cancel]`);
+
+// Find nodes
+diagram.findNodes({ class: "highlight" });
+diagram.findNodes({ shape: "diamond" });
+diagram.findNodes({ textContains: "Start" });
+
+// Get links
+diagram.getLinksFrom("B");  // Outgoing links
+diagram.getLinksTo("B");    // Incoming links
+
+// Graph traversal
+diagram.getReachable("A");   // All nodes reachable from A
+diagram.getAncestors("C");   // All nodes that can reach C
+diagram.getPath("A", "C");   // Shortest path: ["A", "B", "C"]
+```
+
+### Chain Operations (jj-style)
+
+Inspired by [jj](https://github.com/martinvonz/jj), these operations let you manipulate chains of nodes:
+
+```typescript
+const diagram = Flowchart.create()
+  .addNode("X").addNode("A").addNode("B").addNode("C").addNode("Y")
+  .addLink("X", "A").addLink("A", "B").addLink("B", "C").addLink("C", "Y");
+
+// Yank (remove) a chain and reconnect
+diagram.yankChain(["A", "B", "C"]);
+// Result: X --> Y
+
+// Splice a chain between nodes
+diagram.spliceChain(["A", "B"], "X", "Y");
+// Result: X --> A --> B --> Y
+
+// Reverse a chain's direction
+diagram.reverseChain(["A", "B", "C"]);
+// Changes A-->B-->C to A<--B<--C
+
+// Extract a chain as a new Flowchart
+const extracted = diagram.extractChain(["B", "C"]);
+
+// Rebase nodes to a new parent
+diagram.rebaseNodes(["A", "B"], "NewParent");
+
+// Get a linear chain between two nodes
+diagram.getChain("A", "D");  // ["A", "B", "C", "D"] if linear
+```
+
+### Subgraph Operations
+
+```typescript
+const diagram = Flowchart.create()
+  .addNode("A").addNode("B").addNode("C")
+  .createSubgraph("sub1", ["A", "B"], "Group 1")
+  .createSubgraph("sub2", ["C"], "Group 2");
+
+// Move nodes between subgraphs
+diagram.moveToSubgraph(["B"], "sub2");
+
+// Extract nodes to root level
+diagram.extractFromSubgraph(["A"]);
+
+// Merge subgraphs
+diagram.mergeSubgraphs("sub1", "sub2");
+
+// Dissolve a subgraph (keep nodes, remove grouping)
+diagram.dissolveSubgraph("sub1");
+```
+
 ## Fluent Builder API
 
 Build diagrams programmatically with a chainable, type-safe API:
