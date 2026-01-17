@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, test } from 'bun:test';
-import { block, type Doc, indent, isIndent, join, render, when } from '../../src/renderer/doc.js';
+import { blank, block, type Doc, indent, isBlank, isIndent, join, render, when } from '../../src/renderer/doc.js';
 
 describe('Doc Builder', () => {
   describe('render', () => {
@@ -158,6 +158,28 @@ describe('Doc Builder', () => {
 
     test('returns false for null', () => {
       expect(isIndent(null)).toBe(false);
+    });
+  });
+
+  describe('isBlank', () => {
+    test('returns true for blank nodes', () => {
+      expect(isBlank(blank)).toBe(true);
+    });
+
+    test('returns false for strings', () => {
+      expect(isBlank('test')).toBe(false);
+    });
+
+    test('returns false for arrays', () => {
+      expect(isBlank(['a', 'b'])).toBe(false);
+    });
+
+    test('returns false for null', () => {
+      expect(isBlank(null)).toBe(false);
+    });
+
+    test('returns false for indent nodes', () => {
+      expect(isBlank(indent('test'))).toBe(false);
     });
   });
 
