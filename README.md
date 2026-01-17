@@ -679,6 +679,8 @@ UPDATE_GOLDEN=1 bun test tests/golden  # Regenerate snapshots
 2. Generate golden JSON: `UPDATE_GOLDEN=1 bun test tests/golden --test-name-pattern="new-case"`
 3. Review and commit both files
 
+**Future improvement:** Add diff support for better error messages when golden tests fail (e.g., using `jest-diff`).
+
 ### Using the Justfile
 
 If you have [just](https://github.com/casey/just) installed:
