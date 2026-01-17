@@ -5,9 +5,9 @@
  * When UPDATE_GOLDEN=1 is set, the expected files are updated instead of compared.
  */
 
+import { expect } from 'bun:test';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { expect } from 'bun:test';
 
 const GOLDEN_DIR = join(import.meta.dir);
 

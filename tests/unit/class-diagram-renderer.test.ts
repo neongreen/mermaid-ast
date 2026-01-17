@@ -10,7 +10,7 @@ describe('ClassDiagram Renderer', () => {
         .addMethod('Animal', 'eat()', '+')
         .addClass('Dog')
         .addInheritance('Dog', 'Animal');
-      
+
       expectGolden(diagram.render(), 'class/render-basic.mmd');
     });
   });

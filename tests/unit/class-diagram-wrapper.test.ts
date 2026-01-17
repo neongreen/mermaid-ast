@@ -22,18 +22,15 @@ describe('ClassDiagram Wrapper', () => {
     }
     class Dog
     Animal <|-- Dog`);
-      
+
       expect(diagram.classCount).toBe(2);
       expect(diagram.hasClass('Animal')).toBe(true);
       expect(diagram.hasClass('Dog')).toBe(true);
     });
 
     it('should create from existing AST', () => {
-      const original = ClassDiagram.create()
-        .addClass('A')
-        .addClass('B')
-        .addInheritance('B', 'A');
-      
+      const original = ClassDiagram.create().addClass('A').addClass('B').addInheritance('B', 'A');
+
       const copy = ClassDiagram.from(original.toAST());
       expect(copy.classCount).toBe(2);
       expect(copy.relationCount).toBe(1);
@@ -42,27 +39,21 @@ describe('ClassDiagram Wrapper', () => {
 
   describe('Class Operations', () => {
     it('should add classes', () => {
-      const diagram = ClassDiagram.create()
-        .addClass('Animal')
-        .addClass('Dog');
-      
+      const diagram = ClassDiagram.create().addClass('Animal').addClass('Dog');
+
       expect(diagram.classCount).toBe(2);
     });
 
     it('should add classes with options', () => {
-      const diagram = ClassDiagram.create()
-        .addClass('IAnimal', { annotation: 'interface' });
-      
+      const diagram = ClassDiagram.create().addClass('IAnimal', { annotation: 'interface' });
+
       const cls = diagram.getClass('IAnimal');
       expect(cls?.annotations).toContain('interface');
     });
 
     it('should remove classes', () => {
-      const diagram = ClassDiagram.create()
-        .addClass('A')
-        .addClass('B')
-        .removeClass('A');
-      
+      const diagram = ClassDiagram.create().addClass('A').addClass('B').removeClass('A');
+
       expect(diagram.classCount).toBe(1);
       expect(diagram.hasClass('A')).toBe(false);
     });
@@ -73,15 +64,13 @@ describe('ClassDiagram Wrapper', () => {
         .addClass('B')
         .addInheritance('B', 'A')
         .removeClass('A', { removeRelations: true });
-      
+
       expect(diagram.relationCount).toBe(0);
     });
 
     it('should rename classes', () => {
-      const diagram = ClassDiagram.create()
-        .addClass('OldName')
-        .renameClass('OldName', 'NewName');
-      
+      const diagram = ClassDiagram.create().addClass('OldName').renameClass('OldName', 'NewName');
+
       expect(diagram.hasClass('OldName')).toBe(false);
       expect(diagram.hasClass('NewName')).toBe(true);
     });
@@ -92,16 +81,14 @@ describe('ClassDiagram Wrapper', () => {
         .addClass('Child')
         .addInheritance('Child', 'Parent')
         .renameClass('Parent', 'Base');
-      
+
       const relations = diagram.getRelationsFor('Base');
       expect(relations.length).toBe(1);
     });
 
     it('should set class label', () => {
-      const diagram = ClassDiagram.create()
-        .addClass('A')
-        .setClassLabel('A', 'My Class A');
-      
+      const diagram = ClassDiagram.create().addClass('A').setClassLabel('A', 'My Class A');
+
       expect(diagram.getClass('A')?.label).toBe('My Class A');
     });
 
@@ -110,9 +97,9 @@ describe('ClassDiagram Wrapper', () => {
         .addClass('A')
         .addAnnotation('A', 'interface')
         .addAnnotation('A', 'abstract');
-      
+
       expect(diagram.getClass('A')?.annotations).toContain('interface');
-      
+
       diagram.removeAnnotation('A', 'interface');
       expect(diagram.getClass('A')?.annotations).not.toContain('interface');
     });
@@ -120,10 +107,8 @@ describe('ClassDiagram Wrapper', () => {
 
   describe('Member Operations', () => {
     it('should add members', () => {
-      const diagram = ClassDiagram.create()
-        .addClass('Animal')
-        .addMember('Animal', 'name: string');
-      
+      const diagram = ClassDiagram.create().addClass('Animal').addMember('Animal', 'name: string');
+
       expect(diagram.getMembers('Animal').length).toBe(1);
     });
 
@@ -131,25 +116,22 @@ describe('ClassDiagram Wrapper', () => {
       const diagram = ClassDiagram.create()
         .addClass('Animal')
         .addAttribute('Animal', 'name: string', '+');
-      
+
       const members = diagram.getMembers('Animal');
       expect(members[0].visibility).toBe('+');
       expect(members[0].type).toBe('attribute');
     });
 
     it('should add methods', () => {
-      const diagram = ClassDiagram.create()
-        .addClass('Animal')
-        .addMethod('Animal', 'eat()', '+');
-      
+      const diagram = ClassDiagram.create().addClass('Animal').addMethod('Animal', 'eat()', '+');
+
       const members = diagram.getMembers('Animal');
       expect(members[0].type).toBe('method');
     });
 
     it('should auto-create class when adding member', () => {
-      const diagram = ClassDiagram.create()
-        .addMember('NewClass', 'field: int');
-      
+      const diagram = ClassDiagram.create().addMember('NewClass', 'field: int');
+
       expect(diagram.hasClass('NewClass')).toBe(true);
     });
 
@@ -159,7 +141,7 @@ describe('ClassDiagram Wrapper', () => {
         .addMember('A', 'field1')
         .addMember('A', 'field2')
         .removeMember('A', 'field1');
-      
+
       expect(diagram.getMembers('A').length).toBe(1);
     });
   });
@@ -170,37 +152,33 @@ describe('ClassDiagram Wrapper', () => {
         .addClass('Animal')
         .addClass('Dog')
         .addInheritance('Dog', 'Animal');
-      
+
       expect(diagram.relationCount).toBe(1);
     });
 
     it('should add composition', () => {
-      const diagram = ClassDiagram.create()
-        .addComposition('Car', 'Engine');
-      
+      const diagram = ClassDiagram.create().addComposition('Car', 'Engine');
+
       expect(diagram.relationCount).toBe(1);
       expect(diagram.hasClass('Car')).toBe(true);
       expect(diagram.hasClass('Engine')).toBe(true);
     });
 
     it('should add aggregation', () => {
-      const diagram = ClassDiagram.create()
-        .addAggregation('Department', 'Employee');
-      
+      const diagram = ClassDiagram.create().addAggregation('Department', 'Employee');
+
       expect(diagram.relationCount).toBe(1);
     });
 
     it('should add dependency', () => {
-      const diagram = ClassDiagram.create()
-        .addDependency('Client', 'Service');
-      
+      const diagram = ClassDiagram.create().addDependency('Client', 'Service');
+
       expect(diagram.relationCount).toBe(1);
     });
 
     it('should add association', () => {
-      const diagram = ClassDiagram.create()
-        .addAssociation('A', 'B', { label: 'uses' });
-      
+      const diagram = ClassDiagram.create().addAssociation('A', 'B', { label: 'uses' });
+
       const rel = diagram.getRelations()[0];
       expect(rel.title).toBe('uses');
     });
@@ -210,16 +188,14 @@ describe('ClassDiagram Wrapper', () => {
         .addInheritance('B', 'A')
         .addInheritance('C', 'A')
         .addAssociation('B', 'D');
-      
+
       expect(diagram.getRelationsFor('A').length).toBe(2);
       expect(diagram.getRelationsFor('B').length).toBe(2);
     });
 
     it('should remove relations', () => {
-      const diagram = ClassDiagram.create()
-        .addInheritance('B', 'A')
-        .removeRelation('A', 'B');
-      
+      const diagram = ClassDiagram.create().addInheritance('B', 'A').removeRelation('A', 'B');
+
       expect(diagram.relationCount).toBe(0);
     });
   });
@@ -230,15 +206,13 @@ describe('ClassDiagram Wrapper', () => {
         .addClass('A')
         .addClass('B')
         .addNamespace('MyNamespace', ['A', 'B']);
-      
+
       expect(diagram.getNamespaceFor('A')).toBe('MyNamespace');
     });
 
     it('should add class to namespace', () => {
-      const diagram = ClassDiagram.create()
-        .addClass('A')
-        .addToNamespace('NS', 'A');
-      
+      const diagram = ClassDiagram.create().addClass('A').addToNamespace('NS', 'A');
+
       expect(diagram.getNamespaceFor('A')).toBe('NS');
     });
 
@@ -247,17 +221,15 @@ describe('ClassDiagram Wrapper', () => {
         .addClass('A')
         .addToNamespace('NS', 'A')
         .removeFromNamespace('NS', 'A');
-      
+
       expect(diagram.getNamespaceFor('A')).toBeUndefined();
     });
   });
 
   describe('Note Operations', () => {
     it('should add notes', () => {
-      const diagram = ClassDiagram.create()
-        .addClass('A')
-        .addNote('This is important', 'A');
-      
+      const diagram = ClassDiagram.create().addClass('A').addNote('This is important', 'A');
+
       expect(diagram.getNotes().length).toBe(1);
       expect(diagram.getNotes()[0].forClass).toBe('A');
     });
@@ -269,7 +241,7 @@ describe('ClassDiagram Wrapper', () => {
         .addClass('A')
         .defineStyle('highlight', ['fill:#f9f'])
         .applyStyle('A', 'highlight');
-      
+
       expect(diagram.getClass('A')?.cssClasses).toContain('highlight');
     });
   });
@@ -280,7 +252,7 @@ describe('ClassDiagram Wrapper', () => {
         .addClass('IAnimal', { annotation: 'interface' })
         .addClass('Animal')
         .addClass('IMovable', { annotation: 'interface' });
-      
+
       const interfaces = diagram.findClasses({ hasAnnotation: 'interface' });
       expect(interfaces.length).toBe(2);
     });
@@ -292,16 +264,15 @@ describe('ClassDiagram Wrapper', () => {
         .addClass('Cat')
         .addInheritance('Dog', 'Animal')
         .addInheritance('Cat', 'Animal');
-      
+
       const subclasses = diagram.getSubclasses('Animal');
       expect(subclasses).toContain('Dog');
       expect(subclasses).toContain('Cat');
     });
 
     it('should get parent class', () => {
-      const diagram = ClassDiagram.create()
-        .addInheritance('Dog', 'Animal');
-      
+      const diagram = ClassDiagram.create().addInheritance('Dog', 'Animal');
+
       expect(diagram.getParentClass('Dog')).toBe('Animal');
     });
 
@@ -310,7 +281,7 @@ describe('ClassDiagram Wrapper', () => {
         .addInheritance('B', 'A')
         .addInheritance('C', 'B')
         .addInheritance('D', 'C');
-      
+
       const ancestors = diagram.getAncestors('D');
       expect(ancestors).toEqual(['C', 'B', 'A']);
     });
@@ -320,7 +291,7 @@ describe('ClassDiagram Wrapper', () => {
         .addInheritance('B', 'A')
         .addInheritance('C', 'A')
         .addInheritance('D', 'B');
-      
+
       const descendants = diagram.getDescendants('A');
       expect(descendants).toContain('B');
       expect(descendants).toContain('C');
@@ -330,13 +301,11 @@ describe('ClassDiagram Wrapper', () => {
 
   describe('Clone', () => {
     it('should clone the diagram', () => {
-      const original = ClassDiagram.create()
-        .addClass('A')
-        .addClass('B');
-      
+      const original = ClassDiagram.create().addClass('A').addClass('B');
+
       const clone = original.clone();
       clone.addClass('C');
-      
+
       expect(original.classCount).toBe(2);
       expect(clone.classCount).toBe(3);
     });
