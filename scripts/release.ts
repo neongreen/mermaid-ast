@@ -1,26 +1,27 @@
 #!/usr/bin/env bun
+
 /**
  * Release script that creates a GitHub release from CHANGELOG.md
- * 
+ *
  * Usage: bun run scripts/release.ts [--dry-run]
  */
 
-import { $ } from "bun";
-import { readFileSync } from "fs";
-import { join } from "path";
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { $ } from 'bun';
 
-const dryRun = process.argv.includes("--dry-run");
+const dryRun = process.argv.includes('--dry-run');
 
 // Read CHANGELOG.md
-const changelogPath = join(import.meta.dir, "..", "CHANGELOG.md");
-const changelog = readFileSync(changelogPath, "utf-8");
+const changelogPath = join(import.meta.dir, '..', 'CHANGELOG.md');
+const changelog = readFileSync(changelogPath, 'utf-8');
 
 // Find the first versioned release (skip [Unreleased])
 const versionRegex = /^## \[(\d+\.\d+\.\d+)\] - (\d{4}-\d{2}-\d{2})/gm;
 const match = versionRegex.exec(changelog);
 
 if (!match) {
-  console.error("No versioned release found in CHANGELOG.md");
+  console.error('No versioned release found in CHANGELOG.md');
   process.exit(1);
 }
 
