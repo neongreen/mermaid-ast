@@ -8,6 +8,7 @@
 import { DiagramWrapper } from './diagram-wrapper.js';
 import { parseStateDiagram } from './parser/state-parser.js';
 import { renderStateDiagram } from './renderer/state-renderer.js';
+import type { RenderOptions } from './types/render-options.js';
 import type {
   StateDefinition,
   StateDiagramAST,
@@ -18,7 +19,6 @@ import type {
   StateType,
 } from './types/state.js';
 import { createEmptyStateDiagramAST } from './types/state.js';
-import type { RenderOptions } from './types/render-options.js';
 
 /** Options for adding a state */
 export interface AddStateOptions {
@@ -247,9 +247,7 @@ export class StateDiagram extends DiagramWrapper<StateDiagramAST> {
 
   /** Set transition label */
   setTransitionLabel(from: string, to: string, label: string): this {
-    const trans = this.ast.transitions.find(
-      (t) => t.state1.id === from && t.state2.id === to
-    );
+    const trans = this.ast.transitions.find((t) => t.state1.id === from && t.state2.id === to);
     if (trans) trans.description = label;
     return this;
   }
@@ -404,15 +402,11 @@ export class StateDiagram extends DiagramWrapper<StateDiagramAST> {
 
   /** Get initial states (states with incoming transitions from [*]) */
   getInitialStates(): string[] {
-    return this.ast.transitions
-      .filter((t) => t.state1.id === START_STATE)
-      .map((t) => t.state2.id);
+    return this.ast.transitions.filter((t) => t.state1.id === START_STATE).map((t) => t.state2.id);
   }
 
   /** Get final states (states with outgoing transitions to [*]) */
   getFinalStates(): string[] {
-    return this.ast.transitions
-      .filter((t) => t.state2.id === END_STATE)
-      .map((t) => t.state1.id);
+    return this.ast.transitions.filter((t) => t.state2.id === END_STATE).map((t) => t.state1.id);
   }
 }

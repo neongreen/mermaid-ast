@@ -21,9 +21,9 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 | Diagram Type | Parse | Render | Wrapper Class |
 |--------------|-------|--------|---------------|
 | Flowchart (`flowchart`, `graph`) | ✅ | ✅ | ✅ `Flowchart` |
-| Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ |
-| Class (`classDiagram`) | ✅ | ✅ | ✅ |
-| State (`stateDiagram`) | ✅ | ✅ | ✅ |
+| Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ `Sequence` |
+| Class (`classDiagram`) | ✅ | ✅ | ✅ `ClassDiagram` |
+| State (`stateDiagram`) | ✅ | ✅ | ✅ `StateDiagram` |
 | ER Diagram (`erDiagram`) | ✅ | ✅ | ✅ `ErDiagram` |
 | Gantt (`gantt`) | ✅ | ✅ | ✅ `Gantt` |
 | Mindmap (`mindmap`) | ✅ | ✅ | ✅ `Mindmap` |
@@ -367,108 +367,68 @@ const diagram = Timeline.create("Company History")
 console.log(diagram.render());
 ```
 
-## Fluent Builder API
-
-Build diagrams programmatically with a chainable, type-safe API:
-
-### Flowchart Builder
+### Sequence
 
 ```typescript
-import { flowchart, render } from "mermaid-ast";
+import { Sequence } from "mermaid-ast";
 
-const ast = flowchart("LR")
-  .node("A", "Start", { shape: "stadium" })
-  .node("B", "Process")
-  .node("C", "End", { shape: "circle" })
-  .link("A", "B", { text: "begin" })
-  .link("B", "C", { stroke: "dotted" })
-  .subgraph("sub1", "My Group", (s) => {
-    s.node("D", "Inner").link("D", "B");
+const diagram = Sequence.create()
+  .addActor("alice", "Alice", "participant")
+  .addActor("bob", "Bob", "actor")
+  .addMessage("alice", "bob", "Hello Bob!", { type: "solid", arrow: "filled" })
+  .addMessage("bob", "alice", "Hi Alice!", { type: "dashed", arrow: "filled" })
+  .addLoop("Every minute", (loop) => {
+    loop.addMessage("bob", "alice", "Ping");
   })
-  .classDef("highlight", { fill: "#f9f" })
-  .class("A", "highlight")
-  .build();
+  .addNote("alice", "Important note", { placement: "right" });
 
-const text = render(ast);
+console.log(diagram.render());
 ```
 
-### Sequence Builder
+### ClassDiagram
 
 ```typescript
-import { sequence, render } from "mermaid-ast";
+import { ClassDiagram } from "mermaid-ast";
 
-const ast = sequence()
-  .participant("A", "Alice")
-  .actor("B", "Bob")
-  .message("A", "B", "Hello!", { arrow: "solid" })
-  .loop("Every minute", (l) => {
-    l.message("B", "A", "Ping");
-  })
-  .alt([
-    { condition: "Success", build: (b) => b.message("A", "B", "OK") },
-    { condition: "Failure", build: (b) => b.message("A", "B", "Error") },
-  ])
-  .note("A", "Important!", { placement: "right_of" })
-  .build();
+const diagram = ClassDiagram.create()
+  .addClass("Animal")
+  .addAttribute("Animal", "name: string", "+")
+  .addAttribute("Animal", "age: int", "-")
+  .addMethod("Animal", "speak()", "+")
+  .addClass("Dog")
+  .addInheritance("Dog", "Animal")
+  .addMethod("Dog", "bark()", "+")
+  .addClass("Cat")
+  .addInheritance("Cat", "Animal")
+  .addMethod("Cat", "meow()", "+");
 
-const text = render(ast);
+console.log(diagram.render());
 ```
 
-### Class Diagram Builder
+### StateDiagram
 
 ```typescript
-import { classDiagram, render } from "mermaid-ast";
+import { StateDiagram } from "mermaid-ast";
 
-const ast = classDiagram()
-  .class("Animal", (c) => {
-    c.property("name: string", "+")
-      .property("age: int", "-")
-      .method("speak()", "+");
-  })
-  .class("Dog")
-  .extends("Dog", "Animal")
-  .composition("Dog", "Tail")
-  .class("Tail")
-  .build();
+const diagram = StateDiagram.create()
+  .addState("Idle", { description: "Waiting for input" })
+  .addState("Running")
+  .addState("Done")
+  .addInitial("Idle")
+  .addTransition("Idle", "Running", { label: "start" })
+  .addTransition("Running", "Done", { label: "complete" })
+  .addFinal("Done")
+  .addComposite("Running", (composite) => {
+    composite
+      .addState("Step1")
+      .addState("Step2")
+      .addTransition("Step1", "Step2");
+  });
 
-const text = render(ast);
+console.log(diagram.render());
 ```
 
-### State Diagram Builder
-
-```typescript
-import { stateDiagram, render } from "mermaid-ast";
-
-const ast = stateDiagram()
-  .state("Idle", { description: "Waiting for input" })
-  .state("Running")
-  .state("Done")
-  .initial("Idle")
-  .transition("Idle", "Running", { label: "start" })
-  .transition("Running", "Done", { label: "complete" })
-  .final("Done")
-  .composite("Running", (c) => {
-    c.state("Step1").state("Step2").transition("Step1", "Step2");
-  })
-  .build();
-
-const text = render(ast);
-```
-
-### Builder Validation
-
-By default, `.build()` validates the diagram (e.g., ensures links reference existing nodes):
-
-```typescript
-// This throws FlowchartValidationError
-flowchart().node("A").link("A", "B").build();
-// Error: Link target node 'B' does not exist
-
-// Skip validation if needed
-flowchart().node("A").link("A", "B").build({ validate: false });
-```
-
-### Render Options (Pretty-Print)
+## Render Options (Pretty-Print)
 
 All render functions accept an optional `RenderOptions` object to customize output formatting:
 

@@ -127,9 +127,7 @@ export class ClassDiagram extends DiagramWrapper<ClassDiagramAST> {
   removeClass(id: string, options?: { removeRelations?: boolean }): this {
     this.ast.classes.delete(id);
     if (options?.removeRelations) {
-      this.ast.relations = this.ast.relations.filter(
-        (r) => r.id1 !== id && r.id2 !== id
-      );
+      this.ast.relations = this.ast.relations.filter((r) => r.id1 !== id && r.id2 !== id);
     }
     return this;
   }

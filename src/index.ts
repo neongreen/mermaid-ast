@@ -17,17 +17,16 @@
  * ```
  */
 
-export type { ASTOf, BaseDiagramAST } from './diagram-wrapper.js';
-// Export base class
-export { DiagramWrapper } from './diagram-wrapper.js';
-
-// Export ClassDiagram wrapper class
-export { ClassDiagram } from './class-diagram.js';
 export type {
   AddClassOptions,
   AddMemberOptions,
   AddRelationOptions,
 } from './class-diagram.js';
+// Export ClassDiagram wrapper class
+export { ClassDiagram } from './class-diagram.js';
+export type { ASTOf, BaseDiagramAST } from './diagram-wrapper.js';
+// Export base class
+export { DiagramWrapper } from './diagram-wrapper.js';
 export type {
   AddAttributeOptions,
   AddRelationshipOptions,
@@ -55,22 +54,6 @@ export { Journey } from './journey.js';
 export type { AddMindmapNodeOptions, FindMindmapNodesQuery } from './mindmap.js';
 // Export Mindmap wrapper class
 export { Mindmap } from './mindmap.js';
-
-// Export Sequence wrapper class
-export { Sequence } from './sequence.js';
-export type {
-  AddActorOptions,
-  AddMessageOptions,
-  AddNoteOptions,
-} from './sequence.js';
-
-// Export StateDiagram wrapper class
-export { StateDiagram } from './state-diagram.js';
-export type {
-  AddStateOptions,
-  AddTransitionOptions,
-} from './state-diagram.js';
-
 export { parseErDiagram } from './parser/er-parser.js';
 // Export parser functions
 export {
@@ -91,6 +74,19 @@ export {
   renderFlowchart,
   renderSequence,
 } from './renderer/index.js';
+export type {
+  AddActorOptions,
+  AddMessageOptions,
+  AddNoteOptions,
+} from './sequence.js';
+// Export Sequence wrapper class
+export { Sequence } from './sequence.js';
+export type {
+  AddStateOptions,
+  AddTransitionOptions,
+} from './state-diagram.js';
+// Export StateDiagram wrapper class
+export { StateDiagram } from './state-diagram.js';
 export type { FindTimelineEventsQuery, FindTimelinePeriodsQuery } from './timeline.js';
 // Export Timeline wrapper class
 export { Timeline } from './timeline.js';

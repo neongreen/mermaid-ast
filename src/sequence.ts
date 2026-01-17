@@ -8,6 +8,7 @@
 import { DiagramWrapper } from './diagram-wrapper.js';
 import { parseSequence } from './parser/sequence-parser.js';
 import { renderSequence } from './renderer/sequence-renderer.js';
+import type { RenderOptions } from './types/render-options.js';
 import type {
   NotePlacement,
   SequenceActivation,
@@ -27,7 +28,6 @@ import type {
   SequenceStatement,
 } from './types/sequence.js';
 import { createEmptySequenceAST } from './types/sequence.js';
-import type { RenderOptions } from './types/render-options.js';
 
 /** Options for adding an actor/participant */
 export interface AddActorOptions {
@@ -223,8 +223,7 @@ export class Sequence extends DiagramWrapper<SequenceAST> {
   /** Get messages between two actors */
   getMessagesBetween(actor1: string, actor2: string): SequenceMessage[] {
     return this.getMessages().filter(
-      (m) =>
-        (m.from === actor1 && m.to === actor2) || (m.from === actor2 && m.to === actor1)
+      (m) => (m.from === actor1 && m.to === actor2) || (m.from === actor2 && m.to === actor1)
     );
   }
 
@@ -476,7 +475,9 @@ export class Sequence extends DiagramWrapper<SequenceAST> {
   // ============ Query Operations ============
 
   /** Find actors by type */
-  findActors(query: { type?: 'participant' | 'actor' }): Array<{ id: string; name: string; type: 'participant' | 'actor' }> {
+  findActors(query: {
+    type?: 'participant' | 'actor';
+  }): Array<{ id: string; name: string; type: 'participant' | 'actor' }> {
     const results: Array<{ id: string; name: string; type: 'participant' | 'actor' }> = [];
     for (const actor of this.ast.actors.values()) {
       if (query.type && actor.type !== query.type) continue;
@@ -518,35 +519,33 @@ export class Sequence extends DiagramWrapper<SequenceAST> {
     statements: SequenceStatement[],
     predicate: (stmt: SequenceStatement) => boolean
   ): SequenceStatement[] {
-    return statements
-      .filter(predicate)
-      .map((stmt) => {
-        if (stmt.type === 'loop' || stmt.type === 'opt' || stmt.type === 'break') {
-          return { ...stmt, statements: this.filterStatements(stmt.statements, predicate) };
-        }
-        if (stmt.type === 'alt' || stmt.type === 'par') {
-          return {
-            ...stmt,
-            sections: stmt.sections.map((s) => ({
-              ...s,
-              statements: this.filterStatements(s.statements, predicate),
-            })),
-          };
-        }
-        if (stmt.type === 'critical') {
-          return {
-            ...stmt,
-            statements: this.filterStatements(stmt.statements, predicate),
-            options: stmt.options.map((o) => ({
-              ...o,
-              statements: this.filterStatements(o.statements, predicate),
-            })),
-          };
-        }
-        if (stmt.type === 'rect') {
-          return { ...stmt, statements: this.filterStatements(stmt.statements, predicate) };
-        }
-        return stmt;
-      });
+    return statements.filter(predicate).map((stmt) => {
+      if (stmt.type === 'loop' || stmt.type === 'opt' || stmt.type === 'break') {
+        return { ...stmt, statements: this.filterStatements(stmt.statements, predicate) };
+      }
+      if (stmt.type === 'alt' || stmt.type === 'par') {
+        return {
+          ...stmt,
+          sections: stmt.sections.map((s) => ({
+            ...s,
+            statements: this.filterStatements(s.statements, predicate),
+          })),
+        };
+      }
+      if (stmt.type === 'critical') {
+        return {
+          ...stmt,
+          statements: this.filterStatements(stmt.statements, predicate),
+          options: stmt.options.map((o) => ({
+            ...o,
+            statements: this.filterStatements(o.statements, predicate),
+          })),
+        };
+      }
+      if (stmt.type === 'rect') {
+        return { ...stmt, statements: this.filterStatements(stmt.statements, predicate) };
+      }
+      return stmt;
+    });
   }
 }

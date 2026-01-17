@@ -52,10 +52,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Wrapper API: `addSection`, `addPeriod`, `addEvent`, `addEventWithPeriod`, `updateEvent`, `findPeriods`, `findEvents`, `getEventsForPeriod`, `getSectionForPeriod`
   - 26 new tests
 
+- **Sequence Wrapper Class** - `Sequence` wrapper extending DiagramWrapper:
+  - Factory methods: `create()`, `from()`, `parse()`
+  - Actor operations: `addActor`, `removeActor`, `getActor`, `hasActor`, `renameActor`
+  - Message operations: `addMessage`, `getMessages`, `getMessagesBetween`
+  - Control flow: `addLoop`, `addAlt`, `addOpt`, `addPar`, `addCritical`, `addBreak`, `addRect`
+  - Note operations: `addNote`, `getNotes`
+  - Activation operations: `addActivation`, `addDeactivation`
+  - Query operations: `findActors`, `findMessages`
+  - 32 new tests
+
+- **ClassDiagram Wrapper Class** - `ClassDiagram` wrapper extending DiagramWrapper:
+  - Factory methods: `create()`, `from()`, `parse()`
+  - Class operations: `addClass`, `removeClass`, `renameClass`, `getClass`, `hasClass`, `setClassLabel`
+  - Member operations: `addMember`, `addAttribute`, `addMethod`, `getMembers`, `removeMember`
+  - Annotation operations: `addAnnotation`, `removeAnnotation`
+  - Relation operations: `addRelation`, `addInheritance`, `addComposition`, `addAggregation`, `addDependency`, `addAssociation`, `getRelations`, `getRelationsFor`, `removeRelation`
+  - Namespace operations: `addNamespace`, `addToNamespace`, `removeFromNamespace`, `getNamespaceFor`
+  - Note operations: `addNote`, `getNotes`
+  - Style operations: `defineStyle`, `applyStyle`
+  - Query operations: `findClasses`, `getSubclasses`, `getParentClass`, `getAncestors`, `getDescendants`
+  - 28 new tests
+
+- **StateDiagram Wrapper Class** - `StateDiagram` wrapper extending DiagramWrapper:
+  - Factory methods: `create()`, `from()`, `parse()`
+  - State operations: `addState`, `removeState`, `renameState`, `getState`, `hasState`, `setStateDescription`
+  - Special states: `addFork`, `addJoin`, `addChoice`
+  - Transition operations: `addTransition`, `addInitial`, `addFinal`, `getTransitions`, `getTransitionsFrom`, `getTransitionsTo`, `removeTransition`, `setTransitionLabel`
+  - Composite state operations: `addComposite`, `isComposite`, `getNestedStates`
+  - Note operations: `addNote`, `getNote`
+  - Style operations: `defineStyle`, `applyStyle`
+  - Query operations: `findStates`, `getReachable`, `getAncestors`, `hasPath`, `getInitialStates`, `getFinalStates`
+  - 36 new tests
+
+### Removed
+
+- **Legacy Fluent Builder API** - Removed `sequence()`, `classDiagram()`, `stateDiagram()` builder functions
+  - Migration: Use `Sequence.create()`, `ClassDiagram.create()`, `StateDiagram.create()` instead
+
 ### Changed
 
 - **Refactored Flowchart wrapper** to extend DiagramWrapper base class
-- **Removed old flowchart() builder** - Use `Flowchart.create()` instead (breaking change, but pre-1.0)
+- **Removed old flowchart() builder** - Use `Flowchart.create()` instead
+- Updated README to document all wrapper classes and remove Fluent Builder API section
 
 ### Fixed
 
@@ -79,6 +118,18 @@ ok now create a single todo list for all of this and start. i'll go back to slee
 oh and please keep files under 700 lines if you can? ai agents dont do well with large files. and now im off
 
 good morning!! and then biome and getting ready for the release
+
+anything deprecated/legacy/fallbacks to remove?
+
+3 (add wrapper classes for Sequence/Class/State, then remove builders)
+
+yes
+
+ok and please make a sound when all done
+
+i wonder if many of our tests can be replaced with golden tests? like expected outputs as mmd files? idk lets discuss later
+
+well we still didnt even publish 0.5.0 so i think this can go into 0.6.0
 ```
 
 ## [0.5.0] - 2025-01-17
