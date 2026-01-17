@@ -1,6 +1,6 @@
 {
   "name": "@emily/mermaid-ast",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Parse Mermaid diagram syntax to AST and render back to text. Supports flowchart, sequence, class, and state diagrams with round-trip fidelity.",
   "exports": "./src/index.ts",
   "publish": {

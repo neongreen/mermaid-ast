@@ -7,6 +7,80 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2025-01-18
+
+### Added
+
+- **DiagramWrapper Base Class** - Abstract base class for all diagram wrapper classes:
+  - `toAST()` - Get the underlying AST
+  - `clone()` - Deep clone the diagram
+  - `render()` - Render to Mermaid syntax
+  - Static factory methods: `create()`, `from()`, `parse()`
+
+- **ER Diagram Support** with `ErDiagram` wrapper class:
+  - Types: entities, attributes (with types/keys), relationships, cardinality
+  - Parser with custom yy object
+  - Renderer with all relationship types and cardinality notations
+  - Wrapper API: `addEntity`, `addAttribute`, `addRelationship`, `setCardinality`, `findEntities`, `getRelationshipsFor`
+  - 26 new tests
+
+- **Gantt Chart Support** with `Gantt` wrapper class:
+  - Types: tasks, sections, milestones, date formats, excludes, includes, weekends
+  - Parser with custom yy object supporting all Gantt features
+  - Renderer with proper date formatting
+  - Wrapper API: `addSection`, `addTask`, `addMilestone`, `setDateFormat`, `setExcludes`, `findTasks`, `getTasksInSection`, `getCriticalTasks`
+  - 24 new tests
+
+- **Mindmap Support** with `Mindmap` wrapper class:
+  - Types: hierarchical nodes with shapes (square, rounded, circle, bang, cloud, hexagon), icons, CSS classes
+  - Parser with custom yy object and level normalization
+  - Renderer preserving hierarchy
+  - Wrapper API: `addChild`, `removeNode`, `setDescription`, `setShape`, `setIcon`, `setClass`, `moveNode`, `getParent`, `getSiblings`, `getNodesAtLevel`, `getLeafNodes`, `getPath`
+  - 24 new tests
+
+- **Journey Diagram Support** with `Journey` wrapper class:
+  - Types: sections, tasks with scores (1-5), actors
+  - Parser with custom yy object
+  - Renderer with proper formatting
+  - Wrapper API: `addSection`, `addTask`, `setScore`, `addActor`, `removeActor`, `moveTask`, `getPainPoints`, `getHighlights`, `getAverageScore`, `getTasksForActor`
+  - 27 new tests
+
+- **Timeline Diagram Support** with `Timeline` wrapper class:
+  - Types: sections, periods, events
+  - Parser with custom yy object
+  - Renderer with proper hierarchy
+  - Wrapper API: `addSection`, `addPeriod`, `addEvent`, `addEventWithPeriod`, `updateEvent`, `findPeriods`, `findEvents`, `getEventsForPeriod`, `getSectionForPeriod`
+  - 26 new tests
+
+### Changed
+
+- **Refactored Flowchart wrapper** to extend DiagramWrapper base class
+- **Removed old flowchart() builder** - Use `Flowchart.create()` instead (breaking change, but pre-1.0)
+
+### Fixed
+
+- Lazy evaluation for `renderClassAssignments` in flowchart renderer (was being eagerly evaluated)
+
+### Prompts Used
+
+```
+ok perfect, anything you'd want to change or fix or improve before we do more diagrams?
+
+ok lets do 1, 2a, 3 lets create wrappers as well but think about how to avoid huge amounts of boilerplate? any ideas?
+
+lets add some diagram types to this plan as well
+
+create a todo list and show me
+
+can you expand on it somewhat
+
+ok now create a single todo list for all of this and start. i'll go back to sleep
+
+oh and please keep files under 700 lines if you can? ai agents dont do well with large files. and now im off
+
+good morning!! and then biome and getting ready for the release
+```
+
 ## [0.5.0] - 2025-01-17
 
 ### Added

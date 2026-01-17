@@ -18,17 +18,17 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 
 ## Supported Diagram Types
 
-| Diagram Type | Parse | Render | Builder |
-|--------------|-------|--------|---------|
-| Flowchart (`flowchart`, `graph`) | ✅ | ✅ | ✅ |
+| Diagram Type | Parse | Render | Wrapper Class |
+|--------------|-------|--------|---------------|
+| Flowchart (`flowchart`, `graph`) | ✅ | ✅ | ✅ `Flowchart` |
 | Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ |
 | Class (`classDiagram`) | ✅ | ✅ | ✅ |
 | State (`stateDiagram`) | ✅ | ✅ | ✅ |
-| ER Diagram (`erDiagram`) | ❌ | ❌ | ❌ |
-| Gantt (`gantt`) | ❌ | ❌ | ❌ |
-| Journey (`journey`) | ❌ | ❌ | ❌ |
-| Mindmap (`mindmap`) | ❌ | ❌ | ❌ |
-| Timeline (`timeline`) | ❌ | ❌ | ❌ |
+| ER Diagram (`erDiagram`) | ✅ | ✅ | ✅ `ErDiagram` |
+| Gantt (`gantt`) | ✅ | ✅ | ✅ `Gantt` |
+| Mindmap (`mindmap`) | ✅ | ✅ | ✅ `Mindmap` |
+| Journey (`journey`) | ✅ | ✅ | ✅ `Journey` |
+| Timeline (`timeline`) | ✅ | ✅ | ✅ `Timeline` |
 | Pie (`pie`) | ❌ | ❌ | ❌ |
 | Quadrant (`quadrantChart`) | ❌ | ❌ | ❌ |
 | Requirement (`requirementDiagram`) | ❌ | ❌ | ❌ |
@@ -279,6 +279,92 @@ diagram.mergeSubgraphs("sub1", "sub2");
 
 // Dissolve a subgraph (keep nodes, remove grouping)
 diagram.dissolveSubgraph("sub1");
+```
+
+## Other Wrapper Classes
+
+Similar to `Flowchart`, we provide wrapper classes for other diagram types:
+
+### ErDiagram
+
+```typescript
+import { ErDiagram } from "mermaid-ast";
+
+const diagram = ErDiagram.create()
+  .addEntity("Customer")
+  .addAttribute("Customer", "id", "int", ["PK"])
+  .addAttribute("Customer", "name", "string")
+  .addEntity("Order")
+  .addRelationship("Customer", "Order", "places", {
+    fromCardinality: "one_or_more",
+    toCardinality: "zero_or_more"
+  });
+
+console.log(diagram.render());
+```
+
+### Gantt
+
+```typescript
+import { Gantt } from "mermaid-ast";
+
+const diagram = Gantt.create("Project Timeline")
+  .setDateFormat("YYYY-MM-DD")
+  .addSection("Planning")
+  .addTask("Planning", "Research", { id: "a1", duration: "3d" })
+  .addTask("Planning", "Design", { id: "a2", duration: "5d", after: "a1" })
+  .addSection("Development")
+  .addTask("Development", "Implementation", { duration: "10d", after: "a2" });
+
+console.log(diagram.render());
+```
+
+### Mindmap
+
+```typescript
+import { Mindmap } from "mermaid-ast";
+
+const diagram = Mindmap.create("Project")
+  .addChild("root", "Frontend", { shape: "square" })
+  .addChild("root", "Backend", { shape: "square" })
+  .addChild("Frontend", "React")
+  .addChild("Frontend", "CSS")
+  .addChild("Backend", "API")
+  .addChild("Backend", "Database");
+
+console.log(diagram.render());
+```
+
+### Journey
+
+```typescript
+import { Journey } from "mermaid-ast";
+
+const diagram = Journey.create("User Onboarding")
+  .addSection("Discovery")
+  .addTask("Discovery", "Visit website", 5, ["User"])
+  .addTask("Discovery", "Read docs", 3, ["User"])
+  .addSection("Signup")
+  .addTask("Signup", "Create account", 4, ["User"])
+  .addTask("Signup", "Verify email", 2, ["User", "System"]);
+
+console.log(diagram.render());
+```
+
+### Timeline
+
+```typescript
+import { Timeline } from "mermaid-ast";
+
+const diagram = Timeline.create("Company History")
+  .addSection("2020s")
+  .addPeriod("2020s", "2020")
+  .addEvent("2020", "Company founded")
+  .addEvent("2020", "First product launch")
+  .addPeriod("2020s", "2023")
+  .addEvent("2023", "Series A funding");
+
+console.log(diagram.render());
 ```
 
 ## Fluent Builder API
