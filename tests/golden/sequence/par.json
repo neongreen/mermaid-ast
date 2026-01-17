@@ -1,0 +1,39 @@
+{
+  "actors": {
+    "A": {
+      "created": false,
+      "id": "A",
+      "name": "A",
+      "type": "participant"
+    },
+    "B": {
+      "created": false,
+      "id": "B",
+      "name": "B",
+      "type": "participant"
+    },
+    "C": {
+      "created": false,
+      "id": "C",
+      "name": "C",
+      "type": "participant"
+    }
+  },
+  "boxes": [],
+  "statements": [
+    {
+      "sections": [
+        {
+          "statements": [],
+          "text": "Thread 1"
+        },
+        {
+          "statements": [],
+          "text": "Thread 2"
+        }
+      ],
+      "type": "par"
+    }
+  ],
+  "type": "sequence"
+}

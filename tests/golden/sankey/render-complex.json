@@ -1,0 +1,38 @@
+{
+  "links": [
+    {
+      "source": "Product A",
+      "target": "Region 1",
+      "value": 100
+    },
+    {
+      "source": "Product B",
+      "target": "Region 1",
+      "value": 50
+    },
+    {
+      "source": "Region 1",
+      "target": "Customer",
+      "value": 150
+    }
+  ],
+  "nodes": {
+    "Customer": {
+      "id": "Customer",
+      "label": "Customer"
+    },
+    "Product A": {
+      "id": "Product A",
+      "label": "Product A"
+    },
+    "Product B": {
+      "id": "Product B",
+      "label": "Product B"
+    },
+    "Region 1": {
+      "id": "Region 1",
+      "label": "Region 1"
+    }
+  },
+  "type": "sankey"
+}

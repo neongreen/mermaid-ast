@@ -643,6 +643,7 @@ bun test
 bun test tests/unit          # Unit tests
 bun test tests/roundtrip     # Round-trip tests
 bun test tests/compatibility # Mermaid.js compatibility tests
+bun test tests/golden        # JSON golden tests (AST snapshots)
 
 # Type checking
 bun run typecheck
@@ -651,12 +652,41 @@ bun run typecheck
 bun run build
 ```
 
+### JSON Golden Tests
+
+JSON golden tests validate the complete structure of parsed ASTs by comparing against canonical JSON snapshots. These tests catch structural bugs that property-based tests might miss.
+
+**Example**: The quadrant parser had a bug where point names were stored as `{text: "A", type: "text"}` objects instead of `"A"` strings. Traditional tests only checked array length, missing this structural issue. Golden JSON makes it obvious:
+
+```json
+// CORRECT
+"name": "A"
+
+// BUGGY  
+"name": {"text": "A", "type": "text"}
+```
+
+**Running golden tests:**
+
+```bash
+bun test tests/golden              # Run tests
+UPDATE_GOLDEN=1 bun test tests/golden  # Regenerate snapshots
+```
+
+**Adding new test cases:**
+
+1. Add a `.mmd` file: `tests/golden/quadrant/new-case.mmd`
+2. Generate golden JSON: `UPDATE_GOLDEN=1 bun test tests/golden --test-name-pattern="new-case"`
+3. Review and commit both files
+
 ### Using the Justfile
 
 If you have [just](https://github.com/casey/just) installed:
 
 ```bash
 just mermaid-ast test              # Run all tests
+just mermaid-ast test-golden       # Run JSON golden tests
+just mermaid-ast update-golden-json # Update golden JSON files
 just mermaid-ast test-roundtrip    # Run round-trip tests
 just mermaid-ast dagger-test-all   # Test in all runtimes via Dagger
 just mermaid-ast sync-parsers 11.4.2  # Sync parsers from mermaid version

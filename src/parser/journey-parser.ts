@@ -121,3 +121,12 @@ export function parseJourney(input: string): JourneyAST {
 
   return ast;
 }
+
+/**
+ * Check if input is a journey diagram
+ */
+export function isJourneyDiagram(input: string): boolean {
+  const trimmed = input.trim();
+  const firstLine = trimmed.split('\n')[0].trim().toLowerCase();
+  return firstLine.startsWith('journey');
+}

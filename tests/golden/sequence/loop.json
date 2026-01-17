@@ -1,0 +1,25 @@
+{
+  "actors": {
+    "A": {
+      "created": false,
+      "id": "A",
+      "name": "A",
+      "type": "participant"
+    },
+    "B": {
+      "created": false,
+      "id": "B",
+      "name": "B",
+      "type": "participant"
+    }
+  },
+  "boxes": [],
+  "statements": [
+    {
+      "statements": [],
+      "text": "Every minute",
+      "type": "loop"
+    }
+  ],
+  "type": "sequence"
+}

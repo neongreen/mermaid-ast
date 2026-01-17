@@ -1,0 +1,25 @@
+{
+  "actors": {
+    "A": {
+      "created": false,
+      "id": "A",
+      "name": "A",
+      "type": "participant"
+    },
+    "B": {
+      "created": false,
+      "id": "B",
+      "name": "B",
+      "type": "participant"
+    }
+  },
+  "boxes": [],
+  "statements": [
+    {
+      "color": "rgb(200, 200, 200)",
+      "statements": [],
+      "type": "rect"
+    }
+  ],
+  "type": "sequence"
+}

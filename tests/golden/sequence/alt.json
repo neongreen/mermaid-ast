@@ -1,0 +1,33 @@
+{
+  "actors": {
+    "A": {
+      "created": false,
+      "id": "A",
+      "name": "A",
+      "type": "participant"
+    },
+    "B": {
+      "created": false,
+      "id": "B",
+      "name": "B",
+      "type": "participant"
+    }
+  },
+  "boxes": [],
+  "statements": [
+    {
+      "sections": [
+        {
+          "condition": "Success",
+          "statements": []
+        },
+        {
+          "condition": "Failure",
+          "statements": []
+        }
+      ],
+      "type": "alt"
+    }
+  ],
+  "type": "sequence"
+}

@@ -14,6 +14,7 @@ export * from './quadrant.js';
 export * from './render-options.js';
 export * from './sankey.js';
 export * from './sequence.js';
+export * from './state.js';
 export * from './timeline.js';
 
 import type { ClassDiagramAST } from './class.js';
@@ -25,6 +26,7 @@ import type { MindmapAST } from './mindmap.js';
 import type { QuadrantAST } from './quadrant.js';
 import type { SankeyAST } from './sankey.js';
 import type { SequenceAST } from './sequence.js';
+import type { StateDiagramAST } from './state.js';
 import type { TimelineAST } from './timeline.js';
 
 /**
@@ -34,6 +36,7 @@ export type MermaidAST =
   | FlowchartAST
   | SequenceAST
   | ClassDiagramAST
+  | StateDiagramAST
   | ErDiagramAST
   | GanttAST
   | MindmapAST
@@ -49,6 +52,7 @@ export type DiagramType =
   | 'flowchart'
   | 'sequence'
   | 'class'
+  | 'state'
   | 'erDiagram'
   | 'gantt'
   | 'mindmap'
@@ -76,6 +80,13 @@ export function isSequenceAST(ast: MermaidAST): ast is SequenceAST {
  */
 export function isClassDiagramAST(ast: MermaidAST): ast is ClassDiagramAST {
   return ast.type === 'classDiagram';
+}
+
+/**
+ * Check if an AST is a state diagram
+ */
+export function isStateDiagramAST(ast: MermaidAST): ast is StateDiagramAST {
+  return ast.type === 'state';
 }
 
 /**

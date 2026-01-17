@@ -1,0 +1,19 @@
+{
+  "classes": {},
+  "points": [
+    {
+      "name": "Project",
+      "x": "0.5",
+      "y": "0.5"
+    }
+  ],
+  "quadrant1": "Do First",
+  "quadrant2": "Plan",
+  "quadrant3": "Delegate",
+  "quadrant4": "Eliminate",
+  "type": "quadrant",
+  "xAxisLeft": "Low",
+  "xAxisRight": "High",
+  "yAxisBottom": "Low",
+  "yAxisTop": "High"
+}

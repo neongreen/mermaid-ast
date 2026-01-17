@@ -1,0 +1,29 @@
+{
+  "links": [
+    {
+      "source": "Source",
+      "target": "Target",
+      "value": 10.5
+    },
+    {
+      "source": "Target",
+      "target": "End",
+      "value": 20.75
+    }
+  ],
+  "nodes": {
+    "End": {
+      "id": "End",
+      "label": "End"
+    },
+    "Source": {
+      "id": "Source",
+      "label": "Source"
+    },
+    "Target": {
+      "id": "Target",
+      "label": "Target"
+    }
+  },
+  "type": "sankey"
+}

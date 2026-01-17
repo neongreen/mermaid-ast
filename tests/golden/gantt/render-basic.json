@@ -1,0 +1,24 @@
+{
+  "clickEvents": [],
+  "dateFormat": "YYYY-MM-DD",
+  "inclusiveEndDates": false,
+  "sections": [
+    {
+      "name": "Phase 1",
+      "tasks": [
+        {
+          "end": "5d",
+          "id": "a",
+          "name": "Task A",
+          "rawData": ": a, 2024-01-01, 5d",
+          "section": "Phase 1",
+          "start": "2024-01-01"
+        }
+      ]
+    }
+  ],
+  "tasks": [],
+  "title": "My Project",
+  "topAxis": false,
+  "type": "gantt"
+}

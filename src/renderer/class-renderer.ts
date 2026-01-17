@@ -15,6 +15,7 @@ import type {
 } from '../types/class.js';
 import type { RenderOptions } from '../types/render-options.js';
 import { resolveOptions } from '../types/render-options.js';
+import { assertNever } from '../utils.js';
 import { block, type Doc, indent, render, when } from './doc.js';
 
 /**
@@ -32,8 +33,10 @@ function renderRelationType(type: RelationType, isStart: boolean): string {
       return isStart ? '<' : '>';
     case 'lollipop':
       return '()';
-    default:
+    case 'none':
       return '';
+    default:
+      return assertNever(type);
   }
 }
 
@@ -41,7 +44,14 @@ function renderRelationType(type: RelationType, isStart: boolean): string {
  * Render line type to symbol
  */
 function renderLineType(lineType: LineType): string {
-  return lineType === 'dotted' ? '..' : '--';
+  switch (lineType) {
+    case 'dotted':
+      return '..';
+    case 'solid':
+      return '--';
+    default:
+      return assertNever(lineType);
+  }
 }
 
 /**

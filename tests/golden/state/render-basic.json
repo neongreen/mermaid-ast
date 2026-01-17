@@ -1,0 +1,55 @@
+{
+  "classApplications": [],
+  "classDefs": {},
+  "clicks": [],
+  "direction": "TB",
+  "states": {
+    "Idle": {
+      "id": "Idle",
+      "type": "default"
+    },
+    "Running": {
+      "id": "Running",
+      "type": "default"
+    },
+    "[*]": {
+      "id": "[*]",
+      "type": "default"
+    }
+  },
+  "styles": [],
+  "transitions": [
+    {
+      "state1": {
+        "id": "[*]",
+        "type": "default"
+      },
+      "state2": {
+        "id": "Idle",
+        "type": "default"
+      }
+    },
+    {
+      "description": "start",
+      "state1": {
+        "id": "Idle",
+        "type": "default"
+      },
+      "state2": {
+        "id": "Running",
+        "type": "default"
+      }
+    },
+    {
+      "state1": {
+        "id": "Running",
+        "type": "default"
+      },
+      "state2": {
+        "id": "[*]",
+        "type": "default"
+      }
+    }
+  ],
+  "type": "state"
+}

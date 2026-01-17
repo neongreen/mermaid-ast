@@ -1,0 +1,29 @@
+{
+  "actors": {
+    "A": {
+      "alias": "Alice",
+      "created": false,
+      "id": "A",
+      "name": "Alice",
+      "type": "participant"
+    },
+    "B": {
+      "alias": "Bob",
+      "created": false,
+      "id": "B",
+      "name": "Bob",
+      "type": "participant"
+    }
+  },
+  "boxes": [],
+  "statements": [
+    {
+      "arrowType": "solid",
+      "from": "A",
+      "text": "Hello!",
+      "to": "B",
+      "type": "message"
+    }
+  ],
+  "type": "sequence"
+}

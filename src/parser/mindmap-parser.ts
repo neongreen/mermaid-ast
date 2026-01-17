@@ -217,3 +217,12 @@ export function parseMindmap(input: string): MindmapAST {
 
   return ast;
 }
+
+/**
+ * Check if input is a mindmap diagram
+ */
+export function isMindmapDiagram(input: string): boolean {
+  const trimmed = input.trim();
+  const firstLine = trimmed.split('\n')[0].trim().toLowerCase();
+  return firstLine.startsWith('mindmap');
+}

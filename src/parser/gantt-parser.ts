@@ -206,3 +206,12 @@ export function parseGantt(input: string): GanttAST {
 
   return ast;
 }
+
+/**
+ * Check if input is a Gantt chart
+ */
+export function isGanttDiagram(input: string): boolean {
+  const trimmed = input.trim();
+  const firstLine = trimmed.split('\n')[0].trim().toLowerCase();
+  return firstLine.startsWith('gantt');
+}
