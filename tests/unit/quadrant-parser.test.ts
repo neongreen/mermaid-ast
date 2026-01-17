@@ -32,6 +32,27 @@ describe('Quadrant Parser', () => {
       expect(ast.yAxisTop).toBe('Strong');
     });
 
+    it('should parse point names as strings, not objects', () => {
+      // Regression test: JISON grammar passes text as {text, type} objects
+      // The parser must extract .text to store as string
+      const input = `quadrantChart
+    A: [0.3, 0.6]
+    B: [0.7, 0.8]
+    "Point C": [0.5, 0.5]`;
+
+      const ast = parseQuadrant(input);
+
+      expect(ast.points.length).toBe(3);
+      // Verify names are strings, not objects
+      expect(typeof ast.points[0].name).toBe('string');
+      expect(typeof ast.points[1].name).toBe('string');
+      expect(typeof ast.points[2].name).toBe('string');
+      // Verify actual values
+      expect(ast.points[0].name).toBe('A');
+      expect(ast.points[1].name).toBe('B');
+      expect(ast.points[2].name).toBe('Point C');
+    });
+
     it('should parse quadrant labels', () => {
       const input = `quadrantChart
     quadrant-1 "Top Right"

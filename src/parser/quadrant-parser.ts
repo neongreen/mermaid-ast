@@ -40,15 +40,16 @@ function createQuadrantYY(ast: QuadrantAST) {
     },
 
     // Add data point
+    // Note: JISON grammar passes text as {text: string, type: string} object
     addPoint(
-      name: string,
+      name: string | { text: string },
       className: string,
       xValue: number,
       yValue: number,
       styles: string[]
     ): void {
       const point: QuadrantPoint = {
-        name,
+        name: typeof name === 'string' ? name : name.text,
         x: xValue,
         y: yValue,
       };
