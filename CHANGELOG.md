@@ -9,7 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Sankey diagram support** - Full implementation with types, parser, renderer, wrapper class (`Sankey`), and comprehensive tests
+- **Quadrant chart support** - Full implementation with types, parser, renderer, wrapper class (`Quadrant`), and comprehensive tests
+- **Parser sync improvements** - Updated `sync-parsers` script to sync all available JISON parsers by default
+- **Node.js compatibility** - Converted `sync-parsers` script from Bun-specific APIs to Node.js for broader compatibility
 - **API consistency** - Added `sectionCount` getter to `Journey` and `Timeline` wrapper classes to match `Gantt`
+
+### Changed
+
+- **JISON parser collection** - Synced additional parsers from mermaid.js including: sankey, xychart, quadrant, requirement, c4, block, kanban
 
 ## [0.5.1] - 2026-01-17
 

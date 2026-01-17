@@ -80,9 +80,13 @@ mermaid-ast/
 | Mindmap | ✅ | ✅ | ✅ `Mindmap` |
 | Journey | ✅ | ✅ | ✅ `Journey` |
 | Timeline | ✅ | ✅ | ✅ `Timeline` |
+| Sankey | ✅ | ✅ | ✅ `Sankey` |
+| Quadrant | ✅ | ✅ | ✅ `Quadrant` |
 
 ### Not Yet Implemented
-- Pie, Quadrant, Requirement, Git Graph, C4, Sankey, XY Chart, Block
+- Pie (no JISON parser in mermaid.js)
+- Git Graph (no JISON parser in mermaid.js)
+- Requirement, C4, XY Chart, Block, Kanban (JISON parsers available but not yet implemented)
 
 ## Test Structure
 
@@ -120,6 +124,8 @@ tests/unit/
 | Journey | ✅ journey.test.ts | ✅ journey-parser.test.ts | ✅ journey-renderer.test.ts | |
 | Mindmap | ✅ mindmap.test.ts | ✅ mindmap-parser.test.ts | ✅ mindmap-renderer.test.ts | |
 | Timeline | ✅ timeline.test.ts | ✅ timeline-parser.test.ts | ✅ timeline-renderer.test.ts | |
+| Sankey | ✅ sankey.test.ts | ✅ sankey-parser.test.ts | ✅ sankey-renderer.test.ts | |
+| Quadrant | ✅ quadrant.test.ts | ✅ quadrant-parser.test.ts | ✅ quadrant-renderer.test.ts | |
 
 ### Test Naming Conventions
 
