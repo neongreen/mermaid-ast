@@ -326,39 +326,3 @@ export function rebaseNodes(this: Flowchart, nodeIds: string[], newParent: strin
 
   return this;
 }
-
-/**
- * Augment the Flowchart class with graph operations.
- * This function adds all graph surgery and chain operations to the Flowchart prototype.
- */
-export function augmentFlowchartWithGraphOps(FlowchartClass: typeof Flowchart): void {
-  FlowchartClass.prototype.insertBetween = insertBetween;
-  FlowchartClass.prototype.removeAndReconnect = removeAndReconnect;
-  FlowchartClass.prototype.getReachable = getReachable;
-  FlowchartClass.prototype.getAncestors = getAncestors;
-  FlowchartClass.prototype.getPath = getPath;
-  FlowchartClass.prototype.getChain = getChain;
-  FlowchartClass.prototype.yankChain = yankChain;
-  FlowchartClass.prototype.spliceChain = spliceChain;
-  FlowchartClass.prototype.reverseChain = reverseChain;
-  FlowchartClass.prototype.extractChain = extractChain;
-  FlowchartClass.prototype.rebaseNodes = rebaseNodes;
-}
-
-/**
- * Interface for graph operations added to Flowchart.
- * These methods are added via augmentFlowchartWithGraphOps().
- */
-export interface FlowchartGraphOps {
-  insertBetween(newNodeId: string, source: string, target: string, nodeText?: string): this;
-  removeAndReconnect(nodeId: string): this;
-  getReachable(startId: string): string[];
-  getAncestors(targetId: string): string[];
-  getPath(source: string, target: string): string[];
-  getChain(startId: string, endId: string): string[];
-  yankChain(nodeIds: string[]): this;
-  spliceChain(nodeIds: string[], source: string, target: string, options?: AddLinkOptions): this;
-  reverseChain(nodeIds: string[]): this;
-  extractChain(nodeIds: string[]): Flowchart;
-  rebaseNodes(nodeIds: string[], newParent: string): this;
-}

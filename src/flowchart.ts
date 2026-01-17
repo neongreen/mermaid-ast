@@ -50,13 +50,24 @@ import type { RenderOptions } from './types/render-options.js';
 // Re-export types for convenience
 export type { AddLinkOptions, AddNodeOptions, FindNodesQuery, LinkInfo, RemoveNodeOptions };
 
-// Import graph ops interface for type declaration
-import type { FlowchartGraphOps } from './flowchart-graph-ops.js';
+// Import graph operations (defined in separate file for organization)
+import {
+  extractChain,
+  getAncestors,
+  getChain,
+  getPath,
+  getReachable,
+  insertBetween,
+  rebaseNodes,
+  removeAndReconnect,
+  reverseChain,
+  spliceChain,
+  yankChain,
+} from './flowchart-graph-ops.js';
 
 /**
  * A fluent wrapper for FlowchartAST that supports building, mutating, and querying.
  */
-export interface Flowchart extends FlowchartGraphOps {}
 export class Flowchart extends DiagramWrapper<FlowchartAST> {
   private constructor(ast: FlowchartAST) {
     super(ast);
@@ -686,9 +697,41 @@ export class Flowchart extends DiagramWrapper<FlowchartAST> {
   getSubgraph(id: string): FlowchartSubgraph | undefined {
     return this.ast.subgraphs.find((s) => s.id === id);
   }
+
+  // ============================================
+  // Graph Operations (from flowchart-graph-ops.ts)
+  // ============================================
+
+  /** Insert a node between two connected nodes */
+  insertBetween = insertBetween;
+
+  /** Remove a node and reconnect its neighbors */
+  removeAndReconnect = removeAndReconnect;
+
+  /** Get all nodes reachable from a starting node */
+  getReachable = getReachable;
+
+  /** Get all nodes that can reach a target node */
+  getAncestors = getAncestors;
+
+  /** Get the shortest path between two nodes */
+  getPath = getPath;
+
+  /** Get a linear chain of nodes between two points */
+  getChain = getChain;
+
+  /** Remove a chain of nodes and reconnect around them */
+  yankChain = yankChain;
+
+  /** Splice a chain of existing nodes between two points */
+  spliceChain = spliceChain;
+
+  /** Reverse the direction of all links in a chain */
+  reverseChain = reverseChain;
+
+  /** Extract a subchain from the graph as a new Flowchart */
+  extractChain = extractChain;
+
+  /** Move a set of nodes to be children of a new parent */
+  rebaseNodes = rebaseNodes;
 }
-
-// Augment Flowchart with graph operations
-import { augmentFlowchartWithGraphOps } from './flowchart-graph-ops.js';
-
-augmentFlowchartWithGraphOps(Flowchart);
