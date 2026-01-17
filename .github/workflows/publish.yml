@@ -16,9 +16,51 @@ on:
           - both
 
 jobs:
+  # First stage: Run all tests (same as CI)
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/mermaid-ast
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+        working-directory: .
+
+      - name: Lint
+        run: bun run lint
+        working-directory: .
+
+      - name: Type check
+        run: bun run typecheck
+
+      - name: Run tests with coverage
+        run: bun test --coverage tests/unit tests/roundtrip
+
+      - name: Verify examples compile and run
+        run: bun run examples
+
+      - name: Build
+        run: bun run build
+
+      - name: Verify JSR publish (dry-run)
+        run: npx jsr publish --dry-run --allow-dirty
+
+  # Second stage: Publish to npm (only after tests pass)
   publish-npm:
+    needs: test
     if: github.event_name == 'release' || github.event.inputs.target == 'npm' || github.event.inputs.target == 'both'
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/mermaid-ast
     permissions:
       contents: read
       id-token: write  # Required for OIDC
@@ -31,9 +73,7 @@ jobs:
       
       - name: Install dependencies
         run: bun install
-      
-      - name: Run tests
-        run: bun test
+        working-directory: .
       
       - name: Build
         run: bun run build
@@ -45,10 +85,17 @@ jobs:
       
       - name: Publish to npm
         run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+  # Second stage: Publish to JSR (only after tests pass)
   publish-jsr:
+    needs: test
     if: github.event_name == 'release' || github.event.inputs.target == 'jsr' || github.event.inputs.target == 'both'
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/mermaid-ast
     permissions:
       contents: read
       id-token: write  # Required for OIDC
@@ -56,4 +103,4 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Publish to JSR
-        run: npx jsr publish
+        run: npx jsr publish --allow-dirty
