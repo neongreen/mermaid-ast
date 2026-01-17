@@ -85,17 +85,14 @@ describe('ClassDiagram Renderer', () => {
 
   describe('Style Definitions', () => {
     it('should render classDef style definitions', () => {
-      // Create a diagram with classDef style definitions
+      // Create a diagram with classDef style definitions using the fluent API
       const diagram = ClassDiagram.create()
         .addClass('MyClass')
-        .addMethod('MyClass', 'doSomething()', '+');
+        .addMethod('MyClass', 'doSomething()', '+')
+        .defineStyle('highlight', ['fill:#f9f', 'stroke:#333', 'stroke-width:2px'])
+        .defineStyle('error', ['fill:#f00', 'color:#fff']);
 
-      // Manually add classDef to the AST (no wrapper method for this yet)
-      const ast = diagram.toAST();
-      ast.classDefs.set('highlight', { styles: ['fill:#f9f', 'stroke:#333', 'stroke-width:2px'] });
-      ast.classDefs.set('error', { styles: ['fill:#f00', 'color:#fff'] });
-
-      expectGolden(renderClassDiagram(ast), 'class/render-classdef-styles.mmd');
+      expectGolden(diagram.render(), 'class/render-classdef-styles.mmd');
     });
   });
 });
