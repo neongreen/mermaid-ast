@@ -13,6 +13,10 @@ install:
 test:
     bun test tests/unit tests/roundtrip tests/cross-runtime
 
+# Update golden test files (regenerate expected outputs)
+update-golden:
+    UPDATE_GOLDEN=1 bun test tests/unit
+
 # Run flowchart parser tests
 test-flowchart:
     bun test tests/unit/flowchart-parser.test.ts

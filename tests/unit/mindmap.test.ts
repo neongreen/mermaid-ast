@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Mindmap } from '../../src/mindmap.js';
+import { expectGolden } from '../golden/golden.js';
 
 describe('Mindmap Wrapper', () => {
   describe('Factory Methods', () => {
@@ -231,11 +232,7 @@ Root
         .addChild('Root', 'A', 'Node A')
         .addChild('Root', 'B', 'Node B');
 
-      const output = map.render();
-      expect(output).toContain('mindmap');
-      expect(output).toContain('Root');
-      expect(output).toContain('A');
-      expect(output).toContain('B');
+      expectGolden(map.render(), 'mindmap/render-basic.mmd');
     });
   });
 });

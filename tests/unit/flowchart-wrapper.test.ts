@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { Flowchart } from '../../src/flowchart.js';
+import { expectGolden } from '../golden/golden.js';
 
 describe('Flowchart Wrapper', () => {
   describe('Factory Methods', () => {
@@ -45,9 +46,7 @@ describe('Flowchart Wrapper', () => {
     test('render() produces mermaid syntax', () => {
       const f = Flowchart.create('LR').addNode('A', 'Start').addNode('B', 'End').addLink('A', 'B');
       const output = f.render();
-      expect(output).toContain('flowchart LR');
-      expect(output).toContain('A[Start]');
-      expect(output).toContain('B[End]');
+      expectGolden(output, 'flowchart/render-basic.mmd');
     });
 
     test('clone() creates independent copy', () => {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { StateDiagram } from '../../src/state-diagram.js';
+import { expectGolden } from '../golden/golden.js';
 
 describe('StateDiagram Wrapper', () => {
   describe('Factory Methods', () => {
@@ -335,10 +336,7 @@ describe('StateDiagram Wrapper', () => {
         .addTransition('Idle', 'Running', { label: 'start' })
         .addFinal('Running');
       
-      const output = diagram.render();
-      expect(output).toContain('stateDiagram');
-      expect(output).toContain('[*] --> Idle');
-      expect(output).toContain('start');
+      expectGolden(diagram.render(), 'state/render-basic.mmd');
     });
   });
 });

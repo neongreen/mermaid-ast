@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { ClassDiagram } from '../../src/class-diagram.js';
+import { expectGolden } from '../golden/golden.js';
 
 describe('ClassDiagram Wrapper', () => {
   describe('Factory Methods', () => {
@@ -348,10 +349,7 @@ describe('ClassDiagram Wrapper', () => {
         .addClass('Dog')
         .addInheritance('Dog', 'Animal');
       
-      const output = diagram.render();
-      expect(output).toContain('classDiagram');
-      expect(output).toContain('class Animal');
-      expect(output).toContain('Animal <|-- Dog');
+      expectGolden(diagram.render(), 'class/render-basic.mmd');
     });
   });
 });

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { ErDiagram } from '../../src/er-diagram.js';
+import { expectGolden } from '../golden/golden.js';
 
 describe('ErDiagram Wrapper', () => {
   describe('Factory Methods', () => {
@@ -275,11 +276,7 @@ describe('ErDiagram Wrapper', () => {
           cardB: 'ZERO_OR_MORE',
         });
 
-      const output = diagram.render();
-      expect(output).toContain('erDiagram');
-      expect(output).toContain('CUSTOMER');
-      expect(output).toContain('string name');
-      expect(output).toContain('places');
+      expectGolden(diagram.render(), 'er/render-basic.mmd');
     });
   });
 

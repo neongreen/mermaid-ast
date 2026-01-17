@@ -1,0 +1,9 @@
+sequenceDiagram
+    participant A
+    participant B
+    participant C
+    par Thread 1
+        A->>B: Work 1
+    and Thread 2
+        A->>C: Work 2
+    end

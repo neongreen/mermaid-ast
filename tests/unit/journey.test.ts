@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../../src/journey.js';
+import { expectGolden } from '../golden/golden.js';
 
 describe('Journey Wrapper', () => {
   describe('Factory Methods', () => {
@@ -264,11 +265,7 @@ describe('Journey Wrapper', () => {
         .addSection('Morning')
         .addTask('Morning', 'Wake up', { score: 3, actors: ['Me'] });
 
-      const output = journey.render();
-      expect(output).toContain('journey');
-      expect(output).toContain('title My Journey');
-      expect(output).toContain('section Morning');
-      expect(output).toContain('Wake up: 3: Me');
+      expectGolden(journey.render(), 'journey/render-basic.mmd');
     });
   });
 });

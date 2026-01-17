@@ -1,0 +1,8 @@
+sequenceDiagram
+    participant A
+    participant B
+    alt Success
+        A->>B: OK
+    else Failure
+        A->>B: Error
+    end

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Sequence } from '../../src/sequence.js';
+import { expectGolden } from '../golden/golden.js';
 
 describe('Sequence Wrapper', () => {
   describe('Factory Methods', () => {
@@ -177,9 +178,7 @@ describe('Sequence Wrapper', () => {
           s.addMessage('A', 'B', 'Ping');
         });
       
-      const output = seq.render();
-      expect(output).toContain('loop');
-      expect(output).toContain('Ping');
+      expectGolden(seq.render(), 'sequence/loop.mmd');
     });
 
     it('should add alt blocks', () => {
@@ -191,9 +190,7 @@ describe('Sequence Wrapper', () => {
           { condition: 'Failure', build: (s) => s.addMessage('A', 'B', 'Error') },
         ]);
       
-      const output = seq.render();
-      expect(output).toContain('alt');
-      expect(output).toContain('else');
+      expectGolden(seq.render(), 'sequence/alt.mmd');
     });
 
     it('should add opt blocks', () => {
@@ -202,8 +199,7 @@ describe('Sequence Wrapper', () => {
           s.addMessage('A', 'B', 'Optional');
         });
       
-      const output = seq.render();
-      expect(output).toContain('opt');
+      expectGolden(seq.render(), 'sequence/opt.mmd');
     });
 
     it('should add par blocks', () => {
@@ -213,9 +209,7 @@ describe('Sequence Wrapper', () => {
           { text: 'Thread 2', build: (s) => s.addMessage('A', 'C', 'Work 2') },
         ]);
       
-      const output = seq.render();
-      expect(output).toContain('par');
-      expect(output).toContain('and');
+      expectGolden(seq.render(), 'sequence/par.mmd');
     });
 
     it('should add rect blocks', () => {
@@ -224,8 +218,7 @@ describe('Sequence Wrapper', () => {
           s.addMessage('A', 'B', 'Highlighted');
         });
       
-      const output = seq.render();
-      expect(output).toContain('rect');
+      expectGolden(seq.render(), 'sequence/rect.mmd');
     });
   });
 
@@ -247,8 +240,7 @@ describe('Sequence Wrapper', () => {
         .addMessage('A', 'B', 'First')
         .addMessage('A', 'B', 'Second');
       
-      const output = seq.render();
-      expect(output).toContain('autonumber');
+      expectGolden(seq.render(), 'sequence/autonumber.mmd');
     });
   });
 
@@ -304,10 +296,7 @@ describe('Sequence Wrapper', () => {
         .addParticipant('B', 'Bob')
         .addMessage('A', 'B', 'Hello!');
       
-      const output = seq.render();
-      expect(output).toContain('sequenceDiagram');
-      expect(output).toContain('participant A as Alice');
-      expect(output).toContain('A->>B: Hello!');
+      expectGolden(seq.render(), 'sequence/render-basic.mmd');
     });
   });
 });

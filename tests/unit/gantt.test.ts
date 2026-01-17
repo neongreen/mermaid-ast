@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Gantt } from '../../src/gantt.js';
+import { expectGolden } from '../golden/golden.js';
 
 describe('Gantt Wrapper', () => {
   describe('Factory Methods', () => {
@@ -277,12 +278,7 @@ describe('Gantt Wrapper', () => {
         .addSection('Phase 1')
         .addTask('Task A', 'Phase 1', { id: 'a', start: '2024-01-01', end: '5d' });
 
-      const output = chart.render();
-      expect(output).toContain('gantt');
-      expect(output).toContain('title My Project');
-      expect(output).toContain('dateFormat YYYY-MM-DD');
-      expect(output).toContain('section Phase 1');
-      expect(output).toContain('Task A');
+      expectGolden(chart.render(), 'gantt/render-basic.mmd');
     });
   });
 

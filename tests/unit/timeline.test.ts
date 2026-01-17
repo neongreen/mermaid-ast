@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Timeline } from '../../src/timeline.js';
+import { expectGolden } from '../golden/golden.js';
 
 describe('Timeline Wrapper', () => {
   describe('Factory Methods', () => {
@@ -247,12 +248,7 @@ describe('Timeline Wrapper', () => {
         .addPeriod('2020s', '2020')
         .addEvent('2020', 'Major event');
 
-      const output = timeline.render();
-      expect(output).toContain('timeline');
-      expect(output).toContain('title My Timeline');
-      expect(output).toContain('section 2020s');
-      expect(output).toContain('2020');
-      expect(output).toContain(': Major event');
+      expectGolden(timeline.render(), 'timeline/render-basic.mmd');
     });
   });
 });
