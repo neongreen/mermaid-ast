@@ -32,8 +32,14 @@ describe('ClassDiagram Renderer', () => {
       // Create AST directly to test lollipop relation type
       const ast: ClassDiagramAST = {
         classes: new Map([
-          ['Class1', { id: 'Class1', label: 'Class1', members: [], annotations: [], cssClasses: [] }],
-          ['Interface1', { id: 'Interface1', label: 'Interface1', members: [], annotations: [], cssClasses: [] }],
+          [
+            'Class1',
+            { id: 'Class1', label: 'Class1', members: [], annotations: [], cssClasses: [] },
+          ],
+          [
+            'Interface1',
+            { id: 'Interface1', label: 'Interface1', members: [], annotations: [], cssClasses: [] },
+          ],
         ]),
         relations: [
           {
@@ -61,16 +67,19 @@ describe('ClassDiagram Renderer', () => {
       // Create AST directly to test callback with args
       const ast: ClassDiagramAST = {
         classes: new Map([
-          ['MyClass', {
-            id: 'MyClass',
-            label: 'MyClass',
-            members: [],
-            annotations: [],
-            cssClasses: [],
-            callback: 'handleClick',
-            callbackArgs: 'arg1, arg2',
-            tooltip: 'Click me',
-          }],
+          [
+            'MyClass',
+            {
+              id: 'MyClass',
+              label: 'MyClass',
+              members: [],
+              annotations: [],
+              cssClasses: [],
+              callback: 'handleClick',
+              callbackArgs: 'arg1, arg2',
+              tooltip: 'Click me',
+            },
+          ],
         ]),
         relations: [],
         namespaces: new Map(),

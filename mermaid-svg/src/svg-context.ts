@@ -4,8 +4,8 @@
  * Provides a server-side SVG canvas that works without a browser.
  */
 
+import { registerWindow, SVG, type Svg } from '@svgdotjs/svg.js';
 import { createSVGWindow } from 'svgdom';
-import { SVG, registerWindow, type Svg } from '@svgdotjs/svg.js';
 
 /**
  * SVG context for server-side rendering

@@ -3,7 +3,17 @@
  */
 
 import { describe, expect, test } from 'bun:test';
-import { blank, block, type Doc, indent, isBlank, isIndent, join, render, when } from '../../src/renderer/doc.js';
+import {
+  blank,
+  block,
+  type Doc,
+  indent,
+  isBlank,
+  isIndent,
+  join,
+  render,
+  when,
+} from '../../src/renderer/doc.js';
 
 describe('Doc Builder', () => {
   describe('render', () => {

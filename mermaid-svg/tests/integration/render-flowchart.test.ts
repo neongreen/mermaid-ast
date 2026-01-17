@@ -2,7 +2,7 @@
  * Integration tests for flowchart SVG rendering
  */
 
-import { describe, it, expect } from 'bun:test';
+import { describe, expect, it } from 'bun:test';
 import { parseFlowchart } from 'mermaid-ast';
 import { renderFlowchartToSVG } from '../../src/index.js';
 

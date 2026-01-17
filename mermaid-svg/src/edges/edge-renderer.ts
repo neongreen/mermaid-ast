@@ -2,9 +2,9 @@
  * Edge renderer
  */
 
-import type { Svg, G } from '@svgdotjs/svg.js';
-import type { Theme, PositionedEdge, PositionedNode } from '../types.js';
-import { generatePath, type CurveType } from './curves.js';
+import type { G, Svg } from '@svgdotjs/svg.js';
+import type { PositionedEdge, PositionedNode, Theme } from '../types.js';
+import { type CurveType, generatePath } from './curves.js';
 import { getMarkerUrl } from './markers.js';
 
 /**
@@ -64,11 +64,14 @@ export function renderEdge(
 
     // Create label background
     const labelPadding = 4;
-    const labelText = group.text(edge.label).font({
-      family: theme.fontFamily,
-      size: theme.fontSize * 0.9,
-      anchor: 'middle',
-    }).fill(theme.edgeTextColor);
+    const labelText = group
+      .text(edge.label)
+      .font({
+        family: theme.fontFamily,
+        size: theme.fontSize * 0.9,
+        anchor: 'middle',
+      })
+      .fill(theme.edgeTextColor);
 
     const bbox = labelText.bbox();
 

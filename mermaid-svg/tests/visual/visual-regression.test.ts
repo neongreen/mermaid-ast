@@ -5,12 +5,12 @@
  * Run with UPDATE_SNAPSHOTS=1 to update the baseline snapshots.
  */
 
-import { describe, it, expect, beforeAll } from 'bun:test';
+import { beforeAll, describe, expect, it } from 'bun:test';
+import { existsSync } from 'node:fs';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
 import { parseFlowchart } from 'mermaid-ast';
 import { renderFlowchartToSVG } from '../../src/index.js';
-import { readFile, writeFile, mkdir } from 'fs/promises';
-import { join, dirname } from 'path';
-import { existsSync } from 'fs';
 
 const SNAPSHOTS_DIR = join(dirname(import.meta.path), 'snapshots');
 const UPDATE_SNAPSHOTS = process.env.UPDATE_SNAPSHOTS === '1';

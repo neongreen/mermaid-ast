@@ -9,11 +9,9 @@
  * the exports.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
-import * as vm from 'vm';
-import { fileURLToPath } from 'url';
-import { createRequire } from 'module';
+import * as fs from 'node:fs';
+import { createRequire } from 'node:module';
+import * as vm from 'node:vm';
 
 // Get the path to elk-worker.js using require.resolve for proper module resolution
 const require = createRequire(import.meta.url);

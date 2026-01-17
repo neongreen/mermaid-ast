@@ -2,7 +2,7 @@
  * Unit tests for theming
  */
 
-import { describe, it, expect } from 'bun:test';
+import { describe, expect, it } from 'bun:test';
 import { defaultTheme } from '../../src/themes/default.js';
 import type { Theme } from '../../src/types.js';
 

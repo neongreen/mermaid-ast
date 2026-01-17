@@ -2,10 +2,10 @@
  * Unit tests for edge rendering and markers
  */
 
-import { describe, it, expect } from 'bun:test';
-import { createSvgContext } from '../../src/svg-context.js';
+import { describe, expect, it } from 'bun:test';
 import { renderEdges } from '../../src/edges/edge-renderer.js';
 import { createMarkers } from '../../src/edges/markers.js';
+import { createSvgContext } from '../../src/svg-context.js';
 import { defaultTheme } from '../../src/themes/default.js';
 import type { PositionedEdge, PositionedNode } from '../../src/types.js';
 
@@ -13,9 +13,9 @@ describe('Markers', () => {
   describe('createMarkers', () => {
     it('should add marker definitions to SVG', () => {
       const ctx = createSvgContext(200, 200);
-      
+
       createMarkers(ctx.canvas, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('<defs>');
       expect(svg).toContain('<marker');
@@ -23,36 +23,36 @@ describe('Markers', () => {
 
     it('should include point marker', () => {
       const ctx = createSvgContext(200, 200);
-      
+
       createMarkers(ctx.canvas, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('id="marker-point"');
     });
 
     it('should include circle marker', () => {
       const ctx = createSvgContext(200, 200);
-      
+
       createMarkers(ctx.canvas, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('id="marker-circle"');
     });
 
     it('should include cross marker', () => {
       const ctx = createSvgContext(200, 200);
-      
+
       createMarkers(ctx.canvas, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('id="marker-cross"');
     });
 
     it('should include diamond marker', () => {
       const ctx = createSvgContext(200, 200);
-      
+
       createMarkers(ctx.canvas, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('id="marker-diamond"');
     });
@@ -70,7 +70,7 @@ describe('Edge Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const markers = createMarkers(ctx.canvas, defaultTheme);
       const nodes = createTestNodes();
-      
+
       const edges: PositionedEdge[] = [
         {
           id: 'e1',
@@ -83,9 +83,9 @@ describe('Edge Rendering', () => {
           ],
         },
       ];
-      
+
       renderEdges(ctx.canvas, edges, nodes, markers, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('<path');
     });
@@ -94,7 +94,7 @@ describe('Edge Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const markers = createMarkers(ctx.canvas, defaultTheme);
       const nodes = createTestNodes();
-      
+
       const edges: PositionedEdge[] = [
         {
           id: 'e1',
@@ -108,9 +108,9 @@ describe('Edge Rendering', () => {
           ],
         },
       ];
-      
+
       renderEdges(ctx.canvas, edges, nodes, markers, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('<path');
       expect(svg).toContain('d='); // Path data
@@ -120,7 +120,7 @@ describe('Edge Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const markers = createMarkers(ctx.canvas, defaultTheme);
       const nodes = createTestNodes();
-      
+
       const edges: PositionedEdge[] = [
         {
           id: 'e1',
@@ -133,9 +133,9 @@ describe('Edge Rendering', () => {
           ],
         },
       ];
-      
+
       renderEdges(ctx.canvas, edges, nodes, markers, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('Yes');
     });
@@ -144,9 +144,9 @@ describe('Edge Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const markers = createMarkers(ctx.canvas, defaultTheme);
       const nodes = createTestNodes();
-      
+
       renderEdges(ctx.canvas, [], nodes, markers, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       // Should still be valid SVG, just without edge paths
       expect(svg).toContain('<svg');
@@ -156,7 +156,7 @@ describe('Edge Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const markers = createMarkers(ctx.canvas, defaultTheme);
       const nodes = createTestNodes();
-      
+
       const edges: PositionedEdge[] = [
         {
           id: 'e1',
@@ -170,9 +170,9 @@ describe('Edge Rendering', () => {
           endMarker: 'point',
         },
       ];
-      
+
       renderEdges(ctx.canvas, edges, nodes, markers, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('marker-end');
     });

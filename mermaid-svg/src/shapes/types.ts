@@ -2,8 +2,8 @@
  * Shape type definitions
  */
 
-import type { Svg, G } from '@svgdotjs/svg.js';
-import type { Theme, PositionedNode } from '../types.js';
+import type { G, Svg } from '@svgdotjs/svg.js';
+import type { PositionedNode, Theme } from '../types.js';
 
 /**
  * Interface for shape renderers
@@ -24,10 +24,7 @@ export interface ShapeRenderer {
    * @param angle - The angle of the incoming/outgoing edge (in radians)
    * @returns The intersection point {x, y}
    */
-  getIntersection(
-    node: PositionedNode,
-    angle: number
-  ): { x: number; y: number };
+  getIntersection(node: PositionedNode, angle: number): { x: number; y: number };
 }
 
 /**

@@ -2,14 +2,14 @@
  * Shape registry
  */
 
-import type { ShapeRenderer, ShapeRegistry } from './types.js';
+import { circleShape } from './circle.js';
+import { cylinderShape } from './cylinder.js';
+import { diamondShape } from './diamond.js';
+import { hexagonShape } from './hexagon.js';
 import { rectShape } from './rect.js';
 import { roundedShape } from './rounded.js';
 import { stadiumShape } from './stadium.js';
-import { diamondShape } from './diamond.js';
-import { hexagonShape } from './hexagon.js';
-import { cylinderShape } from './cylinder.js';
-import { circleShape } from './circle.js';
+import type { ShapeRegistry, ShapeRenderer } from './types.js';
 
 /**
  * Registry of all available shapes
@@ -36,4 +36,4 @@ export function getShape(name: string): ShapeRenderer {
   return shape;
 }
 
-export type { ShapeRenderer, ShapeRegistry } from './types.js';
+export type { ShapeRegistry, ShapeRenderer } from './types.js';

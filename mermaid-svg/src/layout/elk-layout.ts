@@ -5,12 +5,12 @@
  * and extracts positioned nodes and edges.
  */
 
+import type { ElkExtendedEdge, ElkNode } from 'elkjs';
 // Use elk-api.js with a custom worker factory for Bun compatibility
 import ELK from 'elkjs/lib/elk-api.js';
-import type { ElkNode, ElkExtendedEdge } from 'elkjs';
-import type { FlowchartAST, FlowchartNode, FlowchartLink } from 'mermaid-ast';
-import type { LayoutResult, PositionedNode, PositionedEdge, Theme } from '../types.js';
+import type { FlowchartAST, FlowchartLink, FlowchartNode } from 'mermaid-ast';
 import { measureText } from '../svg-context.js';
+import type { LayoutResult, PositionedEdge, PositionedNode, Theme } from '../types.js';
 
 // Import the FakeWorker using our custom loader (works in Bun)
 import { FakeWorker } from './elk-worker-loader.js';
@@ -56,22 +56,13 @@ function getElkDirection(direction: string): string {
 /**
  * Calculate node dimensions based on label text
  */
-function calculateNodeSize(
-  node: FlowchartNode,
-  theme: Theme
-): { width: number; height: number } {
+function calculateNodeSize(node: FlowchartNode, theme: Theme): { width: number; height: number } {
   const label = getNodeLabel(node);
   const textSize = measureText(label, theme.fontSize, theme.fontFamily);
 
   // Add padding and ensure minimum size
-  const width = Math.max(
-    textSize.width + theme.nodePadding * 2,
-    theme.nodeMinWidth
-  );
-  const height = Math.max(
-    textSize.height + theme.nodePadding * 2,
-    theme.nodeMinHeight
-  );
+  const width = Math.max(textSize.width + theme.nodePadding * 2, theme.nodeMinWidth);
+  const height = Math.max(textSize.height + theme.nodePadding * 2, theme.nodeMinHeight);
 
   return { width, height };
 }
@@ -179,10 +170,7 @@ function astToElkGraph(ast: FlowchartAST, theme: Theme): ElkNode {
 /**
  * Extract positioned nodes from ELK layout result
  */
-function extractPositionedNodes(
-  elkGraph: ElkNode,
-  ast: FlowchartAST
-): PositionedNode[] {
+function extractPositionedNodes(elkGraph: ElkNode, ast: FlowchartAST): PositionedNode[] {
   const nodes: PositionedNode[] = [];
 
   if (!elkGraph.children) return nodes;
@@ -208,10 +196,7 @@ function extractPositionedNodes(
 /**
  * Extract positioned edges from ELK layout result
  */
-function extractPositionedEdges(
-  elkGraph: ElkNode,
-  ast: FlowchartAST
-): PositionedEdge[] {
+function extractPositionedEdges(elkGraph: ElkNode, ast: FlowchartAST): PositionedEdge[] {
   const edges: PositionedEdge[] = [];
 
   if (!elkGraph.edges) return edges;
@@ -255,10 +240,7 @@ function extractPositionedEdges(
 /**
  * Run ELK layout on a FlowchartAST
  */
-export async function layoutFlowchart(
-  ast: FlowchartAST,
-  theme: Theme
-): Promise<LayoutResult> {
+export async function layoutFlowchart(ast: FlowchartAST, theme: Theme): Promise<LayoutResult> {
   // Convert AST to ELK graph
   const elkGraph = astToElkGraph(ast, theme);
 

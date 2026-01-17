@@ -5,13 +5,13 @@
  */
 
 import type { FlowchartAST } from 'mermaid-ast';
-import type { RenderOptions, Theme } from './types.js';
-import { createSvgContext } from './svg-context.js';
-import { layoutFlowchart } from './layout/elk-layout.js';
-import { defaultTheme, mergeTheme } from './themes/default.js';
-import { getShape } from './shapes/index.js';
-import { createMarkers } from './edges/markers.js';
 import { renderEdges } from './edges/edge-renderer.js';
+import { createMarkers } from './edges/markers.js';
+import { layoutFlowchart } from './layout/elk-layout.js';
+import { getShape } from './shapes/index.js';
+import { createSvgContext } from './svg-context.js';
+import { defaultTheme, mergeTheme } from './themes/default.js';
+import type { RenderOptions } from './types.js';
 
 /**
  * Default render options
@@ -65,9 +65,7 @@ export async function renderFlowchartToSVG(
   // Render nodes
   for (const node of layout.nodes) {
     const shapeRenderer = getShape(node.shape);
-    const nodeGroup = shapeRenderer.render(canvas, node, theme);
-    // Move to correct position (already positioned in renderer, but apply padding)
-    // Note: The node positions from ELK already include the layout, we just need padding
+    shapeRenderer.render(canvas, node, theme);
   }
 
   // Get SVG output

@@ -2,7 +2,7 @@
  * Arrow marker definitions for edges
  */
 
-import type { Svg, Marker } from '@svgdotjs/svg.js';
+import type { Marker, Svg } from '@svgdotjs/svg.js';
 import type { Theme } from '../types.js';
 
 /**

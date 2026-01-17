@@ -2,7 +2,7 @@
  * Unit tests for shape rendering
  */
 
-import { describe, it, expect } from 'bun:test';
+import { describe, expect, it } from 'bun:test';
 import { getShape, shapeRegistry } from '../../src/shapes/index.js';
 import { createSvgContext } from '../../src/svg-context.js';
 import { defaultTheme } from '../../src/themes/default.js';
@@ -10,8 +10,16 @@ import type { PositionedNode } from '../../src/types.js';
 
 describe('Shape Registry', () => {
   it('should have all expected shapes registered', () => {
-    const expectedShapes = ['rect', 'rounded', 'stadium', 'diamond', 'hexagon', 'cylinder', 'circle'];
-    
+    const expectedShapes = [
+      'rect',
+      'rounded',
+      'stadium',
+      'diamond',
+      'hexagon',
+      'cylinder',
+      'circle',
+    ];
+
     for (const shape of expectedShapes) {
       expect(shapeRegistry.has(shape)).toBe(true);
     }
@@ -19,7 +27,7 @@ describe('Shape Registry', () => {
 
   it('should return a renderer for each registered shape', () => {
     const shapes = ['rect', 'rounded', 'stadium', 'diamond', 'hexagon', 'cylinder', 'circle'];
-    
+
     for (const shape of shapes) {
       const renderer = getShape(shape);
       expect(renderer).toBeDefined();
@@ -51,9 +59,9 @@ describe('Shape Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const node = createTestNode('rect');
       const renderer = getShape('rect');
-      
+
       renderer.render(ctx.canvas, node, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('<rect');
       expect(svg).toContain('width="100"');
@@ -64,9 +72,9 @@ describe('Shape Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const node = createTestNode('rect', 'My Label');
       const renderer = getShape('rect');
-      
+
       renderer.render(ctx.canvas, node, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('My Label');
     });
@@ -77,9 +85,9 @@ describe('Shape Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const node = createTestNode('rounded');
       const renderer = getShape('rounded');
-      
+
       renderer.render(ctx.canvas, node, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('<rect');
       expect(svg).toContain('rx='); // Rounded corners
@@ -91,9 +99,9 @@ describe('Shape Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const node = createTestNode('stadium');
       const renderer = getShape('stadium');
-      
+
       renderer.render(ctx.canvas, node, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('<rect');
       expect(svg).toContain('rx='); // Fully rounded ends
@@ -105,9 +113,9 @@ describe('Shape Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const node = createTestNode('diamond');
       const renderer = getShape('diamond');
-      
+
       renderer.render(ctx.canvas, node, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('<polygon');
     });
@@ -118,9 +126,9 @@ describe('Shape Rendering', () => {
       const ctx = createSvgContext(200, 200);
       const node = createTestNode('hexagon');
       const renderer = getShape('hexagon');
-      
+
       renderer.render(ctx.canvas, node, defaultTheme);
-      
+
       const svg = ctx.toSvg();
       expect(svg).toContain('<polygon');
     });
@@ -168,10 +176,10 @@ describe('Shape Intersection', () => {
   it('should calculate intersection for rect shape', () => {
     const node = createTestNode('rect');
     const renderer = getShape('rect');
-    
+
     // Angle pointing right (0 radians)
     const intersection = renderer.getIntersection(node, 0);
-    
+
     expect(intersection.x).toBeGreaterThan(node.x);
     expect(intersection.y).toBeCloseTo(node.y + node.height / 2, 1);
   });
@@ -179,10 +187,10 @@ describe('Shape Intersection', () => {
   it('should calculate intersection for circle shape', () => {
     const node = createTestNode('circle');
     const renderer = getShape('circle');
-    
+
     // Angle pointing right (0 radians)
     const intersection = renderer.getIntersection(node, 0);
-    
+
     expect(intersection.x).toBeGreaterThan(node.x);
   });
 });

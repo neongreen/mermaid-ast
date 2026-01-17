@@ -29,11 +29,14 @@ export function renderText(
   theme: Theme,
   options: TextOptions = {}
 ): Text {
-  const textEl = canvas.text(text).font({
-    family: options.fontFamily ?? theme.fontFamily,
-    size: options.fontSize ?? theme.fontSize,
-    anchor: options.anchor ?? 'middle',
-  }).fill(options.fill ?? theme.nodeTextColor);
+  const textEl = canvas
+    .text(text)
+    .font({
+      family: options.fontFamily ?? theme.fontFamily,
+      size: options.fontSize ?? theme.fontSize,
+      anchor: options.anchor ?? 'middle',
+    })
+    .fill(options.fill ?? theme.nodeTextColor);
 
   // Position the text
   if (options.anchor === 'middle') {
@@ -75,7 +78,7 @@ export function wrapText(
   text: string,
   maxWidth: number,
   fontSize: number,
-  fontFamily: string
+  _fontFamily: string
 ): string[] {
   // Simple word-based wrapping
   // Note: This is approximate since we don't have exact text metrics

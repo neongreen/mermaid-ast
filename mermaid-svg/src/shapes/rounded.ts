@@ -2,8 +2,8 @@
  * Rounded rectangle shape renderer
  */
 
-import type { Svg, G } from '@svgdotjs/svg.js';
-import type { Theme, PositionedNode } from '../types.js';
+import type { G, Svg } from '@svgdotjs/svg.js';
+import type { PositionedNode, Theme } from '../types.js';
 import type { ShapeRenderer } from './types.js';
 
 const CORNER_RADIUS = 5;
@@ -34,10 +34,7 @@ export const roundedShape: ShapeRenderer = {
     return group;
   },
 
-  getIntersection(
-    node: PositionedNode,
-    angle: number
-  ): { x: number; y: number } {
+  getIntersection(node: PositionedNode, angle: number): { x: number; y: number } {
     // For simplicity, use rectangle intersection
     // A more accurate implementation would account for rounded corners
     const cx = node.x + node.width / 2;

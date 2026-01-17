@@ -24,9 +24,7 @@ describe('Flowchart Renderer', () => {
       // Create an AST directly with a node that has an unknown shape and no text
       const ast: FlowchartAST = {
         direction: 'LR',
-        nodes: new Map([
-          ['A', { id: 'A', shape: 'unknown_shape' as any, text: undefined }],
-        ]),
+        nodes: new Map([['A', { id: 'A', shape: 'unknown_shape' as any, text: undefined }]]),
         links: [],
         subgraphs: [],
         classes: new Map(),

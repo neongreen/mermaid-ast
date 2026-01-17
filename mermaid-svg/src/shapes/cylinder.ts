@@ -2,8 +2,8 @@
  * Cylinder (database) shape renderer
  */
 
-import type { Svg, G } from '@svgdotjs/svg.js';
-import type { Theme, PositionedNode } from '../types.js';
+import type { G, Svg } from '@svgdotjs/svg.js';
+import type { PositionedNode, Theme } from '../types.js';
 import type { ShapeRenderer } from './types.js';
 
 export const cylinderShape: ShapeRenderer = {
@@ -61,10 +61,7 @@ export const cylinderShape: ShapeRenderer = {
     return group;
   },
 
-  getIntersection(
-    node: PositionedNode,
-    angle: number
-  ): { x: number; y: number } {
+  getIntersection(node: PositionedNode, angle: number): { x: number; y: number } {
     // Simplified: use rectangle approximation
     const cx = node.x + node.width / 2;
     const cy = node.y + node.height / 2;

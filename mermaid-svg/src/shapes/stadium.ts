@@ -2,8 +2,8 @@
  * Stadium (pill) shape renderer
  */
 
-import type { Svg, G } from '@svgdotjs/svg.js';
-import type { Theme, PositionedNode } from '../types.js';
+import type { G, Svg } from '@svgdotjs/svg.js';
+import type { PositionedNode, Theme } from '../types.js';
 import type { ShapeRenderer } from './types.js';
 
 export const stadiumShape: ShapeRenderer = {
@@ -34,13 +34,9 @@ export const stadiumShape: ShapeRenderer = {
     return group;
   },
 
-  getIntersection(
-    node: PositionedNode,
-    angle: number
-  ): { x: number; y: number } {
+  getIntersection(node: PositionedNode, angle: number): { x: number; y: number } {
     const cx = node.x + node.width / 2;
     const cy = node.y + node.height / 2;
-    const hw = node.width / 2;
     const hh = node.height / 2;
     const radius = hh;
 

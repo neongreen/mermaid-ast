@@ -1,0 +1,36 @@
+{
+  "classDefs": {
+    "error": {
+      "name": "error",
+      "styles": [
+        "fill:#f00,color:#fff"
+      ]
+    },
+    "highlight": {
+      "name": "highlight",
+      "styles": [
+        "fill:#f9f,stroke:#333,stroke-width:2px"
+      ]
+    }
+  },
+  "classes": {
+    "MyClass": {
+      "annotations": [],
+      "cssClasses": [],
+      "id": "MyClass",
+      "members": [
+        {
+          "text": "doSomething()",
+          "type": "method",
+          "visibility": "+"
+        }
+      ],
+      "styles": []
+    }
+  },
+  "direction": "TB",
+  "namespaces": {},
+  "notes": [],
+  "relations": [],
+  "type": "classDiagram"
+}

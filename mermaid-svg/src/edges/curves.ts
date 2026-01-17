@@ -54,7 +54,6 @@ function basisPath(points: Point[]): string {
 
   // For each pair of points, create a quadratic bezier
   for (let i = 0; i < rest.length; i++) {
-    const current = i === 0 ? first : rest[i - 1];
     const next = rest[i];
     const nextNext = rest[i + 1];
 
