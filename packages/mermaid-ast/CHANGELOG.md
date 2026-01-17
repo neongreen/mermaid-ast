@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2025-01-17
+
 ### Added
 - **Kanban diagram support** - Complete implementation with parser, renderer (using doc.ts), wrapper class, and 71 tests
   - Hierarchical node structure with indent levels
@@ -22,7 +24,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Accessibility metadata (accTitle, accDescription)
   - Full fluent API for building and querying charts
 - **doc.ts rendering guideline** - Updated AGENTS.md to require all new renderers to use doc.ts library
-- **Migration TODO** - Added TODO in README for migrating existing renderers to doc.ts
+- **Release checklist** - Added `.agents/release-checklist.md` with complete release process
+
+### Fixed
+- **Kanban renderer delimiters** - Fixed SUBROUTINE (`([])` → `([-])`) and ASYMMETRIC (`(--)` → `(-)-)`) shape delimiters
+- **KanbanNodeType documentation** - Added comprehensive JSDoc documenting which shapes are parseable vs render-only (mermaid.js limitation)
+
+### Prompts Used
+
+```
+review https://github.com/neongreen/mermaid-ast/pull/4. youll need to do jj git fetch, jj bookmark track ... , jj new ..., etc etc; any steps that arent documented in ~/.agents/jj.md must be documented. when reviewing pay attention to consistency, following existing repo standards, all tests lints etc must still pass, nothing must be stubbed or "fixed" by tactical hacks
+
+yeah do it. and remove that section from agents md, it should just link to the table in the readme
+
+and then please based on this pr write a checklist about how to add new diagram types; everything, everything that needs to be done, even small things must be documengted there
+
+push as separate commit
+
+check the suggestions in the pr
+
+nah check `github-pr-comments`
+
+and yeah explain why tests didnt catch this
+
+and add to the checklist
+
+but yeah please document sure
+
+merged. whats your checklist for releasing the new version?
+
+lets release as 0.7.0; also replace github release command with `just ast-release` and it will publish to both so no need for step 6. for step 1 use either just ast-bump-minor or just ast-bump-patch
+
+wait for ci
+
+also btw ci failed
+
+add to the checklist also
+
+actually move the checklist into /Users/emily/code/mermaid-ast/.agents/release-checklist.md and refer to it in agents md
+```
 
 ## [0.6.2] - 2025-01-17
 
