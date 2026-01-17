@@ -72,51 +72,75 @@
   }
 */
 var parser = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[6,8,10,11,12,14,16,17,18],$V1=[1,9],$V2=[1,10],$V3=[1,11],$V4=[1,12],$V5=[1,13],$V6=[1,14];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,4],$V1=[1,13],$V2=[1,12],$V3=[1,15],$V4=[1,16],$V5=[1,20],$V6=[1,19],$V7=[6,7,8],$V8=[1,26],$V9=[1,24],$Va=[1,25],$Vb=[6,7,11],$Vc=[1,31],$Vd=[6,7,11,24],$Ve=[1,6,13,16,17,20,23],$Vf=[1,35],$Vg=[1,36],$Vh=[1,6,7,11,13,16,17,20,23],$Vi=[1,38];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"start":3,"journey":4,"document":5,"EOF":6,"line":7,"SPACE":8,"statement":9,"NEWLINE":10,"title":11,"acc_title":12,"acc_title_value":13,"acc_descr":14,"acc_descr_value":15,"acc_descr_multiline_value":16,"section":17,"taskName":18,"taskData":19,"$accept":0,"$end":1},
-terminals_: {2:"error",4:"journey",6:"EOF",8:"SPACE",10:"NEWLINE",11:"title",12:"acc_title",13:"acc_title_value",14:"acc_descr",15:"acc_descr_value",16:"acc_descr_multiline_value",17:"section",18:"taskName",19:"taskData"},
-productions_: [0,[3,3],[5,0],[5,2],[7,2],[7,1],[7,1],[7,1],[9,1],[9,2],[9,2],[9,1],[9,1],[9,2]],
+symbols_: {"error":2,"start":3,"mindMap":4,"spaceLines":5,"SPACELINE":6,"NL":7,"KANBAN":8,"document":9,"stop":10,"EOF":11,"statement":12,"SPACELIST":13,"node":14,"shapeData":15,"ICON":16,"CLASS":17,"nodeWithId":18,"nodeWithoutId":19,"NODE_DSTART":20,"NODE_DESCR":21,"NODE_DEND":22,"NODE_ID":23,"SHAPE_DATA":24,"$accept":0,"$end":1},
+terminals_: {2:"error",6:"SPACELINE",7:"NL",8:"KANBAN",11:"EOF",13:"SPACELIST",16:"ICON",17:"CLASS",20:"NODE_DSTART",21:"NODE_DESCR",22:"NODE_DEND",23:"NODE_ID",24:"SHAPE_DATA"},
+productions_: [0,[3,1],[3,2],[5,1],[5,2],[5,2],[4,2],[4,3],[10,1],[10,1],[10,1],[10,2],[10,2],[9,3],[9,2],[12,3],[12,2],[12,2],[12,2],[12,1],[12,2],[12,1],[12,1],[12,1],[12,1],[14,1],[14,1],[19,3],[18,1],[18,4],[15,2],[15,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
 var $0 = $$.length - 1;
 switch (yystate) {
-case 1:
- return $$[$0-1]; 
-break;
-case 2:
- this.$ = [] 
-break;
-case 3:
-$$[$0-1].push($$[$0]);this.$ = $$[$0-1]
-break;
-case 4: case 5:
- this.$ = $$[$0] 
-break;
 case 6: case 7:
- this.$=[];
+ return yy; 
 break;
 case 8:
-yy.setDiagramTitle($$[$0].substr(6));this.$=$$[$0].substr(6);
+yy.getLogger().trace('Stop NL ');
 break;
 case 9:
- this.$=$$[$0].trim();yy.setAccTitle(this.$); 
+yy.getLogger().trace('Stop EOF ');
 break;
-case 10: case 11:
- this.$=$$[$0].trim();yy.setAccDescription(this.$); 
+case 11:
+yy.getLogger().trace('Stop NL2 ');
 break;
 case 12:
-yy.addSection($$[$0].substr(8));this.$=$$[$0].substr(8);
+yy.getLogger().trace('Stop EOF2 ');
 break;
-case 13:
-yy.addTask($$[$0-1], $$[$0]);this.$='task';
+case 15:
+ yy.getLogger().info('Node: ',$$[$0-1].id);yy.addNode($$[$0-2].length, $$[$0-1].id, $$[$0-1].descr, $$[$0-1].type, $$[$0]);  
+break;
+case 16:
+ yy.getLogger().info('Node: ',$$[$0].id);yy.addNode($$[$0-1].length, $$[$0].id, $$[$0].descr, $$[$0].type);  
+break;
+case 17:
+ yy.getLogger().trace('Icon: ',$$[$0]);yy.decorateNode({icon: $$[$0]}); 
+break;
+case 18: case 23:
+ yy.decorateNode({class: $$[$0]}); 
+break;
+case 19:
+ yy.getLogger().trace('SPACELIST');
+break;
+case 20:
+ yy.getLogger().trace('Node: ',$$[$0-1].id);yy.addNode(0, $$[$0-1].id, $$[$0-1].descr, $$[$0-1].type, $$[$0]);  
+break;
+case 21:
+ yy.getLogger().trace('Node: ',$$[$0].id);yy.addNode(0, $$[$0].id, $$[$0].descr, $$[$0].type);  
+break;
+case 22:
+ yy.decorateNode({icon: $$[$0]}); 
+break;
+case 27:
+ yy.getLogger().trace("node found ..", $$[$0-2]); this.$ = { id: $$[$0-1], descr: $$[$0-1], type: yy.getType($$[$0-2], $$[$0]) }; 
+break;
+case 28:
+ this.$ = { id: $$[$0], descr: $$[$0], type: 0 }; 
+break;
+case 29:
+ yy.getLogger().trace("node found ..", $$[$0-3]); this.$ = { id: $$[$0-3], descr: $$[$0-1], type: yy.getType($$[$0-2], $$[$0]) }; 
+break;
+case 30:
+ this.$ = $$[$0-1] + $$[$0]; 
+break;
+case 31:
+ this.$ = $$[$0]; 
 break;
 }
 },
-table: [{3:1,4:[1,2]},{1:[3]},o($V0,[2,2],{5:3}),{6:[1,4],7:5,8:[1,6],9:7,10:[1,8],11:$V1,12:$V2,14:$V3,16:$V4,17:$V5,18:$V6},o($V0,[2,7],{1:[2,1]}),o($V0,[2,3]),{9:15,11:$V1,12:$V2,14:$V3,16:$V4,17:$V5,18:$V6},o($V0,[2,5]),o($V0,[2,6]),o($V0,[2,8]),{13:[1,16]},{15:[1,17]},o($V0,[2,11]),o($V0,[2,12]),{19:[1,18]},o($V0,[2,4]),o($V0,[2,9]),o($V0,[2,10]),o($V0,[2,13])],
-defaultActions: {},
+table: [{3:1,4:2,5:3,6:[1,5],8:$V0},{1:[3]},{1:[2,1]},{4:6,6:[1,7],7:[1,8],8:$V0},{6:$V1,7:[1,10],9:9,12:11,13:$V2,14:14,16:$V3,17:$V4,18:17,19:18,20:$V5,23:$V6},o($V7,[2,3]),{1:[2,2]},o($V7,[2,4]),o($V7,[2,5]),{1:[2,6],6:$V1,12:21,13:$V2,14:14,16:$V3,17:$V4,18:17,19:18,20:$V5,23:$V6},{6:$V1,9:22,12:11,13:$V2,14:14,16:$V3,17:$V4,18:17,19:18,20:$V5,23:$V6},{6:$V8,7:$V9,10:23,11:$Va},o($Vb,[2,24],{18:17,19:18,14:27,16:[1,28],17:[1,29],20:$V5,23:$V6}),o($Vb,[2,19]),o($Vb,[2,21],{15:30,24:$Vc}),o($Vb,[2,22]),o($Vb,[2,23]),o($Vd,[2,25]),o($Vd,[2,26]),o($Vd,[2,28],{20:[1,32]}),{21:[1,33]},{6:$V8,7:$V9,10:34,11:$Va},{1:[2,7],6:$V1,12:21,13:$V2,14:14,16:$V3,17:$V4,18:17,19:18,20:$V5,23:$V6},o($Ve,[2,14],{7:$Vf,11:$Vg}),o($Vh,[2,8]),o($Vh,[2,9]),o($Vh,[2,10]),o($Vb,[2,16],{15:37,24:$Vc}),o($Vb,[2,17]),o($Vb,[2,18]),o($Vb,[2,20],{24:$Vi}),o($Vd,[2,31]),{21:[1,39]},{22:[1,40]},o($Ve,[2,13],{7:$Vf,11:$Vg}),o($Vh,[2,11]),o($Vh,[2,12]),o($Vb,[2,15],{24:$Vi}),o($Vd,[2,30]),{22:[1,41]},o($Vd,[2,27]),o($Vd,[2,29])],
+defaultActions: {2:[2,1],6:[2,2]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -593,52 +617,118 @@ stateStackSize:function stateStackSize() {
     },
 options: {"case-insensitive":true},
 performAction: function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
+	// Pre-lexer code can go here
+
 var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
-case 0:/* skip comments */
+case 0:
+                                                    // console.log('=> shapeData', yy_.yytext);
+                                                    this.pushState("shapeData"); yy_.yytext=""; return 24 
 break;
-case 1:/* skip comments */
+case 1:
+                                                    // console.log('=> shapeDataStr', yy_.yytext);
+                                                    this.pushState("shapeDataStr");
+                                                    return 24;
+                                                
 break;
-case 2:return 10;
+case 2:
+                                                    // console.log('shapeData <==', yy_.yytext);
+                                                    this.popState(); return 24
 break;
-case 3:/* skip whitespace */
+case 3:
+                                                    // console.log('shapeData', yy_.yytext);
+                                                    const re = /\n\s*/g;
+                                                    yy_.yytext = yy_.yytext.replace(re,"<br/>");
+                                                    return 24
 break;
-case 4:/* skip comments */
+case 4:
+                                                    // console.log('shapeData', yy_.yytext);
+                                                    return 24;
+                                                
 break;
-case 5:return 4;
+case 5:
+                                                    // console.log('<== root', yy_.yytext)
+                                                    this.popState();
+                                                
 break;
-case 6:return 11;
+case 6:yy.getLogger().trace('Found comment',yy_.yytext); return 6;
 break;
-case 7: this.begin("acc_title");return 12; 
+case 7:return 8;
 break;
-case 8: this.popState(); return "acc_title_value"; 
+case 8: this.begin('CLASS'); 
 break;
-case 9: this.begin("acc_descr");return 14; 
+case 9: this.popState();return 17; 
 break;
-case 10: this.popState(); return "acc_descr_value"; 
+case 10: this.popState();
 break;
-case 11: this.begin("acc_descr_multiline");
+case 11: yy.getLogger().trace('Begin icon');this.begin('ICON'); 
 break;
-case 12: this.popState(); 
+case 12:yy.getLogger().trace('SPACELINE');return 6                 /* skip all whitespace */    ;
 break;
-case 13:return "acc_descr_multiline_value";
+case 13:return 7;
 break;
-case 14:return 17;
+case 14: return 16; 
 break;
-case 15:return 18;
+case 15:yy.getLogger().trace('end icon');this.popState();
 break;
-case 16:return 19;
+case 16: yy.getLogger().trace('Exploding node'); this.begin('NODE');return 20; 
 break;
-case 17:return ':';
+case 17: yy.getLogger().trace('Cloud'); this.begin('NODE');return 20; 
 break;
-case 18:return 6;
+case 18: yy.getLogger().trace('Explosion Bang'); this.begin('NODE');return 20; 
 break;
-case 19:return 'INVALID';
+case 19: yy.getLogger().trace('Cloud Bang'); this.begin('NODE');return 20; 
+break;
+case 20: this.begin('NODE');return 20; 
+break;
+case 21: this.begin('NODE');return 20; 
+break;
+case 22: this.begin('NODE');return 20; 
+break;
+case 23: this.begin('NODE');return 20; 
+break;
+case 24:return 13                 /* skip all whitespace */    ;
+break;
+case 25:return 23;
+break;
+case 26:return 11;
+break;
+case 27: this.begin("NSTR2");
+break;
+case 28: return "NODE_DESCR";
+break;
+case 29: this.popState();
+break;
+case 30: yy.getLogger().trace('Starting NSTR');this.begin("NSTR");
+break;
+case 31: yy.getLogger().trace('description:', yy_.yytext); return "NODE_DESCR";
+break;
+case 32:this.popState();
+break;
+case 33:this.popState();yy.getLogger().trace('node end ))');return "NODE_DEND";
+break;
+case 34:this.popState();yy.getLogger().trace('node end )');return "NODE_DEND";
+break;
+case 35:this.popState();yy.getLogger().trace('node end ...',yy_.yytext);return "NODE_DEND";
+break;
+case 36:this.popState();yy.getLogger().trace('node end ((');return "NODE_DEND";
+break;
+case 37:this.popState();yy.getLogger().trace('node end (-');return "NODE_DEND";
+break;
+case 38:this.popState();yy.getLogger().trace('node end (-');return "NODE_DEND";
+break;
+case 39:this.popState();yy.getLogger().trace('node end ((');return "NODE_DEND";
+break;
+case 40:this.popState();yy.getLogger().trace('node end ((');return "NODE_DEND";
+break;
+case 41: yy.getLogger().trace('Long description:', yy_.yytext);   return 21;
+break;
+case 42: yy.getLogger().trace('Long description:', yy_.yytext);   return 21;
 break;
 }
 },
-rules: [/^(?:%(?!\{)[^\n]*)/i,/^(?:[^\}]%%[^\n]*)/i,/^(?:[\n]+)/i,/^(?:\s+)/i,/^(?:#[^\n]*)/i,/^(?:journey\b)/i,/^(?:title\s[^#\n;]+)/i,/^(?:accTitle\s*:\s*)/i,/^(?:(?!\n||)*[^\n]*)/i,/^(?:accDescr\s*:\s*)/i,/^(?:(?!\n||)*[^\n]*)/i,/^(?:accDescr\s*\{\s*)/i,/^(?:[\}])/i,/^(?:[^\}]*)/i,/^(?:section\s[^#:\n;]+)/i,/^(?:[^#:\n;]+)/i,/^(?::[^#\n;]+)/i,/^(?::)/i,/^(?:$)/i,/^(?:.)/i],
-conditions: {"acc_descr_multiline":{"rules":[12,13],"inclusive":false},"acc_descr":{"rules":[10],"inclusive":false},"acc_title":{"rules":[8],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,7,9,11,14,15,16,17,18,19],"inclusive":true}}
+rules: [/^(?:@\{)/i,/^(?:["])/i,/^(?:["])/i,/^(?:[^\"]+)/i,/^(?:[^}^"]+)/i,/^(?:\})/i,/^(?:\s*%%.*)/i,/^(?:kanban\b)/i,/^(?::::)/i,/^(?:.+)/i,/^(?:\n)/i,/^(?:::icon\()/i,/^(?:[\s]+[\n])/i,/^(?:[\n]+)/i,/^(?:[^\)]+)/i,/^(?:\))/i,/^(?:-\))/i,/^(?:\(-)/i,/^(?:\)\))/i,/^(?:\))/i,/^(?:\(\()/i,/^(?:\{\{)/i,/^(?:\()/i,/^(?:\[)/i,/^(?:[\s]+)/i,/^(?:[^\(\[\n\)\{\}@]+)/i,/^(?:$)/i,/^(?:["][`])/i,/^(?:[^`"]+)/i,/^(?:[`]["])/i,/^(?:["])/i,/^(?:[^"]+)/i,/^(?:["])/i,/^(?:[\)]\))/i,/^(?:[\)])/i,/^(?:[\]])/i,/^(?:\}\})/i,/^(?:\(-)/i,/^(?:-\))/i,/^(?:\(\()/i,/^(?:\()/i,/^(?:[^\)\]\(\}]+)/i,/^(?:.+(?!\(\())/i],
+conditions: {"shapeDataEndBracket":{"rules":[],"inclusive":false},"shapeDataStr":{"rules":[2,3],"inclusive":false},"shapeData":{"rules":[1,4,5],"inclusive":false},"CLASS":{"rules":[9,10],"inclusive":false},"ICON":{"rules":[14,15],"inclusive":false},"NSTR2":{"rules":[28,29],"inclusive":false},"NSTR":{"rules":[31,32],"inclusive":false},"NODE":{"rules":[27,30,33,34,35,36,37,38,39,40,41,42],"inclusive":false},"INITIAL":{"rules":[0,6,7,8,11,12,13,16,17,18,19,20,21,22,23,24,25,26],"inclusive":true}}
 });
 return lexer;
 })();
