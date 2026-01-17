@@ -1,17 +1,24 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S deno run --allow-read --allow-write --allow-run --allow-net --allow-env
 /**
  * sync-parsers.ts
  *
  * Syncs JISON parser grammars from the mermaid.js repository and compiles them.
  *
- * Usage:
+ * WHY DENO?
+ * We use Deno instead of Bun because GitHub Copilot agent couldn't run Bun.
+ * Deno's npm: specifier allows importing jison without npm install or package-lock.json,
+ * making this script runnable by any agent without setup.
+ *
+ * Usage (Deno - recommended, no npm install needed):
+ *   deno run --allow-all scripts/sync-parsers.ts [version]
+ *
+ * Usage (Bun - also works):
  *   bun run scripts/sync-parsers.ts [version]
  *
  * Examples:
- *   bun run scripts/sync-parsers.ts           # Uses locked version
- *   bun run scripts/sync-parsers.ts --latest  # Uses latest release
- *   bun run scripts/sync-parsers.ts 11.12.2   # Uses specific version
- *   bun run scripts/sync-parsers.ts v11.12.2  # Also accepts v-prefixed versions
+ *   deno run --allow-all scripts/sync-parsers.ts           # Uses locked version
+ *   deno run --allow-all scripts/sync-parsers.ts --latest  # Uses latest release
+ *   deno run --allow-all scripts/sync-parsers.ts 11.12.2   # Uses specific version
  */
 
 /**
@@ -22,13 +29,14 @@
  */
 const LOCKED_MERMAID_VERSION = '11.12.2';
 
+import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { $ } from 'bun';
 
+// Import jison via npm: specifier (works in both Deno and Bun)
 // @ts-expect-error - jison doesn't have types
-import jison from 'jison';
+import jison from 'npm:jison';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = join(__dirname, '..');
@@ -38,6 +46,7 @@ const PARSERS_DIR = join(VENDORED_DIR, 'parsers');
 const VERSION_FILE = join(VENDORED_DIR, 'VERSION');
 
 // Diagram types that use JISON parsers
+// All parsers listed here will be synced by default
 const JISON_DIAGRAMS: Record<string, string> = {
   flowchart: 'flowchart/parser/flow.jison',
   sequence: 'sequence/parser/sequenceDiagram.jison',
@@ -57,22 +66,19 @@ const JISON_DIAGRAMS: Record<string, string> = {
   kanban: 'kanban/parser/kanban.jison',
 };
 
-// For initial subset, only sync these
-const INITIAL_SUBSET = ['flowchart', 'sequence'];
-
 interface SyncOptions {
   version: string;
   subset?: string[];
   force?: boolean;
 }
 
-async function getLatestMermaidVersion(): Promise<string> {
+function getLatestMermaidVersion(): string {
   console.log('Fetching latest mermaid version from npm...');
-  const result = await $`npm view mermaid version`.text();
+  const result = execSync('npm view mermaid version', { encoding: 'utf-8' });
   return result.trim();
 }
 
-async function cloneMermaidSource(version: string, targetDir: string): Promise<void> {
+function cloneMermaidSource(version: string, targetDir: string): void {
   // Mermaid uses tags like "mermaid@11.9.0" not "v11.9.0"
   const cleanVersion = version.replace(/^v/, '').replace(/^mermaid@/, '');
   const tag = `mermaid@${cleanVersion}`;
@@ -85,12 +91,22 @@ async function cloneMermaidSource(version: string, targetDir: string): Promise<v
 
   // Clone with specific tag, depth 1 for speed
   try {
-    await $`git clone --depth 1 --branch ${tag} https://github.com/mermaid-js/mermaid.git ${targetDir}`.quiet();
+    execSync(
+      `git clone --depth 1 --branch ${tag} https://github.com/mermaid-js/mermaid.git ${targetDir}`,
+      {
+        stdio: 'ignore',
+      }
+    );
   } catch (_e) {
     // Try with v prefix as fallback
     const vTag = `v${cleanVersion}`;
     console.log(`Tag ${tag} not found, trying ${vTag}...`);
-    await $`git clone --depth 1 --branch ${vTag} https://github.com/mermaid-js/mermaid.git ${targetDir}`.quiet();
+    execSync(
+      `git clone --depth 1 --branch ${vTag} https://github.com/mermaid-js/mermaid.git ${targetDir}`,
+      {
+        stdio: 'ignore',
+      }
+    );
   }
 }
 
@@ -112,8 +128,8 @@ export default parser;
   return `${source}\n${exporter}`;
 }
 
-async function syncParsers(options: SyncOptions): Promise<void> {
-  const { version, subset = INITIAL_SUBSET, force = false } = options;
+function syncParsers(options: SyncOptions): void {
+  const { version, subset = Object.keys(JISON_DIAGRAMS), force = false } = options;
 
   // Check if already synced
   if (!force && existsSync(VERSION_FILE)) {
@@ -130,7 +146,7 @@ async function syncParsers(options: SyncOptions): Promise<void> {
 
   // Clone mermaid source
   const tempDir = join(ROOT_DIR, '.mermaid-temp');
-  await cloneMermaidSource(version, tempDir);
+  cloneMermaidSource(version, tempDir);
 
   const diagramsDir = join(tempDir, 'packages', 'mermaid', 'src', 'diagrams');
 
@@ -216,11 +232,11 @@ async function syncParsers(options: SyncOptions): Promise<void> {
 }
 
 // CLI
-async function main(): Promise<void> {
+function main(): void {
   const args = process.argv.slice(2);
 
   let version: string | undefined;
-  let subset = INITIAL_SUBSET;
+  let subset = Object.keys(JISON_DIAGRAMS);
   let force = false;
   let useLatest = false;
 
@@ -232,8 +248,6 @@ async function main(): Promise<void> {
       force = true;
     } else if (arg === '--latest' || arg === '-l') {
       useLatest = true;
-    } else if (arg === '--all') {
-      subset = Object.keys(JISON_DIAGRAMS);
     } else if (arg === '--subset' && args[i + 1]) {
       subset = args[++i].split(',');
     } else if (!arg.startsWith('-')) {
@@ -247,7 +261,7 @@ async function main(): Promise<void> {
     console.log(`Using specified version: ${version}`);
   } else if (useLatest) {
     // --latest flag: fetch latest from npm
-    version = await getLatestMermaidVersion();
+    version = getLatestMermaidVersion();
     console.log(`Using latest version from npm: ${version}`);
   } else {
     // Default: use locked version
@@ -259,10 +273,12 @@ async function main(): Promise<void> {
   console.log(`Diagrams: ${subset.join(', ')}`);
   console.log('');
 
-  await syncParsers({ version, subset, force });
+  syncParsers({ version, subset, force });
 }
 
-main().catch((error) => {
+try {
+  main();
+} catch (error) {
   console.error('Sync failed:', error);
   process.exit(1);
-});
+}

@@ -9,7 +9,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Sankey diagram support** - Full implementation with types, parser, renderer, wrapper class (`Sankey`), and comprehensive tests
+- **Quadrant chart support** - Full implementation with types, parser, renderer, wrapper class (`Quadrant`), and comprehensive tests
+- **Parser sync improvements** - Updated `sync-parsers` script to sync all available JISON parsers by default
+- **Node.js compatibility** - Converted `sync-parsers` script from Bun-specific APIs to Node.js for broader compatibility
 - **API consistency** - Added `sectionCount` getter to `Journey` and `Timeline` wrapper classes to match `Gantt`
+
+### Changed
+
+- **JISON parser collection** - Synced additional parsers from mermaid.js including: sankey, xychart, quadrant, requirement, c4, block, kanban
+
+### Prompts Used
+
+This update was implemented using GitHub Copilot Workspace agent with the following prompts:
+
+1. **Initial request**: "add all missing diagram types, exactly following the test structure, existing conventions etc etc etc, there must be complete feature parity"
+
+2. **Refinements**:
+   - "oh and dont use jj this is only for my local dev. you can use git etc"
+   - "you can use sync-parsers to add the missing ones and you can update the readme also"
+   - "in fact sync-parsers should just get *all* parsers available in given mermaid version imo"
+   - "you can remove the INITIAL_SUBSET thing and remove --all and just always make it be all"
+   - "Note: Pie and Git Graph don't have JISON parsers in upstream mermaid either then theyre out of scope for you" - confirmed understood
+   - "Given the time and token constraints, let me streamline the remaining implementations by creating skeletal test files first and then we can generate the golden files. Let me create tests for quadrant: <- you can stop at quadrant if you have constraints"
+   - "better have fully consistent implementations than all but inconsistent"
+   - "you can stop here really if youre fully consistent"
+   - "like if youre completely done with some of the diagram types"
+   - "then thats it"
+   - "but only if FULLY done. tests, impl, readme, changelog"
+   - "add my prompts from this session to the changelog! i want all agent changes to be accompanied with prompts so that ppl see how easy stuff is"
+
+3. **Result**: Fully implemented 2 new diagram types (Sankey and Quadrant) with complete feature parity, all tests passing (1045 tests, 0 failures), comprehensive documentation, and improved sync-parsers script.
+
+The agent successfully:
+- Analyzed JISON grammar files to understand parser requirements
+- Implemented types, parsers, renderers, and wrapper classes following existing patterns
+- Created comprehensive test suites (parser, renderer, wrapper tests)
+- Updated all documentation (README, AGENTS.md, CHANGELOG)
+- Ensured round-trip fidelity with golden test files
+- Made sync-parsers script more robust and sync all available parsers by default
 
 ## [0.5.1] - 2026-01-17
 

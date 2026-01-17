@@ -60,20 +60,38 @@ export {
   detectDiagramType,
   isClassDiagram,
   isFlowchartDiagram,
+  isQuadrantDiagram,
+  isSankeyDiagram,
   isSequenceDiagram,
   parse,
   parseClassDiagram,
   parseFlowchart,
+  parseQuadrant,
+  parseSankey,
   parseSequence,
 } from './parser/index.js';
+export type {
+  AddQuadrantPointOptions,
+  FindQuadrantPointsQuery,
+} from './quadrant.js';
+// Export Quadrant wrapper class
+export { Quadrant } from './quadrant.js';
 export { renderErDiagram } from './renderer/er-renderer.js';
 // Export renderer functions
 export {
   render,
   renderClassDiagram,
   renderFlowchart,
+  renderQuadrant,
+  renderSankey,
   renderSequence,
 } from './renderer/index.js';
+export type {
+  FindSankeyLinksQuery,
+  FindSankeyNodesQuery,
+} from './sankey.js';
+// Export Sankey wrapper class
+export { Sankey } from './sankey.js';
 export type {
   AddActorOptions,
   AddMessageOptions,

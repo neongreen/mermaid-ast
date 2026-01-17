@@ -72,51 +72,123 @@
   }
 */
 var parser = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[6,8,10,11,12,14,16,17,18],$V1=[1,9],$V2=[1,10],$V3=[1,11],$V4=[1,12],$V5=[1,13],$V6=[1,14];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,15],$V1=[1,7],$V2=[1,13],$V3=[1,14],$V4=[1,19],$V5=[1,16],$V6=[1,17],$V7=[1,18],$V8=[8,30],$V9=[8,10,21,28,29,30,31,39,43,46],$Va=[1,23],$Vb=[1,24],$Vc=[8,10,15,16,21,28,29,30,31,39,43,46],$Vd=[8,10,15,16,21,27,28,29,30,31,39,43,46],$Ve=[1,49];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"start":3,"journey":4,"document":5,"EOF":6,"line":7,"SPACE":8,"statement":9,"NEWLINE":10,"title":11,"acc_title":12,"acc_title_value":13,"acc_descr":14,"acc_descr_value":15,"acc_descr_multiline_value":16,"section":17,"taskName":18,"taskData":19,"$accept":0,"$end":1},
-terminals_: {2:"error",4:"journey",6:"EOF",8:"SPACE",10:"NEWLINE",11:"title",12:"acc_title",13:"acc_title_value",14:"acc_descr",15:"acc_descr_value",16:"acc_descr_multiline_value",17:"section",18:"taskName",19:"taskData"},
-productions_: [0,[3,3],[5,0],[5,2],[7,2],[7,1],[7,1],[7,1],[9,1],[9,2],[9,2],[9,1],[9,1],[9,2]],
+symbols_: {"error":2,"spaceLines":3,"SPACELINE":4,"NL":5,"separator":6,"SPACE":7,"EOF":8,"start":9,"BLOCK_DIAGRAM_KEY":10,"document":11,"stop":12,"statement":13,"link":14,"LINK":15,"START_LINK":16,"LINK_LABEL":17,"STR":18,"nodeStatement":19,"columnsStatement":20,"SPACE_BLOCK":21,"blockStatement":22,"classDefStatement":23,"cssClassStatement":24,"styleStatement":25,"node":26,"SIZE":27,"COLUMNS":28,"id-block":29,"end":30,"NODE_ID":31,"nodeShapeNLabel":32,"dirList":33,"DIR":34,"NODE_DSTART":35,"NODE_DEND":36,"BLOCK_ARROW_START":37,"BLOCK_ARROW_END":38,"classDef":39,"CLASSDEF_ID":40,"CLASSDEF_STYLEOPTS":41,"DEFAULT":42,"class":43,"CLASSENTITY_IDS":44,"STYLECLASS":45,"style":46,"STYLE_ENTITY_IDS":47,"STYLE_DEFINITION_DATA":48,"$accept":0,"$end":1},
+terminals_: {2:"error",4:"SPACELINE",5:"NL",7:"SPACE",8:"EOF",10:"BLOCK_DIAGRAM_KEY",15:"LINK",16:"START_LINK",17:"LINK_LABEL",18:"STR",21:"SPACE_BLOCK",27:"SIZE",28:"COLUMNS",29:"id-block",30:"end",31:"NODE_ID",34:"DIR",35:"NODE_DSTART",36:"NODE_DEND",37:"BLOCK_ARROW_START",38:"BLOCK_ARROW_END",39:"classDef",40:"CLASSDEF_ID",41:"CLASSDEF_STYLEOPTS",42:"DEFAULT",43:"class",44:"CLASSENTITY_IDS",45:"STYLECLASS",46:"style",47:"STYLE_ENTITY_IDS",48:"STYLE_DEFINITION_DATA"},
+productions_: [0,[3,1],[3,2],[3,2],[6,1],[6,1],[6,1],[9,3],[12,1],[12,1],[12,2],[12,2],[11,1],[11,2],[14,1],[14,4],[13,1],[13,1],[13,1],[13,1],[13,1],[13,1],[13,1],[19,3],[19,2],[19,1],[20,1],[22,4],[22,3],[26,1],[26,2],[33,1],[33,2],[32,3],[32,4],[23,3],[23,3],[24,3],[25,3]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
 var $0 = $$.length - 1;
 switch (yystate) {
-case 1:
- return $$[$0-1]; 
+case 4:
+yy.getLogger().debug('Rule: separator (NL) ');
 break;
-case 2:
- this.$ = [] 
+case 5:
+yy.getLogger().debug('Rule: separator (Space) ');
 break;
-case 3:
-$$[$0-1].push($$[$0]);this.$ = $$[$0-1]
+case 6:
+yy.getLogger().debug('Rule: separator (EOF) ');
 break;
-case 4: case 5:
- this.$ = $$[$0] 
-break;
-case 6: case 7:
- this.$=[];
+case 7:
+ yy.getLogger().debug("Rule: hierarchy: ", $$[$0-1]); yy.setHierarchy($$[$0-1]); 
 break;
 case 8:
-yy.setDiagramTitle($$[$0].substr(6));this.$=$$[$0].substr(6);
+yy.getLogger().debug('Stop NL ');
 break;
 case 9:
- this.$=$$[$0].trim();yy.setAccTitle(this.$); 
+yy.getLogger().debug('Stop EOF ');
 break;
-case 10: case 11:
- this.$=$$[$0].trim();yy.setAccDescription(this.$); 
+case 10:
+yy.getLogger().debug('Stop NL2 ');
+break;
+case 11:
+yy.getLogger().debug('Stop EOF2 ');
 break;
 case 12:
-yy.addSection($$[$0].substr(8));this.$=$$[$0].substr(8);
+ yy.getLogger().debug("Rule: statement: ", $$[$0]); typeof $$[$0].length === 'number'?this.$ = $$[$0]:this.$ = [$$[$0]]; 
 break;
 case 13:
-yy.addTask($$[$0-1], $$[$0]);this.$='task';
+ yy.getLogger().debug("Rule: statement #2: ", $$[$0-1]); this.$ = [$$[$0-1]].concat($$[$0]); 
+break;
+case 14:
+ yy.getLogger().debug("Rule: link: ", $$[$0], yytext); this.$={edgeTypeStr: $$[$0], label:''}; 
+break;
+case 15:
+ yy.getLogger().debug("Rule: LABEL link: ", $$[$0-3], $$[$0-1], $$[$0]); this.$={edgeTypeStr: $$[$0], label:$$[$0-1]}; 
+break;
+case 18:
+ const num=parseInt($$[$0]); const spaceId = yy.generateId(); this.$ = { id: spaceId, type:'space', label:'', width: num, children: [] }
+break;
+case 23:
+
+    yy.getLogger().debug('Rule: (nodeStatement link node) ', $$[$0-2], $$[$0-1], $$[$0], ' typestr: ',$$[$0-1].edgeTypeStr);
+    const edgeData = yy.edgeStrToEdgeData($$[$0-1].edgeTypeStr)
+    this.$ = [
+      {id: $$[$0-2].id, label: $$[$0-2].label, type:$$[$0-2].type, directions: $$[$0-2].directions},
+      {id: $$[$0-2].id + '-' + $$[$0].id, start: $$[$0-2].id, end: $$[$0].id, label: $$[$0-1].label, type: 'edge', directions: $$[$0].directions, arrowTypeEnd: edgeData, arrowTypeStart: 'arrow_open' },
+      {id: $$[$0].id, label: $$[$0].label, type: yy.typeStr2Type($$[$0].typeStr), directions: $$[$0].directions}
+      ];
+    
+break;
+case 24:
+ yy.getLogger().debug('Rule: nodeStatement (abc88 node size) ', $$[$0-1], $$[$0]); this.$ = {id: $$[$0-1].id, label: $$[$0-1].label, type: yy.typeStr2Type($$[$0-1].typeStr), directions: $$[$0-1].directions, widthInColumns: parseInt($$[$0],10)}; 
+break;
+case 25:
+ yy.getLogger().debug('Rule: nodeStatement (node) ', $$[$0]); this.$ = {id: $$[$0].id, label: $$[$0].label, type: yy.typeStr2Type($$[$0].typeStr), directions: $$[$0].directions, widthInColumns:1}; 
+break;
+case 26:
+ yy.getLogger().debug('APA123', this? this:'na'); yy.getLogger().debug("COLUMNS: ", $$[$0]); this.$ = {type: 'column-setting', columns: $$[$0] === 'auto'?-1:parseInt($$[$0]) } 
+break;
+case 27:
+ yy.getLogger().debug('Rule: id-block statement : ', $$[$0-2], $$[$0-1]); const id2 = yy.generateId(); this.$ = { ...$$[$0-2], type:'composite', children: $$[$0-1] }; 
+break;
+case 28:
+ yy.getLogger().debug('Rule: blockStatement : ', $$[$0-2], $$[$0-1], $$[$0]); const id = yy.generateId(); this.$ = { id, type:'composite', label:'', children: $$[$0-1] }; 
+break;
+case 29:
+ yy.getLogger().debug("Rule: node (NODE_ID separator): ", $$[$0]); this.$ = { id: $$[$0] }; 
+break;
+case 30:
+
+    yy.getLogger().debug("Rule: node (NODE_ID nodeShapeNLabel separator): ", $$[$0-1], $$[$0]);
+    this.$ = { id: $$[$0-1], label: $$[$0].label, typeStr: $$[$0].typeStr, directions: $$[$0].directions };
+  
+break;
+case 31:
+ yy.getLogger().debug("Rule: dirList: ", $$[$0]); this.$ = [$$[$0]]; 
+break;
+case 32:
+ yy.getLogger().debug("Rule: dirList: ", $$[$0-1], $$[$0]); this.$ = [$$[$0-1]].concat($$[$0]); 
+break;
+case 33:
+ yy.getLogger().debug("Rule: nodeShapeNLabel: ", $$[$0-2], $$[$0-1], $$[$0]); this.$ = { typeStr: $$[$0-2] + $$[$0], label: $$[$0-1] }; 
+break;
+case 34:
+ yy.getLogger().debug("Rule: BLOCK_ARROW nodeShapeNLabel: ", $$[$0-3], $$[$0-2], " #3:",$$[$0-1], $$[$0]); this.$ = { typeStr: $$[$0-3] + $$[$0], label: $$[$0-2], directions: $$[$0-1]}; 
+break;
+case 35: case 36:
+
+      this.$ = { type: 'classDef', id: $$[$0-1].trim(), css: $$[$0].trim() };
+      
+break;
+case 37:
+
+        //log.debug('apply class: id(s): ',$$[$0-1], '  style class: ', $$[$0]);
+        this.$={ type: 'applyClass', id: $$[$0-1].trim(), styleClass: $$[$0].trim() };
+        
+break;
+case 38:
+
+        this.$={ type: 'applyStyles', id: $$[$0-1].trim(), stylesStr: $$[$0].trim() };
+        
 break;
 }
 },
-table: [{3:1,4:[1,2]},{1:[3]},o($V0,[2,2],{5:3}),{6:[1,4],7:5,8:[1,6],9:7,10:[1,8],11:$V1,12:$V2,14:$V3,16:$V4,17:$V5,18:$V6},o($V0,[2,7],{1:[2,1]}),o($V0,[2,3]),{9:15,11:$V1,12:$V2,14:$V3,16:$V4,17:$V5,18:$V6},o($V0,[2,5]),o($V0,[2,6]),o($V0,[2,8]),{13:[1,16]},{15:[1,17]},o($V0,[2,11]),o($V0,[2,12]),{19:[1,18]},o($V0,[2,4]),o($V0,[2,9]),o($V0,[2,10]),o($V0,[2,13])],
-defaultActions: {},
+table: [{9:1,10:[1,2]},{1:[3]},{10:$V0,11:3,13:4,19:5,20:6,21:$V1,22:8,23:9,24:10,25:11,26:12,28:$V2,29:$V3,31:$V4,39:$V5,43:$V6,46:$V7},{8:[1,20]},o($V8,[2,12],{13:4,19:5,20:6,22:8,23:9,24:10,25:11,26:12,11:21,10:$V0,21:$V1,28:$V2,29:$V3,31:$V4,39:$V5,43:$V6,46:$V7}),o($V9,[2,16],{14:22,15:$Va,16:$Vb}),o($V9,[2,17]),o($V9,[2,18]),o($V9,[2,19]),o($V9,[2,20]),o($V9,[2,21]),o($V9,[2,22]),o($Vc,[2,25],{27:[1,25]}),o($V9,[2,26]),{19:26,26:12,31:$V4},{10:$V0,11:27,13:4,19:5,20:6,21:$V1,22:8,23:9,24:10,25:11,26:12,28:$V2,29:$V3,31:$V4,39:$V5,43:$V6,46:$V7},{40:[1,28],42:[1,29]},{44:[1,30]},{47:[1,31]},o($Vd,[2,29],{32:32,35:[1,33],37:[1,34]}),{1:[2,7]},o($V8,[2,13]),{26:35,31:$V4},{31:[2,14]},{17:[1,36]},o($Vc,[2,24]),{10:$V0,11:37,13:4,14:22,15:$Va,16:$Vb,19:5,20:6,21:$V1,22:8,23:9,24:10,25:11,26:12,28:$V2,29:$V3,31:$V4,39:$V5,43:$V6,46:$V7},{30:[1,38]},{41:[1,39]},{41:[1,40]},{45:[1,41]},{48:[1,42]},o($Vd,[2,30]),{18:[1,43]},{18:[1,44]},o($Vc,[2,23]),{18:[1,45]},{30:[1,46]},o($V9,[2,28]),o($V9,[2,35]),o($V9,[2,36]),o($V9,[2,37]),o($V9,[2,38]),{36:[1,47]},{33:48,34:$Ve},{15:[1,50]},o($V9,[2,27]),o($Vd,[2,33]),{38:[1,51]},{33:52,34:$Ve,38:[2,31]},{31:[2,15]},o($Vd,[2,34]),{38:[2,32]}],
+defaultActions: {20:[2,7],23:[2,14],50:[2,15],52:[2,32]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -591,54 +663,224 @@ pushState:function pushState (condition) {
 stateStackSize:function stateStackSize() {
         return this.conditionStack.length;
     },
-options: {"case-insensitive":true},
+options: {},
 performAction: function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
 var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
-case 0:/* skip comments */
+case 0: yy.getLogger().debug('Found block-beta'); return 10; 
 break;
-case 1:/* skip comments */
+case 1: yy.getLogger().debug('Found id-block'); return 29; 
 break;
-case 2:return 10;
+case 2: yy.getLogger().debug('Found block'); return 10; 
 break;
-case 3:/* skip whitespace */
+case 3: yy.getLogger().debug('.', yy_.yytext); /* skip all whitespace */  
 break;
-case 4:/* skip comments */
+case 4:yy.getLogger().debug('_', yy_.yytext);                 /* skip all whitespace */   
 break;
-case 5:return 4;
+case 5: return 5 
 break;
-case 6:return 11;
+case 6: yy_.yytext=-1; return 28; 
 break;
-case 7: this.begin("acc_title");return 12; 
+case 7: yy_.yytext = yy_.yytext.replace(/columns\s+/,''); yy.getLogger().debug('COLUMNS (LEX)', yy_.yytext); return 28; 
 break;
-case 8: this.popState(); return "acc_title_value"; 
+case 8: this.pushState("md_string");
 break;
-case 9: this.begin("acc_descr");return 14; 
+case 9: return "MD_STR";
 break;
-case 10: this.popState(); return "acc_descr_value"; 
+case 10: this.popState();
 break;
-case 11: this.begin("acc_descr_multiline");
+case 11:this.pushState("string");
 break;
-case 12: this.popState(); 
+case 12: yy.getLogger().debug('LEX: POPPING STR:', yy_.yytext);this.popState();
 break;
-case 13:return "acc_descr_multiline_value";
+case 13: yy.getLogger().debug('LEX: STR end:', yy_.yytext); return "STR";
 break;
-case 14:return 17;
+case 14:  yy_.yytext = yy_.yytext.replace(/space\:/,'');yy.getLogger().debug('SPACE NUM (LEX)', yy_.yytext); return 21; 
 break;
-case 15:return 18;
+case 15: yy_.yytext = '1'; yy.getLogger().debug('COLUMNS (LEX)', yy_.yytext); return 21; 
 break;
-case 16:return 19;
+case 16:return 42;
 break;
-case 17:return ':';
+case 17:return 'LINKSTYLE';
 break;
-case 18:return 6;
+case 18:return 'INTERPOLATE';
 break;
-case 19:return 'INVALID';
+case 19: this.pushState('CLASSDEF'); return 39; 
+break;
+case 20: this.popState(); this.pushState('CLASSDEFID'); return 'DEFAULT_CLASSDEF_ID' 
+break;
+case 21: this.popState(); this.pushState('CLASSDEFID'); return 40 
+break;
+case 22: this.popState(); return 41 
+break;
+case 23: this.pushState('CLASS'); return 43; 
+break;
+case 24: this.popState(); this.pushState('CLASS_STYLE'); return 44 
+break;
+case 25: this.popState(); return 45 
+break;
+case 26: this.pushState('STYLE_STMNT'); return 46; 
+break;
+case 27: this.popState(); this.pushState('STYLE_DEFINITION'); return 47 
+break;
+case 28: this.popState(); return 48 
+break;
+case 29: this.pushState("acc_title");return 'acc_title'; 
+break;
+case 30: this.popState(); return "acc_title_value"; 
+break;
+case 31: this.pushState("acc_descr");return 'acc_descr'; 
+break;
+case 32: this.popState(); return "acc_descr_value"; 
+break;
+case 33: this.pushState("acc_descr_multiline");
+break;
+case 34: this.popState(); 
+break;
+case 35:return "acc_descr_multiline_value";
+break;
+case 36:return 30;
+break;
+case 37: this.popState();yy.getLogger().debug('Lex: (('); return "NODE_DEND"; 
+break;
+case 38: this.popState();yy.getLogger().debug('Lex: (('); return "NODE_DEND"; 
+break;
+case 39: this.popState();yy.getLogger().debug('Lex: ))'); return "NODE_DEND"; 
+break;
+case 40: this.popState();yy.getLogger().debug('Lex: (('); return "NODE_DEND"; 
+break;
+case 41: this.popState();yy.getLogger().debug('Lex: (('); return "NODE_DEND"; 
+break;
+case 42: this.popState();yy.getLogger().debug('Lex: (-'); return "NODE_DEND"; 
+break;
+case 43: this.popState();yy.getLogger().debug('Lex: -)'); return "NODE_DEND"; 
+break;
+case 44: this.popState();yy.getLogger().debug('Lex: (('); return "NODE_DEND"; 
+break;
+case 45: this.popState();yy.getLogger().debug('Lex: ]]'); return "NODE_DEND"; 
+break;
+case 46: this.popState();yy.getLogger().debug('Lex: (');  return "NODE_DEND";  
+break;
+case 47: this.popState();yy.getLogger().debug('Lex: ])'); return "NODE_DEND"; 
+break;
+case 48: this.popState();yy.getLogger().debug('Lex: /]'); return "NODE_DEND"; 
+break;
+case 49: this.popState();yy.getLogger().debug('Lex: /]'); return "NODE_DEND"; 
+break;
+case 50: this.popState();yy.getLogger().debug('Lex: )]'); return "NODE_DEND"; 
+break;
+case 51: this.popState();yy.getLogger().debug('Lex: )');  return "NODE_DEND"; 
+break;
+case 52: this.popState();yy.getLogger().debug('Lex: ]>'); return "NODE_DEND"; 
+break;
+case 53: this.popState();yy.getLogger().debug('Lex: ]'); return "NODE_DEND"; 
+break;
+case 54: yy.getLogger().debug('Lexa: -)'); this.pushState('NODE');return 35; 
+break;
+case 55: yy.getLogger().debug('Lexa: (-'); this.pushState('NODE');return 35; 
+break;
+case 56: yy.getLogger().debug('Lexa: ))'); this.pushState('NODE');return 35;  
+break;
+case 57: yy.getLogger().debug('Lexa: )'); this.pushState('NODE');return 35;      
+break;
+case 58: yy.getLogger().debug('Lex: (((');  this.pushState('NODE');return 35; 
+break;
+case 59: yy.getLogger().debug('Lexa: )'); this.pushState('NODE');return 35; 
+break;
+case 60: yy.getLogger().debug('Lexa: )'); this.pushState('NODE');return 35; 
+break;
+case 61: yy.getLogger().debug('Lexa: )'); this.pushState('NODE');return 35; 
+break;
+case 62: yy.getLogger().debug('Lexc: >'); this.pushState('NODE');return 35; 
+break;
+case 63: yy.getLogger().debug('Lexa: (['); this.pushState('NODE');return 35; 
+break;
+case 64: yy.getLogger().debug('Lexa: )'); this.pushState('NODE');return 35; 
+break;
+case 65: this.pushState('NODE');return 35; 
+break;
+case 66: this.pushState('NODE');return 35; 
+break;
+case 67: this.pushState('NODE');return 35; 
+break;
+case 68: this.pushState('NODE');return 35; 
+break;
+case 69: this.pushState('NODE');return 35; 
+break;
+case 70: this.pushState('NODE');return 35; 
+break;
+case 71: this.pushState('NODE');return 35; 
+break;
+case 72: yy.getLogger().debug('Lexa: ['); this.pushState('NODE');return 35; 
+break;
+case 73: this.pushState('BLOCK_ARROW');yy.getLogger().debug('LEX ARR START');return 37; 
+break;
+case 74: yy.getLogger().debug('Lex: NODE_ID', yy_.yytext);return 31; 
+break;
+case 75: yy.getLogger().debug('Lex: EOF', yy_.yytext);return 8; 
+break;
+case 76: this.pushState("md_string");
+break;
+case 77: this.pushState("md_string");
+break;
+case 78: return "NODE_DESCR";
+break;
+case 79: this.popState();
+break;
+case 80: yy.getLogger().debug('Lex: Starting string');this.pushState("string");
+break;
+case 81: yy.getLogger().debug('LEX ARR: Starting string');this.pushState("string");
+break;
+case 82: yy.getLogger().debug('LEX: NODE_DESCR:', yy_.yytext); return "NODE_DESCR";
+break;
+case 83:yy.getLogger().debug('LEX POPPING');this.popState();
+break;
+case 84: yy.getLogger().debug('Lex: =>BAE');  this.pushState('ARROW_DIR');  
+break;
+case 85: yy_.yytext = yy_.yytext.replace(/^,\s*/, ''); yy.getLogger().debug('Lex (right): dir:',yy_.yytext);return "DIR"; 
+break;
+case 86: yy_.yytext = yy_.yytext.replace(/^,\s*/, ''); yy.getLogger().debug('Lex (left):',yy_.yytext);return "DIR"; 
+break;
+case 87: yy_.yytext = yy_.yytext.replace(/^,\s*/, ''); yy.getLogger().debug('Lex (x):',yy_.yytext); return "DIR"; 
+break;
+case 88: yy_.yytext = yy_.yytext.replace(/^,\s*/, ''); yy.getLogger().debug('Lex (y):',yy_.yytext); return "DIR"; 
+break;
+case 89: yy_.yytext = yy_.yytext.replace(/^,\s*/, ''); yy.getLogger().debug('Lex (up):',yy_.yytext); return "DIR"; 
+break;
+case 90: yy_.yytext = yy_.yytext.replace(/^,\s*/, ''); yy.getLogger().debug('Lex (down):',yy_.yytext); return "DIR"; 
+break;
+case 91: yy_.yytext=']>';yy.getLogger().debug('Lex (ARROW_DIR end):',yy_.yytext);this.popState();this.popState();return "BLOCK_ARROW_END"; 
+break;
+case 92: yy.getLogger().debug('Lex: LINK', '#'+yy_.yytext+'#'); return 15; 
+break;
+case 93: yy.getLogger().debug('Lex: LINK', yy_.yytext); return 15; 
+break;
+case 94: yy.getLogger().debug('Lex: LINK', yy_.yytext); return 15; 
+break;
+case 95: yy.getLogger().debug('Lex: LINK', yy_.yytext); return 15; 
+break;
+case 96: yy.getLogger().debug('Lex: START_LINK', yy_.yytext);this.pushState("LLABEL");return 16; 
+break;
+case 97: yy.getLogger().debug('Lex: START_LINK', yy_.yytext);this.pushState("LLABEL");return 16; 
+break;
+case 98: yy.getLogger().debug('Lex: START_LINK', yy_.yytext);this.pushState("LLABEL");return 16; 
+break;
+case 99: this.pushState("md_string");
+break;
+case 100: yy.getLogger().debug('Lex: Starting string');this.pushState("string"); return "LINK_LABEL";
+break;
+case 101: this.popState(); yy.getLogger().debug('Lex: LINK', '#'+yy_.yytext+'#'); return 15; 
+break;
+case 102: this.popState(); yy.getLogger().debug('Lex: LINK', yy_.yytext); return 15; 
+break;
+case 103: this.popState(); yy.getLogger().debug('Lex: LINK', yy_.yytext); return 15; 
+break;
+case 104: yy.getLogger().debug('Lex: COLON', yy_.yytext); yy_.yytext=yy_.yytext.slice(1);return 27; 
 break;
 }
 },
-rules: [/^(?:%(?!\{)[^\n]*)/i,/^(?:[^\}]%%[^\n]*)/i,/^(?:[\n]+)/i,/^(?:\s+)/i,/^(?:#[^\n]*)/i,/^(?:journey\b)/i,/^(?:title\s[^#\n;]+)/i,/^(?:accTitle\s*:\s*)/i,/^(?:(?!\n||)*[^\n]*)/i,/^(?:accDescr\s*:\s*)/i,/^(?:(?!\n||)*[^\n]*)/i,/^(?:accDescr\s*\{\s*)/i,/^(?:[\}])/i,/^(?:[^\}]*)/i,/^(?:section\s[^#:\n;]+)/i,/^(?:[^#:\n;]+)/i,/^(?::[^#\n;]+)/i,/^(?::)/i,/^(?:$)/i,/^(?:.)/i],
-conditions: {"acc_descr_multiline":{"rules":[12,13],"inclusive":false},"acc_descr":{"rules":[10],"inclusive":false},"acc_title":{"rules":[8],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,7,9,11,14,15,16,17,18,19],"inclusive":true}}
+rules: [/^(?:block-beta\b)/,/^(?:block:)/,/^(?:block\b)/,/^(?:[\s]+)/,/^(?:[\n]+)/,/^(?:((\u000D\u000A)|(\u000A)))/,/^(?:columns\s+auto\b)/,/^(?:columns\s+[\d]+)/,/^(?:["][`])/,/^(?:[^`"]+)/,/^(?:[`]["])/,/^(?:["])/,/^(?:["])/,/^(?:[^"]*)/,/^(?:space[:]\d+)/,/^(?:space\b)/,/^(?:default\b)/,/^(?:linkStyle\b)/,/^(?:interpolate\b)/,/^(?:classDef\s+)/,/^(?:DEFAULT\s+)/,/^(?:\w+\s+)/,/^(?:[^\n]*)/,/^(?:class\s+)/,/^(?:(\w+)+((,\s*\w+)*))/,/^(?:[^\n]*)/,/^(?:style\s+)/,/^(?:(\w+)+((,\s*\w+)*))/,/^(?:[^\n]*)/,/^(?:accTitle\s*:\s*)/,/^(?:(?!\n||)*[^\n]*)/,/^(?:accDescr\s*:\s*)/,/^(?:(?!\n||)*[^\n]*)/,/^(?:accDescr\s*\{\s*)/,/^(?:[\}])/,/^(?:[^\}]*)/,/^(?:end\b\s*)/,/^(?:\(\(\()/,/^(?:\)\)\))/,/^(?:[\)]\))/,/^(?:\}\})/,/^(?:\})/,/^(?:\(-)/,/^(?:-\))/,/^(?:\(\()/,/^(?:\]\])/,/^(?:\()/,/^(?:\]\))/,/^(?:\\\])/,/^(?:\/\])/,/^(?:\)\])/,/^(?:[\)])/,/^(?:\]>)/,/^(?:[\]])/,/^(?:-\))/,/^(?:\(-)/,/^(?:\)\))/,/^(?:\))/,/^(?:\(\(\()/,/^(?:\(\()/,/^(?:\{\{)/,/^(?:\{)/,/^(?:>)/,/^(?:\(\[)/,/^(?:\()/,/^(?:\[\[)/,/^(?:\[\|)/,/^(?:\[\()/,/^(?:\)\)\))/,/^(?:\[\\)/,/^(?:\[\/)/,/^(?:\[\\)/,/^(?:\[)/,/^(?:<\[)/,/^(?:[^\(\[\n\-\)\{\}\s\<\>:]+)/,/^(?:$)/,/^(?:["][`])/,/^(?:["][`])/,/^(?:[^`"]+)/,/^(?:[`]["])/,/^(?:["])/,/^(?:["])/,/^(?:[^"]+)/,/^(?:["])/,/^(?:\]>\s*\()/,/^(?:,?\s*right\s*)/,/^(?:,?\s*left\s*)/,/^(?:,?\s*x\s*)/,/^(?:,?\s*y\s*)/,/^(?:,?\s*up\s*)/,/^(?:,?\s*down\s*)/,/^(?:\)\s*)/,/^(?:\s*[xo<]?--+[-xo>]\s*)/,/^(?:\s*[xo<]?==+[=xo>]\s*)/,/^(?:\s*[xo<]?-?\.+-[xo>]?\s*)/,/^(?:\s*~~[\~]+\s*)/,/^(?:\s*[xo<]?--\s*)/,/^(?:\s*[xo<]?==\s*)/,/^(?:\s*[xo<]?-\.\s*)/,/^(?:["][`])/,/^(?:["])/,/^(?:\s*[xo<]?--+[-xo>]\s*)/,/^(?:\s*[xo<]?==+[=xo>]\s*)/,/^(?:\s*[xo<]?-?\.+-[xo>]?\s*)/,/^(?::\d+)/],
+conditions: {"STYLE_DEFINITION":{"rules":[28],"inclusive":false},"STYLE_STMNT":{"rules":[27],"inclusive":false},"CLASSDEFID":{"rules":[22],"inclusive":false},"CLASSDEF":{"rules":[20,21],"inclusive":false},"CLASS_STYLE":{"rules":[25],"inclusive":false},"CLASS":{"rules":[24],"inclusive":false},"LLABEL":{"rules":[99,100,101,102,103],"inclusive":false},"ARROW_DIR":{"rules":[85,86,87,88,89,90,91],"inclusive":false},"BLOCK_ARROW":{"rules":[76,81,84],"inclusive":false},"NODE":{"rules":[37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,77,80],"inclusive":false},"md_string":{"rules":[9,10,78,79],"inclusive":false},"space":{"rules":[],"inclusive":false},"string":{"rules":[12,13,82,83],"inclusive":false},"acc_descr_multiline":{"rules":[34,35],"inclusive":false},"acc_descr":{"rules":[32],"inclusive":false},"acc_title":{"rules":[30],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,11,14,15,16,17,18,19,23,26,29,31,33,36,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,92,93,94,95,96,97,98,104],"inclusive":true}}
 });
 return lexer;
 })();

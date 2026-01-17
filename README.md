@@ -18,25 +18,26 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 
 ## Supported Diagram Types
 
-| Diagram Type | Parse | Render | Wrapper Class |
-|--------------|-------|--------|---------------|
-| Flowchart (`flowchart`, `graph`) | ✅ | ✅ | ✅ `Flowchart` |
-| Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ `Sequence` |
-| Class (`classDiagram`) | ✅ | ✅ | ✅ `ClassDiagram` |
-| State (`stateDiagram`) | ✅ | ✅ | ✅ `StateDiagram` |
-| ER Diagram (`erDiagram`) | ✅ | ✅ | ✅ `ErDiagram` |
-| Gantt (`gantt`) | ✅ | ✅ | ✅ `Gantt` |
-| Mindmap (`mindmap`) | ✅ | ✅ | ✅ `Mindmap` |
-| Journey (`journey`) | ✅ | ✅ | ✅ `Journey` |
-| Timeline (`timeline`) | ✅ | ✅ | ✅ `Timeline` |
-| Pie (`pie`) | ❌ | ❌ | ❌ |
-| Quadrant (`quadrantChart`) | ❌ | ❌ | ❌ |
-| Requirement (`requirementDiagram`) | ❌ | ❌ | ❌ |
-| Git Graph (`gitGraph`) | ❌ | ❌ | ❌ |
-| C4 (`C4Context`, etc.) | ❌ | ❌ | ❌ |
-| Sankey (`sankey`) | ❌ | ❌ | ❌ |
-| XY Chart (`xychart`) | ❌ | ❌ | ❌ |
-| Block (`block`) | ❌ | ❌ | ❌ |
+| Diagram Type | Parse | Render | Wrapper | Manipulation | Notes |
+|--------------|-------|--------|---------|--------------|-------|
+| Flowchart (`flowchart`, `graph`) | ✅ | ✅ | ✅ `Flowchart` | Full | Chain ops, subgraphs, graph traversal |
+| Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ `Sequence` | Rich | Actors, messages, control flow blocks |
+| Class (`classDiagram`) | ✅ | ✅ | ✅ `ClassDiagram` | Rich | Classes, relations, namespaces |
+| State (`stateDiagram`) | ✅ | ✅ | ✅ `StateDiagram` | Rich | States, transitions, composites |
+| ER Diagram (`erDiagram`) | ✅ | ✅ | ✅ `ErDiagram` | Moderate | Entities, relationships, attributes |
+| Gantt (`gantt`) | ✅ | ✅ | ✅ `Gantt` | Moderate | Tasks, sections, dependencies |
+| Mindmap (`mindmap`) | ✅ | ✅ | ✅ `Mindmap` | Moderate | Nodes, tree traversal |
+| Journey (`journey`) | ✅ | ✅ | ✅ `Journey` | Basic | Sections, tasks |
+| Timeline (`timeline`) | ✅ | ✅ | ✅ `Timeline` | Basic | Sections, periods, events |
+| Sankey (`sankey-beta`, `sankey`) | ✅ | ✅ | ✅ `Sankey` | Basic | Nodes, links, flow queries |
+| Quadrant (`quadrantChart`) | ✅ | ✅ | ✅ `Quadrant` | Basic | Points, axes, quadrant queries |
+| Pie (`pie`) | ❌ | ❌ | ❌ | - | No JISON parser |
+| Git Graph (`gitGraph`) | ❌ | ❌ | ❌ | - | No JISON parser |
+| Requirement (`requirementDiagram`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
+| C4 (`C4Context`, etc.) | ❌ | ❌ | ❌ | - | JISON parser vendored |
+| XY Chart (`xychart`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
+| Block (`block`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
+| Kanban (`kanban`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
 
 ## Installation
 
@@ -476,6 +477,63 @@ renderFlowchart(ast, {
 | `sortNodes` | `boolean` | `false` | Sort node/actor/class declarations alphabetically |
 | `inlineClasses` | `boolean` | `false` | (Flowchart only) Use `A:::className` instead of separate `class` statements |
 | `compactLinks` | `boolean` | `false` | (Flowchart only) Chain consecutive links: `A --> B --> C` |
+
+## Sankey Diagrams
+
+Sankey diagrams show flow between nodes with weighted links.
+
+```typescript
+import { Sankey } from "mermaid-ast";
+
+// Create programmatically
+const sankey = Sankey.create()
+  .addLink("A", "B", 10)
+  .addLink("B", "C", 20)
+  .addLink("A", "C", 5);
+
+// Parse from Mermaid syntax
+const sankey = Sankey.parse(`sankey-beta
+A,B,10
+B,C,20
+A,C,5`);
+
+// Query operations
+sankey.getTotalFlow(); // 35
+sankey.getLinksFrom("A"); // Links originating from A
+sankey.findLinks({ minValue: 15 }); // Links with value >= 15
+
+console.log(sankey.render());
+```
+
+## Quadrant Charts
+
+Quadrant charts position data points on X-Y axes divided into four quadrants.
+
+```typescript
+import { Quadrant } from "mermaid-ast";
+
+// Create programmatically
+const chart = Quadrant.create("Priority Matrix")
+  .setXAxis("Low Effort", "High Effort")
+  .setYAxis("Low Impact", "High Impact")
+  .setQuadrantLabels("Do First", "Plan", "Delegate", "Eliminate")
+  .addPoint("Task A", 0.3, 0.8)
+  .addPoint("Task B", 0.7, 0.2);
+
+// Parse from Mermaid syntax
+const chart = Quadrant.parse(`quadrantChart
+    title Priority Matrix
+    x-axis "Low" --> "High"
+    y-axis "Low" --> "High"
+    Task A: [0.3, 0.8]
+    Task B: [0.7, 0.2]`);
+
+// Query operations
+chart.getPointsInQuadrant(1); // Points in top-right quadrant
+chart.findPoints({ minX: 0.5, minY: 0.5 }); // High effort, high impact
+
+console.log(chart.render());
+```
 
 ## API Reference
 
