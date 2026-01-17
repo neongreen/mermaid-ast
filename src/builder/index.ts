@@ -13,15 +13,6 @@ export {
   type RelationOptions,
 } from './class-builder.js';
 export {
-  type BuildOptions,
-  FlowchartBuilder,
-  FlowchartValidationError,
-  flowchart,
-  type LinkOptions,
-  type NodeOptions,
-  SubgraphBuilder,
-} from './flowchart-builder.js';
-export {
   type MessageOptions,
   type NoteOptions,
   type ParticipantOptions,
