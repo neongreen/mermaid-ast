@@ -11,7 +11,7 @@
     },
     "packages/mermaid-ast": {
       "name": "mermaid-ast",
-      "version": "0.6.1",
+      "version": "0.6.2",
       "devDependencies": {
         "@biomejs/biome": "^2.3.11",
         "@types/bun": "latest",
