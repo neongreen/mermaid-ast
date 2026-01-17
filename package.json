@@ -56,7 +56,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/neongreen/mermaid-ast"
+    "url": "git+https://github.com/neongreen/mermaid-ast.git"
   },
   "homepage": "https://github.com/neongreen/mermaid-ast#readme",
   "bugs": {

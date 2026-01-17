@@ -345,19 +345,20 @@ export function augmentFlowchartWithGraphOps(FlowchartClass: typeof Flowchart): 
   FlowchartClass.prototype.rebaseNodes = rebaseNodes;
 }
 
-// Type augmentation for Flowchart class
-declare module './flowchart.js' {
-  interface Flowchart {
-    insertBetween(newNodeId: string, source: string, target: string, nodeText?: string): this;
-    removeAndReconnect(nodeId: string): this;
-    getReachable(startId: string): string[];
-    getAncestors(targetId: string): string[];
-    getPath(source: string, target: string): string[];
-    getChain(startId: string, endId: string): string[];
-    yankChain(nodeIds: string[]): this;
-    spliceChain(nodeIds: string[], source: string, target: string, options?: AddLinkOptions): this;
-    reverseChain(nodeIds: string[]): this;
-    extractChain(nodeIds: string[]): Flowchart;
-    rebaseNodes(nodeIds: string[], newParent: string): this;
-  }
+/**
+ * Interface for graph operations added to Flowchart.
+ * These methods are added via augmentFlowchartWithGraphOps().
+ */
+export interface FlowchartGraphOps {
+  insertBetween(newNodeId: string, source: string, target: string, nodeText?: string): this;
+  removeAndReconnect(nodeId: string): this;
+  getReachable(startId: string): string[];
+  getAncestors(targetId: string): string[];
+  getPath(source: string, target: string): string[];
+  getChain(startId: string, endId: string): string[];
+  yankChain(nodeIds: string[]): this;
+  spliceChain(nodeIds: string[], source: string, target: string, options?: AddLinkOptions): this;
+  reverseChain(nodeIds: string[]): this;
+  extractChain(nodeIds: string[]): Flowchart;
+  rebaseNodes(nodeIds: string[], newParent: string): this;
 }

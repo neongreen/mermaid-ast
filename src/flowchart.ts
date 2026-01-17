@@ -50,9 +50,13 @@ import type { RenderOptions } from './types/render-options.js';
 // Re-export types for convenience
 export type { AddLinkOptions, AddNodeOptions, FindNodesQuery, LinkInfo, RemoveNodeOptions };
 
+// Import graph ops interface for type declaration
+import type { FlowchartGraphOps } from './flowchart-graph-ops.js';
+
 /**
  * A fluent wrapper for FlowchartAST that supports building, mutating, and querying.
  */
+export interface Flowchart extends FlowchartGraphOps {}
 export class Flowchart extends DiagramWrapper<FlowchartAST> {
   private constructor(ast: FlowchartAST) {
     super(ast);
