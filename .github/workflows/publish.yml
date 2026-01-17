@@ -1,0 +1,59 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Publish target'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+          - npm
+          - jsr
+          - both
+
+jobs:
+  publish-npm:
+    if: github.event_name == 'release' || github.event.inputs.target == 'npm' || github.event.inputs.target == 'both'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # Required for OIDC
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      
+      - name: Install dependencies
+        run: bun install
+      
+      - name: Run tests
+        run: bun test
+      
+      - name: Build
+        run: bun run build
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+
+  publish-jsr:
+    if: github.event_name == 'release' || github.event.inputs.target == 'jsr' || github.event.inputs.target == 'both'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # Required for OIDC
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Publish to JSR
+        run: npx jsr publish
