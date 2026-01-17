@@ -24,17 +24,17 @@ jobs:
       - name: Lint
         run: bun run lint
 
-      - name: Type check
-        run: bun run typecheck
+      - name: Type check (mermaid-ast)
+        run: cd packages/mermaid-ast && bun run typecheck
 
-      - name: Run tests with coverage
-        run: bun test --coverage tests/unit tests/roundtrip --ignore 'mermaid-svg/**'
+      - name: Run mermaid-ast tests with coverage
+        run: cd packages/mermaid-ast && bun test --coverage tests/unit tests/roundtrip
 
       - name: Verify examples compile and run
-        run: bun run examples
+        run: cd packages/mermaid-ast && bun run examples
 
-      - name: Build
-        run: bun run build
+      - name: Build mermaid-ast
+        run: cd packages/mermaid-ast && bun run build
 
       - name: Verify JSR publish (dry-run)
-        run: npx jsr publish --dry-run
+        run: cd packages/mermaid-ast && npx jsr publish --dry-run

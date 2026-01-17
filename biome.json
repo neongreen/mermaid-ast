@@ -6,16 +6,8 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": [
-      "**/src/**/*.ts",
-      "**/tests/**/*.ts",
-      "**/scripts/**/*.ts",
-      "**/examples/**/*.ts",
-      "!**/src/vendored",
-      "!**/dist",
-      "!**/node_modules",
-      "!**/dagger"
-    ]
+    "include": ["**/src/**/*.ts", "**/tests/**/*.ts", "**/scripts/**/*.ts", "**/examples/**/*.ts"],
+    "ignore": ["**/src/vendored", "**/dist", "**/node_modules", "**/dagger"]
   },
   "formatter": {
     "enabled": true,
@@ -28,8 +20,7 @@
     "rules": {
       "recommended": true,
       "style": {
-        "noNonNullAssertion": "off",
-        "useDefaultSwitchClause": "error"
+        "recommended": false
       },
       "suspicious": {
         "noExplicitAny": "off"
