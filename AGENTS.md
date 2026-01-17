@@ -37,9 +37,15 @@ flowchartParser.parse(input);  // Parser calls yy.addVertex(), yy.addLink(), etc
 
 ## Project Structure
 
+This is a monorepo with packages in `packages/`. The root README is a brief summary; each package has its own detailed README.
+
 ```
 mermaid-ast/
-├── src/
+├── README.md             # Brief monorepo summary, points to packages
+├── packages/
+│   └── mermaid-ast/
+│       ├── README.md     # Detailed package documentation (published to npm/JSR)
+│       ├── src/
 │   ├── parser/           # Custom yy objects that build ASTs
 │   │   ├── flowchart-parser.ts
 │   │   ├── sequence-parser.ts
@@ -504,3 +510,13 @@ jq --arg v "$VERSION" '.version = $v' package.json > package.json.tmp && mv pack
 ```
 
 **Lesson:** In bun workspaces, avoid npm commands that parse package.json dependencies. Use `jq` for JSON manipulation instead.
+
+### JSR Needs README in Package Directory
+
+**Problem:** JSR documentation showed "Missing score" for README even though `jsr.json` included `README.md` in `publish.include`.
+
+**Root cause:** In a monorepo, the README was in the repo root, but JSR looks for files relative to the `jsr.json` location (i.e., `packages/mermaid-ast/`).
+
+**Solution:** Move the detailed README to the package directory (`packages/mermaid-ast/README.md`). The root README becomes a brief monorepo summary that points to package READMEs.
+
+**Lesson:** In monorepos, each package needs its own README in its directory for JSR/npm to include it. Don't try to reference files outside the package directory in `publish.include`.
