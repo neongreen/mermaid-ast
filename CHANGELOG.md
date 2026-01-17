@@ -7,58 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-- **Parser tests for missing diagram types**:
-  - `journey-parser.test.ts` - Tests for journey diagram parsing (7 tests)
-  - `mindmap-parser.test.ts` - Tests for mindmap diagram parsing (4 tests + 1 skipped)
-  - `timeline-parser.test.ts` - Tests for timeline diagram parsing (5 tests)
-
-- **Test structure documentation** in AGENTS.md:
-  - Standard test file naming conventions
-  - Expected test categories for each diagram type
-  - Test coverage status table
-
-### Changed
-
-- **Test file reorganization** - Split wrapper tests from renderer tests for all diagram types:
-  - `sequence-wrapper.test.ts` → `sequence-renderer.test.ts` (render/golden tests)
-  - `class-diagram-wrapper.test.ts` → `class-diagram-renderer.test.ts`
-  - `state-diagram-wrapper.test.ts` → `state-diagram-renderer.test.ts`
-  - `er-diagram.test.ts` → `er-diagram-renderer.test.ts`
-  - `gantt.test.ts` → `gantt-renderer.test.ts`
-  - `journey.test.ts` → `journey-renderer.test.ts`
-  - `mindmap.test.ts` → `mindmap-renderer.test.ts`
-  - `timeline.test.ts` → `timeline-renderer.test.ts`
-  - `flowchart-wrapper.test.ts` → `flowchart-renderer.test.ts`
-
-- **Consolidated ER renderer tests** - Merged `er-renderer.test.ts` into `er-diagram-renderer.test.ts` (was duplicate)
-
-- **Standardized test naming** - Removed `-wrapper` suffix from test files since wrappers are the main API
-
-### Fixed
-
-- **RenderOptions type consistency** - All diagram renderers now use the base `RenderOptions` type with `indent: number | 'tab'` instead of custom types with `indent: string`
-- **Sequence filterStatements type error** - Fixed TypeScript error by handling 'alt' and 'par' sections separately (they have different section shapes)
-- **Biome formatting** - Fixed trailing newline issues in test files
-
-### Prompts Used
-
-```
-perfect now what is left to do? biome, changelog, ......, ?
-
-oh please split it as well. with amp. make a full todo list for whats needed for the release and dont make stuff optional i want to make a good library
-
-lets fix build errors. use number|"tab"
-
-document the expected test structure etc in AGENTS.md and then do all of the above
-
-also i dont think we need the -wrapper name? like the wrappers are our main way to use the library
-
-Also try using AMP for some of these tasks, but also always make a commit before and always review the changes after
-```
-
-## [0.6.0] - 2025-01-18
+## [0.5.0] - 2026-01-17
 
 ### Added
 
@@ -67,6 +16,49 @@ Also try using AMP for some of these tasks, but also always make a commit before
   - `clone()` - Deep clone the diagram
   - `render()` - Render to Mermaid syntax
   - Static factory methods: `create()`, `from()`, `parse()`
+
+- **Flowchart Wrapper Class** - Unified API for building, mutating, and querying flowcharts:
+  - `Flowchart.create()`, `.from()`, `.parse()` - Factory methods
+  - `toAST()`, `render()`, `clone()` - Core methods
+  - **Node operations**: `addNode`, `removeNode`, `getNode`, `setNodeText`, `setNodeShape`, `addClass`, `removeClass`, `findNodes`
+  - **Link operations**: `addLink`, `removeLink`, `flipLink`, `setLinkType`, `setLinkStroke`, `setLinkText`, `getLinksFrom`, `getLinksTo`, `addLinksFromMany`, `addLinksToMany`
+  - **Subgraph operations**: `createSubgraph`, `dissolveSubgraph`, `moveToSubgraph`, `extractFromSubgraph`, `mergeSubgraphs`
+  - **Graph surgery**: `insertBetween`, `removeAndReconnect`, `getReachable`, `getAncestors`, `getPath`
+  - **Chain operations (jj-style)**: `getChain`, `yankChain`, `spliceChain`, `reverseChain`, `extractChain`, `rebaseNodes`
+  - 65 new tests
+
+- **Sequence Wrapper Class** - `Sequence` wrapper extending DiagramWrapper:
+  - Factory methods: `create()`, `from()`, `parse()`
+  - Actor operations: `addActor`, `removeActor`, `getActor`, `hasActor`, `renameActor`
+  - Message operations: `addMessage`, `getMessages`, `getMessagesBetween`
+  - Control flow: `addLoop`, `addAlt`, `addOpt`, `addPar`, `addCritical`, `addBreak`, `addRect`
+  - Note operations: `addNote`, `getNotes`
+  - Activation operations: `addActivation`, `addDeactivation`
+  - Query operations: `findActors`, `findMessages`
+  - 32 new tests
+
+- **ClassDiagram Wrapper Class** - `ClassDiagram` wrapper extending DiagramWrapper:
+  - Factory methods: `create()`, `from()`, `parse()`
+  - Class operations: `addClass`, `removeClass`, `renameClass`, `getClass`, `hasClass`, `setClassLabel`
+  - Member operations: `addMember`, `addAttribute`, `addMethod`, `getMembers`, `removeMember`
+  - Annotation operations: `addAnnotation`, `removeAnnotation`
+  - Relation operations: `addRelation`, `addInheritance`, `addComposition`, `addAggregation`, `addDependency`, `addAssociation`, `getRelations`, `getRelationsFor`, `removeRelation`
+  - Namespace operations: `addNamespace`, `addToNamespace`, `removeFromNamespace`, `getNamespaceFor`
+  - Note operations: `addNote`, `getNotes`
+  - Style operations: `defineStyle`, `applyStyle`
+  - Query operations: `findClasses`, `getSubclasses`, `getParentClass`, `getAncestors`, `getDescendants`
+  - 28 new tests
+
+- **StateDiagram Wrapper Class** - `StateDiagram` wrapper extending DiagramWrapper:
+  - Factory methods: `create()`, `from()`, `parse()`
+  - State operations: `addState`, `removeState`, `renameState`, `getState`, `hasState`, `setStateDescription`
+  - Special states: `addFork`, `addJoin`, `addChoice`
+  - Transition operations: `addTransition`, `addInitial`, `addFinal`, `getTransitions`, `getTransitionsFrom`, `getTransitionsTo`, `removeTransition`, `setTransitionLabel`
+  - Composite state operations: `addComposite`, `isComposite`, `getNestedStates`
+  - Note operations: `addNote`, `getNote`
+  - Style operations: `defineStyle`, `applyStyle`
+  - Query operations: `findStates`, `getReachable`, `getAncestors`, `hasPath`, `getInitialStates`, `getFinalStates`
+  - 36 new tests
 
 - **ER Diagram Support** with `ErDiagram` wrapper class:
   - Types: entities, attributes (with types/keys), relationships, cardinality
@@ -103,121 +95,58 @@ Also try using AMP for some of these tasks, but also always make a commit before
   - Wrapper API: `addSection`, `addPeriod`, `addEvent`, `addEventWithPeriod`, `updateEvent`, `findPeriods`, `findEvents`, `getEventsForPeriod`, `getSectionForPeriod`
   - 26 new tests
 
-- **Sequence Wrapper Class** - `Sequence` wrapper extending DiagramWrapper:
-  - Factory methods: `create()`, `from()`, `parse()`
-  - Actor operations: `addActor`, `removeActor`, `getActor`, `hasActor`, `renameActor`
-  - Message operations: `addMessage`, `getMessages`, `getMessagesBetween`
-  - Control flow: `addLoop`, `addAlt`, `addOpt`, `addPar`, `addCritical`, `addBreak`, `addRect`
-  - Note operations: `addNote`, `getNotes`
-  - Activation operations: `addActivation`, `addDeactivation`
-  - Query operations: `findActors`, `findMessages`
-  - 32 new tests
+- **Parser tests for all diagram types**:
+  - `journey-parser.test.ts` - Tests for journey diagram parsing (7 tests)
+  - `mindmap-parser.test.ts` - Tests for mindmap diagram parsing (5 tests)
+  - `timeline-parser.test.ts` - Tests for timeline diagram parsing (5 tests)
 
-- **ClassDiagram Wrapper Class** - `ClassDiagram` wrapper extending DiagramWrapper:
-  - Factory methods: `create()`, `from()`, `parse()`
-  - Class operations: `addClass`, `removeClass`, `renameClass`, `getClass`, `hasClass`, `setClassLabel`
-  - Member operations: `addMember`, `addAttribute`, `addMethod`, `getMembers`, `removeMember`
-  - Annotation operations: `addAnnotation`, `removeAnnotation`
-  - Relation operations: `addRelation`, `addInheritance`, `addComposition`, `addAggregation`, `addDependency`, `addAssociation`, `getRelations`, `getRelationsFor`, `removeRelation`
-  - Namespace operations: `addNamespace`, `addToNamespace`, `removeFromNamespace`, `getNamespaceFor`
-  - Note operations: `addNote`, `getNotes`
-  - Style operations: `defineStyle`, `applyStyle`
-  - Query operations: `findClasses`, `getSubclasses`, `getParentClass`, `getAncestors`, `getDescendants`
-  - 28 new tests
-
-- **StateDiagram Wrapper Class** - `StateDiagram` wrapper extending DiagramWrapper:
-  - Factory methods: `create()`, `from()`, `parse()`
-  - State operations: `addState`, `removeState`, `renameState`, `getState`, `hasState`, `setStateDescription`
-  - Special states: `addFork`, `addJoin`, `addChoice`
-  - Transition operations: `addTransition`, `addInitial`, `addFinal`, `getTransitions`, `getTransitionsFrom`, `getTransitionsTo`, `removeTransition`, `setTransitionLabel`
-  - Composite state operations: `addComposite`, `isComposite`, `getNestedStates`
-  - Note operations: `addNote`, `getNote`
-  - Style operations: `defineStyle`, `applyStyle`
-  - Query operations: `findStates`, `getReachable`, `getAncestors`, `hasPath`, `getInitialStates`, `getFinalStates`
-  - 36 new tests
-
-### Removed
-
-- **Legacy Fluent Builder API** - Removed `sequence()`, `classDiagram()`, `stateDiagram()` builder functions
-  - Migration: Use `Sequence.create()`, `ClassDiagram.create()`, `StateDiagram.create()` instead
+- **Test structure documentation** in AGENTS.md:
+  - Standard test file naming conventions
+  - Expected test categories for each diagram type
+  - Test coverage status table
+  - Release instructions
 
 ### Changed
 
 - **Refactored Flowchart wrapper** to extend DiagramWrapper base class
 - **Removed old flowchart() builder** - Use `Flowchart.create()` instead
 - Updated README to document all wrapper classes and remove Fluent Builder API section
+- **Test file reorganization** - Split wrapper tests from renderer tests for all diagram types
+- **Consolidated ER renderer tests** - Merged duplicate test files
+- **Standardized test naming** - Removed `-wrapper` suffix from test files
+
+### Removed
+
+- **Legacy Fluent Builder API** - Removed `sequence()`, `classDiagram()`, `stateDiagram()` builder functions
+  - Migration: Use `Sequence.create()`, `ClassDiagram.create()`, `StateDiagram.create()` instead
 
 ### Fixed
 
-- Lazy evaluation for `renderClassAssignments` in flowchart renderer (was being eagerly evaluated)
+- Lazy evaluation for `renderClassAssignments` in flowchart renderer
+- **RenderOptions type consistency** - All diagram renderers now use `indent: number | 'tab'`
+- **Sequence filterStatements type error** - Fixed TypeScript error for alt/par sections
+- **Biome formatting** - Fixed trailing newline issues in test files
 
 ### Prompts Used
 
 ```
+i want ast manipulations and i want like Imagine what I'm building is an interactive diagram editor...
+
 ok perfect, anything you'd want to change or fix or improve before we do more diagrams?
 
-ok lets do 1, 2a, 3 lets create wrappers as well but think about how to avoid huge amounts of boilerplate? any ideas?
+ok lets do 1, 2a, 3 lets create wrappers as well but think about how to avoid huge amounts of boilerplate?
 
 lets add some diagram types to this plan as well
 
-create a todo list and show me
+perfect now what is left to do? biome, changelog, ......, ?
 
-can you expand on it somewhat
+oh please split it as well. with amp. make a full todo list for whats needed for the release
 
-ok now create a single todo list for all of this and start. i'll go back to sleep
+document the expected test structure etc in AGENTS.md and then do all of the above
 
-oh and please keep files under 700 lines if you can? ai agents dont do well with large files. and now im off
+also i dont think we need the -wrapper name? like the wrappers are our main way to use the library
 
-good morning!! and then biome and getting ready for the release
-
-anything deprecated/legacy/fallbacks to remove?
-
-3 (add wrapper classes for Sequence/Class/State, then remove builders)
-
-yes
-
-ok and please make a sound when all done
-
-i wonder if many of our tests can be replaced with golden tests? like expected outputs as mmd files? idk lets discuss later
-
-well we still didnt even publish 0.5.0 so i think this can go into 0.6.0
-```
-
-## [0.5.0] - 2025-01-17
-
-### Added
-
-- **Flowchart Wrapper Class** - Unified API for building, mutating, and querying flowcharts:
-  - `Flowchart.create()`, `.from()`, `.parse()` - Factory methods
-  - `toAST()`, `render()`, `clone()` - Core methods
-  - **Node operations**: `addNode`, `removeNode`, `getNode`, `setNodeText`, `setNodeShape`, `addClass`, `removeClass`, `findNodes`
-  - **Link operations**: `addLink`, `removeLink`, `flipLink`, `setLinkType`, `setLinkStroke`, `setLinkText`, `getLinksFrom`, `getLinksTo`, `addLinksFromMany`, `addLinksToMany`
-  - **Subgraph operations**: `createSubgraph`, `dissolveSubgraph`, `moveToSubgraph`, `extractFromSubgraph`, `mergeSubgraphs`
-  - **Graph surgery**: `insertBetween`, `removeAndReconnect`, `getReachable`, `getAncestors`, `getPath`
-  - **Chain operations (jj-style)**: `getChain`, `yankChain`, `spliceChain`, `reverseChain`, `extractChain`, `rebaseNodes`
-
-- **65 new tests** for the Flowchart wrapper class
-
-### Fixed
-
-- Lazy evaluation for `renderClassAssignments` in flowchart renderer (was being eagerly evaluated even when `inlineClasses: true`)
-
-### Prompts Used
-
-```
-i want ast manipulations and i want like Imagine what I'm building is an interactive diagram editor, and I'm focused on flow chart graphs and diagrams first and foremost. What I need is stuff like: Insert a node between two other nodes in the graph, like splice or remove unsplice. If I have an arrow A to B and B to C, I should be able to yank B out and just get A to C. Flip the direction of an arrow, or change an arrow. Get all arrows coming from some node and where they are going. Move nodes, like some subsets of nodes, between clusters. Outside of clusters, group into a subcluster. Move a subcluster into another, or do various stuff with subclusters. Change the class of a node, add class, remove class. Find all nodes with a certain class. Change the text of a node. Create arrows from many nodes to one, or from one to many. Take a chain of nodes and splice it, or yank it, sort of like JJ operations, and rebase a set of revisions.
-
-Ok, which of these are already handled by Fluent API?
-
-Do you feel like the Fluent API can also be used for the mutation?
-
-Okay, can you iterate on this a bit more? We don't have users yet. So if you had to design from scratch and you knew that you'd have to have building, mutating, and querying, what would you do?
-
-and if you want to ask me if i want behavior A or B, lets just support both and clean it up later. im going to sleep so i wont be able to reply
-
-you dont have to mark anything as deprecated btw its completely fine to overhaul stuff before 1.0.0
-
-nah its ok. whats next. fluent api overhaul with methods for mutability? how would you break this down into phases
+Also try using AMP for some of these tasks, but also always make a commit before and always review the changes after
 ```
 
 ## [0.4.0] - 2025-01-17
