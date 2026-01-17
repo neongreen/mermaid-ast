@@ -24,3 +24,6 @@ coverage/
 # Mermaid source (used for studying/syncing parsers)
 mermaid-source/
 .mermaid-temp/dist/
+
+# Package README (copied from root during publish)
+packages/mermaid-ast/README.md

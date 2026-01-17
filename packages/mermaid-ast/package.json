@@ -41,7 +41,7 @@
     "format": "biome format --write",
     "examples": "bun run scripts/run-examples.ts",
     "sync-parsers": "bun run scripts/sync-parsers.ts",
-    "prepublishOnly": "bun run build && bun run test && bun run lint"
+    "prepublishOnly": "cp ../../README.md . && bun run build && bun run test && bun run lint"
   },
   "keywords": [
     "mermaid",
