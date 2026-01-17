@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **API consistency** - Added `sectionCount` getter to `Journey` and `Timeline` wrapper classes to match `Gantt`
+
 ## [0.5.1] - 2026-01-17
 
 ### Fixed

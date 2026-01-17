@@ -183,6 +183,88 @@ bun run build   # Outputs to dist/
 npm publish     # Publish to npm
 ```
 
+## Working with the Changelog
+
+The project uses [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format. The changelog is in `CHANGELOG.md`.
+
+### Changelog Structure
+
+```markdown
+## [Unreleased]
+
+### Added
+- New features
+
+### Changed
+- Changes to existing functionality
+
+### Fixed
+- Bug fixes
+
+### Removed
+- Removed features
+
+### Prompts Used
+- User prompts that led to these changes (for released versions)
+```
+
+### When to Update the Changelog
+
+**Update the `[Unreleased]` section when:**
+- Adding new features or APIs
+- Fixing bugs
+- Making breaking changes
+- Changing existing behavior
+
+**Do NOT update for:**
+- Internal refactoring that doesn't affect the public API
+- Test-only changes
+- Documentation-only changes (unless significant)
+
+### How to Update
+
+1. **During development**: Add entries to the `[Unreleased]` section as you make changes
+   ```markdown
+   ## [Unreleased]
+
+   ### Added
+   - **Feature name** - Brief description of what was added
+   ```
+
+2. **At release time**: The `[Unreleased]` section becomes the new version
+   - Change `[Unreleased]` to `[X.Y.Z] - YYYY-MM-DD`
+   - Add a new empty `[Unreleased]` section at the top
+   - Add `### Prompts Used` section with the user prompts that led to the changes
+
+### Entry Format
+
+Each entry should follow this format:
+```markdown
+- **Short title** - Description of the change
+```
+
+Examples:
+```markdown
+### Added
+- **API consistency** - Added `sectionCount` getter to `Journey` and `Timeline` wrapper classes
+
+### Fixed
+- **JSR compatibility** - Removed module augmentation pattern that JSR doesn't allow
+
+### Changed
+- **Flowchart graph operations** - Now use imported functions as class properties
+```
+
+### Categories
+
+Use these categories in this order (skip empty ones):
+1. **Added** - New features
+2. **Changed** - Changes to existing functionality
+3. **Deprecated** - Features that will be removed in future versions
+4. **Removed** - Features that were removed
+5. **Fixed** - Bug fixes
+6. **Security** - Security-related changes
+
 ## Releasing a New Version
 
 ### Pre-release Checklist
