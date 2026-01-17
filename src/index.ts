@@ -17,6 +17,10 @@
  * ```
  */
 
+// Export base class
+export { DiagramWrapper } from './diagram-wrapper.js';
+export type { BaseDiagramAST, ASTOf } from './diagram-wrapper.js';
+
 // Export Flowchart wrapper class
 export { Flowchart } from './flowchart.js';
 export type {
@@ -25,7 +29,15 @@ export type {
   FindNodesQuery,
   LinkInfo,
   RemoveNodeOptions,
-} from './flowchart.js';
+} from './flowchart-types.js';
+
+// Export ErDiagram wrapper class
+export { ErDiagram } from './er-diagram.js';
+export type {
+  AddAttributeOptions,
+  AddRelationshipOptions,
+  FindEntitiesQuery,
+} from './er-diagram.js';
 
 // Export builders (legacy - will be replaced by wrapper classes)
 export * from './builder/index.js';
@@ -40,6 +52,8 @@ export {
   parseFlowchart,
   parseSequence,
 } from './parser/index.js';
+export { parseErDiagram } from './parser/er-parser.js';
+
 // Export renderer functions
 export {
   render,
@@ -47,5 +61,7 @@ export {
   renderFlowchart,
   renderSequence,
 } from './renderer/index.js';
+export { renderErDiagram } from './renderer/er-renderer.js';
+
 // Export types
 export * from './types/index.js';

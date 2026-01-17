@@ -5,23 +5,25 @@
  */
 
 export * from './class.js';
+export * from './er.js';
 export * from './flowchart.js';
 export * from './render-options.js';
 export * from './sequence.js';
 
 import type { ClassDiagramAST } from './class.js';
+import type { ErDiagramAST } from './er.js';
 import type { FlowchartAST } from './flowchart.js';
 import type { SequenceAST } from './sequence.js';
 
 /**
  * Union type for all supported diagram ASTs
  */
-export type MermaidAST = FlowchartAST | SequenceAST | ClassDiagramAST;
+export type MermaidAST = FlowchartAST | SequenceAST | ClassDiagramAST | ErDiagramAST;
 
 /**
  * Diagram type identifiers
  */
-export type DiagramType = 'flowchart' | 'sequence' | 'class';
+export type DiagramType = 'flowchart' | 'sequence' | 'class' | 'erDiagram';
 
 /**
  * Check if an AST is a flowchart
@@ -42,4 +44,11 @@ export function isSequenceAST(ast: MermaidAST): ast is SequenceAST {
  */
 export function isClassDiagramAST(ast: MermaidAST): ast is ClassDiagramAST {
   return ast.type === 'classDiagram';
+}
+
+/**
+ * Check if an AST is an ER diagram
+ */
+export function isErDiagramAST(ast: MermaidAST): ast is ErDiagramAST {
+  return ast.type === 'erDiagram';
 }
