@@ -17,7 +17,17 @@
  * ```
  */
 
-// Export builders
+// Export Flowchart wrapper class
+export { Flowchart } from './flowchart.js';
+export type {
+  AddLinkOptions,
+  AddNodeOptions,
+  FindNodesQuery,
+  LinkInfo,
+  RemoveNodeOptions,
+} from './flowchart.js';
+
+// Export builders (legacy - will be replaced by wrapper classes)
 export * from './builder/index.js';
 // Export parser functions
 export {
