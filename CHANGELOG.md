@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **JSON golden tests for AST parsing** - New test infrastructure in `tests/golden/golden.test.ts` that validates complete AST structure using canonical JSON snapshots. Catches structural bugs that property-based tests might miss (e.g., storing strings as objects).
+- **Detection functions for all diagram types** - Added `isErDiagram()`, `isGanttDiagram()`, `isJourneyDiagram()`, `isMindmapDiagram()`, and `isTimelineDiagram()` for consistent diagram type detection
+- **Expanded parse() support** - Main `parse()` function now supports all 11 implemented diagram types (was 5, now includes er, gantt, journey, mindmap, timeline, state)
+- **Justfile commands for golden tests** - Added `test-golden` to run JSON golden tests and `update-golden-json` to regenerate expected outputs
 - **Sankey diagram support** - Full implementation with types, parser, renderer, wrapper class (`Sankey`), and comprehensive tests
 - **Quadrant chart support** - Full implementation with types, parser, renderer, wrapper class (`Quadrant`), and comprehensive tests
 - **Parser sync improvements** - Updated `sync-parsers` script to sync all available JISON parsers by default
