@@ -23,6 +23,7 @@ describe('Flowchart Renderer', () => {
     test('should handle node with unknown shape and no text', () => {
       // Create an AST directly with a node that has an unknown shape and no text
       const ast: FlowchartAST = {
+        type: 'flowchart',
         direction: 'LR',
         nodes: new Map([['A', { id: 'A', shape: 'unknown_shape' as any, text: undefined }]]),
         links: [],
@@ -41,9 +42,10 @@ describe('Flowchart Renderer', () => {
     test('should handle node with unknown shape but with text', () => {
       // Create an AST directly with a node that has an unknown shape but has text
       const ast: FlowchartAST = {
+        type: 'flowchart',
         direction: 'LR',
         nodes: new Map([
-          ['A', { id: 'A', shape: 'unknown_shape' as any, text: { text: 'Hello' } }],
+          ['A', { id: 'A', shape: 'unknown_shape' as any, text: { text: 'Hello', type: 'text' } }],
         ]),
         links: [],
         subgraphs: [],
@@ -62,8 +64,9 @@ describe('Flowchart Renderer', () => {
     test('should handle click with neither href nor callback', () => {
       // Create an AST with a click that has neither href nor callback
       const ast: FlowchartAST = {
+        type: 'flowchart',
         direction: 'LR',
-        nodes: new Map([['A', { id: 'A', shape: 'square', text: { text: 'Node' } }]]),
+        nodes: new Map([['A', { id: 'A', shape: 'square', text: { text: 'Node', type: 'text' } }]]),
         links: [],
         subgraphs: [],
         classes: new Map(),
