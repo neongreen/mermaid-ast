@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-01-17
+
+### Fixed
+
+- **JSR compatibility** - Removed module augmentation pattern that JSR doesn't allow
+- **Biome lint warning** - Refactored flowchart graph ops to avoid unsafe declaration merging
+
+### Changed
+
+- **Flowchart graph operations** - Now use imported functions as class properties instead of prototype augmentation. This is a cleaner pattern that avoids both JSR compatibility issues and TypeScript lint warnings.
+
+### Added
+
+- **JSR dry-run in CI** - Added `npx jsr publish --dry-run` to CI workflow to catch JSR compatibility issues early
+
+### Prompts Used
+
+```
+i mean i wanted to not have a giant file. but is there no other way to have separation?
+lets do 1
+ok cool now we release 0.5.1?
+```
+
 ## [0.5.0] - 2026-01-17
 
 ### Added
