@@ -2,7 +2,21 @@
   "classDefs": {},
   "classes": {},
   "direction": "TB",
-  "entities": {},
+  "entities": {
+    "CUSTOMER": {
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "name": "CUSTOMER"
+    },
+    "ORDER": {
+      "attributes": [],
+      "name": "ORDER"
+    }
+  },
   "relationships": [
     {
       "entityA": "CUSTOMER",

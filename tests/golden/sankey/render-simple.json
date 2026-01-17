@@ -16,6 +16,19 @@
       "value": 5
     }
   ],
-  "nodes": {},
+  "nodes": {
+    "A": {
+      "id": "A",
+      "label": "A"
+    },
+    "B": {
+      "id": "B",
+      "label": "B"
+    },
+    "C": {
+      "id": "C",
+      "label": "C"
+    }
+  },
   "type": "sankey"
 }

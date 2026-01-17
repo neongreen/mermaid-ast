@@ -3,7 +3,20 @@
   "classDefs": {},
   "clicks": [],
   "direction": "TB",
-  "states": {},
+  "states": {
+    "Idle": {
+      "id": "Idle",
+      "type": "default"
+    },
+    "Running": {
+      "id": "Running",
+      "type": "default"
+    },
+    "[*]": {
+      "id": "[*]",
+      "type": "default"
+    }
+  },
   "styles": [],
   "transitions": [
     {

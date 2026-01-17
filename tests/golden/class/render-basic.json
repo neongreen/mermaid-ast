@@ -1,6 +1,27 @@
 {
   "classDefs": {},
-  "classes": {},
+  "classes": {
+    "Animal": {
+      "annotations": [],
+      "cssClasses": [],
+      "id": "Animal",
+      "members": [
+        {
+          "text": "eat()",
+          "type": "method",
+          "visibility": "+"
+        }
+      ],
+      "styles": []
+    },
+    "Dog": {
+      "annotations": [],
+      "cssClasses": [],
+      "id": "Dog",
+      "members": [],
+      "styles": []
+    }
+  },
   "direction": "TB",
   "namespaces": {},
   "notes": [],

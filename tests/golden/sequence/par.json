@@ -1,5 +1,24 @@
 {
-  "actors": {},
+  "actors": {
+    "A": {
+      "created": false,
+      "id": "A",
+      "name": "A",
+      "type": "participant"
+    },
+    "B": {
+      "created": false,
+      "id": "B",
+      "name": "B",
+      "type": "participant"
+    },
+    "C": {
+      "created": false,
+      "id": "C",
+      "name": "C",
+      "type": "participant"
+    }
+  },
   "boxes": [],
   "statements": [
     {

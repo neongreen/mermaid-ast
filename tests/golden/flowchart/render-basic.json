@@ -13,7 +13,24 @@
       "type": "arrow_point"
     }
   ],
-  "nodes": {},
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "square",
+      "text": {
+        "text": "Start",
+        "type": "text"
+      }
+    },
+    "B": {
+      "id": "B",
+      "shape": "square",
+      "text": {
+        "text": "End",
+        "type": "text"
+      }
+    }
+  },
   "subgraphs": [],
   "type": "flowchart"
 }

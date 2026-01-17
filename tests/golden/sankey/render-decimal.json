@@ -11,6 +11,19 @@
       "value": 20.75
     }
   ],
-  "nodes": {},
+  "nodes": {
+    "End": {
+      "id": "End",
+      "label": "End"
+    },
+    "Source": {
+      "id": "Source",
+      "label": "Source"
+    },
+    "Target": {
+      "id": "Target",
+      "label": "Target"
+    }
+  },
   "type": "sankey"
 }

@@ -29,9 +29,18 @@ function canonicalJson(obj: unknown): string {
 }
 
 /**
- * Replacer function for JSON.stringify that sorts object keys
+ * Replacer function for JSON.stringify that sorts object keys and handles Maps
  */
 function sortKeys(_key: string, value: unknown): unknown {
+  // Convert Map to plain object first
+  if (value instanceof Map) {
+    const obj: Record<string, unknown> = {};
+    for (const [k, v] of value.entries()) {
+      obj[String(k)] = v;
+    }
+    value = obj;
+  }
+
   if (value && typeof value === 'object' && !Array.isArray(value)) {
     return Object.keys(value)
       .sort()

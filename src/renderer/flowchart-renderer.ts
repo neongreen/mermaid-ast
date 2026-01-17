@@ -12,6 +12,7 @@ import type {
 } from '../types/flowchart.js';
 import type { RenderOptions, ResolvedRenderOptions } from '../types/render-options.js';
 import { resolveOptions } from '../types/render-options.js';
+import { assertNever } from '../utils.js';
 import { block, type Doc, indent, render, when } from './doc.js';
 
 /**
@@ -99,30 +100,33 @@ function renderLinkArrow(link: FlowchartLink): string {
         arrow += '-.-';
       }
       break;
-    default:
+    case 'normal':
       if (isOpen) {
         arrow += '-'.repeat(length + 2);
       } else {
         arrow += '-'.repeat(length + 1);
       }
       break;
+    default:
+      assertNever(link.stroke);
   }
 
-  // End character based on type (only for non-open)
-  if (!isOpen) {
-    switch (link.type) {
-      case 'arrow_point':
-        arrow += '>';
-        break;
-      case 'arrow_circle':
-        arrow += 'o';
-        break;
-      case 'arrow_cross':
-        arrow += 'x';
-        break;
-      default:
-        break;
-    }
+  // End character based on type
+  switch (link.type) {
+    case 'arrow_open':
+      // No ending character for open arrows
+      break;
+    case 'arrow_point':
+      arrow += '>';
+      break;
+    case 'arrow_circle':
+      arrow += 'o';
+      break;
+    case 'arrow_cross':
+      arrow += 'x';
+      break;
+    default:
+      assertNever(link.type);
   }
 
   return arrow;

@@ -17,6 +17,7 @@ export { isStateDiagram, parseStateDiagram } from './state-parser.js';
 export { isTimelineDiagram, parseTimeline } from './timeline-parser.js';
 
 import type { DiagramType, MermaidAST } from '../types/index.js';
+import { assertNever } from '../utils.js';
 import { isClassDiagram, parseClassDiagram } from './class-parser.js';
 import { isErDiagram, parseErDiagram } from './er-parser.js';
 import { isFlowchartDiagram, parseFlowchart } from './flowchart-parser.js';
@@ -37,7 +38,7 @@ export function detectDiagramType(input: string): DiagramType | null {
   if (isSequenceDiagram(input)) return 'sequence';
   if (isClassDiagram(input)) return 'class';
   if (isStateDiagram(input)) return 'state';
-  if (isErDiagram(input)) return 'er';
+  if (isErDiagram(input)) return 'erDiagram';
   if (isGanttDiagram(input)) return 'gantt';
   if (isMindmapDiagram(input)) return 'mindmap';
   if (isJourneyDiagram(input)) return 'journey';
@@ -55,7 +56,7 @@ export function parse(input: string): MermaidAST {
 
   if (!type) {
     throw new Error(
-      'Unable to detect diagram type. Supported types: flowchart, sequence, class, state, er, gantt, mindmap, journey, timeline, sankey, quadrant'
+      'Unable to detect diagram type. Supported types: flowchart, sequence, class, state, erDiagram, gantt, mindmap, journey, timeline, sankey, quadrant'
     );
   }
 
@@ -68,7 +69,7 @@ export function parse(input: string): MermaidAST {
       return parseClassDiagram(input);
     case 'state':
       return parseStateDiagram(input);
-    case 'er':
+    case 'erDiagram':
       return parseErDiagram(input);
     case 'gantt':
       return parseGantt(input);
@@ -83,6 +84,6 @@ export function parse(input: string): MermaidAST {
     case 'quadrant':
       return parseQuadrant(input);
     default:
-      throw new Error(`Unsupported diagram type: ${type}`);
+      return assertNever(type);
   }
 }
