@@ -1,0 +1,9 @@
+C4Container
+title Container diagram for Internet Banking System
+    Person("customer", "Customer", "A customer of the bank")
+    Container("web_app", "Web Application", "Java", "Delivers content")
+    Container("spa", "Single-Page App", "JavaScript", "Provides functionality")
+    ContainerDb("database", "Database", "SQL", "Stores data")
+    Rel("customer", "web_app", "Uses", "HTTPS")
+    Rel("web_app", "spa", "Delivers")
+    Rel("spa", "database", "Reads from", "JDBC")

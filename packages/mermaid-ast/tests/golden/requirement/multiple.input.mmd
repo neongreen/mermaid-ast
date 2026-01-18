@@ -1,0 +1,21 @@
+requirementDiagram
+
+requirement req1 {
+id: 1
+text: First requirement
+risk: low
+verifymethod: analysis
+}
+
+functionalRequirement req2 {
+id: 2
+text: Second requirement
+risk: medium
+verifymethod: inspection
+}
+
+element elem1 {
+type: simulation
+}
+
+elem1 - satisfies -> req1
