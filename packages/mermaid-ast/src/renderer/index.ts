@@ -15,6 +15,7 @@ export { renderQuadrant } from './quadrant-renderer.js';
 export { renderRequirement } from './requirement-renderer.js';
 export { renderSankey } from './sankey-renderer.js';
 export { renderSequence } from './sequence-renderer.js';
+export { renderStateDiagram } from './state-diagram-renderer.js';
 export { renderXYChart } from './xychart-renderer.js';
 
 import type { MermaidAST, RenderOptions } from '../types/index.js';
@@ -30,6 +31,7 @@ import {
   isRequirementAST,
   isSankeyAST,
   isSequenceAST,
+  isStateDiagramAST,
   isXYChartAST,
 } from '../types/index.js';
 import { renderBlock } from './block-renderer.js';
@@ -43,6 +45,7 @@ import { renderQuadrant } from './quadrant-renderer.js';
 import { renderRequirement } from './requirement-renderer.js';
 import { renderSankey } from './sankey-renderer.js';
 import { renderSequence } from './sequence-renderer.js';
+import { renderStateDiagram } from './state-diagram-renderer.js';
 import { renderXYChart } from './xychart-renderer.js';
 
 /**
@@ -84,6 +87,9 @@ export function render(ast: MermaidAST, options?: RenderOptions): string {
   }
   if (isRequirementAST(ast)) {
     return renderRequirement(ast, options);
+  }
+  if (isStateDiagramAST(ast)) {
+    return renderStateDiagram(ast, options);
   }
 
   throw new Error(`Unsupported AST type: ${(ast as { type: string }).type}`);
