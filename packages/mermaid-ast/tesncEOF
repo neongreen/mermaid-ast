@@ -1,0 +1,3 @@
+
+cs..."
+UPDATE_GOLDEN=1 bun test packages/mermaid-ast/tests/golden/idempotence.test.ts 2>&1 | head -100

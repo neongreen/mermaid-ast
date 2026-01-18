@@ -21,7 +21,7 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 | Diagram Type | Parse | Render | Wrapper | Idempotence | Notes |
 |--------------|-------|--------|---------|-------------|-------|
 | Flowchart (`flowchart`, `graph`) | ✅ | ✅ | ✅ `Flowchart` | 95 | Chain ops, subgraphs, graph traversal |
-| Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ `Sequence` | 0 | Actors, messages, control flow blocks |
+| Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ `Sequence` | 14 | Actors, messages, control flow blocks |
 | Class (`classDiagram`) | ✅ | ✅ | ✅ `ClassDiagram` | 0 | Classes, relations, namespaces |
 | State (`stateDiagram`) | ✅ | ✅ | ✅ `StateDiagram` | 0 | States, transitions, composites |
 | ER Diagram (`erDiagram`) | ✅ | ✅ | ✅ `ErDiagram` | 0 | Entities, relationships, attributes |

@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant Consumer
+    participant API
+    participant BookingService
+    participant BillingService
+    Consumer->>API: Book something
+    API->>BookingService: Start booking process
+    break when the booking process fails
+    end
+    API->>BillingService: Start billing process
