@@ -19,7 +19,7 @@ import type {
   BlockNodeShape,
   BlockSpace,
 } from '../types/block.js';
-import type { RenderOptions } from '../types/render-options.js';
+import type { RenderOptions, ResolvedRenderOptions } from '../types/render-options.js';
 import { resolveOptions } from '../types/render-options.js';
 
 /**
@@ -162,7 +162,7 @@ function renderEdge(edge: BlockEdge): Doc {
 /**
  * Renders a composite block
  */
-function renderComposite(composite: BlockComposite, options: RenderOptions): Doc {
+function renderComposite(composite: BlockComposite, options: ResolvedRenderOptions): Doc {
   const header = composite.label 
     ? `block:${composite.id}["${composite.label}"]`
     : `block:${composite.id}`;
@@ -179,7 +179,7 @@ function renderComposite(composite: BlockComposite, options: RenderOptions): Doc
 /**
  * Renders a single element
  */
-function renderElement(element: BlockElement, options: RenderOptions): Doc {
+function renderElement(element: BlockElement, options: ResolvedRenderOptions): Doc {
   // Type guards based on properties
   if ('type' in element) {
     switch (element.type) {

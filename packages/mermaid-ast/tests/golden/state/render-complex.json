@@ -1,0 +1,152 @@
+{
+  "classApplications": [],
+  "classDefs": {},
+  "clicks": [],
+  "direction": "LR",
+  "states": {
+    "Active": {
+      "description": "System active",
+      "id": "Active",
+      "note": {
+        "position": "right of",
+        "text": "Main processing state"
+      },
+      "type": "default"
+    },
+    "Idle": {
+      "description": "System idle",
+      "id": "Idle",
+      "type": "default"
+    },
+    "Paused": {
+      "description": "System paused",
+      "id": "Paused",
+      "type": "default"
+    },
+    "[*]": {
+      "id": "[*]",
+      "type": "default"
+    },
+    "check": {
+      "id": "check",
+      "type": "choice"
+    }
+  },
+  "styles": [],
+  "transitions": [
+    {
+      "state1": {
+        "id": "[*]",
+        "type": "default"
+      },
+      "state2": {
+        "description": "System idle",
+        "id": "Idle",
+        "type": "default"
+      }
+    },
+    {
+      "description": "trigger",
+      "state1": {
+        "description": "System idle",
+        "id": "Idle",
+        "type": "default"
+      },
+      "state2": {
+        "id": "check",
+        "type": "choice"
+      }
+    },
+    {
+      "description": "valid",
+      "state1": {
+        "id": "check",
+        "type": "choice"
+      },
+      "state2": {
+        "description": "System active",
+        "id": "Active",
+        "note": {
+          "position": "right of",
+          "text": "Main processing state"
+        },
+        "type": "default"
+      }
+    },
+    {
+      "description": "invalid",
+      "state1": {
+        "id": "check",
+        "type": "choice"
+      },
+      "state2": {
+        "description": "System idle",
+        "id": "Idle",
+        "type": "default"
+      }
+    },
+    {
+      "description": "pause",
+      "state1": {
+        "description": "System active",
+        "id": "Active",
+        "note": {
+          "position": "right of",
+          "text": "Main processing state"
+        },
+        "type": "default"
+      },
+      "state2": {
+        "description": "System paused",
+        "id": "Paused",
+        "type": "default"
+      }
+    },
+    {
+      "description": "resume",
+      "state1": {
+        "description": "System paused",
+        "id": "Paused",
+        "type": "default"
+      },
+      "state2": {
+        "description": "System active",
+        "id": "Active",
+        "note": {
+          "position": "right of",
+          "text": "Main processing state"
+        },
+        "type": "default"
+      }
+    },
+    {
+      "description": "stop",
+      "state1": {
+        "description": "System active",
+        "id": "Active",
+        "note": {
+          "position": "right of",
+          "text": "Main processing state"
+        },
+        "type": "default"
+      },
+      "state2": {
+        "description": "System idle",
+        "id": "Idle",
+        "type": "default"
+      }
+    },
+    {
+      "state1": {
+        "description": "System idle",
+        "id": "Idle",
+        "type": "default"
+      },
+      "state2": {
+        "id": "[*]",
+        "type": "default"
+      }
+    }
+  ],
+  "type": "state"
+}

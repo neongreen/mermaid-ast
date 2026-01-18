@@ -150,9 +150,16 @@ const DIAGRAM_TYPES: DiagramTestConfig[] = [
     rendererName: 'requirement',
     roundtripName: 'requirement',
   },
+  {
+    type: 'c4',
+    wrapperName: 'c4',
+    parserName: 'c4',
+    rendererName: 'c4',
+    roundtripName: 'c4',
+  },
 ];
 
-// Get the tests directory path (relative to this file)
+// Get the tests directory path
 const TESTS_DIR = join(import.meta.dir, '..');
 const UNIT_DIR = join(TESTS_DIR, 'unit');
 const ROUNDTRIP_DIR = join(TESTS_DIR, 'roundtrip');
@@ -204,6 +211,7 @@ describe('Test Coverage Completeness', () => {
         'timeline',
         'xychart',
         'requirement',
+        'c4',
       ];
 
       const configuredTypes = DIAGRAM_TYPES.map((c) => c.type).sort();

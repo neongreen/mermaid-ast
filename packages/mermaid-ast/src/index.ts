@@ -24,6 +24,19 @@ export type {
 // Export Block wrapper class
 export { Block } from './block.js';
 export type {
+  AddBoundaryOptions,
+  AddComponentOptions,
+  AddContainerOptions,
+  AddDeploymentNodeOptions,
+  AddPersonOptions,
+  AddRelationshipOptions as AddC4RelationshipOptions,
+  AddSystemOptions,
+  FindElementsQuery as FindC4ElementsQuery,
+  FindRelationshipsQuery as FindC4RelationshipsQuery,
+} from './c4.js';
+// Export C4 wrapper class
+export { C4 } from './c4.js';
+export type {
   AddClassOptions,
   AddMemberOptions,
   AddRelationOptions,
@@ -71,6 +84,7 @@ export { parseErDiagram } from './parser/er-parser.js';
 export {
   detectDiagramType,
   isBlockDiagram,
+  isC4Diagram,
   isClassDiagram,
   isFlowchartDiagram,
   isQuadrantDiagram,
@@ -79,6 +93,7 @@ export {
   isSequenceDiagram,
   parse,
   parseBlock,
+  parseC4,
   parseClassDiagram,
   parseFlowchart,
   parseQuadrant,
@@ -108,6 +123,7 @@ export { renderErDiagram } from './renderer/er-renderer.js';
 export {
   render,
   renderBlock,
+  renderC4,
   renderClassDiagram,
   renderFlowchart,
   renderQuadrant,

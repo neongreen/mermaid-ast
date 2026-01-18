@@ -1,0 +1,84 @@
+{
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [],
+            "description": "Market Analysis",
+            "id": "R1",
+            "level": 2,
+            "shape": "rounded"
+          },
+          {
+            "children": [],
+            "description": "Competitor Review",
+            "id": "R2",
+            "level": 2,
+            "shape": "rounded"
+          }
+        ],
+        "description": "Research",
+        "id": "Research",
+        "level": 1,
+        "shape": "square"
+      },
+      {
+        "children": [
+          {
+            "children": [],
+            "description": "Wireframes",
+            "id": "D1",
+            "level": 2,
+            "shape": "rounded"
+          },
+          {
+            "children": [],
+            "description": "Mockups",
+            "id": "D2",
+            "level": 2,
+            "shape": "rounded"
+          }
+        ],
+        "description": "Design",
+        "id": "Design",
+        "level": 1,
+        "shape": "square"
+      },
+      {
+        "children": [
+          {
+            "children": [],
+            "description": "Frontend",
+            "id": "Dev1",
+            "level": 2,
+            "shape": "rounded"
+          },
+          {
+            "children": [],
+            "description": "Backend",
+            "id": "Dev2",
+            "level": 2,
+            "shape": "rounded"
+          },
+          {
+            "children": [],
+            "description": "Testing",
+            "id": "Dev3",
+            "level": 2,
+            "shape": "rounded"
+          }
+        ],
+        "description": "Development",
+        "id": "Development",
+        "level": 1,
+        "shape": "square"
+      }
+    ],
+    "description": "Project Plan",
+    "id": "ProjectPlan",
+    "level": 0,
+    "shape": "hexagon"
+  },
+  "type": "mindmap"
+}

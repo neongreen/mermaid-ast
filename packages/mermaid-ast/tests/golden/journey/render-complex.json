@@ -1,0 +1,79 @@
+{
+  "sections": [
+    {
+      "name": "Initial Contact",
+      "tasks": [
+        {
+          "actors": [
+            "Customer"
+          ],
+          "name": "Search for help",
+          "score": 3
+        },
+        {
+          "actors": [
+            "Customer"
+          ],
+          "name": "Find contact page",
+          "score": 4
+        },
+        {
+          "actors": [
+            "Customer"
+          ],
+          "name": "Submit ticket",
+          "score": 2
+        }
+      ]
+    },
+    {
+      "name": "Response",
+      "tasks": [
+        {
+          "actors": [
+            "Customer",
+            "System"
+          ],
+          "name": "Receive auto-reply",
+          "score": 3
+        },
+        {
+          "actors": [
+            "Customer"
+          ],
+          "name": "Wait for agent",
+          "score": 1
+        },
+        {
+          "actors": [
+            "Customer",
+            "Agent"
+          ],
+          "name": "Get human response",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "name": "Resolution",
+      "tasks": [
+        {
+          "actors": [
+            "Customer"
+          ],
+          "name": "Follow instructions",
+          "score": 4
+        },
+        {
+          "actors": [
+            "Customer"
+          ],
+          "name": "Problem solved",
+          "score": 5
+        }
+      ]
+    }
+  ],
+  "title": "Customer Support Experience",
+  "type": "journey"
+}

@@ -1,0 +1,51 @@
+{
+  "classes": {
+    "critical": {
+      "name": "critical",
+      "styles": [
+        "fill: #ff6b6b"
+      ]
+    },
+    "normal": {
+      "name": "normal",
+      "styles": [
+        "fill: #4ecdc4"
+      ]
+    }
+  },
+  "points": [
+    {
+      "className": "critical",
+      "name": "Feature A",
+      "x": "0.9",
+      "y": "0.2"
+    },
+    {
+      "className": "normal",
+      "name": "Feature B",
+      "x": "0.8",
+      "y": "0.8"
+    },
+    {
+      "className": "normal",
+      "name": "Feature C",
+      "x": "0.2",
+      "y": "0.3"
+    },
+    {
+      "name": "Feature D",
+      "x": "0.3",
+      "y": "0.9"
+    }
+  ],
+  "quadrant1": "High Priority",
+  "quadrant2": "Strategic",
+  "quadrant3": "Quick Wins",
+  "quadrant4": "Low Priority",
+  "title": "Product Backlog Prioritization",
+  "type": "quadrant",
+  "xAxisLeft": "Low Value",
+  "xAxisRight": "High Value",
+  "yAxisBottom": "Low Complexity",
+  "yAxisTop": "High Complexity"
+}

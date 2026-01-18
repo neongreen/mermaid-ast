@@ -236,8 +236,8 @@ describe('Block Renderer', () => {
         .setColumns(2)
         .addNode('a', { label: 'A' });
       
-      // Default indent is 4 spaces, custom indent should change indentation
-      const output = diagram.render({ indent: '  ' });
+      // Default indent is 4 spaces, custom indent of 2 should change indentation
+      const output = diagram.render({ indent: 2 });
       // Check that the output uses indentation (columns should be indented)
       expect(output).toContain('columns 2');
     });

@@ -20,23 +20,23 @@ function assertEquivalentQuadrants(ast1: QuadrantAST, ast2: QuadrantAST): void {
   expect(ast2.title).toBe(ast1.title);
 
   // Compare axis labels
-  expect(ast2.xAxisLeftLabel).toBe(ast1.xAxisLeftLabel);
-  expect(ast2.xAxisRightLabel).toBe(ast1.xAxisRightLabel);
-  expect(ast2.yAxisBottomLabel).toBe(ast1.yAxisBottomLabel);
-  expect(ast2.yAxisTopLabel).toBe(ast1.yAxisTopLabel);
+  expect(ast2.xAxisLeft).toBe(ast1.xAxisLeft);
+  expect(ast2.xAxisRight).toBe(ast1.xAxisRight);
+  expect(ast2.yAxisBottom).toBe(ast1.yAxisBottom);
+  expect(ast2.yAxisTop).toBe(ast1.yAxisTop);
 
   // Compare quadrant labels
-  expect(ast2.quadrant1Label).toBe(ast1.quadrant1Label);
-  expect(ast2.quadrant2Label).toBe(ast1.quadrant2Label);
-  expect(ast2.quadrant3Label).toBe(ast1.quadrant3Label);
-  expect(ast2.quadrant4Label).toBe(ast1.quadrant4Label);
+  expect(ast2.quadrant1).toBe(ast1.quadrant1);
+  expect(ast2.quadrant2).toBe(ast1.quadrant2);
+  expect(ast2.quadrant3).toBe(ast1.quadrant3);
+  expect(ast2.quadrant4).toBe(ast1.quadrant4);
 
   // Compare points
   expect(ast2.points.length).toBe(ast1.points.length);
   for (const point1 of ast1.points) {
     const matchingPoint = ast2.points.find(
       (p) =>
-        p.label === point1.label &&
+        p.name === point1.name &&
         Math.abs(p.x - point1.x) < 0.01 &&
         Math.abs(p.y - point1.y) < 0.01
     );

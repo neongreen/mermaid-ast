@@ -1,0 +1,81 @@
+{
+  "axisFormat": "%m/%d",
+  "clickEvents": [],
+  "dateFormat": "YYYY-MM-DD",
+  "excludes": "weekends",
+  "inclusiveEndDates": false,
+  "sections": [
+    {
+      "name": "Planning",
+      "tasks": [
+        {
+          "end": "2024-01-05",
+          "id": "req",
+          "name": "Requirements",
+          "rawData": ": done, req, 2024-01-01, 2024-01-05",
+          "section": "Planning",
+          "start": "2024-01-01",
+          "status": "done"
+        },
+        {
+          "end": "5d",
+          "id": "des",
+          "name": "Design",
+          "rawData": ": done, des, after req, 5d",
+          "section": "Planning",
+          "start": "after req",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "name": "Development",
+      "tasks": [
+        {
+          "end": "10d",
+          "id": "be",
+          "name": "Backend",
+          "rawData": ": active, be, after des, 10d",
+          "section": "Development",
+          "start": "after des",
+          "status": "active"
+        },
+        {
+          "end": "10d",
+          "id": "fe",
+          "name": "Frontend",
+          "rawData": ": fe, after des, 10d",
+          "section": "Development",
+          "start": "after des"
+        }
+      ]
+    },
+    {
+      "name": "Release",
+      "tasks": [
+        {
+          "end": "5d",
+          "id": "test",
+          "name": "Testing",
+          "rawData": ": crit, test, after be, 5d",
+          "section": "Release",
+          "start": "after be",
+          "status": "crit"
+        },
+        {
+          "end": "0d",
+          "id": "launch",
+          "name": "Launch",
+          "rawData": ": milestone, launch, after test, 0d",
+          "section": "Release",
+          "start": "after test",
+          "status": "milestone"
+        }
+      ]
+    }
+  ],
+  "tasks": [],
+  "title": "Software Project",
+  "topAxis": false,
+  "type": "gantt"
+}

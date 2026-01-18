@@ -29,10 +29,10 @@ function assertEquivalentErDiagrams(ast1: ErDiagramAST, ast2: ErDiagramAST): voi
   for (const rel1 of ast1.relationships) {
     const matchingRel = ast2.relationships.find(
       (r) =>
-        r.entity1 === rel1.entity1 &&
-        r.entity2 === rel1.entity2 &&
-        r.cardinality1 === rel1.cardinality1 &&
-        r.cardinality2 === rel1.cardinality2
+        r.entityA === rel1.entityA &&
+        r.entityB === rel1.entityB &&
+        r.relSpec.cardA === rel1.relSpec.cardA &&
+        r.relSpec.cardB === rel1.relSpec.cardB
     );
     expect(matchingRel).toBeDefined();
   }

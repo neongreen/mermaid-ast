@@ -5,6 +5,7 @@
  */
 
 export { renderBlock } from './block-renderer.js';
+export { renderC4 } from './c4-renderer.js';
 export { renderClassDiagram } from './class-renderer.js';
 export { renderFlowchart } from './flowchart-renderer.js';
 export { renderKanban } from './kanban-renderer.js';
@@ -17,6 +18,7 @@ export { renderXYChart } from './xychart-renderer.js';
 import type { MermaidAST, RenderOptions } from '../types/index.js';
 import {
   isBlockAST,
+  isC4AST,
   isClassDiagramAST,
   isFlowchartAST,
   isKanbanAST,
@@ -27,6 +29,7 @@ import {
   isXYChartAST,
 } from '../types/index.js';
 import { renderBlock } from './block-renderer.js';
+import { renderC4 } from './c4-renderer.js';
 import { renderClassDiagram } from './class-renderer.js';
 import { renderFlowchart } from './flowchart-renderer.js';
 import { renderKanban } from './kanban-renderer.js';
@@ -42,6 +45,9 @@ import { renderXYChart } from './xychart-renderer.js';
 export function render(ast: MermaidAST, options?: RenderOptions): string {
   if (isBlockAST(ast)) {
     return renderBlock(ast, options);
+  }
+  if (isC4AST(ast)) {
+    return renderC4(ast, options);
   }
   if (isFlowchartAST(ast)) {
     return renderFlowchart(ast, options);

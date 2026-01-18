@@ -37,7 +37,7 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 | Block (`block-beta`) | ✅ | ✅ | ✅ `Block` | Basic | Blocks, edges, composites, styling |
 | Pie (`pie`) | ❌ | ❌ | ❌ | - | No JISON parser available |
 | Git Graph (`gitGraph`) | ❌ | ❌ | ❌ | - | No JISON parser available |
-| C4 (`C4Context`, etc.) | ❌ | ❌ | ❌ | - | JISON parser vendored, not yet implemented |
+| C4 (`C4Context`, etc.) | ✅ | ✅ | ✅ `C4` | Basic | All 5 diagram types, elements, relationships, boundaries, styling |
 
 ## Installation
 

@@ -5,6 +5,7 @@
  */
 
 export { isBlockDiagram, parseBlock } from './block-parser.js';
+export { isC4Diagram, parseC4 } from './c4-parser.js';
 export { isClassDiagram, parseClassDiagram } from './class-parser.js';
 export { isErDiagram, parseErDiagram } from './er-parser.js';
 export { isFlowchartDiagram, parseFlowchart } from './flowchart-parser.js';
@@ -23,6 +24,7 @@ export { isXYChartDiagram, parseXYChart } from './xychart-parser.js';
 import type { DiagramType, MermaidAST } from '../types/index.js';
 import { assertNever } from '../utils.js';
 import { isBlockDiagram, parseBlock } from './block-parser.js';
+import { isC4Diagram, parseC4 } from './c4-parser.js';
 import { isClassDiagram, parseClassDiagram } from './class-parser.js';
 import { isErDiagram, parseErDiagram } from './er-parser.js';
 import { isFlowchartDiagram, parseFlowchart } from './flowchart-parser.js';
@@ -43,6 +45,7 @@ import { isXYChartDiagram, parseXYChart } from './xychart-parser.js';
  */
 export function detectDiagramType(input: string): DiagramType | null {
   if (isBlockDiagram(input)) return 'block';
+  if (isC4Diagram(input)) return 'c4';
   if (isFlowchartDiagram(input)) return 'flowchart';
   if (isSequenceDiagram(input)) return 'sequence';
   if (isClassDiagram(input)) return 'class';
@@ -67,13 +70,15 @@ export function parse(input: string): MermaidAST {
   const type = detectDiagramType(input);
   if (!type) {
     throw new Error(
-      'Unable to detect diagram type. Supported types: flowchart, sequence, class, state, erDiagram, gantt, mindmap, journey, kanban, timeline, sankey, quadrant, requirement, xychart'
+      'Unable to detect diagram type. Supported types: flowchart, sequence, class, state, erDiagram, gantt, mindmap, journey, kanban, timeline, sankey, quadrant, requirement, xychart, c4, block'
     );
   }
 
   switch (type) {
     case 'block':
       return parseBlock(input);
+    case 'c4':
+      return parseC4(input);
     case 'flowchart':
       return parseFlowchart(input);
     case 'sequence':

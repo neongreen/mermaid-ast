@@ -32,8 +32,8 @@ function assertEquivalentMindmaps(ast1: MindmapAST, ast2: MindmapAST): void {
   expect(!!ast2.root).toBe(!!ast1.root);
   
   if (ast1.root && ast2.root) {
-    // Compare root text
-    expect(ast2.root.text).toBe(ast1.root.text);
+    // Compare root description
+    expect(ast2.root.description).toBe(ast1.root.description);
     
     // Compare total node count
     expect(countNodes(ast2.root)).toBe(countNodes(ast1.root));

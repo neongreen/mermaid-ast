@@ -5,6 +5,7 @@
  */
 
 export * from './block.js';
+export * from './c4.js';
 export * from './class.js';
 export * from './er.js';
 export * from './flowchart.js';
@@ -22,6 +23,7 @@ export * from './timeline.js';
 export * from './xychart.js';
 
 import type { BlockAST } from './block.js';
+import type { C4AST } from './c4.js';
 import type { ClassDiagramAST } from './class.js';
 import type { ErDiagramAST } from './er.js';
 import type { FlowchartAST } from './flowchart.js';
@@ -42,6 +44,7 @@ import type { XYChartAST } from './xychart.js';
  */
 export type MermaidAST =
   | BlockAST
+  | C4AST
   | FlowchartAST
   | SequenceAST
   | ClassDiagramAST
@@ -62,6 +65,7 @@ export type MermaidAST =
  */
 export type DiagramType =
   | 'block'
+  | 'c4'
   | 'flowchart'
   | 'sequence'
   | 'class'
@@ -180,4 +184,11 @@ export function isRequirementAST(ast: MermaidAST): ast is RequirementAST {
  */
 export function isBlockAST(ast: MermaidAST): ast is BlockAST {
   return ast.type === 'block';
+}
+
+/**
+ * Check if an AST is a C4 diagram
+ */
+export function isC4AST(ast: MermaidAST): ast is C4AST {
+  return ast.type === 'c4';
 }

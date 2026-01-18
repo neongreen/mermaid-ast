@@ -1,0 +1,70 @@
+{
+  "sections": [
+    {
+      "name": "Planning",
+      "periods": [
+        {
+          "events": [
+            {
+              "text": "Requirements gathered"
+            },
+            {
+              "text": "Architecture designed"
+            }
+          ],
+          "name": "Q1 2023"
+        },
+        {
+          "events": [
+            {
+              "text": "Team assembled"
+            }
+          ],
+          "name": "Q2 2023"
+        }
+      ]
+    },
+    {
+      "name": "Development",
+      "periods": [
+        {
+          "events": [
+            {
+              "text": "MVP completed"
+            },
+            {
+              "text": "Alpha testing"
+            }
+          ],
+          "name": "Q3 2023"
+        },
+        {
+          "events": [
+            {
+              "text": "Beta release"
+            }
+          ],
+          "name": "Q4 2023"
+        }
+      ]
+    },
+    {
+      "name": "Launch",
+      "periods": [
+        {
+          "events": [
+            {
+              "text": "Public release"
+            },
+            {
+              "text": "Marketing campaign"
+            }
+          ],
+          "name": "Q1 2024"
+        }
+      ]
+    }
+  ],
+  "title": "Software Development History",
+  "type": "timeline"
+}

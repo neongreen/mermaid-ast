@@ -16,10 +16,12 @@ import type { SankeyAST } from '../../src/types/index.js';
  * Compare two Sankey ASTs for semantic equivalence
  */
 function assertEquivalentSankeys(ast1: SankeyAST, ast2: SankeyAST): void {
-  // Compare nodes
-  expect(ast2.nodes.length).toBe(ast1.nodes.length);
-  for (let i = 0; i < ast1.nodes.length; i++) {
-    expect(ast2.nodes[i].id).toBe(ast1.nodes[i].id);
+  // Compare nodes (nodes is a Map)
+  expect(ast2.nodes.size).toBe(ast1.nodes.size);
+  for (const [id, node1] of ast1.nodes) {
+    const node2 = ast2.nodes.get(id);
+    expect(node2).toBeDefined();
+    expect(node2?.id).toBe(node1.id);
   }
 
   // Compare links
