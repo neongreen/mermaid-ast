@@ -1,0 +1,11 @@
+classDiagram
+    class Shape {
+        <<interface>>
+        +draw()
+    }
+    class Circle {
+        <<service>>
+        +radius
+        +draw()
+    }
+    Shape <|.. Circle

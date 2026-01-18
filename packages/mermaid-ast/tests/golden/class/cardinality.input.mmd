@@ -1,0 +1,4 @@
+classDiagram
+    Customer "1" --> "*" Order : places
+    Order "*" --> "1..*" LineItem : contains
+    Product "1" --> "0..*" Review : has
