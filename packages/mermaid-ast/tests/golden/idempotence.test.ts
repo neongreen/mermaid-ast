@@ -15,10 +15,13 @@
 import { describe, expect, it } from 'bun:test';
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
-import { parse, render } from '../../src/index.js';
+import { parse, parseAsync, render } from '../../src/index.js';
 
 const GOLDEN_DIR = join(import.meta.dir);
 const UPDATE_MODE = process.env.UPDATE_GOLDEN === '1';
+
+// Diagram types that require async parsing (Langium-based parsers)
+const ASYNC_DIAGRAM_TYPES = new Set(['pie', 'gitgraph']);
 
 // Get all diagram type directories
 const diagramTypes = readdirSync(GOLDEN_DIR, { withFileTypes: true })
@@ -35,6 +38,8 @@ for (const diagramType of diagramTypes) {
     continue; // Skip directories without idempotence test fixtures
   }
 
+  const isAsync = ASYNC_DIAGRAM_TYPES.has(diagramType);
+
   describe(`Idempotence: ${diagramType}`, () => {
     for (const inputFile of inputFiles) {
       const testName = basename(inputFile, '.input.mmd');
@@ -42,9 +47,9 @@ for (const diagramType of diagramTypes) {
       const outputPath = join(typeDir, `${testName}.output.mmd`);
 
       describe(testName, () => {
-        it('snapshot: render(parse(input)) matches output', () => {
+        it('snapshot: render(parse(input)) matches output', async () => {
           const input = readFileSync(inputPath, 'utf-8');
-          const ast = parse(input);
+          const ast = isAsync ? await parseAsync(input) : parse(input);
           const rendered = render(ast);
 
           if (UPDATE_MODE) {
@@ -68,7 +73,7 @@ for (const diagramType of diagramTypes) {
           expect(rendered).toBe(expected);
         });
 
-        it('idempotence: render(parse(output)) === output', () => {
+        it('idempotence: render(parse(output)) === output', async () => {
           if (!existsSync(outputPath)) {
             throw new Error(
               `Missing output file: ${outputPath}\nRun with UPDATE_GOLDEN=1 to create it first.`
@@ -76,7 +81,7 @@ for (const diagramType of diagramTypes) {
           }
 
           const output = readFileSync(outputPath, 'utf-8');
-          const ast = parse(output);
+          const ast = isAsync ? await parseAsync(output) : parse(output);
           const rerendered = render(ast);
 
           // This must be an EXACT match - our output must be stable
