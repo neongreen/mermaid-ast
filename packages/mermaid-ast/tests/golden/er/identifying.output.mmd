@@ -1,0 +1,13 @@
+erDiagram
+    CAR {
+        string registrationNumber
+        string make
+        string model
+    }
+    PERSON {
+        string firstName
+        string lastName
+        int age
+    }
+    CAR ||--o{ NAMED-DRIVER : allows
+    PERSON ||--o{ NAMED-DRIVER : is

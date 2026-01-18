@@ -1,0 +1,11 @@
+erDiagram
+    PRODUCT {
+        int id PK "Primary key"
+        string name "Product name"
+        float price "Unit price"
+    }
+    CATEGORY {
+        int id PK
+        string name
+    }
+    PRODUCT }o--|| CATEGORY : "belongs to"

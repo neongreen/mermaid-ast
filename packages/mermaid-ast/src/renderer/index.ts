@@ -7,6 +7,7 @@
 export { renderBlock } from './block-renderer.js';
 export { renderC4 } from './c4-renderer.js';
 export { renderClassDiagram } from './class-renderer.js';
+export { renderErDiagram } from './er-renderer.js';
 export { renderFlowchart } from './flowchart-renderer.js';
 export { renderGitGraph } from './gitgraph-renderer.js';
 export { renderKanban } from './kanban-renderer.js';
@@ -23,6 +24,7 @@ import {
   isBlockAST,
   isC4AST,
   isClassDiagramAST,
+  isErDiagramAST,
   isFlowchartAST,
   isGitGraphAST,
   isKanbanAST,
@@ -37,6 +39,7 @@ import {
 import { renderBlock } from './block-renderer.js';
 import { renderC4 } from './c4-renderer.js';
 import { renderClassDiagram } from './class-renderer.js';
+import { renderErDiagram } from './er-renderer.js';
 import { renderFlowchart } from './flowchart-renderer.js';
 import { renderGitGraph } from './gitgraph-renderer.js';
 import { renderKanban } from './kanban-renderer.js';
@@ -66,6 +69,9 @@ export function render(ast: MermaidAST, options?: RenderOptions): string {
   }
   if (isClassDiagramAST(ast)) {
     return renderClassDiagram(ast, options);
+  }
+  if (isErDiagramAST(ast)) {
+    return renderErDiagram(ast, options);
   }
   if (isSankeyAST(ast)) {
     return renderSankey(ast, options);
