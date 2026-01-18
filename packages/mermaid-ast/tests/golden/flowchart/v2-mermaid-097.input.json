@@ -1,0 +1,30 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TB",
+  "linkStyles": [],
+  "links": [],
+  "nodes": {
+    "n2": {
+      "id": "n2",
+      "shape": "square",
+      "text": {
+        "text": "label for n2",
+        "type": "string"
+      }
+    },
+    "n4": {
+      "id": "n4",
+      "shape": "rect",
+      "shapeData": " label: \"label for n4\""
+    },
+    "n5": {
+      "id": "n5",
+      "shape": "rect",
+      "shapeData": " label: \"label for n5\""
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

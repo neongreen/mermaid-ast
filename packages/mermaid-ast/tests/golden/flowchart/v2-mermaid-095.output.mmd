@@ -1,0 +1,22 @@
+flowchart LR
+    subgraph B1
+        direction RL
+        f1
+        i1
+        i1 --> f1
+    end
+    subgraph B2
+        direction BT
+        f2
+        i2
+        i2 --> f2
+    end
+    subgraph TOP
+        direction TB
+        B1
+        B2
+        B1 --> B2
+    end
+    A --> TOP
+    B
+    TOP --> B

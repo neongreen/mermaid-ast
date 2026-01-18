@@ -1,0 +1,85 @@
+{
+  "classDefs": {
+    "processHead": {
+      "id": "processHead",
+      "styles": {
+        "color": "white",
+        "fill": "#888888",
+        "font-weight": "bold",
+        "stroke": "#001f3f",
+        "stroke-width": "3px"
+      }
+    }
+  },
+  "classes": {
+    "1A": [
+      "processHead"
+    ],
+    "1B": [
+      "processHead"
+    ],
+    "D": [
+      "processHead"
+    ],
+    "E": [
+      "processHead"
+    ]
+  },
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "1A",
+      "stroke": "normal",
+      "target": "1B",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "1B",
+      "stroke": "normal",
+      "target": "1C",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "1C",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "1C",
+      "stroke": "normal",
+      "target": "E",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "1A": {
+      "id": "1A",
+      "shape": "rect"
+    },
+    "1B": {
+      "id": "1B",
+      "shape": "rect"
+    },
+    "1C": {
+      "id": "1C",
+      "shape": "rect"
+    },
+    "D": {
+      "id": "D",
+      "shape": "rect"
+    },
+    "E": {
+      "id": "E",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

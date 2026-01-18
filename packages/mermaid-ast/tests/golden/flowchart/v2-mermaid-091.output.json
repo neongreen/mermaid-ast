@@ -1,0 +1,50 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TB",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "Out",
+      "stroke": "normal",
+      "target": "In",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "Sub",
+      "stroke": "normal",
+      "target": "In",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "In": {
+      "id": "In",
+      "shape": "rect"
+    },
+    "Out": {
+      "id": "Out",
+      "shape": "rect"
+    },
+    "Sub": {
+      "id": "Sub",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "Sub",
+      "nodes": [
+        "In"
+      ],
+      "title": {
+        "text": "Sub",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

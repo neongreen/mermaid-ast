@@ -1,0 +1,10 @@
+flowchart LR
+    A[[subroutine shape test]] -->|Get money| B[[Go shopping]]
+    C[[Let me think...<br />Do I want something for work,<br />something to spend every free second with,<br />or something to get around?]] -->|One| D[[Laptop]]
+    C -->|Two| E[[iPhone]]
+    C -->|Three| F[[Car<br/>wroom wroom]]
+    B --> C
+    classDef someclass fill:#f96
+    class A,C someclass
+    click A href "index.html#link-clicked"
+    click B testClick

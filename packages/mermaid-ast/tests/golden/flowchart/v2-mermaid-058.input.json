@@ -1,0 +1,112 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "text": {
+        "text": "Get money",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "D",
+      "text": {
+        "text": "One",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "E",
+      "text": {
+        "text": "Two",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "F",
+      "text": {
+        "text": "Three",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "square",
+      "text": {
+        "text": "Christmas",
+        "type": "text"
+      }
+    },
+    "B": {
+      "id": "B",
+      "shape": "round",
+      "text": {
+        "text": "Go shopping",
+        "type": "text"
+      }
+    },
+    "C": {
+      "id": "C",
+      "shape": "diamond",
+      "text": {
+        "text": "Let me think",
+        "type": "text"
+      }
+    },
+    "D": {
+      "id": "D",
+      "shape": "square",
+      "text": {
+        "text": "Laptop",
+        "type": "text"
+      }
+    },
+    "E": {
+      "id": "E",
+      "shape": "square",
+      "text": {
+        "text": "iPhone",
+        "type": "text"
+      }
+    },
+    "F": {
+      "id": "F",
+      "shape": "square",
+      "text": {
+        "text": "fa:fa-car Car",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

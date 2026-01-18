@@ -1,0 +1,94 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TB",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "process_C",
+      "stroke": "normal",
+      "target": "Process_D",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "process_A",
+      "stroke": "normal",
+      "target": "process_B",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "process_A",
+      "stroke": "normal",
+      "target": "process_C",
+      "text": {
+        "text": "messages",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "process_B",
+      "stroke": "normal",
+      "target": "container_Beta",
+      "text": {
+        "text": "via_AWSBatch",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "Process_D": {
+      "id": "Process_D",
+      "shape": "rect"
+    },
+    "container_Beta": {
+      "id": "container_Beta",
+      "shape": "rect"
+    },
+    "process_A": {
+      "id": "process_A",
+      "shape": "rect"
+    },
+    "process_B": {
+      "id": "process_B",
+      "shape": "rect"
+    },
+    "process_C": {
+      "id": "process_C",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "container_Beta",
+      "nodes": [
+        "Process_D",
+        "process_C"
+      ],
+      "title": {
+        "text": "container_Beta",
+        "type": "text"
+      }
+    },
+    {
+      "id": "container_Alpha",
+      "nodes": [
+        "process_B",
+        "process_A",
+        "process_C",
+        "process_A"
+      ],
+      "title": {
+        "text": "container_Alpha",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

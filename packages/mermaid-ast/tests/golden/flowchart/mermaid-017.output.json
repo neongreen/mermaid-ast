@@ -1,0 +1,197 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "LR",
+  "linkStyles": [
+    {
+      "index": 0,
+      "styles": {
+        "stroke": "DarkGray",
+        "stroke-width": "2px"
+      }
+    },
+    {
+      "index": 1,
+      "styles": {
+        "stroke": "DarkGray",
+        "stroke-width": "2px"
+      }
+    },
+    {
+      "index": 2,
+      "styles": {
+        "stroke": "DarkGray",
+        "stroke-width": "2px"
+      }
+    }
+  ],
+  "links": [
+    {
+      "length": 1,
+      "source": "A1",
+      "stroke": "normal",
+      "target": "B1",
+      "text": {
+        "text": "Multi<br>Line",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C1",
+      "stroke": "normal",
+      "target": "D1",
+      "text": {
+        "text": "Multi<br/>Line",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "E1",
+      "stroke": "normal",
+      "target": "F1",
+      "text": {
+        "text": "Multi<br />Line",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "A2",
+      "stroke": "normal",
+      "target": "B2",
+      "text": {
+        "text": "Multi<br>Line",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C2",
+      "stroke": "normal",
+      "target": "D2",
+      "text": {
+        "text": "Multi<br/>Line",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "E2",
+      "stroke": "normal",
+      "target": "F2",
+      "text": {
+        "text": "Multi<br />Line",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A1": {
+      "id": "A1",
+      "shape": "square",
+      "text": {
+        "text": "Multi<br>Line",
+        "type": "text"
+      }
+    },
+    "A2": {
+      "id": "A2",
+      "shape": "square",
+      "text": {
+        "text": "Multi<br>Line",
+        "type": "text"
+      }
+    },
+    "B1": {
+      "id": "B1",
+      "shape": "round",
+      "text": {
+        "text": "Multi<br>Line",
+        "type": "text"
+      }
+    },
+    "B2": {
+      "id": "B2",
+      "shape": "round",
+      "text": {
+        "text": "Multi<br>Line",
+        "type": "text"
+      }
+    },
+    "C1": {
+      "id": "C1",
+      "shape": "square",
+      "text": {
+        "text": "Multi<br/>Line",
+        "type": "text"
+      }
+    },
+    "C2": {
+      "id": "C2",
+      "shape": "square",
+      "text": {
+        "text": "Multi<br/>Line",
+        "type": "text"
+      }
+    },
+    "D1": {
+      "id": "D1",
+      "shape": "round",
+      "text": {
+        "text": "Multi<br/>Line",
+        "type": "text"
+      }
+    },
+    "D2": {
+      "id": "D2",
+      "shape": "round",
+      "text": {
+        "text": "Multi<br/>Line",
+        "type": "text"
+      }
+    },
+    "E1": {
+      "id": "E1",
+      "shape": "square",
+      "text": {
+        "text": "Multi<br />Line",
+        "type": "text"
+      }
+    },
+    "E2": {
+      "id": "E2",
+      "shape": "square",
+      "text": {
+        "text": "Multi<br />Line",
+        "type": "text"
+      }
+    },
+    "F1": {
+      "id": "F1",
+      "shape": "round",
+      "text": {
+        "text": "Multi<br />Line",
+        "type": "text"
+      }
+    },
+    "F2": {
+      "id": "F2",
+      "shape": "round",
+      "text": {
+        "text": "Multi<br />Line",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

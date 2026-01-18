@@ -1,0 +1,14 @@
+flowchart LR
+    A[(cylindrical<br />shape<br />test)] -->|Get money| B1[(Go shopping 1)]
+    A -->|Get money| B2[(Go shopping 2)]
+    A -->|Get money| B3[(Go shopping 3)]
+    C[(Let me think...<br />Do I want something for work,<br />something to spend every free second with,<br />or something to get around?)] -->|One| D[(Laptop)]
+    C -->|Two| E[(iPhone)]
+    C -->|Three| F[(Car)]
+    B1 --> C
+    B2 --> C
+    B3 --> C
+    classDef someclass fill:#f96
+    class A someclass
+    click A href "index.html#link-clicked"
+    click B testClick

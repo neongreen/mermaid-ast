@@ -1,0 +1,135 @@
+{
+  "classDefs": {
+    "someclass": {
+      "id": "someclass",
+      "styles": {
+        "fill": "#f96"
+      }
+    }
+  },
+  "classes": {
+    "A": [
+      "someclass"
+    ],
+    "C": [
+      "someclass"
+    ]
+  },
+  "clicks": [
+    {
+      "href": "index.html#link-clicked",
+      "nodeId": "A"
+    },
+    {
+      "callback": "testClick",
+      "nodeId": "B"
+    }
+  ],
+  "direction": "LR",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "text": {
+        "text": "Get money",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "D",
+      "text": {
+        "text": "One",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "E",
+      "text": {
+        "text": "Two",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "F",
+      "text": {
+        "text": "Three",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "subroutine",
+      "text": {
+        "text": "subroutine shape test",
+        "type": "text"
+      }
+    },
+    "B": {
+      "id": "B",
+      "shape": "subroutine",
+      "text": {
+        "text": "Go shopping",
+        "type": "text"
+      }
+    },
+    "C": {
+      "id": "C",
+      "shape": "subroutine",
+      "text": {
+        "text": "Let me think...<br />Do I want something for work,<br />something to spend every free second with,<br />or something to get around?",
+        "type": "text"
+      }
+    },
+    "D": {
+      "id": "D",
+      "shape": "subroutine",
+      "text": {
+        "text": "Laptop",
+        "type": "text"
+      }
+    },
+    "E": {
+      "id": "E",
+      "shape": "subroutine",
+      "text": {
+        "text": "iPhone",
+        "type": "text"
+      }
+    },
+    "F": {
+      "id": "F",
+      "shape": "subroutine",
+      "text": {
+        "text": "Car<br/>wroom wroom",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

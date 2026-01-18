@@ -1,0 +1,136 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "id": "e1@",
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "type": "arrow_point"
+    },
+    {
+      "id": "e5@",
+      "length": 1,
+      "source": "B",
+      "stroke": "normal",
+      "target": "E",
+      "type": "arrow_point"
+    },
+    {
+      "id": "e7@",
+      "length": 1,
+      "source": "E",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    },
+    {
+      "id": "e3@",
+      "length": 1,
+      "source": "B",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    },
+    {
+      "id": "e2@",
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_point"
+    },
+    {
+      "id": "e4@",
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    },
+    {
+      "id": "e6@",
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "F",
+      "type": "arrow_point"
+    },
+    {
+      "id": "e8@",
+      "length": 1,
+      "source": "F",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "rect"
+    },
+    "B": {
+      "id": "B",
+      "shape": "rect"
+    },
+    "C": {
+      "id": "C",
+      "shape": "rect"
+    },
+    "D": {
+      "id": "D",
+      "shape": "rect"
+    },
+    "E": {
+      "id": "E",
+      "shape": "rect"
+    },
+    "F": {
+      "id": "F",
+      "shape": "rect"
+    },
+    "e1": {
+      "id": "e1",
+      "shape": "rect",
+      "shapeData": " curve: natural "
+    },
+    "e2": {
+      "id": "e2",
+      "shape": "rect",
+      "shapeData": " curve: stepAfter "
+    },
+    "e3": {
+      "id": "e3",
+      "shape": "rect",
+      "shapeData": " curve: monotoneY "
+    },
+    "e4": {
+      "id": "e4",
+      "shape": "rect",
+      "shapeData": " curve: bumpY "
+    },
+    "e5": {
+      "id": "e5",
+      "shape": "rect",
+      "shapeData": " curve: linear "
+    },
+    "e6": {
+      "id": "e6",
+      "shape": "rect",
+      "shapeData": " curve: catmullRom "
+    },
+    "e7": {
+      "id": "e7",
+      "shape": "rect",
+      "shapeData": " curve: cardinal "
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

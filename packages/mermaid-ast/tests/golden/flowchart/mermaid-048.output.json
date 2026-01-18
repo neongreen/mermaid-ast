@@ -1,0 +1,35 @@
+{
+  "classDefs": {
+    "default": {
+      "id": "default",
+      "styles": {
+        "fill": "#a34"
+      }
+    }
+  },
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "hello",
+      "stroke": "normal",
+      "target": "default",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "default": {
+      "id": "default",
+      "shape": "rect"
+    },
+    "hello": {
+      "id": "hello",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

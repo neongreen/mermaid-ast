@@ -1,0 +1,121 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "E",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "F",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B",
+      "stroke": "normal",
+      "target": "E",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "F",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "rect"
+    },
+    "B": {
+      "id": "B",
+      "shape": "rect"
+    },
+    "C": {
+      "id": "C",
+      "shape": "rect"
+    },
+    "D": {
+      "id": "D",
+      "shape": "rect"
+    },
+    "E": {
+      "id": "E",
+      "shape": "rect"
+    },
+    "F": {
+      "id": "F",
+      "shape": "rect"
+    },
+    "e1": {
+      "id": "e1",
+      "shape": "rect"
+    },
+    "e2": {
+      "id": "e2",
+      "shape": "rect"
+    },
+    "e3": {
+      "id": "e3",
+      "shape": "rect"
+    },
+    "e4": {
+      "id": "e4",
+      "shape": "rect"
+    },
+    "e5": {
+      "id": "e5",
+      "shape": "rect"
+    },
+    "e6": {
+      "id": "e6",
+      "shape": "rect"
+    },
+    "e7": {
+      "id": "e7",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

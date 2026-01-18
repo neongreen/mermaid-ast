@@ -1,0 +1,51 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TB",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "n1",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "n2",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "stadium",
+      "text": {
+        "text": "Start",
+        "type": "text"
+      }
+    },
+    "n1": {
+      "id": "n1",
+      "shape": "square",
+      "text": {
+        "text": "Untitled Node",
+        "type": "text"
+      }
+    },
+    "n2": {
+      "id": "n2",
+      "shape": "square",
+      "text": {
+        "text": "Untitled Node",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

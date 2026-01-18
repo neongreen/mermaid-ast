@@ -1,0 +1,36 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "BT",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "n2",
+      "stroke": "normal",
+      "target": "n1",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "n1": {
+      "id": "n1",
+      "shape": "square",
+      "text": {
+        "text": "Diamond",
+        "type": "text"
+      }
+    },
+    "n2": {
+      "id": "n2",
+      "shape": "square",
+      "text": {
+        "text": "Untitled Node",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

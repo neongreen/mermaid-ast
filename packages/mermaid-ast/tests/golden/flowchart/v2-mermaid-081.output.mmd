@@ -1,0 +1,11 @@
+flowchart RL
+    subgraph S1
+        sub2
+        sub1
+        sub1 --> sub2
+    end
+    subgraph S2
+        sub4
+    end
+    S1 --> S2
+    sub1 --> sub4

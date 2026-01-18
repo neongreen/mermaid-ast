@@ -1,0 +1,56 @@
+{
+  "classDefs": {
+    "dark": {
+      "id": "dark",
+      "styles": {
+        "color": "#fff",
+        "fill": "#000",
+        "stroke": "#000",
+        "stroke-width": "4px"
+      }
+    }
+  },
+  "classes": {
+    "Dolor": [
+      "dark"
+    ],
+    "Lorem": [
+      "dark"
+    ]
+  },
+  "clicks": [],
+  "direction": "LR",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "Lorem",
+      "stroke": "normal",
+      "target": "Ipsum",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "Ipsum",
+      "stroke": "normal",
+      "target": "Dolor",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "Dolor": {
+      "id": "Dolor",
+      "shape": "rect"
+    },
+    "Ipsum": {
+      "id": "Ipsum",
+      "shape": "rect"
+    },
+    "Lorem": {
+      "id": "Lorem",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

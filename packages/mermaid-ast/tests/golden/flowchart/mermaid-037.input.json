@@ -1,0 +1,32 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "a",
+      "stroke": "normal",
+      "target": "b",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "a": {
+      "id": "a",
+      "shape": "square",
+      "text": {
+        "text": "<strong>Haiya</strong>",
+        "type": "string"
+      }
+    },
+    "b": {
+      "id": "b",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

@@ -1,0 +1,117 @@
+{
+  "classDefs": {
+    "Test": {
+      "id": "Test",
+      "styles": {
+        "color": "white",
+        "fill": "#F84E68",
+        "stroke": "#333"
+      }
+    },
+    "TestSub": {
+      "id": "TestSub",
+      "styles": {
+        "fill": "green"
+      }
+    }
+  },
+  "classes": {
+    "A": [
+      "Test"
+    ],
+    "T": [
+      "Test",
+      "TestSub"
+    ]
+  },
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [
+    {
+      "index": 0,
+      "styles": {
+        "color": "orange",
+        "stroke": "orange"
+      }
+    },
+    {
+      "index": 1,
+      "styles": {
+        "color": "orange",
+        "stroke": "orange"
+      }
+    }
+  ],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "text": {
+        "text": "Get money",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "thick",
+      "target": "C",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "thick",
+      "target": "D",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "square",
+      "text": {
+        "text": "Christmas",
+        "type": "text"
+      }
+    },
+    "B": {
+      "id": "B",
+      "shape": "round",
+      "text": {
+        "text": "Go shopping",
+        "type": "text"
+      }
+    },
+    "C": {
+      "id": "C",
+      "shape": "rect"
+    },
+    "D": {
+      "id": "D",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "T",
+      "nodes": [
+        "A",
+        "B",
+        "C",
+        "B",
+        "A",
+        "C",
+        "A"
+      ],
+      "title": {
+        "text": "Test",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

@@ -1,0 +1,42 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TB",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "a1",
+      "stroke": "normal",
+      "target": "a2",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "a1": {
+      "id": "a1",
+      "shape": "rect"
+    },
+    "a2": {
+      "id": "a2",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "2Two",
+      "nodes": [
+        "a2",
+        "a1",
+        "a2",
+        "a1"
+      ],
+      "title": {
+        "text": "2Two",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

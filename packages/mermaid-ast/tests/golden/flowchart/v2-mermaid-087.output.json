@@ -1,0 +1,43 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "LR",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "default-index.js",
+      "stroke": "normal",
+      "target": "dot.template.js",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "index.js",
+      "stroke": "normal",
+      "target": "module-utl.js",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "default-index.js": {
+      "id": "default-index.js",
+      "shape": "rect"
+    },
+    "dot.template.js": {
+      "id": "dot.template.js",
+      "shape": "rect"
+    },
+    "index.js": {
+      "id": "index.js",
+      "shape": "rect"
+    },
+    "module-utl.js": {
+      "id": "module-utl.js",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

@@ -1,0 +1,85 @@
+{
+  "classDefs": {
+    "exClass": {
+      "id": "exClass",
+      "styles": {
+        "background": "#bbb",
+        "border": "1px solid red"
+      }
+    }
+  },
+  "classes": {
+    "B": [
+      "exClass"
+    ]
+  },
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "text": {
+        "text": "hello",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "C",
+      "text": {
+        "text": "hello",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "square",
+      "text": {
+        "text": " h ",
+        "type": "text"
+      }
+    },
+    "B": {
+      "id": "B",
+      "shape": "square",
+      "text": {
+        "text": " test ",
+        "type": "text"
+      }
+    },
+    "C": {
+      "id": "C",
+      "shape": "rect"
+    },
+    "D": {
+      "id": "D",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

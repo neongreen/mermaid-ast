@@ -1,0 +1,74 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "Start",
+      "stroke": "normal",
+      "target": "Process",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "Process",
+      "stroke": "normal",
+      "target": "End1",
+      "text": {
+        "text": "Yes",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "Process",
+      "stroke": "normal",
+      "target": "End2",
+      "text": {
+        "text": "No",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "End1": {
+      "id": "End1",
+      "shape": "square",
+      "text": {
+        "text": "End A",
+        "type": "text"
+      }
+    },
+    "End2": {
+      "id": "End2",
+      "shape": "square",
+      "text": {
+        "text": "End B",
+        "type": "text"
+      }
+    },
+    "Process": {
+      "id": "Process",
+      "shape": "diamond",
+      "text": {
+        "text": "Decision",
+        "type": "text"
+      }
+    },
+    "Start": {
+      "id": "Start",
+      "shape": "square",
+      "text": {
+        "text": "Start Here",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

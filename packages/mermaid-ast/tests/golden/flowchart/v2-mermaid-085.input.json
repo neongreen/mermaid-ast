@@ -1,0 +1,36 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TB",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "a",
+      "stroke": "normal",
+      "target": "b",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "a": {
+      "id": "a",
+      "shape": "hexagon",
+      "text": {
+        "text": "Lorem 'ipsum' dolor 'sit' amet, 'consectetur' adipiscing 'elit'.",
+        "type": "string"
+      }
+    },
+    "b": {
+      "id": "b",
+      "shape": "hexagon",
+      "text": {
+        "text": "Lorem #quot;ipsum#quot; dolor #quot;sit#quot; amet,#quot;consectetur#quot; adipiscing #quot;elit#quot;.",
+        "type": "string"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

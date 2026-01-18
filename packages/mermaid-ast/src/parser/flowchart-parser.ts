@@ -23,6 +23,24 @@ import flowchartParser from '../vendored/parsers/flowchart.js';
 
 /**
  * Destructure a link string to extract type, stroke, and length
+ *
+ * The length field represents the "extra" dashes beyond the minimum.
+ * This is designed for IDEMPOTENCE: render(parse(x)) must produce
+ * output that, when parsed and rendered again, is identical.
+ *
+ * Formula (for normal/thick strokes):
+ * - Arrows with endpoints (-->, ==>, --x, --o):
+ *   - Parser: length = dashCount - 1
+ *   - Renderer: dashes = length + 1
+ * - Open arrows (---, ===):
+ *   - Parser: length = dashCount - 2
+ *   - Renderer: dashes = length + 2
+ *
+ * Examples:
+ * - "-->" has 2 dashes → length = 1 → renders as 2 dashes → "-->"
+ * - "--->" has 3 dashes → length = 2 → renders as 3 dashes → "--->"
+ * - "---" has 3 dashes → length = 1 → renders as 3 dashes → "---"
+ * - "----" has 4 dashes → length = 2 → renders as 4 dashes → "----"
  */
 function destructLink(
   linkStr: string,
@@ -43,12 +61,6 @@ function destructLink(
     stroke = 'dotted';
   }
 
-  // Count length (number of dashes/equals/dots)
-  const dashMatch = linkStr.match(/[-=.]+/g);
-  if (dashMatch) {
-    length = Math.max(1, Math.floor(dashMatch[0].length / 2));
-  }
-
   // Determine arrow type based on end characters
   const combined = (startStr || '') + linkStr;
   if (combined.includes('x')) {
@@ -59,6 +71,22 @@ function destructLink(
     type = 'arrow_point';
   } else {
     type = 'arrow_open';
+  }
+
+  // Count length for IDEMPOTENCE
+  // The formula depends on whether it's an open arrow or has an endpoint
+  // - Open arrows: renderer uses length + 2, so parser uses dashCount - 2
+  // - Arrows with endpoints: renderer uses length + 1, so parser uses dashCount - 1
+  const dashMatch = linkStr.match(/[-=]+/g);
+  if (dashMatch) {
+    const dashCount = dashMatch[0].length;
+    if (type === 'arrow_open') {
+      // Open arrows: renderer uses length + 2
+      length = Math.max(1, dashCount - 2);
+    } else {
+      // Arrows with endpoints: renderer uses length + 1
+      length = Math.max(1, dashCount - 1);
+    }
   }
 
   return { type, stroke, length };

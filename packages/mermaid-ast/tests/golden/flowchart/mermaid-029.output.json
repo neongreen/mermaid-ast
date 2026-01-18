@@ -1,0 +1,108 @@
+{
+  "classDefs": {
+    "default": {
+      "id": "default",
+      "styles": {
+        "fill": "none",
+        "stroke": "silver",
+        "stroke-width": "2px"
+      }
+    },
+    "myClass1": {
+      "id": "myClass1",
+      "styles": {
+        "color": "#0000ff"
+      }
+    },
+    "myClass2": {
+      "id": "myClass2",
+      "styles": {
+        "fill": "#ccccff",
+        "stroke": "#0000ff"
+      }
+    },
+    "node": {
+      "id": "node",
+      "styles": {
+        "color": "red"
+      }
+    }
+  },
+  "classes": {
+    "A": [
+      "myClass1"
+    ],
+    "D": [
+      "myClass2"
+    ]
+  },
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "D",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "square",
+      "text": {
+        "text": "myClass1",
+        "type": "text"
+      }
+    },
+    "B": {
+      "id": "B",
+      "shape": "square",
+      "text": {
+        "text": "default",
+        "type": "text"
+      }
+    },
+    "C": {
+      "id": "C",
+      "shape": "square",
+      "text": {
+        "text": "default",
+        "type": "text"
+      }
+    },
+    "D": {
+      "id": "D",
+      "shape": "square",
+      "text": {
+        "text": "myClass2",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

@@ -1,0 +1,27 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TB",
+  "linkStyles": [],
+  "links": [],
+  "nodes": {
+    "1": {
+      "id": "1",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "number as labels",
+      "nodes": [
+        "1"
+      ],
+      "title": {
+        "text": "number as labels",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

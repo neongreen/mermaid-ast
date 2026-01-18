@@ -1,0 +1,51 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "subcontainer-child",
+      "stroke": "normal",
+      "target": "subcontainer-sibling",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "subcontainer-child": {
+      "id": "subcontainer-child",
+      "shape": "rect"
+    },
+    "subcontainer-sibling": {
+      "id": "subcontainer-sibling",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "subcontainer",
+      "nodes": [
+        "subcontainer-child"
+      ],
+      "title": {
+        "text": "subcontainer",
+        "type": "text"
+      }
+    },
+    {
+      "id": "main",
+      "nodes": [
+        "subcontainer-sibling",
+        "subcontainer-sibling",
+        "subcontainer-child"
+      ],
+      "title": {
+        "text": " main",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

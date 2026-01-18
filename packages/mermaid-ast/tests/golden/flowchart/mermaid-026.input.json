@@ -1,0 +1,124 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [
+    {
+      "href": "index.html#link-clicked",
+      "nodeId": "B"
+    },
+    {
+      "callback": "testClick",
+      "nodeId": "D"
+    }
+  ],
+  "direction": "LR",
+  "linkStyles": [
+    {
+      "index": "default",
+      "styles": {
+        "color": "Sienna"
+      }
+    },
+    {
+      "index": 0,
+      "styles": {
+        "color": "red"
+      }
+    },
+    {
+      "index": 1,
+      "styles": {
+        "color": "#0000ff",
+        "stroke": "DarkGray",
+        "stroke-width": "2px"
+      }
+    }
+  ],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "text": {
+        "text": "red<br>text",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "D",
+      "text": {
+        "text": "blue<br/>text",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "E",
+      "stroke": "normal",
+      "target": "F",
+      "text": {
+        "text": "default<br />style",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "square",
+      "text": {
+        "text": "red<br>text",
+        "type": "text"
+      }
+    },
+    "B": {
+      "id": "B",
+      "shape": "round",
+      "text": {
+        "text": "blue<br>text",
+        "type": "text"
+      }
+    },
+    "C": {
+      "id": "C",
+      "shape": "lean_right",
+      "text": {
+        "text": "red<br/>text",
+        "type": "text"
+      }
+    },
+    "D": {
+      "id": "D",
+      "shape": "diamond",
+      "text": {
+        "text": "blue<br/>text",
+        "type": "text"
+      }
+    },
+    "E": {
+      "id": "E",
+      "shape": "hexagon",
+      "text": {
+        "text": "default<br />style",
+        "type": "text"
+      }
+    },
+    "F": {
+      "id": "F",
+      "shape": "stadium",
+      "text": {
+        "text": "default<br />style",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

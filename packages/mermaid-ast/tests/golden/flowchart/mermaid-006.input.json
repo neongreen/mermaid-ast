@@ -1,0 +1,265 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "LR",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "47",
+      "stroke": "normal",
+      "target": "48",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "37",
+      "stroke": "normal",
+      "target": "48",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "35",
+      "stroke": "normal",
+      "target": "47",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "41",
+      "stroke": "normal",
+      "target": "47",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "44",
+      "stroke": "normal",
+      "target": "47",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "46",
+      "stroke": "normal",
+      "target": "47",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "40",
+      "stroke": "normal",
+      "target": "47",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "38",
+      "stroke": "normal",
+      "target": "47",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "43",
+      "stroke": "normal",
+      "target": "47",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "42",
+      "stroke": "normal",
+      "target": "47",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "45",
+      "stroke": "normal",
+      "target": "46",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "35",
+      "stroke": "normal",
+      "target": "45",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "41",
+      "stroke": "normal",
+      "target": "45",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "41",
+      "stroke": "normal",
+      "target": "44",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "39",
+      "stroke": "normal",
+      "target": "43",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "39",
+      "stroke": "normal",
+      "target": "42",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "39",
+      "stroke": "normal",
+      "target": "41",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "39",
+      "stroke": "normal",
+      "target": "40",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "35",
+      "stroke": "normal",
+      "target": "39",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "36",
+      "stroke": "normal",
+      "target": "39",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "35": {
+      "id": "35",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.PopulationFME",
+        "type": "text"
+      }
+    },
+    "36": {
+      "id": "36",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.PremetricCost",
+        "type": "text"
+      }
+    },
+    "37": {
+      "id": "37",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.BudgetSubserviceLineVolume",
+        "type": "text"
+      }
+    },
+    "38": {
+      "id": "38",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.CommonFAFinanceRefund",
+        "type": "text"
+      }
+    },
+    "39": {
+      "id": "39",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.ChargeDetails",
+        "type": "text"
+      }
+    },
+    "40": {
+      "id": "40",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.OPVisits",
+        "type": "text"
+      }
+    },
+    "41": {
+      "id": "41",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.MetricCost",
+        "type": "text"
+      }
+    },
+    "42": {
+      "id": "42",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.CommonFAFinanceNurseryDays",
+        "type": "text"
+      }
+    },
+    "43": {
+      "id": "43",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.CommonFAFinancePicuDays",
+        "type": "text"
+      }
+    },
+    "44": {
+      "id": "44",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.MetricOutliers",
+        "type": "text"
+      }
+    },
+    "45": {
+      "id": "45",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.MetricPreOpportunity",
+        "type": "text"
+      }
+    },
+    "46": {
+      "id": "46",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.MetricOpportunity",
+        "type": "text"
+      }
+    },
+    "47": {
+      "id": "47",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.FMESummary",
+        "type": "text"
+      }
+    },
+    "48": {
+      "id": "48",
+      "shape": "round",
+      "text": {
+        "text": "SAM.CommonFA.CommonFAFinanceBudget",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

@@ -1,0 +1,127 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "i1",
+      "stroke": "normal",
+      "target": "f1",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "i2",
+      "stroke": "normal",
+      "target": "f2",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B1",
+      "stroke": "normal",
+      "target": "B2",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "TOP",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "TOP",
+      "stroke": "normal",
+      "target": "B",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "rect"
+    },
+    "B": {
+      "id": "B",
+      "shape": "rect"
+    },
+    "B1": {
+      "id": "B1",
+      "shape": "rect"
+    },
+    "B2": {
+      "id": "B2",
+      "shape": "rect"
+    },
+    "TOP": {
+      "id": "TOP",
+      "shape": "rect"
+    },
+    "f1": {
+      "id": "f1",
+      "shape": "rect"
+    },
+    "f2": {
+      "id": "f2",
+      "shape": "rect"
+    },
+    "i1": {
+      "id": "i1",
+      "shape": "rect"
+    },
+    "i2": {
+      "id": "i2",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "direction": "RL",
+      "id": "B1",
+      "nodes": [
+        "f1",
+        "i1",
+        "f1",
+        "i1"
+      ],
+      "title": {
+        "text": "B1",
+        "type": "text"
+      }
+    },
+    {
+      "direction": "BT",
+      "id": "B2",
+      "nodes": [
+        "f2",
+        "i2",
+        "f2",
+        "i2"
+      ],
+      "title": {
+        "text": "B2",
+        "type": "text"
+      }
+    },
+    {
+      "direction": "LR",
+      "id": "TOP",
+      "nodes": [
+        "B1",
+        "B2",
+        "B2",
+        "B1"
+      ],
+      "title": {
+        "text": "TOP",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

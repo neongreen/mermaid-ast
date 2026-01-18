@@ -1,0 +1,78 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "RL",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "sub1",
+      "stroke": "normal",
+      "target": "sub2",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "S1",
+      "stroke": "normal",
+      "target": "S2",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "sub1",
+      "stroke": "normal",
+      "target": "sub4",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "S1": {
+      "id": "S1",
+      "shape": "rect"
+    },
+    "S2": {
+      "id": "S2",
+      "shape": "rect"
+    },
+    "sub1": {
+      "id": "sub1",
+      "shape": "rect"
+    },
+    "sub2": {
+      "id": "sub2",
+      "shape": "rect"
+    },
+    "sub4": {
+      "id": "sub4",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "S1",
+      "nodes": [
+        "sub2",
+        "sub1",
+        "sub2",
+        "sub1"
+      ],
+      "title": {
+        "text": "S1",
+        "type": "text"
+      }
+    },
+    {
+      "id": "S2",
+      "nodes": [
+        "sub4"
+      ],
+      "title": {
+        "text": "S2",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

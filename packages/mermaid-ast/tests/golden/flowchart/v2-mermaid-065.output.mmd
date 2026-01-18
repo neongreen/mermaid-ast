@@ -1,0 +1,8 @@
+flowchart TD
+    subgraph subcontainer
+        subcontainer-child
+    end
+    subgraph main[ main]
+        subcontainer-sibling
+        subcontainer-child --> subcontainer-sibling
+    end

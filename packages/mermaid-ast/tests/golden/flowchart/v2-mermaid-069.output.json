@@ -1,0 +1,138 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TB",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "a1",
+      "stroke": "normal",
+      "target": "a2",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "b1",
+      "stroke": "normal",
+      "target": "b2",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "c1",
+      "stroke": "normal",
+      "target": "c2",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "one",
+      "stroke": "normal",
+      "target": "two",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "three",
+      "stroke": "normal",
+      "target": "two",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "c1",
+      "stroke": "normal",
+      "target": "a2",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "two",
+      "stroke": "normal",
+      "target": "c2",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "a1": {
+      "id": "a1",
+      "shape": "rect"
+    },
+    "a2": {
+      "id": "a2",
+      "shape": "rect"
+    },
+    "b1": {
+      "id": "b1",
+      "shape": "rect"
+    },
+    "b2": {
+      "id": "b2",
+      "shape": "rect"
+    },
+    "c1": {
+      "id": "c1",
+      "shape": "rect"
+    },
+    "c2": {
+      "id": "c2",
+      "shape": "rect"
+    },
+    "one": {
+      "id": "one",
+      "shape": "rect"
+    },
+    "three": {
+      "id": "three",
+      "shape": "rect"
+    },
+    "two": {
+      "id": "two",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "one",
+      "nodes": [
+        "a2",
+        "a1",
+        "a2",
+        "a1"
+      ],
+      "title": {
+        "text": "one",
+        "type": "text"
+      }
+    },
+    {
+      "id": "two",
+      "nodes": [
+        "b2",
+        "b1",
+        "b2",
+        "b1"
+      ],
+      "title": {
+        "text": "two",
+        "type": "text"
+      }
+    },
+    {
+      "id": "three",
+      "nodes": [
+        "c2",
+        "c1",
+        "c2",
+        "c1"
+      ],
+      "title": {
+        "text": "three",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

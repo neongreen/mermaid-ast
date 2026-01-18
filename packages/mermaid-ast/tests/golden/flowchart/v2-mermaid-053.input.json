@@ -1,0 +1,90 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "P1",
+      "stroke": "normal",
+      "target": "P1.5",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "P2",
+      "stroke": "normal",
+      "target": "P4",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "P3",
+      "stroke": "normal",
+      "target": "P6",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "P1.5",
+      "stroke": "normal",
+      "target": "P5",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "P1": {
+      "id": "P1",
+      "shape": "rect"
+    },
+    "P1.5": {
+      "id": "P1.5",
+      "shape": "rect"
+    },
+    "P2": {
+      "id": "P2",
+      "shape": "rect"
+    },
+    "P2.5": {
+      "id": "P2.5",
+      "shape": "circle",
+      "text": {
+        "text": " A ",
+        "type": "text"
+      }
+    },
+    "P3": {
+      "id": "P3",
+      "shape": "rect"
+    },
+    "P4": {
+      "id": "P4",
+      "shape": "rect"
+    },
+    "P5": {
+      "id": "P5",
+      "shape": "rect"
+    },
+    "P6": {
+      "id": "P6",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "P1.5",
+      "nodes": [
+        "P2",
+        "P2.5",
+        "P3"
+      ],
+      "title": {
+        "text": "P1.5",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

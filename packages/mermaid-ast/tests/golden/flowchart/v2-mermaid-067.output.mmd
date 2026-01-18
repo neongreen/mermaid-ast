@@ -1,0 +1,14 @@
+flowchart TB
+    subgraph container_Beta
+        Process_D
+        process_C
+        process_C --> Process_D
+    end
+    subgraph container_Alpha
+        process_B
+        process_A
+        process_A --> process_B
+        process_A -->|messages| process_C
+    end
+    container_Beta
+    process_B -->|via_AWSBatch| container_Beta

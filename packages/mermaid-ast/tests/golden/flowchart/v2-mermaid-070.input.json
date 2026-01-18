@@ -1,0 +1,36 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "LR",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "id1",
+      "stroke": "normal",
+      "target": "id2",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "id1": {
+      "id": "id1",
+      "shape": "round",
+      "text": {
+        "text": "Start",
+        "type": "text"
+      }
+    },
+    "id2": {
+      "id": "id2",
+      "shape": "round",
+      "text": {
+        "text": "Stop",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

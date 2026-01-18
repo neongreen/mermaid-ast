@@ -1,0 +1,36 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "B",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "B": {
+      "id": "B",
+      "shape": "square",
+      "text": {
+        "text": "<img>",
+        "type": "text"
+      }
+    },
+    "C": {
+      "id": "C",
+      "shape": "square",
+      "text": {
+        "text": "<img>",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

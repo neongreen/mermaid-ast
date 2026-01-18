@@ -1,0 +1,135 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TB",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "router",
+      "stroke": "normal",
+      "target": "subnet1",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "router",
+      "stroke": "normal",
+      "target": "subnet2",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "subnet1",
+      "stroke": "normal",
+      "target": "nat",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "subnet2",
+      "stroke": "normal",
+      "target": "nat",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "internet",
+      "stroke": "normal",
+      "target": "router",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "nat",
+      "stroke": "normal",
+      "target": "internet",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "compute1": {
+      "id": "compute1",
+      "shape": "rect"
+    },
+    "compute2": {
+      "id": "compute2",
+      "shape": "rect"
+    },
+    "internet": {
+      "id": "internet",
+      "shape": "rect"
+    },
+    "lb1": {
+      "id": "lb1",
+      "shape": "rect"
+    },
+    "lb2": {
+      "id": "lb2",
+      "shape": "rect"
+    },
+    "nat": {
+      "id": "nat",
+      "shape": "rect"
+    },
+    "router": {
+      "id": "router",
+      "shape": "rect"
+    },
+    "subnet1": {
+      "id": "subnet1",
+      "shape": "rect"
+    },
+    "subnet2": {
+      "id": "subnet2",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "subnet1",
+      "nodes": [
+        "compute1",
+        "lb1"
+      ],
+      "title": {
+        "text": "subnet1",
+        "type": "text"
+      }
+    },
+    {
+      "id": "subnet2",
+      "nodes": [
+        "compute2",
+        "lb2"
+      ],
+      "title": {
+        "text": "subnet2",
+        "type": "text"
+      }
+    },
+    {
+      "id": "project",
+      "nodes": [
+        "router",
+        "nat",
+        "subnet1",
+        "subnet2",
+        "subnet1",
+        "router",
+        "subnet2",
+        "router",
+        "nat",
+        "subnet1",
+        "nat",
+        "subnet2"
+      ],
+      "title": {
+        "text": "project",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

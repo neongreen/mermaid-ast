@@ -1,0 +1,51 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "BT",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "n2",
+      "stroke": "normal",
+      "target": "n1",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "n3",
+      "stroke": "normal",
+      "target": "n1",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "n1": {
+      "id": "n1",
+      "shape": "square",
+      "text": {
+        "text": "Rounded Rectangle",
+        "type": "text"
+      }
+    },
+    "n2": {
+      "id": "n2",
+      "shape": "square",
+      "text": {
+        "text": "Untitled Node",
+        "type": "text"
+      }
+    },
+    "n3": {
+      "id": "n3",
+      "shape": "square",
+      "text": {
+        "text": "Untitled Node",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

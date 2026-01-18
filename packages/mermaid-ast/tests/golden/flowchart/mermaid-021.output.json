@@ -1,0 +1,184 @@
+{
+  "classDefs": {
+    "someclass": {
+      "id": "someclass",
+      "styles": {
+        "fill": "#f96"
+      }
+    }
+  },
+  "classes": {
+    "A": [
+      "someclass"
+    ]
+  },
+  "clicks": [
+    {
+      "href": "index.html#link-clicked",
+      "nodeId": "A"
+    },
+    {
+      "callback": "testClick",
+      "nodeId": "B"
+    }
+  ],
+  "direction": "LR",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B1",
+      "text": {
+        "text": "Get money",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B2",
+      "text": {
+        "text": "Get money",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B3",
+      "text": {
+        "text": "Get money",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "D",
+      "text": {
+        "text": "One",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "E",
+      "text": {
+        "text": "Two",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "F",
+      "text": {
+        "text": "Three",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B1",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B2",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B3",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "cylinder",
+      "text": {
+        "text": "cylindrical<br />shape<br />test",
+        "type": "text"
+      }
+    },
+    "B1": {
+      "id": "B1",
+      "shape": "cylinder",
+      "text": {
+        "text": "Go shopping 1",
+        "type": "text"
+      }
+    },
+    "B2": {
+      "id": "B2",
+      "shape": "cylinder",
+      "text": {
+        "text": "Go shopping 2",
+        "type": "text"
+      }
+    },
+    "B3": {
+      "id": "B3",
+      "shape": "cylinder",
+      "text": {
+        "text": "Go shopping 3",
+        "type": "text"
+      }
+    },
+    "C": {
+      "id": "C",
+      "shape": "cylinder",
+      "text": {
+        "text": "Let me think...<br />Do I want something for work,<br />something to spend every free second with,<br />or something to get around?",
+        "type": "text"
+      }
+    },
+    "D": {
+      "id": "D",
+      "shape": "cylinder",
+      "text": {
+        "text": "Laptop",
+        "type": "text"
+      }
+    },
+    "E": {
+      "id": "E",
+      "shape": "cylinder",
+      "text": {
+        "text": "iPhone",
+        "type": "text"
+      }
+    },
+    "F": {
+      "id": "F",
+      "shape": "cylinder",
+      "text": {
+        "text": "Car",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

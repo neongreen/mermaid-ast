@@ -1,0 +1,16 @@
+flowchart TD
+    subgraph T[Test]
+        A[Christmas]
+        B(Go shopping)
+        C
+        A -->|Get money| B
+        A ==> C
+    end
+    D
+    A ==> D
+    classDef Test fill:#F84E68,stroke:#333,color:white
+    classDef TestSub fill:green
+    class A,T Test
+    class T TestSub
+    linkStyle 0 color:orange,stroke:orange
+    linkStyle 1 color:orange,stroke:orange

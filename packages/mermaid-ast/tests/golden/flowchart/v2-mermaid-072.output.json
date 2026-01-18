@@ -1,0 +1,236 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "LR",
+  "linkStyles": [
+    {
+      "index": "default",
+      "styles": {
+        "color": "Sienna"
+      }
+    }
+  ],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "text": {
+        "text": "default style",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "D",
+      "text": {
+        "text": "default style",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "E",
+      "stroke": "normal",
+      "target": "F",
+      "text": {
+        "text": "default style",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "G",
+      "stroke": "normal",
+      "target": "H",
+      "text": {
+        "text": "default style",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "I",
+      "stroke": "normal",
+      "target": "J",
+      "text": {
+        "text": "default style",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "K",
+      "stroke": "normal",
+      "target": "L",
+      "text": {
+        "text": "default style",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "M",
+      "stroke": "normal",
+      "target": "N",
+      "text": {
+        "text": "default style",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "O",
+      "stroke": "normal",
+      "target": "P",
+      "text": {
+        "text": "default style",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "square",
+      "text": {
+        "text": "red text",
+        "type": "text"
+      }
+    },
+    "B": {
+      "id": "B",
+      "shape": "round",
+      "text": {
+        "text": "blue text",
+        "type": "text"
+      }
+    },
+    "C": {
+      "id": "C",
+      "shape": "stadium",
+      "text": {
+        "text": "red text",
+        "type": "text"
+      }
+    },
+    "D": {
+      "id": "D",
+      "shape": "subroutine",
+      "text": {
+        "text": "blue text",
+        "type": "text"
+      }
+    },
+    "E": {
+      "id": "E",
+      "shape": "cylinder",
+      "text": {
+        "text": "red text",
+        "type": "text"
+      }
+    },
+    "F": {
+      "id": "F",
+      "shape": "circle",
+      "text": {
+        "text": "blue text",
+        "type": "text"
+      }
+    },
+    "G": {
+      "id": "G",
+      "shape": "odd",
+      "text": {
+        "text": "red text",
+        "type": "text"
+      }
+    },
+    "H": {
+      "id": "H",
+      "shape": "diamond",
+      "text": {
+        "text": "blue text",
+        "type": "text"
+      }
+    },
+    "I": {
+      "id": "I",
+      "shape": "hexagon",
+      "text": {
+        "text": "red text",
+        "type": "text"
+      }
+    },
+    "J": {
+      "id": "J",
+      "shape": "lean_right",
+      "text": {
+        "text": "blue text",
+        "type": "text"
+      }
+    },
+    "K": {
+      "id": "K",
+      "shape": "lean_left",
+      "text": {
+        "text": "\\ red text\\",
+        "type": "text"
+      }
+    },
+    "L": {
+      "id": "L",
+      "shape": "trapezoid",
+      "text": {
+        "text": "blue text\\",
+        "type": "text"
+      }
+    },
+    "M": {
+      "id": "M",
+      "shape": "inv_trapezoid",
+      "text": {
+        "text": "\\ red text",
+        "type": "text"
+      }
+    },
+    "N": {
+      "id": "N",
+      "shape": "square",
+      "text": {
+        "text": "blue text",
+        "type": "text"
+      }
+    },
+    "O": {
+      "id": "O",
+      "shape": "doublecircle",
+      "text": {
+        "text": "red text",
+        "type": "text"
+      }
+    },
+    "P": {
+      "id": "P",
+      "shape": "doublecircle",
+      "text": {
+        "text": "blue text",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

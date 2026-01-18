@@ -1,0 +1,135 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "L1",
+      "stroke": "normal",
+      "target": "L2",
+      "type": "arrow_open"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "E1",
+      "text": {
+        "text": "Label 1",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 2,
+      "source": "C",
+      "stroke": "normal",
+      "target": "E2",
+      "text": {
+        "text": "Label 2",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 3,
+      "source": "C",
+      "stroke": "normal",
+      "target": "E3",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "dotted",
+      "target": "E4",
+      "type": "arrow_point"
+    },
+    {
+      "length": 5,
+      "source": "C",
+      "stroke": "thick",
+      "target": "E5",
+      "type": "arrow_point"
+    },
+    {
+      "length": 2,
+      "source": "M1",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "R1",
+      "stroke": "dotted",
+      "target": "R2",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "L2",
+      "stroke": "normal",
+      "target": "C",
+      "type": "arrow_open"
+    },
+    {
+      "length": 1,
+      "source": "R2",
+      "stroke": "dotted",
+      "target": "C",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "C": {
+      "id": "C",
+      "shape": "rect"
+    },
+    "E1": {
+      "id": "E1",
+      "shape": "rect"
+    },
+    "E2": {
+      "id": "E2",
+      "shape": "rect"
+    },
+    "E3": {
+      "id": "E3",
+      "shape": "rect"
+    },
+    "E4": {
+      "id": "E4",
+      "shape": "rect"
+    },
+    "E5": {
+      "id": "E5",
+      "shape": "rect"
+    },
+    "L1": {
+      "id": "L1",
+      "shape": "rect"
+    },
+    "L2": {
+      "id": "L2",
+      "shape": "rect"
+    },
+    "M1": {
+      "id": "M1",
+      "shape": "rect"
+    },
+    "R1": {
+      "id": "R1",
+      "shape": "rect"
+    },
+    "R2": {
+      "id": "R2",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

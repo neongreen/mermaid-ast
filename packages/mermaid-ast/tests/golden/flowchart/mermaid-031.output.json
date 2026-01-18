@@ -1,0 +1,53 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "work",
+      "stroke": "normal",
+      "target": "sleep",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "work",
+      "stroke": "normal",
+      "target": "eat",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "sleep",
+      "stroke": "normal",
+      "target": "work",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "eat",
+      "stroke": "normal",
+      "target": "sleep",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "eat": {
+      "id": "eat",
+      "shape": "rect"
+    },
+    "sleep": {
+      "id": "sleep",
+      "shape": "rect"
+    },
+    "work": {
+      "id": "work",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

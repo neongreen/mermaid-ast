@@ -1,0 +1,19 @@
+flowchart LR
+    subgraph id1[title is set]
+        B
+        A
+        A --> B
+    end
+    subgraph id2[title]
+        E
+    end
+    subgraph id3
+        D
+        C
+        C --> D
+    end
+    B --> C
+    classDef redBg fill:#622
+    classDef whiteTxt color:white
+    class id3,id2,A redBg
+    class id3,A whiteTxt

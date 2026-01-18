@@ -166,6 +166,80 @@ describe('<Type> Round-trip', () => {
 | Complex Round-trips | 2+ | All features |
 | Idempotency | 1+ | Verify idempotent behavior |
 
+## Idempotence Testing
+
+Idempotence is a critical property of this library. It means that once we render a diagram, parsing and rendering it again produces **exactly the same output**.
+
+### The Idempotence Invariant
+
+```
+render(parse(render(parse(x)))) === render(parse(x))
+```
+
+Or more simply: the output of `render()` must be stable under repeated parse/render cycles.
+
+### Why Idempotence Matters
+
+1. **Predictable behavior** - Users can trust that their rendered diagrams won't change unexpectedly
+2. **Round-trip safety** - Tools that parse, modify, and re-render diagrams won't introduce drift
+3. **Testing confidence** - We can verify correctness by checking that output stabilizes
+
+### What We Preserve vs. Normalize
+
+| Property | Preserved? | Notes |
+|----------|------------|-------|
+| Arrow length (`-->` vs `--->`) | ✓ Yes | Exact dash/equals count is preserved |
+| Arrow type (`-->` vs `--o` vs `--x`) | ✓ Yes | Arrow endpoints are preserved |
+| Stroke type (`---` vs `===` vs `-.-`) | ✓ Yes | Normal, thick, dotted preserved |
+| Node shapes | ✓ Yes | All shape types preserved |
+| Whitespace/indentation | Normalized | Renderer uses consistent indentation |
+| Node declaration order | Normalized | Nodes may be reordered for cleaner output |
+| Inline vs. separate class assignment | Normalized | Renderer chooses optimal format |
+
+### Implementation Details
+
+For flowchart arrows, idempotence requires careful coordination between parser and renderer:
+
+**Arrows with endpoints (`-->`, `==>`, `--x`, `--o`):**
+- Parser: `length = dashCount - 1`
+- Renderer: `dashes = length + 1`
+
+**Open arrows (`---`, `===`):**
+- Parser: `length = dashCount - 2`
+- Renderer: `dashes = length + 2`
+
+This ensures that the exact number of dashes/equals signs is preserved through parse/render cycles.
+
+### Idempotence Test Structure
+
+The `tests/golden/idempotence.test.ts` file runs two tests for each fixture:
+
+1. **Snapshot test**: `render(parse(input.mmd))` matches `output.mmd`
+2. **Idempotence test**: `render(parse(output.mmd))` equals `output.mmd` exactly
+
+```
+tests/golden/<type>/
+├── basic.input.mmd      # Original input diagram
+├── basic.output.mmd     # Expected rendered output (snapshot)
+└── ...
+```
+
+### Adding Idempotence Tests
+
+1. Create `<name>.input.mmd` with the input diagram
+2. Run `UPDATE_GOLDEN=1 bun test tests/golden/idempotence.test.ts` to generate `<name>.output.mmd`
+3. Verify the output looks correct
+4. The test will now verify both snapshot and idempotence
+
+### Known Limitations
+
+Some Mermaid features are not idempotent because they use syntax our parser doesn't fully support:
+- `<br>` tags in node labels
+- FontAwesome icons (`fa:fa-*`)
+- Some edge cases with special characters
+
+These features will parse but may not round-trip perfectly. Test files using these features should be excluded from idempotence tests.
+
 ## Golden Tests
 
 Golden tests use `expectGolden()` to verify output against expected files.

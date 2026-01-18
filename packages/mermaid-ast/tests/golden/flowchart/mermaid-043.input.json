@@ -1,0 +1,36 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TD",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "F",
+      "text": {
+        "text": "fa:fa-car Car",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "C": {
+      "id": "C",
+      "shape": "rect"
+    },
+    "F": {
+      "id": "F",
+      "shape": "square",
+      "text": {
+        "text": "fa:fa-car Car",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

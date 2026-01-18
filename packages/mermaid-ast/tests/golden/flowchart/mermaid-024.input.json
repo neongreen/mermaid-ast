@@ -1,0 +1,86 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "LR",
+  "linkStyles": [
+    {
+      "index": 1,
+      "styles": {
+        "stroke": "greenyellow",
+        "stroke-width": "2px"
+      }
+    }
+  ],
+  "links": [
+    {
+      "length": 1,
+      "source": "A",
+      "stroke": "normal",
+      "target": "B",
+      "text": {
+        "text": "step 1",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "B",
+      "stroke": "normal",
+      "target": "C",
+      "text": {
+        "text": "step 2",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "C",
+      "stroke": "normal",
+      "target": "D",
+      "text": {
+        "text": "step 3",
+        "type": "text"
+      },
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "A": {
+      "id": "A",
+      "shape": "circle",
+      "text": {
+        "text": " ",
+        "type": "text"
+      }
+    },
+    "B": {
+      "id": "B",
+      "shape": "circle",
+      "text": {
+        "text": " ",
+        "type": "text"
+      }
+    },
+    "C": {
+      "id": "C",
+      "shape": "circle",
+      "text": {
+        "text": " ",
+        "type": "text"
+      }
+    },
+    "D": {
+      "id": "D",
+      "shape": "circle",
+      "text": {
+        "text": " ",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

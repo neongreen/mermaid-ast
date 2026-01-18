@@ -1,0 +1,59 @@
+{
+  "classDefs": {
+    "myClass": {
+      "id": "myClass",
+      "styles": {
+        "color": "white",
+        "fill": "#bbf",
+        "stroke": "#f66",
+        "stroke-dasharray": "5 5",
+        "stroke-width": "2px"
+      }
+    }
+  },
+  "classes": {
+    "id2": [
+      "myClass"
+    ],
+    "link": [
+      "myClass"
+    ]
+  },
+  "clicks": [],
+  "direction": "LR",
+  "linkStyles": [],
+  "links": [
+    {
+      "id": "link@",
+      "length": 1,
+      "source": "id1",
+      "stroke": "normal",
+      "target": "id2",
+      "text": {
+        "text": "Label",
+        "type": "string"
+      },
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "id1": {
+      "id": "id1",
+      "shape": "round",
+      "text": {
+        "text": "Start",
+        "type": "text"
+      }
+    },
+    "id2": {
+      "id": "id2",
+      "shape": "round",
+      "text": {
+        "text": "Stop",
+        "type": "text"
+      }
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}

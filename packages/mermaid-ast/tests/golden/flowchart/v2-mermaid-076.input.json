@@ -1,0 +1,64 @@
+{
+  "classDefs": {},
+  "classes": {},
+  "clicks": [],
+  "direction": "TB",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "three",
+      "stroke": "normal",
+      "target": "two",
+      "type": "arrow_point"
+    },
+    {
+      "length": 1,
+      "source": "two",
+      "stroke": "normal",
+      "target": "c2",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "b1": {
+      "id": "b1",
+      "shape": "rect"
+    },
+    "c2": {
+      "id": "c2",
+      "shape": "rect"
+    },
+    "three": {
+      "id": "three",
+      "shape": "rect"
+    },
+    "two": {
+      "id": "two",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [
+    {
+      "id": "two",
+      "nodes": [
+        "b1"
+      ],
+      "title": {
+        "text": "two",
+        "type": "text"
+      }
+    },
+    {
+      "id": "three",
+      "nodes": [
+        "c2"
+      ],
+      "title": {
+        "text": "three",
+        "type": "text"
+      }
+    }
+  ],
+  "type": "flowchart"
+}

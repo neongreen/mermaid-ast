@@ -1,0 +1,38 @@
+{
+  "classDefs": {
+    "foo": {
+      "id": "foo",
+      "styles": {
+        "color": "green",
+        "fill": "lightblue",
+        "font-weight": "bold",
+        "stroke": "#FF9E2C"
+      }
+    }
+  },
+  "classes": {},
+  "clicks": [],
+  "direction": "LR",
+  "linkStyles": [],
+  "links": [
+    {
+      "length": 1,
+      "source": "foo",
+      "stroke": "normal",
+      "target": "bar",
+      "type": "arrow_point"
+    }
+  ],
+  "nodes": {
+    "bar": {
+      "id": "bar",
+      "shape": "rect"
+    },
+    "foo": {
+      "id": "foo",
+      "shape": "rect"
+    }
+  },
+  "subgraphs": [],
+  "type": "flowchart"
+}
