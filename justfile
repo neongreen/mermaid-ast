@@ -125,16 +125,12 @@ ast-publish:
 ast-publish-public:
     cd packages/mermaid-ast && bun test tests/unit tests/roundtrip && bun run build && npm publish --access public
 
-# Bump patch version (0.1.0 -> 0.1.1)
-ast-bump-patch:
+# Set version explicitly (e.g., just ast-set-version 0.8.1)
+ast-set-version version:
     #!/usr/bin/env bash
     set -euo pipefail
     cd packages/mermaid-ast
-    # Get current version and bump patch
-    CURRENT=$(jq -r '.version' package.json)
-    IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
-    NEW_PATCH=$((PATCH + 1))
-    VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+    VERSION="{{version}}"
     # Update package.json
     jq --arg v "$VERSION" '.version = $v' package.json > package.json.tmp && mv package.json.tmp package.json
     # Update jsr.json
@@ -142,45 +138,7 @@ ast-bump-patch:
     # Update bun.lock
     cd ../..
     bun install
-    echo "Bumped to v$VERSION (package.json, jsr.json, bun.lock updated)"
-
-# Bump minor version (0.1.0 -> 0.2.0)
-ast-bump-minor:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    cd packages/mermaid-ast
-    # Get current version and bump minor
-    CURRENT=$(jq -r '.version' package.json)
-    IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
-    NEW_MINOR=$((MINOR + 1))
-    VERSION="$MAJOR.$NEW_MINOR.0"
-    # Update package.json
-    jq --arg v "$VERSION" '.version = $v' package.json > package.json.tmp && mv package.json.tmp package.json
-    # Update jsr.json
-    jq --arg v "$VERSION" '.version = $v' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
-    # Update bun.lock
-    cd ../..
-    bun install
-    echo "Bumped to v$VERSION (package.json, jsr.json, bun.lock updated)"
-
-# Bump major version (0.1.0 -> 1.0.0)
-ast-bump-major:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    cd packages/mermaid-ast
-    # Get current version and bump major
-    CURRENT=$(jq -r '.version' package.json)
-    IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
-    NEW_MAJOR=$((MAJOR + 1))
-    VERSION="$NEW_MAJOR.0.0"
-    # Update package.json
-    jq --arg v "$VERSION" '.version = $v' package.json > package.json.tmp && mv package.json.tmp package.json
-    # Update jsr.json
-    jq --arg v "$VERSION" '.version = $v' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
-    # Update bun.lock
-    cd ../..
-    bun install
-    echo "Bumped to v$VERSION (package.json, jsr.json, bun.lock updated)"
+    echo "Set version to v$VERSION (package.json, jsr.json, bun.lock updated)"
 
 # Preview what would be published to JSR
 ast-jsr-dry-run:

@@ -326,13 +326,12 @@ Use these categories in this order (skip empty ones):
 
 ## Releasing a New Version
 
-See [.agents/release-checklist.md](.agents/release-checklist.md) for the complete release checklist.
+See [.agents/procedures/release.md](.agents/procedures/release.md) for the complete release procedure.
 
 **Quick reference:**
 ```bash
-# Bump version (choose one)
-just ast-bump-minor   # For new features
-just ast-bump-patch   # For bug fixes
+# Set version (updates package.json, jsr.json, bun.lock)
+just ast-set-version 0.8.1
 
 # Update CHANGELOG.md, then:
 jj commit -m "Release vX.Y.Z"
