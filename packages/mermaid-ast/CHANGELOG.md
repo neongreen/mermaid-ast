@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **C4 diagram support** - Complete implementation with parser, renderer, wrapper class (`C4`), and 173 tests
+  - All 5 diagram types: C4Context, C4Container, C4Component, C4Dynamic, C4Deployment
+  - Elements: Person, System, Container, Component, DeploymentNode (with Ext/Db/Queue variants)
+  - Boundaries: Boundary, Enterprise_Boundary, System_Boundary, Container_Boundary
+  - Relationships: Rel, BiRel, Rel_U/D/L/R, RelIndex
+  - Styling: UpdateElementStyle, UpdateRelStyle, UpdateLayoutConfig
+  - Full fluent API with query operations
+
+- **Pie chart support** - Complete implementation using `@mermaid-js/parser` (Langium), with 71 tests
+  - Sections with labels and values
+  - Title and showData options
+  - Accessibility metadata (accTitle, accDescr)
+  - Full fluent API
+
+- **GitGraph diagram support** - Complete implementation using `@mermaid-js/parser` (Langium), with 98 tests
+  - Statements: commit, branch, checkout, merge, cherry-pick
+  - Commit attributes: id, message, tag, type (NORMAL/REVERSE/HIGHLIGHT)
+  - Branch ordering
+  - Merge and cherry-pick with tags
+  - Direction support (LR, TB, BT)
+  - Full fluent API
+
+- **Langium parser integration** - Added `@mermaid-js/parser` as dependency for diagram types without JISON parsers
+
+### Changed
+- **All 18 diagram types now implemented** - Pie and GitGraph were the last remaining types
+
 ## [0.7.0] - 2025-01-17
 
 ### Added

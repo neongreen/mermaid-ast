@@ -35,8 +35,8 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 | Kanban (`kanban`) | ✅ | ✅ | ✅ `Kanban` | Basic | Columns, tickets, metadata |
 | Requirement (`requirementDiagram`) | ✅ | ✅ | ✅ `Requirement` | Basic | Requirements, elements, relationships |
 | Block (`block-beta`) | ✅ | ✅ | ✅ `Block` | Basic | Blocks, edges, composites, styling |
-| Pie (`pie`) | ❌ | ❌ | ❌ | - | No JISON parser available |
-| Git Graph (`gitGraph`) | ❌ | ❌ | ❌ | - | No JISON parser available |
+| Pie (`pie`) | ✅ | ✅ | ✅ `Pie` | Basic | Sections, title, showData (uses Langium parser) |
+| Git Graph (`gitGraph`) | ✅ | ✅ | ✅ `GitGraph` | Moderate | Commits, branches, merges, cherry-picks (uses Langium parser) |
 | C4 (`C4Context`, etc.) | ✅ | ✅ | ✅ `C4` | Basic | All 5 diagram types, elements, relationships, boundaries, styling |
 
 ## Installation

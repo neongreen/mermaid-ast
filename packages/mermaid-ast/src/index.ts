@@ -66,6 +66,16 @@ export type {
 export type { AddTaskOptions, FindTasksQuery } from './gantt.js';
 // Export Gantt wrapper class
 export { Gantt } from './gantt.js';
+export type {
+  AddBranchOptions,
+  AddCommitOptions,
+  CherryPickOptions,
+  FindBranchesQuery,
+  FindCommitsQuery,
+  MergeOptions,
+} from './gitgraph.js';
+// Export GitGraph wrapper class
+export { GitGraph } from './gitgraph.js';
 export type { AddJourneyTaskOptions, FindJourneyTasksQuery } from './journey.js';
 
 // Export Journey wrapper class
@@ -79,6 +89,9 @@ export { Kanban } from './kanban.js';
 export type { AddMindmapNodeOptions, FindMindmapNodesQuery } from './mindmap.js';
 // Export Mindmap wrapper class
 export { Mindmap } from './mindmap.js';
+export type { AddSectionOptions, FindSectionsQuery } from './pie.js';
+// Export Pie wrapper class
+export { Pie } from './pie.js';
 export { parseErDiagram } from './parser/er-parser.js';
 // Export parser functions
 export {
@@ -87,15 +100,20 @@ export {
   isC4Diagram,
   isClassDiagram,
   isFlowchartDiagram,
+  isGitGraphDiagram,
+  isPieDiagram,
   isQuadrantDiagram,
   isRequirementDiagram,
   isSankeyDiagram,
   isSequenceDiagram,
   parse,
+  parseAsync,
   parseBlock,
   parseC4,
   parseClassDiagram,
   parseFlowchart,
+  parseGitGraph,
+  parsePie,
   parseQuadrant,
   parseRequirement,
   parseSankey,
@@ -126,6 +144,8 @@ export {
   renderC4,
   renderClassDiagram,
   renderFlowchart,
+  renderGitGraph,
+  renderPie,
   renderQuadrant,
   renderRequirement,
   renderSankey,

@@ -157,6 +157,20 @@ const DIAGRAM_TYPES: DiagramTestConfig[] = [
     rendererName: 'c4',
     roundtripName: 'c4',
   },
+  {
+    type: 'pie',
+    wrapperName: 'pie',
+    parserName: 'pie',
+    rendererName: 'pie',
+    roundtripName: 'pie',
+  },
+  {
+    type: 'gitGraph',
+    wrapperName: 'gitgraph',
+    parserName: 'gitgraph',
+    rendererName: 'gitgraph',
+    roundtripName: 'gitgraph',
+  },
 ];
 
 // Get the tests directory path
@@ -212,6 +226,8 @@ describe('Test Coverage Completeness', () => {
         'xychart',
         'requirement',
         'c4',
+        'pie',
+        'gitGraph',
       ];
 
       const configuredTypes = DIAGRAM_TYPES.map((c) => c.type).sort();

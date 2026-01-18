@@ -8,7 +8,9 @@ export { renderBlock } from './block-renderer.js';
 export { renderC4 } from './c4-renderer.js';
 export { renderClassDiagram } from './class-renderer.js';
 export { renderFlowchart } from './flowchart-renderer.js';
+export { renderGitGraph } from './gitgraph-renderer.js';
 export { renderKanban } from './kanban-renderer.js';
+export { renderPie } from './pie-renderer.js';
 export { renderQuadrant } from './quadrant-renderer.js';
 export { renderRequirement } from './requirement-renderer.js';
 export { renderSankey } from './sankey-renderer.js';
@@ -21,7 +23,9 @@ import {
   isC4AST,
   isClassDiagramAST,
   isFlowchartAST,
+  isGitGraphAST,
   isKanbanAST,
+  isPieAST,
   isQuadrantAST,
   isRequirementAST,
   isSankeyAST,
@@ -32,7 +36,9 @@ import { renderBlock } from './block-renderer.js';
 import { renderC4 } from './c4-renderer.js';
 import { renderClassDiagram } from './class-renderer.js';
 import { renderFlowchart } from './flowchart-renderer.js';
+import { renderGitGraph } from './gitgraph-renderer.js';
 import { renderKanban } from './kanban-renderer.js';
+import { renderPie } from './pie-renderer.js';
 import { renderQuadrant } from './quadrant-renderer.js';
 import { renderRequirement } from './requirement-renderer.js';
 import { renderSankey } from './sankey-renderer.js';
@@ -60,6 +66,12 @@ export function render(ast: MermaidAST, options?: RenderOptions): string {
   }
   if (isSankeyAST(ast)) {
     return renderSankey(ast, options);
+  }
+  if (isPieAST(ast)) {
+    return renderPie(ast, options);
+  }
+  if (isGitGraphAST(ast)) {
+    return renderGitGraph(ast, options);
   }
   if (isQuadrantAST(ast)) {
     return renderQuadrant(ast, options);

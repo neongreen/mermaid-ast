@@ -10,9 +10,11 @@ export * from './class.js';
 export * from './er.js';
 export * from './flowchart.js';
 export * from './gantt.js';
+export * from './gitgraph.js';
 export * from './journey.js';
 export * from './kanban.js';
 export * from './mindmap.js';
+export * from './pie.js';
 export * from './quadrant.js';
 export * from './render-options.js';
 export * from './requirement.js';
@@ -28,9 +30,11 @@ import type { ClassDiagramAST } from './class.js';
 import type { ErDiagramAST } from './er.js';
 import type { FlowchartAST } from './flowchart.js';
 import type { GanttAST } from './gantt.js';
+import type { GitGraphAST } from './gitgraph.js';
 import type { JourneyAST } from './journey.js';
 import type { KanbanAST } from './kanban.js';
 import type { MindmapAST } from './mindmap.js';
+import type { PieAST } from './pie.js';
 import type { QuadrantAST } from './quadrant.js';
 import type { RequirementAST } from './requirement.js';
 import type { SankeyAST } from './sankey.js';
@@ -51,9 +55,11 @@ export type MermaidAST =
   | StateDiagramAST
   | ErDiagramAST
   | GanttAST
+  | GitGraphAST
   | MindmapAST
   | JourneyAST
   | KanbanAST
+  | PieAST
   | QuadrantAST
   | RequirementAST
   | SankeyAST
@@ -72,9 +78,11 @@ export type DiagramType =
   | 'state'
   | 'erDiagram'
   | 'gantt'
+  | 'gitGraph'
   | 'mindmap'
   | 'journey'
   | 'kanban'
+  | 'pie'
   | 'quadrant'
   | 'requirement'
   | 'sankey'
@@ -191,4 +199,18 @@ export function isBlockAST(ast: MermaidAST): ast is BlockAST {
  */
 export function isC4AST(ast: MermaidAST): ast is C4AST {
   return ast.type === 'c4';
+}
+
+/**
+ * Check if an AST is a Pie chart
+ */
+export function isPieAST(ast: MermaidAST): ast is PieAST {
+  return ast.type === 'pie';
+}
+
+/**
+ * Check if an AST is a GitGraph diagram
+ */
+export function isGitGraphAST(ast: MermaidAST): ast is GitGraphAST {
+  return ast.type === 'gitGraph';
 }
