@@ -590,6 +590,27 @@ console.log(chart.render());
 - **Notes**: `note left of`, `note right of`, `note over`
 - **Actor lifecycle**: `create`, `destroy`
 
+## Design Decisions
+
+### AST Type Discriminator
+
+All AST nodes use a `type` field for discrimination (e.g., `type: 'flowchart'`, `type: 'sequence'`). This is consistent across all 18 diagram types.
+
+**Note:** The `@mermaid-js/parser` (Langium-based) uses `$type` internally. For pie and gitGraph diagrams, we transform the Langium AST to use `type` for consistency with our other parsers. Users never see `$type`.
+
+```typescript
+// Our AST format (all diagram types)
+interface FlowchartAST {
+  type: 'flowchart';  // Discriminator field
+  direction: string;
+  nodes: Map<string, Node>;
+  // ...
+}
+
+// Langium uses $type internally, but we transform it
+// Users always see `type`, never `$type`
+```
+
 ## Limitations
 
 ### Comments Not Preserved
