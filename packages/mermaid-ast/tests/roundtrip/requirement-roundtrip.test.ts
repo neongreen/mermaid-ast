@@ -92,7 +92,7 @@ describe('Requirement Round-trip', () => {
         id: 6
     }
 `;
-      const { ast, reparsed } = roundTrip(input);
+      const { reparsed } = roundTrip(input);
 
       expect(reparsed.requirements.size).toBe(6);
       expect(reparsed.requirements.get('r1')?.requirementType).toBe('requirement');
