@@ -31,12 +31,12 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 | Timeline (`timeline`) | ✅ | ✅ | ✅ `Timeline` | 2 | Sections, periods, events |
 | Sankey (`sankey-beta`, `sankey`) | ✅ | ✅ | ✅ `Sankey` | 2 | Nodes, links, flow queries |
 | Quadrant (`quadrantChart`) | ✅ | ✅ | ✅ `Quadrant` | 2 | Points, axes, quadrant queries |
-| XY Chart (`xychart-beta`) | ✅ | ✅ | ✅ `XYChart` | 0 | Bar/line charts, axes, data series |
-| Kanban (`kanban`) | ✅ | ✅ | ✅ `Kanban` | 0 | Columns, tickets, metadata |
+| XY Chart (`xychart-beta`) | ✅ | ✅ | ✅ `XYChart` | 2 | Bar/line charts, axes, data series |
+| Kanban (`kanban`) | ✅ | ✅ | ✅ `Kanban` | 1 | Columns, tickets, metadata |
 | Requirement (`requirementDiagram`) | ✅ | ✅ | ✅ `Requirement` | 2 | Requirements, elements, relationships |
 | Block (`block-beta`) | ✅ | ✅ | ✅ `Block` | 1 | Blocks, edges, composites, styling |
-| Pie (`pie`) | ✅ | ✅ | ✅ `Pie` | — | Sections, title, showData (async Langium parser) |
-| Git Graph (`gitGraph`) | ✅ | ✅ | ✅ `GitGraph` | — | Commits, branches, merges (async Langium parser) |
+| Pie (`pie`) | ✅ | ✅ | ✅ `Pie` | 2 | Sections, title, showData (async Langium parser) |
+| Git Graph (`gitGraph`) | ✅ | ✅ | ✅ `GitGraph` | 2 | Commits, branches, merges (async Langium parser) |
 | C4 (`C4Context`, etc.) | ✅ | ✅ | ✅ `C4` | 2 | All 5 diagram types, elements, relationships, boundaries, styling |
 
 **Idempotence Tests:** Number of `.input.mmd`/`.output.mmd` fixture pairs that verify `render(parse(render(parse(x)))) === render(parse(x))`. See [TEST_STANDARDS.md](./TEST_STANDARDS.md) for details.
