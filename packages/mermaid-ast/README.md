@@ -23,21 +23,21 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 | Flowchart (`flowchart`, `graph`) | ✅ | ✅ | ✅ `Flowchart` | 95 | Chain ops, subgraphs, graph traversal |
 | Sequence (`sequenceDiagram`) | ✅ | ✅ | ✅ `Sequence` | 14 | Actors, messages, control flow blocks |
 | Class (`classDiagram`) | ✅ | ✅ | ✅ `ClassDiagram` | 10 | Classes, relations, namespaces |
-| State (`stateDiagram`) | ✅ | ✅ | ✅ `StateDiagram` | 0 | States, transitions, composites |
-| ER Diagram (`erDiagram`) | ✅ | ✅ | ✅ `ErDiagram` | 0 | Entities, relationships, attributes |
-| Gantt (`gantt`) | ✅ | ✅ | ✅ `Gantt` | 0 | Tasks, sections, dependencies |
-| Mindmap (`mindmap`) | ✅ | ✅ | ✅ `Mindmap` | 0 | Nodes, tree traversal |
-| Journey (`journey`) | ✅ | ✅ | ✅ `Journey` | 0 | Sections, tasks |
-| Timeline (`timeline`) | ✅ | ✅ | ✅ `Timeline` | 0 | Sections, periods, events |
-| Sankey (`sankey-beta`, `sankey`) | ✅ | ✅ | ✅ `Sankey` | 0 | Nodes, links, flow queries |
-| Quadrant (`quadrantChart`) | ✅ | ✅ | ✅ `Quadrant` | 0 | Points, axes, quadrant queries |
+| State (`stateDiagram`) | ✅ | ✅ | ✅ `StateDiagram` | 8 | States, transitions, composites |
+| ER Diagram (`erDiagram`) | ✅ | ✅ | ✅ `ErDiagram` | 5 | Entities, relationships, attributes |
+| Gantt (`gantt`) | ✅ | ✅ | ✅ `Gantt` | 3 | Tasks, sections, dependencies |
+| Mindmap (`mindmap`) | ✅ | ✅ | ✅ `Mindmap` | 2 | Nodes, tree traversal |
+| Journey (`journey`) | ✅ | ✅ | ✅ `Journey` | 2 | Sections, tasks |
+| Timeline (`timeline`) | ✅ | ✅ | ✅ `Timeline` | 2 | Sections, periods, events |
+| Sankey (`sankey-beta`, `sankey`) | ✅ | ✅ | ✅ `Sankey` | 2 | Nodes, links, flow queries |
+| Quadrant (`quadrantChart`) | ✅ | ✅ | ✅ `Quadrant` | 2 | Points, axes, quadrant queries |
 | XY Chart (`xychart-beta`) | ✅ | ✅ | ✅ `XYChart` | 0 | Bar/line charts, axes, data series |
 | Kanban (`kanban`) | ✅ | ✅ | ✅ `Kanban` | 0 | Columns, tickets, metadata |
-| Requirement (`requirementDiagram`) | ✅ | ✅ | ✅ `Requirement` | 0 | Requirements, elements, relationships |
-| Block (`block-beta`) | ✅ | ✅ | ✅ `Block` | 0 | Blocks, edges, composites, styling |
-| Pie (`pie`) | ✅ | ✅ | ✅ `Pie` | 0 | Sections, title, showData (uses Langium parser) |
-| Git Graph (`gitGraph`) | ✅ | ✅ | ✅ `GitGraph` | 0 | Commits, branches, merges, cherry-picks (uses Langium parser) |
-| C4 (`C4Context`, etc.) | ✅ | ✅ | ✅ `C4` | 0 | All 5 diagram types, elements, relationships, boundaries, styling |
+| Requirement (`requirementDiagram`) | ✅ | ✅ | ✅ `Requirement` | 2 | Requirements, elements, relationships |
+| Block (`block-beta`) | ✅ | ✅ | ✅ `Block` | 1 | Blocks, edges, composites, styling |
+| Pie (`pie`) | ✅ | ✅ | ✅ `Pie` | — | Sections, title, showData (async Langium parser) |
+| Git Graph (`gitGraph`) | ✅ | ✅ | ✅ `GitGraph` | — | Commits, branches, merges (async Langium parser) |
+| C4 (`C4Context`, etc.) | ✅ | ✅ | ✅ `C4` | 2 | All 5 diagram types, elements, relationships, boundaries, styling |
 
 **Idempotence Tests:** Number of `.input.mmd`/`.output.mmd` fixture pairs that verify `render(parse(render(parse(x)))) === render(parse(x))`. See [TEST_STANDARDS.md](./TEST_STANDARDS.md) for details.
 
