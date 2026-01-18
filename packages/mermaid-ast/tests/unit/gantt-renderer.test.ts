@@ -26,9 +26,7 @@ describe('Gantt Renderer', () => {
     });
 
     it('should render gantt with title and dateFormat', () => {
-      const chart = Gantt.create()
-        .setTitle('Project Plan')
-        .setDateFormat('YYYY-MM-DD');
+      const chart = Gantt.create().setTitle('Project Plan').setDateFormat('YYYY-MM-DD');
       const rendered = chart.render();
       expect(rendered).toContain('gantt');
       expect(rendered).toContain('title Project Plan');
@@ -38,64 +36,55 @@ describe('Gantt Renderer', () => {
 
   describe('Configuration Rendering', () => {
     it('should render axisFormat', () => {
-      const chart = Gantt.create()
-        .setAxisFormat('%Y-%m-%d');
+      const chart = Gantt.create().setAxisFormat('%Y-%m-%d');
       const rendered = chart.render();
       expect(rendered).toContain('axisFormat %Y-%m-%d');
     });
 
     it('should render tickInterval', () => {
-      const chart = Gantt.create()
-        .setTickInterval('1week');
+      const chart = Gantt.create().setTickInterval('1week');
       const rendered = chart.render();
       expect(rendered).toContain('tickInterval 1week');
     });
 
     it('should render inclusiveEndDates', () => {
-      const chart = Gantt.create()
-        .enableInclusiveEndDates();
+      const chart = Gantt.create().enableInclusiveEndDates();
       const rendered = chart.render();
       expect(rendered).toContain('inclusiveEndDates');
     });
 
     it('should render topAxis', () => {
-      const chart = Gantt.create()
-        .enableTopAxis();
+      const chart = Gantt.create().enableTopAxis();
       const rendered = chart.render();
       expect(rendered).toContain('topAxis');
     });
 
     it('should render excludes', () => {
-      const chart = Gantt.create()
-        .setExcludes('weekends');
+      const chart = Gantt.create().setExcludes('weekends');
       const rendered = chart.render();
       expect(rendered).toContain('excludes weekends');
     });
 
     it('should render includes', () => {
-      const chart = Gantt.create()
-        .setIncludes('2024-01-01');
+      const chart = Gantt.create().setIncludes('2024-01-01');
       const rendered = chart.render();
       expect(rendered).toContain('includes 2024-01-01');
     });
 
     it('should render todayMarker', () => {
-      const chart = Gantt.create()
-        .setTodayMarker('off');
+      const chart = Gantt.create().setTodayMarker('off');
       const rendered = chart.render();
       expect(rendered).toContain('todayMarker off');
     });
 
     it('should render weekday', () => {
-      const chart = Gantt.create()
-        .setWeekday('monday');
+      const chart = Gantt.create().setWeekday('monday');
       const rendered = chart.render();
       expect(rendered).toContain('weekday monday');
     });
 
     it('should render weekend', () => {
-      const chart = Gantt.create()
-        .setWeekend('friday');
+      const chart = Gantt.create().setWeekend('friday');
       const rendered = chart.render();
       expect(rendered).toContain('weekend friday');
     });
@@ -129,34 +118,48 @@ describe('Gantt Renderer', () => {
     it('should render task with done status', () => {
       const chart = Gantt.create()
         .setDateFormat('YYYY-MM-DD')
-        .addTask('Completed Task', undefined, { id: 'done1', status: 'done', start: '2024-01-01', end: '2024-01-05' });
+        .addTask('Completed Task', undefined, {
+          id: 'done1',
+          status: 'done',
+          start: '2024-01-01',
+          end: '2024-01-05',
+        });
       const rendered = chart.render();
       expect(rendered).toContain('Completed Task');
       expect(rendered).toContain('done');
     });
 
     it('should render task with active status', () => {
-      const chart = Gantt.create()
-        .setDateFormat('YYYY-MM-DD')
-        .addTask('Active Task', undefined, { id: 'active1', status: 'active', start: '2024-01-01', end: '2024-01-10' });
+      const chart = Gantt.create().setDateFormat('YYYY-MM-DD').addTask('Active Task', undefined, {
+        id: 'active1',
+        status: 'active',
+        start: '2024-01-01',
+        end: '2024-01-10',
+      });
       const rendered = chart.render();
       expect(rendered).toContain('Active Task');
       expect(rendered).toContain('active');
     });
 
     it('should render task with crit status', () => {
-      const chart = Gantt.create()
-        .setDateFormat('YYYY-MM-DD')
-        .addTask('Critical Task', undefined, { id: 'crit1', status: 'crit', start: '2024-01-01', end: '2024-01-03' });
+      const chart = Gantt.create().setDateFormat('YYYY-MM-DD').addTask('Critical Task', undefined, {
+        id: 'crit1',
+        status: 'crit',
+        start: '2024-01-01',
+        end: '2024-01-03',
+      });
       const rendered = chart.render();
       expect(rendered).toContain('Critical Task');
       expect(rendered).toContain('crit');
     });
 
     it('should render milestone', () => {
-      const chart = Gantt.create()
-        .setDateFormat('YYYY-MM-DD')
-        .addTask('Release', undefined, { id: 'ms1', status: 'milestone', start: '2024-01-15', end: '0d' });
+      const chart = Gantt.create().setDateFormat('YYYY-MM-DD').addTask('Release', undefined, {
+        id: 'ms1',
+        status: 'milestone',
+        start: '2024-01-15',
+        end: '0d',
+      });
       const rendered = chart.render();
       expect(rendered).toContain('Release');
       expect(rendered).toContain('milestone');
@@ -239,14 +242,29 @@ describe('Gantt Renderer', () => {
         .setAxisFormat('%m/%d')
         .setExcludes('weekends')
         .addSection('Planning')
-        .addTask('Requirements', 'Planning', { id: 'req', status: 'done', start: '2024-01-01', end: '2024-01-05' })
+        .addTask('Requirements', 'Planning', {
+          id: 'req',
+          status: 'done',
+          start: '2024-01-01',
+          end: '2024-01-05',
+        })
         .addTask('Design', 'Planning', { id: 'des', status: 'done', start: 'after req', end: '5d' })
         .addSection('Development')
-        .addTask('Backend', 'Development', { id: 'be', status: 'active', start: 'after des', end: '10d' })
+        .addTask('Backend', 'Development', {
+          id: 'be',
+          status: 'active',
+          start: 'after des',
+          end: '10d',
+        })
         .addTask('Frontend', 'Development', { id: 'fe', start: 'after des', end: '10d' })
         .addSection('Release')
         .addTask('Testing', 'Release', { id: 'test', status: 'crit', start: 'after be', end: '5d' })
-        .addTask('Launch', 'Release', { id: 'launch', status: 'milestone', start: 'after test', end: '0d' });
+        .addTask('Launch', 'Release', {
+          id: 'launch',
+          status: 'milestone',
+          start: 'after test',
+          end: '0d',
+        });
 
       expectGolden(chart.render(), 'gantt/render-complex.mmd');
     });

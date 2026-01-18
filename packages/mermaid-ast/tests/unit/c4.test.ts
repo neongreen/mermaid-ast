@@ -5,7 +5,14 @@
 import { describe, expect, it } from 'bun:test';
 import { C4 } from '../../src/c4.js';
 import type { C4AST } from '../../src/types/index.js';
-import { isC4Boundary, isC4Person, isC4System, isC4Container, isC4Component, isC4DeploymentNode } from '../../src/types/c4.js';
+import {
+  isC4Boundary,
+  isC4Person,
+  isC4System,
+  isC4Container,
+  isC4Component,
+  isC4DeploymentNode,
+} from '../../src/types/c4.js';
 
 describe('C4 Diagram', () => {
   describe('Factory Methods', () => {
@@ -74,12 +81,11 @@ describe('C4 Diagram', () => {
     });
 
     it('should clone diagram', () => {
-      const original = C4.create('C4Context')
-        .addPerson('user', { label: 'User' });
+      const original = C4.create('C4Context').addPerson('user', { label: 'User' });
       const cloned = original.clone();
-      
+
       expect(cloned.toAST().elements.length).toBe(1);
-      
+
       // Verify independence
       cloned.addPerson('admin', { label: 'Admin' });
       expect(original.toAST().elements.length).toBe(1);
@@ -87,8 +93,7 @@ describe('C4 Diagram', () => {
     });
 
     it('should render diagram', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User' });
+      const diagram = C4.create('C4Context').addPerson('user', { label: 'User' });
       const output = diagram.render();
       expect(output).toContain('C4Context');
       expect(output).toContain('Person');
@@ -98,8 +103,7 @@ describe('C4 Diagram', () => {
 
   describe('Person Operations', () => {
     it('should add person', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User' });
+      const diagram = C4.create('C4Context').addPerson('user', { label: 'User' });
       const ast = diagram.toAST();
       expect(ast.elements.length).toBe(1);
       const person = ast.elements[0];
@@ -112,8 +116,10 @@ describe('C4 Diagram', () => {
     });
 
     it('should add person with description', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User', description: 'A user of the system' });
+      const diagram = C4.create('C4Context').addPerson('user', {
+        label: 'User',
+        description: 'A user of the system',
+      });
       const ast = diagram.toAST();
       const person = ast.elements[0];
       if (isC4Person(person)) {
@@ -122,15 +128,16 @@ describe('C4 Diagram', () => {
     });
 
     it('should add external person', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('customer', { label: 'Customer', external: true });
+      const diagram = C4.create('C4Context').addPerson('customer', {
+        label: 'Customer',
+        external: true,
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('external_person');
     });
 
     it('should add person with sprite', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User', sprite: 'user' });
+      const diagram = C4.create('C4Context').addPerson('user', { label: 'User', sprite: 'user' });
       const ast = diagram.toAST();
       const person = ast.elements[0];
       if (isC4Person(person)) {
@@ -139,8 +146,10 @@ describe('C4 Diagram', () => {
     });
 
     it('should add person with tags', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User', tags: 'important' });
+      const diagram = C4.create('C4Context').addPerson('user', {
+        label: 'User',
+        tags: 'important',
+      });
       const ast = diagram.toAST();
       const person = ast.elements[0];
       if (isC4Person(person)) {
@@ -149,8 +158,10 @@ describe('C4 Diagram', () => {
     });
 
     it('should add person with link', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User', link: 'https://example.com' });
+      const diagram = C4.create('C4Context').addPerson('user', {
+        label: 'User',
+        link: 'https://example.com',
+      });
       const ast = diagram.toAST();
       const person = ast.elements[0];
       if (isC4Person(person)) {
@@ -161,8 +172,7 @@ describe('C4 Diagram', () => {
 
   describe('System Operations', () => {
     it('should add system', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('backend', { label: 'Backend System' });
+      const diagram = C4.create('C4Context').addSystem('backend', { label: 'Backend System' });
       const ast = diagram.toAST();
       expect(ast.elements.length).toBe(1);
       expect(ast.elements[0].type).toBe('system');
@@ -170,36 +180,45 @@ describe('C4 Diagram', () => {
     });
 
     it('should add external system', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('external', { label: 'External API', external: true });
+      const diagram = C4.create('C4Context').addSystem('external', {
+        label: 'External API',
+        external: true,
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('external_system');
     });
 
     it('should add system database', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('db', { label: 'Database', variant: 'db' });
+      const diagram = C4.create('C4Context').addSystem('db', { label: 'Database', variant: 'db' });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('system_db');
     });
 
     it('should add external system database', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('extDb', { label: 'External DB', external: true, variant: 'db' });
+      const diagram = C4.create('C4Context').addSystem('extDb', {
+        label: 'External DB',
+        external: true,
+        variant: 'db',
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('external_system_db');
     });
 
     it('should add system queue', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('queue', { label: 'Message Queue', variant: 'queue' });
+      const diagram = C4.create('C4Context').addSystem('queue', {
+        label: 'Message Queue',
+        variant: 'queue',
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('system_queue');
     });
 
     it('should add external system queue', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('extQueue', { label: 'External Queue', external: true, variant: 'queue' });
+      const diagram = C4.create('C4Context').addSystem('extQueue', {
+        label: 'External Queue',
+        external: true,
+        variant: 'queue',
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('external_system_queue');
     });
@@ -207,8 +226,7 @@ describe('C4 Diagram', () => {
 
   describe('Container Operations', () => {
     it('should add container', () => {
-      const diagram = C4.create('C4Container')
-        .addContainer('web', { label: 'Web Application' });
+      const diagram = C4.create('C4Container').addContainer('web', { label: 'Web Application' });
       const ast = diagram.toAST();
       expect(ast.elements.length).toBe(1);
       expect(ast.elements[0].type).toBe('container');
@@ -216,8 +234,10 @@ describe('C4 Diagram', () => {
     });
 
     it('should add container with technology', () => {
-      const diagram = C4.create('C4Container')
-        .addContainer('web', { label: 'Web App', technology: 'React' });
+      const diagram = C4.create('C4Container').addContainer('web', {
+        label: 'Web App',
+        technology: 'React',
+      });
       const ast = diagram.toAST();
       const container = ast.elements[0];
       if (isC4Container(container)) {
@@ -226,22 +246,30 @@ describe('C4 Diagram', () => {
     });
 
     it('should add external container', () => {
-      const diagram = C4.create('C4Container')
-        .addContainer('ext', { label: 'External Service', external: true });
+      const diagram = C4.create('C4Container').addContainer('ext', {
+        label: 'External Service',
+        external: true,
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('external_container');
     });
 
     it('should add container database', () => {
-      const diagram = C4.create('C4Container')
-        .addContainer('db', { label: 'Database', variant: 'db', technology: 'PostgreSQL' });
+      const diagram = C4.create('C4Container').addContainer('db', {
+        label: 'Database',
+        variant: 'db',
+        technology: 'PostgreSQL',
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('container_db');
     });
 
     it('should add container queue', () => {
-      const diagram = C4.create('C4Container')
-        .addContainer('queue', { label: 'Message Queue', variant: 'queue', technology: 'RabbitMQ' });
+      const diagram = C4.create('C4Container').addContainer('queue', {
+        label: 'Message Queue',
+        variant: 'queue',
+        technology: 'RabbitMQ',
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('container_queue');
     });
@@ -249,8 +277,7 @@ describe('C4 Diagram', () => {
 
   describe('Component Operations', () => {
     it('should add component', () => {
-      const diagram = C4.create('C4Component')
-        .addComponent('auth', { label: 'Auth Service' });
+      const diagram = C4.create('C4Component').addComponent('auth', { label: 'Auth Service' });
       const ast = diagram.toAST();
       expect(ast.elements.length).toBe(1);
       expect(ast.elements[0].type).toBe('component');
@@ -258,8 +285,10 @@ describe('C4 Diagram', () => {
     });
 
     it('should add component with technology', () => {
-      const diagram = C4.create('C4Component')
-        .addComponent('auth', { label: 'Auth Service', technology: 'Spring Security' });
+      const diagram = C4.create('C4Component').addComponent('auth', {
+        label: 'Auth Service',
+        technology: 'Spring Security',
+      });
       const ast = diagram.toAST();
       const component = ast.elements[0];
       if (isC4Component(component)) {
@@ -268,22 +297,28 @@ describe('C4 Diagram', () => {
     });
 
     it('should add external component', () => {
-      const diagram = C4.create('C4Component')
-        .addComponent('ext', { label: 'External Component', external: true });
+      const diagram = C4.create('C4Component').addComponent('ext', {
+        label: 'External Component',
+        external: true,
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('external_component');
     });
 
     it('should add component database', () => {
-      const diagram = C4.create('C4Component')
-        .addComponent('cache', { label: 'Cache', variant: 'db' });
+      const diagram = C4.create('C4Component').addComponent('cache', {
+        label: 'Cache',
+        variant: 'db',
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('component_db');
     });
 
     it('should add component queue', () => {
-      const diagram = C4.create('C4Component')
-        .addComponent('events', { label: 'Event Bus', variant: 'queue' });
+      const diagram = C4.create('C4Component').addComponent('events', {
+        label: 'Event Bus',
+        variant: 'queue',
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('component_queue');
     });
@@ -291,8 +326,9 @@ describe('C4 Diagram', () => {
 
   describe('Boundary Operations', () => {
     it('should add boundary', () => {
-      const diagram = C4.create('C4Context')
-        .addBoundary('enterprise', 'boundary', { label: 'Enterprise' });
+      const diagram = C4.create('C4Context').addBoundary('enterprise', 'boundary', {
+        label: 'Enterprise',
+      });
       const ast = diagram.toAST();
       expect(ast.elements.length).toBe(1);
       const boundary = ast.elements[0];
@@ -305,8 +341,9 @@ describe('C4 Diagram', () => {
     });
 
     it('should add enterprise boundary', () => {
-      const diagram = C4.create('C4Context')
-        .addBoundary('enterprise', 'enterprise_boundary', { label: 'My Enterprise' });
+      const diagram = C4.create('C4Context').addBoundary('enterprise', 'enterprise_boundary', {
+        label: 'My Enterprise',
+      });
       const ast = diagram.toAST();
       const boundary = ast.elements[0];
       if (isC4Boundary(boundary)) {
@@ -315,8 +352,9 @@ describe('C4 Diagram', () => {
     });
 
     it('should add system boundary', () => {
-      const diagram = C4.create('C4Container')
-        .addBoundary('system', 'system_boundary', { label: 'My System' });
+      const diagram = C4.create('C4Container').addBoundary('system', 'system_boundary', {
+        label: 'My System',
+      });
       const ast = diagram.toAST();
       const boundary = ast.elements[0];
       if (isC4Boundary(boundary)) {
@@ -325,8 +363,9 @@ describe('C4 Diagram', () => {
     });
 
     it('should add container boundary', () => {
-      const diagram = C4.create('C4Component')
-        .addBoundary('container', 'container_boundary', { label: 'My Container' });
+      const diagram = C4.create('C4Component').addBoundary('container', 'container_boundary', {
+        label: 'My Container',
+      });
       const ast = diagram.toAST();
       const boundary = ast.elements[0];
       if (isC4Boundary(boundary)) {
@@ -335,8 +374,10 @@ describe('C4 Diagram', () => {
     });
 
     it('should add boundary with tags', () => {
-      const diagram = C4.create('C4Context')
-        .addBoundary('b1', 'boundary', { label: 'Boundary', tags: 'important' });
+      const diagram = C4.create('C4Context').addBoundary('b1', 'boundary', {
+        label: 'Boundary',
+        tags: 'important',
+      });
       const ast = diagram.toAST();
       const boundary = ast.elements[0];
       if (isC4Boundary(boundary)) {
@@ -347,8 +388,9 @@ describe('C4 Diagram', () => {
 
   describe('Deployment Node Operations', () => {
     it('should add deployment node', () => {
-      const diagram = C4.create('C4Deployment')
-        .addDeploymentNode('server', { label: 'Web Server' });
+      const diagram = C4.create('C4Deployment').addDeploymentNode('server', {
+        label: 'Web Server',
+      });
       const ast = diagram.toAST();
       expect(ast.elements.length).toBe(1);
       const node = ast.elements[0];
@@ -358,8 +400,10 @@ describe('C4 Diagram', () => {
     });
 
     it('should add deployment node with technology', () => {
-      const diagram = C4.create('C4Deployment')
-        .addDeploymentNode('server', { label: 'Web Server', technology: 'Ubuntu' });
+      const diagram = C4.create('C4Deployment').addDeploymentNode('server', {
+        label: 'Web Server',
+        technology: 'Ubuntu',
+      });
       const ast = diagram.toAST();
       const node = ast.elements[0];
       if (isC4DeploymentNode(node)) {
@@ -368,15 +412,19 @@ describe('C4 Diagram', () => {
     });
 
     it('should add left-aligned deployment node', () => {
-      const diagram = C4.create('C4Deployment')
-        .addDeploymentNode('server', { label: 'Server', variant: 'left' });
+      const diagram = C4.create('C4Deployment').addDeploymentNode('server', {
+        label: 'Server',
+        variant: 'left',
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('nodeL');
     });
 
     it('should add right-aligned deployment node', () => {
-      const diagram = C4.create('C4Deployment')
-        .addDeploymentNode('server', { label: 'Server', variant: 'right' });
+      const diagram = C4.create('C4Deployment').addDeploymentNode('server', {
+        label: 'Server',
+        variant: 'right',
+      });
       const ast = diagram.toAST();
       expect(ast.elements[0].type).toBe('nodeR');
     });
@@ -434,8 +482,7 @@ describe('C4 Diagram', () => {
 
   describe('Style Operations', () => {
     it('should add element style', () => {
-      const diagram = C4.create('C4Context')
-        .addElementStyle('person', { bgColor: '#blue' });
+      const diagram = C4.create('C4Context').addElementStyle('person', { bgColor: '#blue' });
       const ast = diagram.toAST();
       expect(ast.elementStyles.length).toBe(1);
       expect(ast.elementStyles[0].elementName).toBe('person');
@@ -443,8 +490,9 @@ describe('C4 Diagram', () => {
     });
 
     it('should add relationship style', () => {
-      const diagram = C4.create('C4Context')
-        .addRelationshipStyle('user', 'system', { lineColor: '#red' });
+      const diagram = C4.create('C4Context').addRelationshipStyle('user', 'system', {
+        lineColor: '#red',
+      });
       const ast = diagram.toAST();
       expect(ast.relationshipStyles.length).toBe(1);
       expect(ast.relationshipStyles[0].from).toBe('user');
@@ -459,7 +507,7 @@ describe('C4 Diagram', () => {
         .addPerson('user1', { label: 'User 1' })
         .addPerson('user2', { label: 'User 2' })
         .addSystem('system', { label: 'System' });
-      
+
       const persons = diagram.findElements({ type: 'person' });
       expect(persons.length).toBe(2);
     });
@@ -468,7 +516,7 @@ describe('C4 Diagram', () => {
       const diagram = C4.create('C4Context')
         .addPerson('user', { label: 'User' })
         .addSystem('system', { label: 'System' });
-      
+
       const elements = diagram.findElements({ alias: 'user' });
       expect(elements.length).toBe(1);
       expect(elements[0].alias).toBe('user');
@@ -481,7 +529,7 @@ describe('C4 Diagram', () => {
         .addSystem('b', { label: 'System B' })
         .addRelationship('user', 'a', { label: 'Uses A' })
         .addRelationship('user', 'b', { label: 'Uses B' });
-      
+
       const rels = diagram.findRelationships({ from: 'user' });
       expect(rels.length).toBe(2);
     });
@@ -491,15 +539,14 @@ describe('C4 Diagram', () => {
         .addPerson('user', { label: 'User' })
         .addSystem('system', { label: 'System' })
         .addRelationship('user', 'system', { label: 'Uses' });
-      
+
       const rels = diagram.findRelationships({ to: 'system' });
       expect(rels.length).toBe(1);
     });
 
     it('should get element by alias', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User' });
-      
+      const diagram = C4.create('C4Context').addPerson('user', { label: 'User' });
+
       const element = diagram.getElement('user');
       expect(element).toBeDefined();
       if (element && isC4Person(element)) {
@@ -523,7 +570,7 @@ describe('C4 Diagram', () => {
         .addSystem('external', { label: 'External API', external: true })
         .addRelationship('user', 'system', { label: 'Uses' })
         .addRelationship('system', 'external', { label: 'Calls', technology: 'REST' });
-      
+
       const ast = diagram.toAST();
       expect(ast.elements.length).toBe(3);
       expect(ast.relationships.length).toBe(2);
@@ -538,7 +585,7 @@ describe('C4 Diagram', () => {
         .addContainer('db', { label: 'Database', variant: 'db', technology: 'PostgreSQL' })
         .addRelationship('web', 'api', { label: 'Calls', technology: 'REST' })
         .addRelationship('api', 'db', { label: 'Reads/Writes', technology: 'SQL' });
-      
+
       const ast = diagram.toAST();
       // Boundary + 3 containers = 4 elements
       expect(ast.elements.length).toBe(4);
@@ -556,7 +603,7 @@ describe('C4 Diagram', () => {
         .addRelationship('service', 'db', { label: 'Save data' })
         .addRelationship('service', 'controller', { label: 'Return result' })
         .addRelationship('controller', 'ui', { label: 'Display result' });
-      
+
       const ast = diagram.toAST();
       expect(ast.relationships.length).toBe(5);
     });
@@ -566,7 +613,7 @@ describe('C4 Diagram', () => {
         .addDeploymentNode('aws', { label: 'AWS', technology: 'Amazon Web Services' })
         .addDeploymentNode('ec2', { label: 'EC2 Instance', technology: 'Ubuntu' })
         .addContainer('web', { label: 'Web Application', technology: 'Docker' });
-      
+
       const ast = diagram.toAST();
       expect(ast.elements.length).toBe(3);
     });

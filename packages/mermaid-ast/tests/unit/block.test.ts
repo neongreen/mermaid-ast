@@ -38,23 +38,19 @@ describe('Block', () => {
     });
 
     it('should clone the diagram', () => {
-      const original = Block.create()
-        .setColumns(3)
-        .addNode('a', { label: 'A' });
+      const original = Block.create().setColumns(3).addNode('a', { label: 'A' });
       const cloned = original.clone();
-      
+
       // Modify original
       original.addNode('b', { label: 'B' });
-      
+
       // Clone should be unchanged
       expect(cloned.nodeCount).toBe(1);
       expect(original.nodeCount).toBe(2);
     });
 
     it('should render to Mermaid syntax', () => {
-      const diagram = Block.create()
-        .setColumns(2)
-        .addNode('a', { label: 'A' });
+      const diagram = Block.create().setColumns(2).addNode('a', { label: 'A' });
       const output = diagram.render();
       expect(output).toContain('block-beta');
       expect(output).toContain('columns 2');
@@ -73,9 +69,7 @@ describe('Block', () => {
     });
 
     it('should replace existing column setting', () => {
-      const diagram = Block.create()
-        .setColumns(3)
-        .setColumns(5);
+      const diagram = Block.create().setColumns(3).setColumns(5);
       expect(diagram.getColumns()).toBe(5);
     });
   });
@@ -108,19 +102,13 @@ describe('Block', () => {
     });
 
     it('should find all nodes', () => {
-      const diagram = Block.create()
-        .addNode('a')
-        .addNode('b')
-        .addNode('c');
+      const diagram = Block.create().addNode('a').addNode('b').addNode('c');
       const nodes = diagram.findNodes();
       expect(nodes.length).toBe(3);
     });
 
     it('should remove a node', () => {
-      const diagram = Block.create()
-        .addNode('a')
-        .addNode('b')
-        .removeNode('a');
+      const diagram = Block.create().addNode('a').addNode('b').removeNode('a');
       expect(diagram.nodeCount).toBe(1);
       expect(diagram.getNode('a')).toBeUndefined();
     });
@@ -128,10 +116,7 @@ describe('Block', () => {
 
   describe('Edge Operations', () => {
     it('should add an edge', () => {
-      const diagram = Block.create()
-        .addNode('a')
-        .addNode('b')
-        .addEdge('a', 'b');
+      const diagram = Block.create().addNode('a').addNode('b').addEdge('a', 'b');
       expect(diagram.edgeCount).toBe(1);
     });
 
@@ -219,9 +204,7 @@ describe('Block', () => {
     });
 
     it('should apply inline styles', () => {
-      const diagram = Block.create()
-        .addNode('a')
-        .applyStyles('a', 'fill:#ff0,stroke:#333');
+      const diagram = Block.create().addNode('a').applyStyles('a', 'fill:#ff0,stroke:#333');
       expect(diagram.toAST().styleAssignments.get('a')).toBe('fill:#ff0,stroke:#333');
     });
   });

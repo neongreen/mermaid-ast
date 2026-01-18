@@ -213,9 +213,7 @@ export function isBlockSpace(element: BlockElement): element is BlockSpace {
 /**
  * Type guard for BlockComposite
  */
-export function isBlockComposite(
-  element: BlockElement
-): element is BlockComposite {
+export function isBlockComposite(element: BlockElement): element is BlockComposite {
   return 'type' in element && element.type === 'composite';
 }
 
@@ -229,35 +227,27 @@ export function isBlockEdge(element: BlockElement): element is BlockEdge {
 /**
  * Type guard for BlockColumnSetting
  */
-export function isBlockColumnSetting(
-  element: BlockElement
-): element is BlockColumnSetting {
+export function isBlockColumnSetting(element: BlockElement): element is BlockColumnSetting {
   return 'type' in element && element.type === 'column-setting';
 }
 
 /**
  * Type guard for BlockClassDef
  */
-export function isBlockClassDef(
-  element: BlockElement
-): element is BlockClassDef {
+export function isBlockClassDef(element: BlockElement): element is BlockClassDef {
   return 'type' in element && element.type === 'classDef';
 }
 
 /**
  * Type guard for BlockApplyClass
  */
-export function isBlockApplyClass(
-  element: BlockElement
-): element is BlockApplyClass {
+export function isBlockApplyClass(element: BlockElement): element is BlockApplyClass {
   return 'type' in element && element.type === 'applyClass';
 }
 
 /**
  * Type guard for BlockApplyStyles
  */
-export function isBlockApplyStyles(
-  element: BlockElement
-): element is BlockApplyStyles {
+export function isBlockApplyStyles(element: BlockElement): element is BlockApplyStyles {
   return 'type' in element && element.type === 'applyStyles';
 }

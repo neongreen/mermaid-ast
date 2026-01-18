@@ -123,9 +123,9 @@ export class Block extends DiagramWrapper<BlockAST> {
    * Gets the current column setting
    */
   getColumns(): number | 'auto' | undefined {
-    const setting = this.ast.elements.find(
-      (e) => 'type' in e && e.type === 'column-setting'
-    ) as BlockColumnSetting | undefined;
+    const setting = this.ast.elements.find((e) => 'type' in e && e.type === 'column-setting') as
+      | BlockColumnSetting
+      | undefined;
 
     if (!setting) return undefined;
     return setting.columns === -1 ? 'auto' : setting.columns;
@@ -177,9 +177,7 @@ export class Block extends DiagramWrapper<BlockAST> {
    * Removes a node by id
    */
   removeNode(id: string): this {
-    this.ast.elements = this.ast.elements.filter(
-      (e) => !isBlockNode(e) || e.id !== id
-    );
+    this.ast.elements = this.ast.elements.filter((e) => !isBlockNode(e) || e.id !== id);
     return this;
   }
 
@@ -225,9 +223,7 @@ export class Block extends DiagramWrapper<BlockAST> {
       );
     } else {
       // Remove by id
-      this.ast.elements = this.ast.elements.filter(
-        (e) => !isBlockEdge(e) || e.id !== idOrFrom
-      );
+      this.ast.elements = this.ast.elements.filter((e) => !isBlockEdge(e) || e.id !== idOrFrom);
     }
     return this;
   }
@@ -281,9 +277,9 @@ export class Block extends DiagramWrapper<BlockAST> {
    * Gets a composite block by id
    */
   getComposite(id: string): BlockComposite | undefined {
-    return this.ast.elements.find(
-      (e) => isBlockComposite(e) && e.id === id
-    ) as BlockComposite | undefined;
+    return this.ast.elements.find((e) => isBlockComposite(e) && e.id === id) as
+      | BlockComposite
+      | undefined;
   }
 
   /**

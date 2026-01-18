@@ -12,13 +12,12 @@ describe('Requirement Renderer', () => {
     });
 
     it('should render requirement with all properties', () => {
-      const req = Requirement.create()
-        .addRequirement('test_req', 'requirement', {
-          id: '1',
-          text: 'the test text.',
-          risk: 'high',
-          verifyMethod: 'test',
-        });
+      const req = Requirement.create().addRequirement('test_req', 'requirement', {
+        id: '1',
+        text: 'the test text.',
+        risk: 'high',
+        verifyMethod: 'test',
+      });
 
       const output = req.render();
       expect(output).toContain('requirementDiagram');
@@ -30,8 +29,10 @@ describe('Requirement Renderer', () => {
     });
 
     it('should render element with all properties', () => {
-      const req = Requirement.create()
-        .addElement('test_entity', { type: 'simulation', docRef: 'DOC001' });
+      const req = Requirement.create().addElement('test_entity', {
+        type: 'simulation',
+        docRef: 'DOC001',
+      });
 
       const output = req.render();
       expect(output).toContain('element test_entity {');
@@ -42,38 +43,32 @@ describe('Requirement Renderer', () => {
 
   describe('Requirement Type Rendering', () => {
     it('should render requirement type', () => {
-      const req = Requirement.create()
-        .addRequirement('r1', 'requirement');
+      const req = Requirement.create().addRequirement('r1', 'requirement');
       expect(req.render()).toContain('requirement r1');
     });
 
     it('should render functionalRequirement type', () => {
-      const req = Requirement.create()
-        .addRequirement('r1', 'functionalRequirement');
+      const req = Requirement.create().addRequirement('r1', 'functionalRequirement');
       expect(req.render()).toContain('functionalRequirement r1');
     });
 
     it('should render interfaceRequirement type', () => {
-      const req = Requirement.create()
-        .addRequirement('r1', 'interfaceRequirement');
+      const req = Requirement.create().addRequirement('r1', 'interfaceRequirement');
       expect(req.render()).toContain('interfaceRequirement r1');
     });
 
     it('should render performanceRequirement type', () => {
-      const req = Requirement.create()
-        .addRequirement('r1', 'performanceRequirement');
+      const req = Requirement.create().addRequirement('r1', 'performanceRequirement');
       expect(req.render()).toContain('performanceRequirement r1');
     });
 
     it('should render physicalRequirement type', () => {
-      const req = Requirement.create()
-        .addRequirement('r1', 'physicalRequirement');
+      const req = Requirement.create().addRequirement('r1', 'physicalRequirement');
       expect(req.render()).toContain('physicalRequirement r1');
     });
 
     it('should render designConstraint type', () => {
-      const req = Requirement.create()
-        .addRequirement('r1', 'designConstraint');
+      const req = Requirement.create().addRequirement('r1', 'designConstraint');
       expect(req.render()).toContain('designConstraint r1');
     });
   });
@@ -138,22 +133,19 @@ describe('Requirement Renderer', () => {
 
   describe('Accessibility Rendering', () => {
     it('should render accessibility title', () => {
-      const req = Requirement.create()
-        .setAccTitle('Requirement Diagram');
+      const req = Requirement.create().setAccTitle('Requirement Diagram');
       expect(req.render()).toContain('accTitle: Requirement Diagram');
     });
 
     it('should render accessibility description', () => {
-      const req = Requirement.create()
-        .setAccDescription('This diagram shows requirements');
+      const req = Requirement.create().setAccDescription('This diagram shows requirements');
       expect(req.render()).toContain('accDescr: This diagram shows requirements');
     });
   });
 
   describe('Styling Rendering', () => {
     it('should render class definitions', () => {
-      const req = Requirement.create()
-        .defineClass('highlight', ['fill:#f9f', 'stroke:#333']);
+      const req = Requirement.create().defineClass('highlight', ['fill:#f9f', 'stroke:#333']);
       expect(req.render()).toContain('classDef highlight fill:#f9f,stroke:#333');
     });
 
@@ -188,7 +180,7 @@ describe('Requirement Renderer', () => {
         .addRelationship('login_test', 'user_login', 'verifies');
 
       const output = req.render();
-      
+
       expect(output).toContain('requirementDiagram');
       expect(output).toContain('accTitle: System Requirements');
       expect(output).toContain('requirement user_login');
@@ -203,8 +195,7 @@ describe('Requirement Renderer', () => {
 
   describe('Render Options', () => {
     it('should render with default indent', () => {
-      const req = Requirement.create()
-        .addRequirement('r1', 'requirement', { id: '1' });
+      const req = Requirement.create().addRequirement('r1', 'requirement', { id: '1' });
 
       const output = req.render();
       // Default indent is 4 spaces
@@ -213,8 +204,7 @@ describe('Requirement Renderer', () => {
     });
 
     it('should produce valid parseable output', () => {
-      const req = Requirement.create()
-        .addRequirement('r1', 'requirement', { id: '1' });
+      const req = Requirement.create().addRequirement('r1', 'requirement', { id: '1' });
 
       const output = req.render();
       // Verify it can be parsed back
@@ -226,13 +216,12 @@ describe('Requirement Renderer', () => {
 
   describe('Golden Tests', () => {
     it('should round-trip simple requirement diagram', () => {
-      const diagram = Requirement.create()
-        .addRequirement('test_req', 'requirement', {
-          id: '1',
-          text: 'the test text.',
-          risk: 'high',
-          verifyMethod: 'test',
-        });
+      const diagram = Requirement.create().addRequirement('test_req', 'requirement', {
+        id: '1',
+        text: 'the test text.',
+        risk: 'high',
+        verifyMethod: 'test',
+      });
 
       const rendered = diagram.render();
       const reparsed = parseRequirement(rendered);

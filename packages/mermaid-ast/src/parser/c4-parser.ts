@@ -45,7 +45,7 @@ interface BoundaryStackItem {
 function createC4YY(ast: C4AST) {
   // Stack for nested boundaries
   const boundaryStack: BoundaryStackItem[] = [];
-  
+
   // Current elements array (top-level or inside a boundary)
   let currentElements: C4Element[] = ast.elements;
 
@@ -89,7 +89,7 @@ function createC4YY(ast: C4AST) {
      */
     addPersonOrSystem: (type: string, ...attributes: (string | Record<string, string>)[]) => {
       const [alias, label, description, sprite, tags, link, ...rest] = attributes;
-      
+
       const properties: Record<string, string> = {};
       for (const attr of rest) {
         if (typeof attr === 'object') {
@@ -130,7 +130,7 @@ function createC4YY(ast: C4AST) {
      */
     addContainer: (type: string, ...attributes: (string | Record<string, string>)[]) => {
       const [alias, label, technology, description, sprite, tags, link, ...rest] = attributes;
-      
+
       const properties: Record<string, string> = {};
       for (const attr of rest) {
         if (typeof attr === 'object') {
@@ -158,7 +158,7 @@ function createC4YY(ast: C4AST) {
      */
     addComponent: (type: string, ...attributes: (string | Record<string, string>)[]) => {
       const [alias, label, technology, description, sprite, tags, link, ...rest] = attributes;
-      
+
       const properties: Record<string, string> = {};
       for (const attr of rest) {
         if (typeof attr === 'object') {
@@ -186,7 +186,7 @@ function createC4YY(ast: C4AST) {
      */
     addPersonOrSystemBoundary: (...attributes: (string | Record<string, string>)[]) => {
       const [alias, label, boundaryTypeStr, tags, link, ...rest] = attributes;
-      
+
       const properties: Record<string, string> = {};
       for (const attr of rest) {
         if (typeof attr === 'object') {
@@ -229,7 +229,7 @@ function createC4YY(ast: C4AST) {
      */
     addContainerBoundary: (...attributes: (string | Record<string, string>)[]) => {
       const [alias, label, _boundaryType, tags, link, ...rest] = attributes;
-      
+
       const properties: Record<string, string> = {};
       for (const attr of rest) {
         if (typeof attr === 'object') {
@@ -264,7 +264,7 @@ function createC4YY(ast: C4AST) {
      */
     addDeploymentNode: (type: string, ...attributes: (string | Record<string, string>)[]) => {
       const [alias, label, technology, description, sprite, tags, link, ...rest] = attributes;
-      
+
       const properties: Record<string, string> = {};
       for (const attr of rest) {
         if (typeof attr === 'object') {
@@ -314,7 +314,7 @@ function createC4YY(ast: C4AST) {
      */
     addRel: (type: string, ...attributes: (string | Record<string, string>)[]) => {
       const [from, to, label, technology, description, sprite, tags, link, ...rest] = attributes;
-      
+
       const properties: Record<string, string> = {};
       for (const attr of rest) {
         if (typeof attr === 'object') {
@@ -342,8 +342,19 @@ function createC4YY(ast: C4AST) {
      * Attributes: [elementName, bgColor?, fontColor?, borderColor?, shadowing?, shape?, sprite?, technology?, legendText?, legendSprite?]
      */
     updateElStyle: (_type: string, ...attributes: string[]) => {
-      const [elementName, bgColor, fontColor, borderColor, shadowing, shape, sprite, technology, legendText, legendSprite] = attributes;
-      
+      const [
+        elementName,
+        bgColor,
+        fontColor,
+        borderColor,
+        shadowing,
+        shape,
+        sprite,
+        technology,
+        legendText,
+        legendSprite,
+      ] = attributes;
+
       const style: C4ElementStyle = {
         elementName: String(elementName || ''),
         bgColor: bgColor || undefined,
@@ -365,7 +376,7 @@ function createC4YY(ast: C4AST) {
      */
     updateRelStyle: (_type: string, ...attributes: string[]) => {
       const [from, to, textColor, lineColor, offsetX, offsetY] = attributes;
-      
+
       const style: C4RelationshipStyle = {
         from: String(from || ''),
         to: String(to || ''),
@@ -385,7 +396,7 @@ function createC4YY(ast: C4AST) {
       // Extract values from key-value objects or simple strings
       let c4ShapeInRow: string | undefined;
       let c4BoundaryInRow: string | undefined;
-      
+
       for (const attr of attributes) {
         if (typeof attr === 'object') {
           if ('c4ShapeInRow' in attr) {
@@ -396,14 +407,14 @@ function createC4YY(ast: C4AST) {
           }
         }
       }
-      
+
       // Fall back to positional arguments if no key-value objects found
       if (!c4ShapeInRow && !c4BoundaryInRow && attributes.length > 0) {
         const [first, second] = attributes;
         if (typeof first === 'string') c4ShapeInRow = first;
         if (typeof second === 'string') c4BoundaryInRow = second;
       }
-      
+
       ast.layoutConfig = {
         c4ShapeInRow: c4ShapeInRow ? Number.parseInt(c4ShapeInRow, 10) : undefined,
         c4BoundaryInRow: c4BoundaryInRow ? Number.parseInt(c4BoundaryInRow, 10) : undefined,
@@ -447,7 +458,7 @@ export function parseC4(input: string): C4AST {
   // Detect diagram type from input
   const trimmed = input.trim();
   let diagramType: C4DiagramType = 'C4Context';
-  
+
   if (trimmed.startsWith('C4Context')) {
     diagramType = 'C4Context';
   } else if (trimmed.startsWith('C4Container')) {
@@ -464,7 +475,9 @@ export function parseC4(input: string): C4AST {
 
   // Normalize input - ensure newline after header
   let normalizedInput = trimmed;
-  const headerMatch = normalizedInput.match(/^(C4Context|C4Container|C4Component|C4Dynamic|C4Deployment)/);
+  const headerMatch = normalizedInput.match(
+    /^(C4Context|C4Container|C4Component|C4Dynamic|C4Deployment)/
+  );
   if (headerMatch) {
     const header = headerMatch[1];
     const rest = normalizedInput.slice(header.length);

@@ -31,7 +31,7 @@ export function isGitGraphDiagram(input: string): boolean {
  */
 function transformLangiumAST(langiumAST: unknown): GitGraphAST {
   const ast = createEmptyGitGraphAST();
-  
+
   // Handle undefined/null result (empty gitGraph)
   if (!langiumAST) {
     return ast;
@@ -39,7 +39,7 @@ function transformLangiumAST(langiumAST: unknown): GitGraphAST {
 
   const parsed = langiumAST as {
     $type: string;
-    dir?: string;  // Langium uses 'dir' not 'direction'
+    dir?: string; // Langium uses 'dir' not 'direction'
     statements?: Array<{
       $type: string;
       id?: string;
@@ -153,12 +153,20 @@ export async function parseGitGraph(input: string): Promise<GitGraphAST> {
 
   // Check for errors - these are properties on the result object for some diagram types
   // but for gitGraph the result IS the AST directly
-  const resultAny = result as Record<string, unknown>;
-  if (resultAny.lexerErrors && Array.isArray(resultAny.lexerErrors) && resultAny.lexerErrors.length > 0) {
+  const resultAny = result as unknown as Record<string, unknown>;
+  if (
+    resultAny.lexerErrors &&
+    Array.isArray(resultAny.lexerErrors) &&
+    resultAny.lexerErrors.length > 0
+  ) {
     throw new Error(`Lexer error: ${(resultAny.lexerErrors[0] as { message: string }).message}`);
   }
 
-  if (resultAny.parserErrors && Array.isArray(resultAny.parserErrors) && resultAny.parserErrors.length > 0) {
+  if (
+    resultAny.parserErrors &&
+    Array.isArray(resultAny.parserErrors) &&
+    resultAny.parserErrors.length > 0
+  ) {
     throw new Error(`Parser error: ${(resultAny.parserErrors[0] as { message: string }).message}`);
   }
 

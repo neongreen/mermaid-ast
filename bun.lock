@@ -11,7 +11,7 @@
     },
     "packages/mermaid-ast": {
       "name": "mermaid-ast",
-      "version": "0.7.0",
+      "version": "0.8.0",
       "dependencies": {
         "@mermaid-js/parser": "^0.6.3",
       },

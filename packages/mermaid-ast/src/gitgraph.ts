@@ -237,9 +237,7 @@ export class GitGraph extends DiagramWrapper<GitGraphAST> {
    * Finds commits matching the query
    */
   findCommits(query?: FindCommitsQuery): GitCommit[] {
-    const commits = this.ast.statements.filter(
-      (s): s is GitCommit => s.type === 'commit'
-    );
+    const commits = this.ast.statements.filter((s): s is GitCommit => s.type === 'commit');
 
     if (!query) return commits;
 
@@ -255,9 +253,7 @@ export class GitGraph extends DiagramWrapper<GitGraphAST> {
    * Gets a commit by ID
    */
   getCommit(id: string): GitCommit | undefined {
-    return this.ast.statements.find(
-      (s): s is GitCommit => s.type === 'commit' && s.id === id
-    );
+    return this.ast.statements.find((s): s is GitCommit => s.type === 'commit' && s.id === id);
   }
 
   // ============================================
@@ -301,9 +297,7 @@ export class GitGraph extends DiagramWrapper<GitGraphAST> {
    * Finds branches matching the query
    */
   findBranches(query?: FindBranchesQuery): GitBranch[] {
-    const branches = this.ast.statements.filter(
-      (s): s is GitBranch => s.type === 'branch'
-    );
+    const branches = this.ast.statements.filter((s): s is GitBranch => s.type === 'branch');
 
     if (!query) return branches;
 
@@ -317,9 +311,7 @@ export class GitGraph extends DiagramWrapper<GitGraphAST> {
    * Gets a branch by name
    */
   getBranch(name: string): GitBranch | undefined {
-    return this.ast.statements.find(
-      (s): s is GitBranch => s.type === 'branch' && s.name === name
-    );
+    return this.ast.statements.find((s): s is GitBranch => s.type === 'branch' && s.name === name);
   }
 
   // ============================================

@@ -21,14 +21,12 @@ function assertEquivalentC4Diagrams(ast1: C4AST, ast2: C4AST): void {
   expect(ast2.diagramType).toBe(ast1.diagramType);
 
   // Compare elements (excluding boundaries for now, they're compared separately)
-  const elements1 = ast1.elements.filter(e => !isC4Boundary(e));
-  const elements2 = ast2.elements.filter(e => !isC4Boundary(e));
-  
+  const elements1 = ast1.elements.filter((e) => !isC4Boundary(e));
+  const elements2 = ast2.elements.filter((e) => !isC4Boundary(e));
+
   expect(elements2.length).toBe(elements1.length);
   for (const elem1 of elements1) {
-    const matchingElem = elements2.find(
-      (e) => e.alias === elem1.alias && e.type === elem1.type
-    );
+    const matchingElem = elements2.find((e) => e.alias === elem1.alias && e.type === elem1.type);
     expect(matchingElem).toBeDefined();
   }
 
@@ -44,12 +42,10 @@ function assertEquivalentC4Diagrams(ast1: C4AST, ast2: C4AST): void {
   // Compare boundaries (stored in elements)
   const boundaries1 = ast1.elements.filter(isC4Boundary);
   const boundaries2 = ast2.elements.filter(isC4Boundary);
-  
+
   expect(boundaries2.length).toBe(boundaries1.length);
   for (const boundary1 of boundaries1) {
-    const matchingBoundary = boundaries2.find(
-      (b) => b.alias === boundary1.alias
-    );
+    const matchingBoundary = boundaries2.find((b) => b.alias === boundary1.alias);
     expect(matchingBoundary).toBeDefined();
   }
 }

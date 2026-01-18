@@ -32,7 +32,14 @@ function typeStrToShape(typeStr: string | undefined): BlockNodeShape {
   const normalized = typeStr.trim();
 
   // Map based on the shape delimiters
-  if (normalized === '[]' || normalized.startsWith('[') && normalized.endsWith(']') && !normalized.includes('(') && !normalized.includes('[|') && !normalized.includes('[[')) {
+  if (
+    normalized === '[]' ||
+    (normalized.startsWith('[') &&
+      normalized.endsWith(']') &&
+      !normalized.includes('(') &&
+      !normalized.includes('[|') &&
+      !normalized.includes('[['))
+  ) {
     return 'square';
   }
   if (normalized === '(())' || (normalized.startsWith('((') && normalized.endsWith('))'))) {
@@ -41,7 +48,10 @@ function typeStrToShape(typeStr: string | undefined): BlockNodeShape {
   if (normalized === '((()))' || (normalized.startsWith('(((') && normalized.endsWith(')))'))) {
     return 'doublecircle';
   }
-  if (normalized === '()' || (normalized.startsWith('(') && normalized.endsWith(')') && !normalized.startsWith('(('))) {
+  if (
+    normalized === '()' ||
+    (normalized.startsWith('(') && normalized.endsWith(')') && !normalized.startsWith('(('))
+  ) {
     return 'round';
   }
   if (normalized === '{{}}' || (normalized.startsWith('{{') && normalized.endsWith('}}'))) {
@@ -96,7 +106,14 @@ function edgeStrToEdgeType(edgeStr: string): BlockEdgeType {
   if (trimmed.includes('~~~')) {
     return 'invisible';
   }
-  if (trimmed.includes('-->') || trimmed.includes('<--') || trimmed.includes('--x') || trimmed.includes('x--') || trimmed.includes('--o') || trimmed.includes('o--')) {
+  if (
+    trimmed.includes('-->') ||
+    trimmed.includes('<--') ||
+    trimmed.includes('--x') ||
+    trimmed.includes('x--') ||
+    trimmed.includes('--o') ||
+    trimmed.includes('o--')
+  ) {
     return 'arrow';
   }
   if (trimmed.includes('---')) {
@@ -246,7 +263,7 @@ function processElements(rawElements: unknown[], ast: BlockAST): void {
         styleClass: String(elem.styleClass || ''),
       };
       // Store the assignment
-      for (const nodeId of applyClass.id.split(',').map(s => s.trim())) {
+      for (const nodeId of applyClass.id.split(',').map((s) => s.trim())) {
         ast.classAssignments.set(nodeId, applyClass.styleClass);
       }
       ast.elements.push(applyClass);
@@ -261,7 +278,7 @@ function processElements(rawElements: unknown[], ast: BlockAST): void {
         stylesStr: String(elem.stylesStr || ''),
       };
       // Store the assignment
-      for (const nodeId of applyStyles.id.split(',').map(s => s.trim())) {
+      for (const nodeId of applyStyles.id.split(',').map((s) => s.trim())) {
         ast.styleAssignments.set(nodeId, applyStyles.stylesStr);
       }
       ast.elements.push(applyStyles);
@@ -310,10 +327,18 @@ export function parseBlock(input: string): BlockAST {
   }
 
   // Ensure newline after header if needed
-  if (normalizedInput.startsWith('block-beta') && !normalizedInput.startsWith('block-beta\n') && !normalizedInput.startsWith('block-beta\r')) {
+  if (
+    normalizedInput.startsWith('block-beta') &&
+    !normalizedInput.startsWith('block-beta\n') &&
+    !normalizedInput.startsWith('block-beta\r')
+  ) {
     normalizedInput = normalizedInput.replace('block-beta', 'block-beta\n');
   }
-  if (normalizedInput.startsWith('block\n') === false && normalizedInput.startsWith('block\r') === false && normalizedInput.startsWith('block-beta') === false) {
+  if (
+    normalizedInput.startsWith('block\n') === false &&
+    normalizedInput.startsWith('block\r') === false &&
+    normalizedInput.startsWith('block-beta') === false
+  ) {
     if (normalizedInput.startsWith('block')) {
       normalizedInput = normalizedInput.replace(/^block/, 'block\n');
     }

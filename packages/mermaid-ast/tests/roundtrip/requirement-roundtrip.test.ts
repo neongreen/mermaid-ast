@@ -21,11 +21,11 @@ describe('Requirement Round-trip', () => {
     }
 `;
       const { ast, reparsed } = roundTrip(input);
-      
+
       expect(reparsed.requirements.size).toBe(1);
       const original = ast.requirements.get('test_req');
       const parsed = reparsed.requirements.get('test_req');
-      
+
       expect(parsed?.id).toBe(original?.id);
       expect(parsed?.text).toBe(original?.text);
       expect(parsed?.risk).toBe(original?.risk);
@@ -40,11 +40,11 @@ describe('Requirement Round-trip', () => {
     }
 `;
       const { ast, reparsed } = roundTrip(input);
-      
+
       expect(reparsed.elements.size).toBe(1);
       const original = ast.elements.get('test_entity');
       const parsed = reparsed.elements.get('test_entity');
-      
+
       expect(parsed?.type).toBe(original?.type);
       expect(parsed?.docRef).toBe(original?.docRef);
     });
@@ -60,11 +60,13 @@ describe('Requirement Round-trip', () => {
     elem1 - satisfies -> req1
 `;
       const { ast, reparsed } = roundTrip(input);
-      
+
       expect(reparsed.relationships.length).toBe(1);
       expect(reparsed.relationships[0].source).toBe(ast.relationships[0].source);
       expect(reparsed.relationships[0].target).toBe(ast.relationships[0].target);
-      expect(reparsed.relationships[0].relationshipType).toBe(ast.relationships[0].relationshipType);
+      expect(reparsed.relationships[0].relationshipType).toBe(
+        ast.relationships[0].relationshipType
+      );
     });
   });
 
@@ -91,7 +93,7 @@ describe('Requirement Round-trip', () => {
     }
 `;
       const { ast, reparsed } = roundTrip(input);
-      
+
       expect(reparsed.requirements.size).toBe(6);
       expect(reparsed.requirements.get('r1')?.requirementType).toBe('requirement');
       expect(reparsed.requirements.get('r2')?.requirementType).toBe('functionalRequirement');
@@ -116,7 +118,7 @@ describe('Requirement Round-trip', () => {
     }
 `;
       const { reparsed } = roundTrip(input);
-      
+
       expect(reparsed.requirements.get('r1')?.risk).toBe('low');
       expect(reparsed.requirements.get('r2')?.risk).toBe('medium');
       expect(reparsed.requirements.get('r3')?.risk).toBe('high');
@@ -140,7 +142,7 @@ describe('Requirement Round-trip', () => {
     }
 `;
       const { reparsed } = roundTrip(input);
-      
+
       expect(reparsed.requirements.get('r1')?.verifyMethod).toBe('analysis');
       expect(reparsed.requirements.get('r2')?.verifyMethod).toBe('demonstration');
       expect(reparsed.requirements.get('r3')?.verifyMethod).toBe('inspection');
@@ -169,10 +171,10 @@ describe('Requirement Round-trip', () => {
     r1 - traces -> r2
 `;
       const { reparsed } = roundTrip(input);
-      
+
       expect(reparsed.relationships.length).toBe(7);
-      
-      const types = reparsed.relationships.map(r => r.relationshipType);
+
+      const types = reparsed.relationships.map((r) => r.relationshipType);
       expect(types).toContain('contains');
       expect(types).toContain('copies');
       expect(types).toContain('derives');
@@ -214,18 +216,18 @@ describe('Requirement Round-trip', () => {
     login_verifier - verifies -> user_login
 `;
       const { ast, reparsed } = roundTrip(input);
-      
+
       expect(reparsed.requirements.size).toBe(ast.requirements.size);
       expect(reparsed.elements.size).toBe(ast.elements.size);
       expect(reparsed.relationships.length).toBe(ast.relationships.length);
-      
+
       // Verify requirement details
       const userLogin = reparsed.requirements.get('user_login');
       expect(userLogin?.id).toBe('REQ001');
       expect(userLogin?.text).toBe('User must be able to login');
       expect(userLogin?.risk).toBe('high');
       expect(userLogin?.verifyMethod).toBe('test');
-      
+
       // Verify element details
       const authModule = reparsed.elements.get('auth_module');
       expect(authModule?.type).toBe('module');
@@ -250,7 +252,7 @@ describe('Requirement Round-trip', () => {
       const { rendered: first } = roundTrip(input);
       const { rendered: second } = roundTrip(first);
       const { rendered: third } = roundTrip(second);
-      
+
       expect(second).toBe(first);
       expect(third).toBe(second);
     });

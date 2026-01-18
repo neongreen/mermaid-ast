@@ -105,9 +105,7 @@ describe('GitGraph Renderer', () => {
     it('should render commit with multiple attributes', () => {
       const ast: GitGraphAST = {
         type: 'gitGraph',
-        statements: [
-          { type: 'commit', id: 'c1', message: 'First', tag: 'v1.0.0' },
-        ],
+        statements: [{ type: 'commit', id: 'c1', message: 'First', tag: 'v1.0.0' }],
       };
       const output = renderGitGraph(ast);
       expect(output).toContain('id: "c1"');
@@ -178,9 +176,7 @@ describe('GitGraph Renderer', () => {
     it('should render merge with type', () => {
       const ast: GitGraphAST = {
         type: 'gitGraph',
-        statements: [
-          { type: 'merge', branch: 'develop', commitType: 'HIGHLIGHT' },
-        ],
+        statements: [{ type: 'merge', branch: 'develop', commitType: 'HIGHLIGHT' }],
       };
       const output = renderGitGraph(ast);
       expect(output).toContain('type: HIGHLIGHT');

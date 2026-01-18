@@ -34,9 +34,7 @@ function assertEquivalentStateDiagrams(ast1: StateDiagramAST, ast2: StateDiagram
   expect(ast2.transitions.length).toBe(ast1.transitions.length);
   for (const trans1 of ast1.transitions) {
     const matchingTrans = ast2.transitions.find(
-      (t) =>
-        t.state1.id === trans1.state1.id &&
-        t.state2.id === trans1.state2.id
+      (t) => t.state1.id === trans1.state1.id && t.state2.id === trans1.state2.id
     );
     expect(matchingTrans).toBeDefined();
     if (trans1.description) {

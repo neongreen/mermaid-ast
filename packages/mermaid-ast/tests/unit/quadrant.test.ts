@@ -31,9 +31,8 @@ describe('Quadrant Wrapper', () => {
 
   describe('Core Methods', () => {
     it('should return AST with toAST()', () => {
-      const quadrant = Quadrant.create('My Chart')
-        .addPoint('A', 0.3, 0.7);
-      
+      const quadrant = Quadrant.create('My Chart').addPoint('A', 0.3, 0.7);
+
       const ast = quadrant.toAST();
       expect(ast.type).toBe('quadrant');
       expect(ast.title).toBe('My Chart');
@@ -41,16 +40,14 @@ describe('Quadrant Wrapper', () => {
     });
 
     it('should clone diagram', () => {
-      const original = Quadrant.create('Original')
-        .addPoint('A', 0.5, 0.5)
-        .setXAxis('Low', 'High');
-      
+      const original = Quadrant.create('Original').addPoint('A', 0.5, 0.5).setXAxis('Low', 'High');
+
       const cloned = original.clone();
-      
+
       // Verify clone has same data
       expect(cloned.title).toBe('Original');
       expect(cloned.pointCount).toBe(1);
-      
+
       // Verify independence - modify original
       original.addPoint('B', 0.2, 0.8);
       expect(original.pointCount).toBe(2);
@@ -58,9 +55,8 @@ describe('Quadrant Wrapper', () => {
     });
 
     it('should render to Mermaid syntax', () => {
-      const quadrant = Quadrant.create('Test Chart')
-        .addPoint('Point A', 0.3, 0.7);
-      
+      const quadrant = Quadrant.create('Test Chart').addPoint('Point A', 0.3, 0.7);
+
       const rendered = quadrant.render();
       expect(rendered).toContain('quadrantChart');
       expect(rendered).toContain('title Test Chart');
@@ -68,9 +64,8 @@ describe('Quadrant Wrapper', () => {
     });
 
     it('should render with options', () => {
-      const quadrant = Quadrant.create('Test')
-        .addPoint('A', 0.5, 0.5);
-      
+      const quadrant = Quadrant.create('Test').addPoint('A', 0.5, 0.5);
+
       const rendered = quadrant.render({ indent: 2 });
       expect(rendered).toContain('quadrantChart');
     });
@@ -104,10 +99,8 @@ describe('Quadrant Wrapper', () => {
     });
 
     it('should set both axes', () => {
-      const quadrant = Quadrant.create()
-        .setXAxis('Left', 'Right')
-        .setYAxis('Bottom', 'Top');
-      
+      const quadrant = Quadrant.create().setXAxis('Left', 'Right').setYAxis('Bottom', 'Top');
+
       const ast = quadrant.toAST();
       expect(ast.xAxisLeft).toBe('Left');
       expect(ast.xAxisRight).toBe('Right');
@@ -118,9 +111,13 @@ describe('Quadrant Wrapper', () => {
 
   describe('Quadrant Label Operations', () => {
     it('should set quadrant labels', () => {
-      const quadrant = Quadrant.create()
-        .setQuadrantLabels('Do First', 'Schedule', 'Delegate', 'Eliminate');
-      
+      const quadrant = Quadrant.create().setQuadrantLabels(
+        'Do First',
+        'Schedule',
+        'Delegate',
+        'Eliminate'
+      );
+
       const ast = quadrant.toAST();
       expect(ast.quadrant1).toBe('Do First');
       expect(ast.quadrant2).toBe('Schedule');
@@ -129,10 +126,8 @@ describe('Quadrant Wrapper', () => {
     });
 
     it('should set individual quadrant labels', () => {
-      const quadrant = Quadrant.create()
-        .setQuadrantLabels('Q1')
-        .setQuadrantLabels(undefined, 'Q2');
-      
+      const quadrant = Quadrant.create().setQuadrantLabels('Q1').setQuadrantLabels(undefined, 'Q2');
+
       const ast = quadrant.toAST();
       expect(ast.quadrant1).toBe('Q1');
       expect(ast.quadrant2).toBe('Q2');
@@ -148,17 +143,17 @@ describe('Quadrant Wrapper', () => {
     });
 
     it('should add points with options', () => {
-      const quadrant = Quadrant.create()
-        .addPoint('A', 0.5, 0.5, { className: 'highlight' });
-      
+      const quadrant = Quadrant.create().addPoint('A', 0.5, 0.5, { className: 'highlight' });
+
       const point = quadrant.getPoint('A');
       expect(point?.className).toBe('highlight');
     });
 
     it('should add points with styles', () => {
-      const quadrant = Quadrant.create()
-        .addPoint('A', 0.5, 0.5, { styles: ['fill: red', 'stroke: blue'] });
-      
+      const quadrant = Quadrant.create().addPoint('A', 0.5, 0.5, {
+        styles: ['fill: red', 'stroke: blue'],
+      });
+
       const point = quadrant.getPoint('A');
       expect(point?.styles).toEqual(['fill: red', 'stroke: blue']);
     });
@@ -182,39 +177,32 @@ describe('Quadrant Wrapper', () => {
     });
 
     it('should update only x coordinate', () => {
-      const quadrant = Quadrant.create()
-        .addPoint('A', 0.5, 0.5)
-        .updatePoint('A', 0.9, undefined);
-      
+      const quadrant = Quadrant.create().addPoint('A', 0.5, 0.5).updatePoint('A', 0.9, undefined);
+
       const point = quadrant.getPoint('A');
       expect(point?.x).toBe(0.9);
       expect(point?.y).toBe(0.5);
     });
 
     it('should update only y coordinate', () => {
-      const quadrant = Quadrant.create()
-        .addPoint('A', 0.5, 0.5)
-        .updatePoint('A', undefined, 0.9);
-      
+      const quadrant = Quadrant.create().addPoint('A', 0.5, 0.5).updatePoint('A', undefined, 0.9);
+
       const point = quadrant.getPoint('A');
       expect(point?.x).toBe(0.5);
       expect(point?.y).toBe(0.9);
     });
 
     it('should get all points', () => {
-      const quadrant = Quadrant.create()
-        .addPoint('A', 0.1, 0.2)
-        .addPoint('B', 0.3, 0.4);
-      
+      const quadrant = Quadrant.create().addPoint('A', 0.1, 0.2).addPoint('B', 0.3, 0.4);
+
       expect(quadrant.points.length).toBe(2);
     });
   });
 
   describe('Class Operations', () => {
     it('should add CSS class', () => {
-      const quadrant = Quadrant.create()
-        .addClass('highlight', ['fill: yellow', 'stroke: black']);
-      
+      const quadrant = Quadrant.create().addClass('highlight', ['fill: yellow', 'stroke: black']);
+
       const cls = quadrant.getClass('highlight');
       expect(cls).toBeDefined();
       expect(cls?.styles).toEqual(['fill: yellow', 'stroke: black']);
@@ -361,7 +349,7 @@ describe('Quadrant Wrapper', () => {
 
     it('should handle empty chart operations', () => {
       const empty = Quadrant.create();
-      
+
       expect(empty.pointCount).toBe(0);
       expect(empty.points).toEqual([]);
       expect(empty.getPoint('nonexistent')).toBeUndefined();

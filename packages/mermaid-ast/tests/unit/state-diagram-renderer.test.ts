@@ -24,9 +24,7 @@ describe('StateDiagram Renderer', () => {
     });
 
     it('should render initial and final transitions', () => {
-      const diagram = StateDiagram.create()
-        .addInitial('Idle')
-        .addFinal('Done');
+      const diagram = StateDiagram.create().addInitial('Idle').addFinal('Done');
       const rendered = diagram.render();
       expect(rendered).toContain('[*] --> Idle');
       expect(rendered).toContain('Done --> [*]');
@@ -35,29 +33,25 @@ describe('StateDiagram Renderer', () => {
 
   describe('State Rendering', () => {
     it('should render state with description', () => {
-      const diagram = StateDiagram.create()
-        .addState('S1', { description: 'First State' });
+      const diagram = StateDiagram.create().addState('S1', { description: 'First State' });
       const rendered = diagram.render();
       expect(rendered).toContain('state "First State" as S1');
     });
 
     it('should render fork state', () => {
-      const diagram = StateDiagram.create()
-        .addFork('fork1');
+      const diagram = StateDiagram.create().addFork('fork1');
       const rendered = diagram.render();
       expect(rendered).toContain('state fork1 <<fork>>');
     });
 
     it('should render join state', () => {
-      const diagram = StateDiagram.create()
-        .addJoin('join1');
+      const diagram = StateDiagram.create().addJoin('join1');
       const rendered = diagram.render();
       expect(rendered).toContain('state join1 <<join>>');
     });
 
     it('should render choice state', () => {
-      const diagram = StateDiagram.create()
-        .addChoice('choice1');
+      const diagram = StateDiagram.create().addChoice('choice1');
       const rendered = diagram.render();
       expect(rendered).toContain('state choice1 <<choice>>');
     });
@@ -65,15 +59,13 @@ describe('StateDiagram Renderer', () => {
 
   describe('Transition Rendering', () => {
     it('should render simple transition', () => {
-      const diagram = StateDiagram.create()
-        .addTransition('A', 'B');
+      const diagram = StateDiagram.create().addTransition('A', 'B');
       const rendered = diagram.render();
       expect(rendered).toContain('A --> B');
     });
 
     it('should render transition with label', () => {
-      const diagram = StateDiagram.create()
-        .addTransition('Idle', 'Running', { label: 'start' });
+      const diagram = StateDiagram.create().addTransition('Idle', 'Running', { label: 'start' });
       const rendered = diagram.render();
       expect(rendered).toContain('Idle --> Running : start');
     });
@@ -90,8 +82,7 @@ describe('StateDiagram Renderer', () => {
     });
 
     it('should render self-transition', () => {
-      const diagram = StateDiagram.create()
-        .addTransition('A', 'A', { label: 'retry' });
+      const diagram = StateDiagram.create().addTransition('A', 'A', { label: 'retry' });
       const rendered = diagram.render();
       expect(rendered).toContain('A --> A : retry');
     });
@@ -107,9 +98,7 @@ describe('StateDiagram Renderer', () => {
     });
 
     it('should render note on left', () => {
-      const diagram = StateDiagram.create()
-        .addState('S1')
-        .addNote('S1', 'Left note', 'left of');
+      const diagram = StateDiagram.create().addState('S1').addNote('S1', 'Left note', 'left of');
       const rendered = diagram.render();
       expect(rendered).toContain('note left of S1 : Left note');
     });
@@ -117,8 +106,7 @@ describe('StateDiagram Renderer', () => {
 
   describe('Style Rendering', () => {
     it('should render class definition', () => {
-      const diagram = StateDiagram.create()
-        .defineStyle('highlight', 'fill:#f9f,stroke:#333');
+      const diagram = StateDiagram.create().defineStyle('highlight', 'fill:#f9f,stroke:#333');
       const rendered = diagram.render();
       expect(rendered).toContain('classDef highlight fill:#f9f,stroke:#333');
     });
@@ -144,7 +132,7 @@ describe('StateDiagram Renderer', () => {
         .addTransition('Processing', 'Done', { label: 'complete' })
         .addTransition('Processing', 'Idle', { label: 'cancel' })
         .addFinal('Done');
-      
+
       const rendered = diagram.render();
       expect(rendered).toContain('stateDiagram-v2');
       expect(rendered).toContain('direction LR');
@@ -166,7 +154,7 @@ describe('StateDiagram Renderer', () => {
         .addTransition('B', 'join1')
         .addTransition('join1', 'End')
         .addFinal('End');
-      
+
       const rendered = diagram.render();
       expect(rendered).toContain('state fork1 <<fork>>');
       expect(rendered).toContain('state join1 <<join>>');
@@ -180,7 +168,7 @@ describe('StateDiagram Renderer', () => {
         .addTransition('Start', 'decision')
         .addTransition('decision', 'Yes', { label: 'condition true' })
         .addTransition('decision', 'No', { label: 'condition false' });
-      
+
       const rendered = diagram.render();
       expect(rendered).toContain('state decision <<choice>>');
       expect(rendered).toContain('decision --> Yes : condition true');
@@ -241,7 +229,7 @@ describe('StateDiagram Renderer', () => {
         .addTransition('A', 'B', { label: 'next' })
         .addTransition('B', 'C')
         .addFinal('C');
-      
+
       const rendered = diagram.render();
       expect(rendered).toContain('stateDiagram-v2');
       expect(rendered).toContain('[*] --> A');

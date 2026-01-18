@@ -54,14 +54,12 @@ describe('GitGraph', () => {
     });
 
     it('should clone diagram', () => {
-      const original = GitGraph.create()
-        .commit({ id: 'c1' })
-        .branch('develop');
+      const original = GitGraph.create().commit({ id: 'c1' }).branch('develop');
       const cloned = original.clone();
-      
+
       expect(cloned.commitCount).toBe(1);
       expect(cloned.branchCount).toBe(1);
-      
+
       // Verify independence
       cloned.commit({ id: 'c2' });
       expect(original.commitCount).toBe(1);
@@ -69,9 +67,7 @@ describe('GitGraph', () => {
     });
 
     it('should render diagram', () => {
-      const diagram = GitGraph.create()
-        .commit()
-        .branch('develop');
+      const diagram = GitGraph.create().commit().branch('develop');
       const output = diagram.render();
       expect(output).toContain('gitGraph');
       expect(output).toContain('commit');
@@ -164,9 +160,7 @@ describe('GitGraph', () => {
     });
 
     it('should find commits by id', () => {
-      const diagram = GitGraph.create()
-        .commit({ id: 'c1' })
-        .commit({ id: 'c2' });
+      const diagram = GitGraph.create().commit({ id: 'c1' }).commit({ id: 'c2' });
       const commits = diagram.findCommits({ id: 'c1' });
       expect(commits.length).toBe(1);
     });
@@ -194,18 +188,14 @@ describe('GitGraph', () => {
     });
 
     it('should checkout branch', () => {
-      const diagram = GitGraph.create()
-        .branch('develop')
-        .checkout('develop');
+      const diagram = GitGraph.create().branch('develop').checkout('develop');
       const statements = diagram.getStatements();
       expect(statements.length).toBe(2);
       expect(statements[1].type).toBe('checkout');
     });
 
     it('should find branches by name', () => {
-      const diagram = GitGraph.create()
-        .branch('develop')
-        .branch('feature');
+      const diagram = GitGraph.create().branch('develop').branch('feature');
       const branches = diagram.findBranches({ name: 'develop' });
       expect(branches.length).toBe(1);
     });
@@ -230,11 +220,9 @@ describe('GitGraph', () => {
     });
 
     it('should merge with id', () => {
-      const diagram = GitGraph.create()
-        .branch('develop')
-        .merge('develop', { id: 'merge-1' });
+      const diagram = GitGraph.create().branch('develop').merge('develop', { id: 'merge-1' });
       const statements = diagram.getStatements();
-      const merge = statements.find(s => s.type === 'merge');
+      const merge = statements.find((s) => s.type === 'merge');
       expect(merge?.type).toBe('merge');
       if (merge?.type === 'merge') {
         expect(merge.id).toBe('merge-1');
@@ -242,11 +230,9 @@ describe('GitGraph', () => {
     });
 
     it('should merge with tag', () => {
-      const diagram = GitGraph.create()
-        .branch('develop')
-        .merge('develop', { tag: 'v1.0.0' });
+      const diagram = GitGraph.create().branch('develop').merge('develop', { tag: 'v1.0.0' });
       const statements = diagram.getStatements();
-      const merge = statements.find(s => s.type === 'merge');
+      const merge = statements.find((s) => s.type === 'merge');
       if (merge?.type === 'merge') {
         expect(merge.tag).toBe('v1.0.0');
       }
@@ -257,7 +243,7 @@ describe('GitGraph', () => {
         .branch('develop')
         .merge('develop', { commitType: 'HIGHLIGHT' });
       const statements = diagram.getStatements();
-      const merge = statements.find(s => s.type === 'merge');
+      const merge = statements.find((s) => s.type === 'merge');
       if (merge?.type === 'merge') {
         expect(merge.commitType).toBe('HIGHLIGHT');
       }
@@ -272,27 +258,23 @@ describe('GitGraph', () => {
         .checkout('develop')
         .cherryPick('c1');
       const statements = diagram.getStatements();
-      const cherryPick = statements.find(s => s.type === 'cherry-pick');
+      const cherryPick = statements.find((s) => s.type === 'cherry-pick');
       expect(cherryPick).toBeDefined();
     });
 
     it('should cherry-pick with tag', () => {
-      const diagram = GitGraph.create()
-        .commit({ id: 'c1' })
-        .cherryPick('c1', { tag: 'picked' });
+      const diagram = GitGraph.create().commit({ id: 'c1' }).cherryPick('c1', { tag: 'picked' });
       const statements = diagram.getStatements();
-      const cherryPick = statements.find(s => s.type === 'cherry-pick');
+      const cherryPick = statements.find((s) => s.type === 'cherry-pick');
       if (cherryPick?.type === 'cherry-pick') {
         expect(cherryPick.tag).toBe('picked');
       }
     });
 
     it('should cherry-pick with parent', () => {
-      const diagram = GitGraph.create()
-        .commit({ id: 'c1' })
-        .cherryPick('c1', { parent: 'main' });
+      const diagram = GitGraph.create().commit({ id: 'c1' }).cherryPick('c1', { parent: 'main' });
       const statements = diagram.getStatements();
-      const cherryPick = statements.find(s => s.type === 'cherry-pick');
+      const cherryPick = statements.find((s) => s.type === 'cherry-pick');
       if (cherryPick?.type === 'cherry-pick') {
         expect(cherryPick.parent).toBe('main');
       }
@@ -301,19 +283,13 @@ describe('GitGraph', () => {
 
   describe('General Statement Operations', () => {
     it('should get all statements', () => {
-      const diagram = GitGraph.create()
-        .commit()
-        .branch('develop')
-        .checkout('develop')
-        .commit();
+      const diagram = GitGraph.create().commit().branch('develop').checkout('develop').commit();
       const statements = diagram.getStatements();
       expect(statements.length).toBe(4);
     });
 
     it('should get statement count', () => {
-      const diagram = GitGraph.create()
-        .commit()
-        .branch('develop');
+      const diagram = GitGraph.create().commit().branch('develop');
       expect(diagram.statementCount).toBe(2);
     });
   });
@@ -333,7 +309,7 @@ describe('GitGraph', () => {
         .merge('feature', { tag: 'feature-complete' })
         .checkout('main')
         .merge('develop', { tag: 'v1.0.0' });
-      
+
       expect(diagram.commitCount).toBe(4);
       expect(diagram.branchCount).toBe(2);
       expect(diagram.mergeCount).toBe(2);
@@ -358,7 +334,7 @@ describe('GitGraph', () => {
         .merge('release', { tag: 'v1.0.0' })
         .checkout('develop')
         .merge('release');
-      
+
       const ast = diagram.toAST();
       expect(ast.direction).toBe('LR');
       expect(diagram.branchCount).toBe(3);

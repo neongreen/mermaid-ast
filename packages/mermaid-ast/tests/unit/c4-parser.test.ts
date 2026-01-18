@@ -4,7 +4,14 @@
 
 import { describe, expect, it } from 'bun:test';
 import { isC4Diagram, parseC4 } from '../../src/parser/c4-parser.js';
-import { isC4Boundary, isC4Person, isC4System, isC4Container, isC4Component, isC4DeploymentNode } from '../../src/types/c4.js';
+import {
+  isC4Boundary,
+  isC4Person,
+  isC4System,
+  isC4Container,
+  isC4Component,
+  isC4DeploymentNode,
+} from '../../src/types/c4.js';
 
 describe('C4 Parser', () => {
   describe('isC4Diagram', () => {
@@ -410,7 +417,7 @@ describe('C4 Parser', () => {
     
     Rel(user, system, "Uses")
     Rel(system, external, "Calls", "REST")`);
-      
+
       expect(ast.elements.length).toBe(3);
       expect(ast.relationships.length).toBe(2);
     });
@@ -425,7 +432,7 @@ describe('C4 Parser', () => {
     
     Rel(web, api, "Calls", "REST")
     Rel(api, db, "Reads/Writes", "SQL")`);
-      
+
       // The boundary is an element, and its children are inside it
       expect(ast.elements.length).toBe(1);
       const boundary = ast.elements[0];

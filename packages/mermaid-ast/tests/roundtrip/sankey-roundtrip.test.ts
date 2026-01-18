@@ -28,10 +28,7 @@ function assertEquivalentSankeys(ast1: SankeyAST, ast2: SankeyAST): void {
   expect(ast2.links.length).toBe(ast1.links.length);
   for (const link1 of ast1.links) {
     const matchingLink = ast2.links.find(
-      (l) =>
-        l.source === link1.source &&
-        l.target === link1.target &&
-        l.value === link1.value
+      (l) => l.source === link1.source && l.target === link1.target && l.value === link1.value
     );
     expect(matchingLink).toBeDefined();
   }

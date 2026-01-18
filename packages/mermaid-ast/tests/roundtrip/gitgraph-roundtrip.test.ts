@@ -13,7 +13,7 @@ describe('GitGraph Round-trip', () => {
       const original = GitGraph.create();
       const rendered = original.render();
       const parsed = await GitGraph.parse(rendered);
-      
+
       expect(parsed.toAST().type).toBe('gitGraph');
       expect(parsed.statementCount).toBe(0);
     });
@@ -22,7 +22,7 @@ describe('GitGraph Round-trip', () => {
       const original = GitGraph.create('LR');
       const rendered = original.render();
       const parsed = await GitGraph.parse(rendered);
-      
+
       expect(parsed.getDirection()).toBe('LR');
     });
 
@@ -30,18 +30,16 @@ describe('GitGraph Round-trip', () => {
       const original = GitGraph.create().commit({ id: 'c1' });
       const rendered = original.render();
       const parsed = await GitGraph.parse(rendered);
-      
+
       expect(parsed.commitCount).toBe(1);
       expect(parsed.getCommit('c1')).toBeDefined();
     });
 
     it('should round-trip branch and checkout', async () => {
-      const original = GitGraph.create()
-        .branch('develop')
-        .checkout('develop');
+      const original = GitGraph.create().branch('develop').checkout('develop');
       const rendered = original.render();
       const parsed = await GitGraph.parse(rendered);
-      
+
       expect(parsed.branchCount).toBe(1);
       expect(parsed.getBranch('develop')).toBeDefined();
     });
@@ -62,10 +60,10 @@ describe('GitGraph Round-trip', () => {
         .merge('feature', { tag: 'feature-done' })
         .checkout('main')
         .merge('develop', { tag: 'v1.0.0' });
-      
+
       const rendered = original.render();
       const parsed = await GitGraph.parse(rendered);
-      
+
       expect(parsed.getDirection()).toBe('LR');
       expect(parsed.commitCount).toBe(4);
       expect(parsed.branchCount).toBe(2);
@@ -73,17 +71,16 @@ describe('GitGraph Round-trip', () => {
     });
 
     it('should round-trip commit with all attributes', async () => {
-      const original = GitGraph.create()
-        .commit({
-          id: 'c1',
-          message: 'Test commit',
-          tag: 'v1.0.0',
-          commitType: 'HIGHLIGHT',
-        });
-      
+      const original = GitGraph.create().commit({
+        id: 'c1',
+        message: 'Test commit',
+        tag: 'v1.0.0',
+        commitType: 'HIGHLIGHT',
+      });
+
       const rendered = original.render();
       const parsed = await GitGraph.parse(rendered);
-      
+
       const commit = parsed.getCommit('c1');
       expect(commit).toBeDefined();
       expect(commit?.message).toBe('Test commit');
@@ -95,10 +92,10 @@ describe('GitGraph Round-trip', () => {
       const original = GitGraph.create()
         .branch('develop', { order: 1 })
         .branch('feature', { order: 2 });
-      
+
       const rendered = original.render();
       const parsed = await GitGraph.parse(rendered);
-      
+
       const develop = parsed.getBranch('develop');
       const feature = parsed.getBranch('feature');
       expect(develop?.order).toBe(1);
@@ -106,19 +103,17 @@ describe('GitGraph Round-trip', () => {
     });
 
     it('should round-trip merge with attributes', async () => {
-      const original = GitGraph.create()
-        .branch('develop')
-        .merge('develop', {
-          id: 'merge-1',
-          tag: 'v1.0.0',
-          commitType: 'HIGHLIGHT',
-        });
-      
+      const original = GitGraph.create().branch('develop').merge('develop', {
+        id: 'merge-1',
+        tag: 'v1.0.0',
+        commitType: 'HIGHLIGHT',
+      });
+
       const rendered = original.render();
       const parsed = await GitGraph.parse(rendered);
-      
+
       const statements = parsed.getStatements();
-      const merge = statements.find(s => s.type === 'merge');
+      const merge = statements.find((s) => s.type === 'merge');
       expect(merge?.type).toBe('merge');
       if (merge?.type === 'merge') {
         expect(merge.id).toBe('merge-1');
@@ -131,12 +126,12 @@ describe('GitGraph Round-trip', () => {
       const original = GitGraph.create()
         .commit({ id: 'c1' })
         .cherryPick('c1', { tag: 'picked', parent: 'main' });
-      
+
       const rendered = original.render();
       const parsed = await GitGraph.parse(rendered);
-      
+
       const statements = parsed.getStatements();
-      const cherryPick = statements.find(s => s.type === 'cherry-pick');
+      const cherryPick = statements.find((s) => s.type === 'cherry-pick');
       expect(cherryPick?.type).toBe('cherry-pick');
       if (cherryPick?.type === 'cherry-pick') {
         expect(cherryPick.id).toBe('c1');
@@ -155,18 +150,18 @@ describe('GitGraph Round-trip', () => {
         .commit({ id: 'c2' })
         .checkout('main')
         .merge('develop', { tag: 'v1.0.0' });
-      
+
       // First round-trip
       const rendered1 = original.render();
       const parsed1 = await GitGraph.parse(rendered1);
-      
+
       // Second round-trip
       const rendered2 = parsed1.render();
       const parsed2 = await GitGraph.parse(rendered2);
-      
+
       // Third round-trip
       const rendered3 = parsed2.render();
-      
+
       // Output should stabilize
       expect(rendered2).toBe(rendered3);
     });
@@ -181,14 +176,14 @@ describe('GitGraph Round-trip', () => {
     commit id: "dev1"
     checkout main
     merge develop tag: "v1.0.0"`;
-      
+
       const ast1 = await parseGitGraph(input);
       const rendered = renderGitGraph(ast1);
       const ast2 = await parseGitGraph(rendered);
-      
+
       expect(ast2.direction).toBe(ast1.direction);
       expect(ast2.statements.length).toBe(ast1.statements.length);
-      
+
       for (let i = 0; i < ast1.statements.length; i++) {
         expect(ast2.statements[i].type).toBe(ast1.statements[i].type);
       }

@@ -367,7 +367,7 @@ describe('Requirement Parser', () => {
     login_verifier - verifies -> user_login
 `;
       const ast = parseRequirement(input);
-      
+
       expect(ast.requirements.size).toBe(2);
       expect(ast.elements.size).toBe(2);
       expect(ast.relationships.length).toBe(3);

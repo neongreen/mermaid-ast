@@ -203,10 +203,10 @@ describe('Block Renderer', () => {
         .addNode('a', { label: 'A' })
         .addNode('b', { label: 'B' })
         .addNode('c', { label: 'C' });
-      
+
       const rendered = original.render();
       const reparsed = Block.parse(rendered);
-      
+
       expect(reparsed.toAST().type).toBe('block');
     });
 
@@ -220,7 +220,7 @@ describe('Block Renderer', () => {
         .addEdge('process', 'output')
         .defineClass('io', 'fill:#e1f5fe')
         .applyClass(['input', 'output'], 'io');
-      
+
       const output = diagram.render();
       expect(output).toContain('block-beta');
       expect(output).toContain('columns 2');
@@ -232,10 +232,8 @@ describe('Block Renderer', () => {
 
   describe('Render Options', () => {
     it('should respect indent option', () => {
-      const diagram = Block.create()
-        .setColumns(2)
-        .addNode('a', { label: 'A' });
-      
+      const diagram = Block.create().setColumns(2).addNode('a', { label: 'A' });
+
       // Default indent is 4 spaces, custom indent of 2 should change indentation
       const output = diagram.render({ indent: 2 });
       // Check that the output uses indentation (columns should be indented)
@@ -243,10 +241,8 @@ describe('Block Renderer', () => {
     });
 
     it('should render with default formatting', () => {
-      const diagram = Block.create()
-        .setColumns(2)
-        .addNode('a', { label: 'A' });
-      
+      const diagram = Block.create().setColumns(2).addNode('a', { label: 'A' });
+
       const output = diagram.render();
       // Should have newlines between lines
       expect(output).toContain('\n');

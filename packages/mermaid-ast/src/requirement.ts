@@ -142,12 +142,8 @@ export class Requirement extends DiagramWrapper<RequirementAST> {
     const cloned: RequirementAST = {
       type: 'requirement',
       direction: this.ast.direction,
-      requirements: new Map(
-        [...this.ast.requirements].map(([k, v]) => [k, { ...v }])
-      ),
-      elements: new Map(
-        [...this.ast.elements].map(([k, v]) => [k, { ...v }])
-      ),
+      requirements: new Map([...this.ast.requirements].map(([k, v]) => [k, { ...v }])),
+      elements: new Map([...this.ast.elements].map(([k, v]) => [k, { ...v }])),
       relationships: [...this.ast.relationships.map((r) => ({ ...r }))],
       classDefs: new Map(
         [...this.ast.classDefs].map(([k, v]) => [k, { ...v, styles: [...v.styles] }])
@@ -346,11 +342,7 @@ export class Requirement extends DiagramWrapper<RequirementAST> {
    * @param target - Target entity name
    * @param relationshipType - Type of relationship
    */
-  addRelationship(
-    source: string,
-    target: string,
-    relationshipType: RelationshipType
-  ): this {
+  addRelationship(source: string, target: string, relationshipType: RelationshipType): this {
     this.ast.relationships.push({
       source,
       target,
@@ -388,11 +380,7 @@ export class Requirement extends DiagramWrapper<RequirementAST> {
    * @param target - Target entity name
    * @param relationshipType - Optional: only remove if type matches
    */
-  removeRelationship(
-    source: string,
-    target: string,
-    relationshipType?: RelationshipType
-  ): this {
+  removeRelationship(source: string, target: string, relationshipType?: RelationshipType): this {
     this.ast.relationships = this.ast.relationships.filter((r) => {
       if (r.source !== source || r.target !== target) return true;
       if (relationshipType && r.relationshipType !== relationshipType) return true;

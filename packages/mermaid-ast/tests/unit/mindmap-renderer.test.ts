@@ -102,15 +102,13 @@ describe('Mindmap Renderer', () => {
 
   describe('Icon Rendering', () => {
     it('should render node with icon', () => {
-      const map = Mindmap.create('Root', 'Root Node')
-        .setIcon('Root', 'fa fa-home');
+      const map = Mindmap.create('Root', 'Root Node').setIcon('Root', 'fa fa-home');
       const rendered = map.render();
       expect(rendered).toContain('::icon(fa fa-home)');
     });
 
     it('should render child with icon', () => {
-      const map = Mindmap.create('Root')
-        .addChild('Root', 'A', 'Node A', { icon: 'fa fa-star' });
+      const map = Mindmap.create('Root').addChild('Root', 'A', 'Node A', { icon: 'fa fa-star' });
       const rendered = map.render();
       expect(rendered).toContain('::icon(fa fa-star)');
     });
@@ -118,15 +116,13 @@ describe('Mindmap Renderer', () => {
 
   describe('CSS Class Rendering', () => {
     it('should render node with CSS class', () => {
-      const map = Mindmap.create('Root', 'Root Node')
-        .setClass('Root', 'highlight');
+      const map = Mindmap.create('Root', 'Root Node').setClass('Root', 'highlight');
       const rendered = map.render();
       expect(rendered).toContain(':::highlight');
     });
 
     it('should render child with CSS class', () => {
-      const map = Mindmap.create('Root')
-        .addChild('Root', 'A', 'Node A', { cssClass: 'important' });
+      const map = Mindmap.create('Root').addChild('Root', 'A', 'Node A', { cssClass: 'important' });
       const rendered = map.render();
       expect(rendered).toContain(':::important');
     });
@@ -202,8 +198,7 @@ describe('Mindmap Renderer', () => {
 
   describe('Render Options', () => {
     it('should respect custom indent', () => {
-      const map = Mindmap.create('Root')
-        .addChild('Root', 'A', 'Node A');
+      const map = Mindmap.create('Root').addChild('Root', 'A', 'Node A');
       const rendered = map.render({ indent: 2 });
       // Check that indentation is applied
       const lines = rendered.split('\n');
@@ -211,8 +206,7 @@ describe('Mindmap Renderer', () => {
     });
 
     it('should support tab indent', () => {
-      const map = Mindmap.create('Root')
-        .addChild('Root', 'A', 'Node A');
+      const map = Mindmap.create('Root').addChild('Root', 'A', 'Node A');
       const rendered = map.render({ indent: 'tab' });
       expect(rendered).toContain('\t');
     });
@@ -224,7 +218,7 @@ describe('Mindmap Renderer', () => {
       const map = Mindmap.create('Root')
         .addChild('Root', 'A', 'Node A', { shape: 'square' })
         .addChild('Root', 'B', 'Node B', { shape: 'rounded' });
-      
+
       const rendered = map.render();
       expect(rendered).toContain('mindmap');
       expect(rendered).toContain('Root');

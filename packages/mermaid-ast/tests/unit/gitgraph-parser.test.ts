@@ -253,12 +253,12 @@ describe('GitGraph Parser', () => {
     merge develop tag: "v1.0.0"`;
       const ast = await parseGitGraph(input);
       expect(ast.statements.length).toBe(12);
-      
-      const commits = ast.statements.filter(s => s.type === 'commit');
-      const branches = ast.statements.filter(s => s.type === 'branch');
-      const checkouts = ast.statements.filter(s => s.type === 'checkout');
-      const merges = ast.statements.filter(s => s.type === 'merge');
-      
+
+      const commits = ast.statements.filter((s) => s.type === 'commit');
+      const branches = ast.statements.filter((s) => s.type === 'branch');
+      const checkouts = ast.statements.filter((s) => s.type === 'checkout');
+      const merges = ast.statements.filter((s) => s.type === 'merge');
+
       expect(commits.length).toBe(4);
       expect(branches.length).toBe(2);
       expect(checkouts.length).toBe(4);

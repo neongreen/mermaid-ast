@@ -536,7 +536,11 @@ export class C4 extends DiagramWrapper<C4AST> {
         if (query.alias && 'alias' in element && element.alias !== query.alias) {
           matches = false;
         }
-        if (query.aliasContains && 'alias' in element && !element.alias.includes(query.aliasContains)) {
+        if (
+          query.aliasContains &&
+          'alias' in element &&
+          !element.alias.includes(query.aliasContains)
+        ) {
           matches = false;
         }
         if (query.labelContains) {
@@ -621,11 +625,12 @@ export class C4 extends DiagramWrapper<C4AST> {
    * Find relationships matching a query
    */
   findRelationships(query: FindRelationshipsQuery): C4Relationship[] {
-    return this.ast.relationships.filter(rel => {
+    return this.ast.relationships.filter((rel) => {
       if (query.from && rel.from !== query.from) return false;
       if (query.to && rel.to !== query.to) return false;
       if (query.type && rel.type !== query.type) return false;
-      if (query.labelContains && (!rel.label || !rel.label.includes(query.labelContains))) return false;
+      if (query.labelContains && (!rel.label || !rel.label.includes(query.labelContains)))
+        return false;
       return true;
     });
   }
@@ -634,21 +639,21 @@ export class C4 extends DiagramWrapper<C4AST> {
    * Get relationships from a specific element
    */
   getRelationshipsFrom(alias: string): C4Relationship[] {
-    return this.ast.relationships.filter(rel => rel.from === alias);
+    return this.ast.relationships.filter((rel) => rel.from === alias);
   }
 
   /**
    * Get relationships to a specific element
    */
   getRelationshipsTo(alias: string): C4Relationship[] {
-    return this.ast.relationships.filter(rel => rel.to === alias);
+    return this.ast.relationships.filter((rel) => rel.to === alias);
   }
 
   /**
    * Remove a relationship
    */
   removeRelationship(from: string, to: string): this {
-    const index = this.ast.relationships.findIndex(rel => rel.from === from && rel.to === to);
+    const index = this.ast.relationships.findIndex((rel) => rel.from === from && rel.to === to);
     if (index !== -1) {
       this.ast.relationships.splice(index, 1);
     }
@@ -673,7 +678,11 @@ export class C4 extends DiagramWrapper<C4AST> {
   /**
    * Add a relationship style
    */
-  addRelationshipStyle(from: string, to: string, style: Omit<C4RelationshipStyle, 'from' | 'to'>): this {
+  addRelationshipStyle(
+    from: string,
+    to: string,
+    style: Omit<C4RelationshipStyle, 'from' | 'to'>
+  ): this {
     this.ast.relationshipStyles.push({
       from,
       to,

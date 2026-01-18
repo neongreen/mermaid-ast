@@ -88,19 +88,19 @@ function getEdgeString(edgeType: string): string {
 function renderNode(node: BlockNode): Doc {
   const [open, close] = getShapeDelimiters(node.shape);
   const label = node.label || node.id;
-  
+
   let result = `${node.id}${open}"${label}"${close}`;
-  
+
   // Add directions for block arrows
   if (node.shape === 'block-arrow' && node.directions && node.directions.length > 0) {
     result = `${node.id}<["${label}"]>(${node.directions.join(', ')})`;
   }
-  
+
   // Add width if not default
   if (node.widthInColumns > 1) {
     result += `:${node.widthInColumns}`;
   }
-  
+
   return result;
 }
 
@@ -163,17 +163,13 @@ function renderEdge(edge: BlockEdge): Doc {
  * Renders a composite block
  */
 function renderComposite(composite: BlockComposite, options: ResolvedRenderOptions): Doc {
-  const header = composite.label 
+  const header = composite.label
     ? `block:${composite.id}["${composite.label}"]`
     : `block:${composite.id}`;
-  
-  const children = composite.children.map(child => renderElement(child, options));
-  
-  return [
-    header,
-    indent(children),
-    'end',
-  ];
+
+  const children = composite.children.map((child) => renderElement(child, options));
+
+  return [header, indent(children), 'end'];
 }
 
 /**
@@ -197,17 +193,17 @@ function renderElement(element: BlockElement, options: ResolvedRenderOptions): D
         return renderApplyStyles(element as BlockApplyStyles);
     }
   }
-  
+
   // Check for edge (has start and end)
   if ('start' in element && 'end' in element) {
     return renderEdge(element as BlockEdge);
   }
-  
+
   // Default: node
   if ('shape' in element) {
     return renderNode(element as BlockNode);
   }
-  
+
   return '';
 }
 
@@ -216,13 +212,13 @@ function renderElement(element: BlockElement, options: ResolvedRenderOptions): D
  */
 export function renderBlock(ast: BlockAST, options?: RenderOptions): string {
   const opts = resolveOptions(options);
-  
+
   const doc: Doc = [
     'block-beta',
     when(ast.accTitle, `accTitle: ${ast.accTitle}`),
     when(ast.accDescr, `accDescr: ${ast.accDescr}`),
-    indent(ast.elements.map(element => renderElement(element, opts))),
+    indent(ast.elements.map((element) => renderElement(element, opts))),
   ];
-  
+
   return render(doc, opts.indent);
 }

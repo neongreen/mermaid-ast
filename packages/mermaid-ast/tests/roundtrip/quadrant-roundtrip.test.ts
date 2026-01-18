@@ -36,9 +36,7 @@ function assertEquivalentQuadrants(ast1: QuadrantAST, ast2: QuadrantAST): void {
   for (const point1 of ast1.points) {
     const matchingPoint = ast2.points.find(
       (p) =>
-        p.name === point1.name &&
-        Math.abs(p.x - point1.x) < 0.01 &&
-        Math.abs(p.y - point1.y) < 0.01
+        p.name === point1.name && Math.abs(p.x - point1.x) < 0.01 && Math.abs(p.y - point1.y) < 0.01
     );
     expect(matchingPoint).toBeDefined();
   }

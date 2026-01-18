@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-01-18
+
 ### Added
 - **C4 diagram support** - Complete implementation with parser, renderer, wrapper class (`C4`), and 173 tests
   - All 5 diagram types: C4Context, C4Container, C4Component, C4Dynamic, C4Deployment
@@ -32,8 +34,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Langium parser integration** - Added `@mermaid-js/parser` as dependency for diagram types without JISON parsers
 
+- **AST type discriminator documentation** - Documented that we use `type` field (not Langium's `$type`) for consistency
+
 ### Changed
 - **All 18 diagram types now implemented** - Pie and GitGraph were the last remaining types
+
+### Prompts Used
+
+```
+ok cool cool . is readme up to date?
+
+ok cool. does ci pass. also is the $ast difference documented. or like visible in the types. are we even exposing the types of what ast we are giving out
+
+hmmmm question. do you think its a good idea to have 'type' as a field name
+
+what are other differences between our ast and langium
+
+I think I care about is that if Mermaid moves to more Lanium parsers and they expose more ASC for other types of type camps, we are going to be like our ASC and it costs us nothing to change it right now because we have no users. I wonder what's going to happen in the future when if Mermaid migrates more stuff to Lanium, it would be nice to stay compatible. Suppose what do you think?
+
+well the thing is that since we have no users i dont care amuch about what our 16 parsers arbitrarily chose to produce one day ago
+
+in typescrijpt can one say foo.$type or do they have to say foo['$type']? or is foo.type also ok?
+
+eh ok lets keep .type just document it in the readme
+
+ok lets make a release?
+```
 
 ## [0.7.0] - 2025-01-17
 

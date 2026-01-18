@@ -64,7 +64,11 @@ function renderRequirementDef(name: string, req: Requirement, classes: string[] 
 /**
  * Render an element definition
  */
-function renderElementDef(name: string, elem: RequirementElement, classes: string[] | undefined): Doc {
+function renderElementDef(
+  name: string,
+  elem: RequirementElement,
+  classes: string[] | undefined
+): Doc {
   const classStr = classes && classes.length > 0 ? `:::${classes.join(',')}` : '';
   const header = `element ${name}${classStr} {`;
 

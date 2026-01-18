@@ -251,16 +251,11 @@ function renderComponent(component: C4Component): string {
  */
 function renderBoundary(boundary: C4Boundary): Doc {
   const keyword = getBoundaryKeyword(boundary.type);
-  const attrs = formatAttributes(
-    boundary.alias,
-    boundary.label,
-    boundary.tags,
-    boundary.link
-  );
-  
+  const attrs = formatAttributes(boundary.alias, boundary.label, boundary.tags, boundary.link);
+
   return [
     `${keyword}(${attrs}) {`,
-    indent(boundary.children.map(child => renderElement(child))),
+    indent(boundary.children.map((child) => renderElement(child))),
     '}',
   ];
 }
@@ -279,10 +274,10 @@ function renderDeploymentNode(node: C4DeploymentNode): Doc {
     node.tags,
     node.link
   );
-  
+
   return [
     `${keyword}(${attrs}) {`,
-    indent(node.children.map(child => renderElement(child))),
+    indent(node.children.map((child) => renderElement(child))),
     '}',
   ];
 }
@@ -353,15 +348,12 @@ function renderElementStyle(style: C4ElementStyle): string {
  * Render a relationship style update
  */
 function renderRelationshipStyle(style: C4RelationshipStyle): string {
-  const attrs: string[] = [
-    `"${escapeQuotes(style.from)}"`,
-    `"${escapeQuotes(style.to)}"`,
-  ];
+  const attrs: string[] = [`"${escapeQuotes(style.from)}"`, `"${escapeQuotes(style.to)}"`];
   if (style.textColor) attrs.push(`"${escapeQuotes(style.textColor)}"`);
   if (style.lineColor) attrs.push(`"${escapeQuotes(style.lineColor)}"`);
   if (style.offsetX !== undefined) attrs.push(String(style.offsetX));
   if (style.offsetY !== undefined) attrs.push(String(style.offsetY));
-  
+
   return `UpdateRelStyle(${attrs.join(', ')})`;
 }
 
@@ -370,33 +362,33 @@ function renderRelationshipStyle(style: C4RelationshipStyle): string {
  */
 export function renderC4(ast: C4AST, options?: RenderOptions): string {
   const opts = resolveOptions(options);
-  
+
   const doc: Doc = [
     // Diagram type
     ast.diagramType,
-    
+
     // Direction (if set)
     when(ast.direction, `direction ${ast.direction}`),
-    
+
     // Title (if set)
     when(ast.title, `title ${ast.title}`),
-    
+
     // Accessibility
     when(ast.accTitle, `accTitle: ${ast.accTitle}`),
     when(ast.accDescr, `accDescr: ${ast.accDescr}`),
-    
+
     // Elements
-    indent(ast.elements.map(element => renderElement(element))),
-    
+    indent(ast.elements.map((element) => renderElement(element))),
+
     // Relationships
-    indent(ast.relationships.map(rel => renderRelationship(rel))),
-    
+    indent(ast.relationships.map((rel) => renderRelationship(rel))),
+
     // Element styles
-    indent(ast.elementStyles.map(style => renderElementStyle(style))),
-    
+    indent(ast.elementStyles.map((style) => renderElementStyle(style))),
+
     // Relationship styles
-    indent(ast.relationshipStyles.map(style => renderRelationshipStyle(style))),
-    
+    indent(ast.relationshipStyles.map((style) => renderRelationshipStyle(style))),
+
     // Layout config
     when(ast.layoutConfig, () => {
       const attrs: string[] = [];
@@ -409,6 +401,6 @@ export function renderC4(ast: C4AST, options?: RenderOptions): string {
       return attrs.length > 0 ? indent([`UpdateLayoutConfig(${attrs.join(', ')})`]) : null;
     }),
   ];
-  
+
   return render(doc, opts.indent);
 }

@@ -61,14 +61,12 @@ describe('Pie Chart', () => {
     });
 
     it('should clone pie chart', () => {
-      const original = Pie.create()
-        .setTitle('Original')
-        .addSection('A', 50);
+      const original = Pie.create().setTitle('Original').addSection('A', 50);
       const cloned = original.clone();
-      
+
       expect(cloned.getTitle()).toBe('Original');
       expect(cloned.sectionCount).toBe(1);
-      
+
       // Verify independence
       cloned.setTitle('Cloned');
       expect(original.getTitle()).toBe('Original');
@@ -76,10 +74,7 @@ describe('Pie Chart', () => {
     });
 
     it('should render pie chart', () => {
-      const pie = Pie.create()
-        .setTitle('My Pie')
-        .addSection('A', 30)
-        .addSection('B', 70);
+      const pie = Pie.create().setTitle('My Pie').addSection('A', 30).addSection('B', 70);
       const output = pie.render();
       expect(output).toContain('pie');
       expect(output).toContain('title My Pie');
@@ -124,8 +119,7 @@ describe('Pie Chart', () => {
 
   describe('Section Operations', () => {
     it('should add section', () => {
-      const pie = Pie.create()
-        .addSection('Apples', 30);
+      const pie = Pie.create().addSection('Apples', 30);
       expect(pie.sectionCount).toBe(1);
       expect(pie.getSection('Apples')?.value).toBe(30);
     });
@@ -140,25 +134,19 @@ describe('Pie Chart', () => {
     });
 
     it('should remove section by label', () => {
-      const pie = Pie.create()
-        .addSection('A', 50)
-        .addSection('B', 50)
-        .removeSection('A');
+      const pie = Pie.create().addSection('A', 50).addSection('B', 50).removeSection('A');
       expect(pie.sectionCount).toBe(1);
       expect(pie.getSection('A')).toBeUndefined();
       expect(pie.getSection('B')).toBeDefined();
     });
 
     it('should update section value', () => {
-      const pie = Pie.create()
-        .addSection('A', 30)
-        .updateSection('A', 70);
+      const pie = Pie.create().addSection('A', 30).updateSection('A', 70);
       expect(pie.getSection('A')?.value).toBe(70);
     });
 
     it('should get section by label', () => {
-      const pie = Pie.create()
-        .addSection('Test', 42);
+      const pie = Pie.create().addSection('Test', 42);
       const section = pie.getSection('Test');
       expect(section).toBeDefined();
       expect(section?.label).toBe('Test');
@@ -171,70 +159,51 @@ describe('Pie Chart', () => {
     });
 
     it('should get all sections', () => {
-      const pie = Pie.create()
-        .addSection('A', 30)
-        .addSection('B', 70);
+      const pie = Pie.create().addSection('A', 30).addSection('B', 70);
       const sections = pie.getSections();
       expect(sections.length).toBe(2);
     });
 
     it('should return section count', () => {
-      const pie = Pie.create()
-        .addSection('A', 50)
-        .addSection('B', 50);
+      const pie = Pie.create().addSection('A', 50).addSection('B', 50);
       expect(pie.sectionCount).toBe(2);
     });
   });
 
   describe('Query Operations', () => {
     it('should find sections by label', () => {
-      const pie = Pie.create()
-        .addSection('Apples', 30)
-        .addSection('Bananas', 70);
+      const pie = Pie.create().addSection('Apples', 30).addSection('Bananas', 70);
       const sections = pie.findSections({ label: 'Apples' });
       expect(sections.length).toBe(1);
       expect(sections[0].label).toBe('Apples');
     });
 
     it('should find sections by minimum value', () => {
-      const pie = Pie.create()
-        .addSection('A', 10)
-        .addSection('B', 30)
-        .addSection('C', 60);
+      const pie = Pie.create().addSection('A', 10).addSection('B', 30).addSection('C', 60);
       const sections = pie.findSections({ minValue: 25 });
       expect(sections.length).toBe(2);
     });
 
     it('should find sections by maximum value', () => {
-      const pie = Pie.create()
-        .addSection('A', 10)
-        .addSection('B', 30)
-        .addSection('C', 60);
+      const pie = Pie.create().addSection('A', 10).addSection('B', 30).addSection('C', 60);
       const sections = pie.findSections({ maxValue: 35 });
       expect(sections.length).toBe(2);
     });
 
     it('should find sections by value range', () => {
-      const pie = Pie.create()
-        .addSection('A', 10)
-        .addSection('B', 30)
-        .addSection('C', 60);
+      const pie = Pie.create().addSection('A', 10).addSection('B', 30).addSection('C', 60);
       const sections = pie.findSections({ minValue: 20, maxValue: 40 });
       expect(sections.length).toBe(1);
       expect(sections[0].label).toBe('B');
     });
 
     it('should get total value', () => {
-      const pie = Pie.create()
-        .addSection('A', 30)
-        .addSection('B', 70);
+      const pie = Pie.create().addSection('A', 30).addSection('B', 70);
       expect(pie.getTotal()).toBe(100);
     });
 
     it('should get percentage of section', () => {
-      const pie = Pie.create()
-        .addSection('A', 25)
-        .addSection('B', 75);
+      const pie = Pie.create().addSection('A', 25).addSection('B', 75);
       expect(pie.getPercentage('A')).toBe(25);
       expect(pie.getPercentage('B')).toBe(75);
     });
@@ -293,7 +262,7 @@ describe('Pie Chart', () => {
         .addSection('Firefox', 10)
         .addSection('Edge', 4)
         .addSection('Other', 2);
-      
+
       const ast = pie.toAST();
       expect(ast.title).toBe('Browser Market Share');
       expect(ast.showData).toBe(true);
@@ -302,10 +271,7 @@ describe('Pie Chart', () => {
     });
 
     it('should handle decimal values', () => {
-      const pie = Pie.create()
-        .addSection('A', 33.33)
-        .addSection('B', 33.33)
-        .addSection('C', 33.34);
+      const pie = Pie.create().addSection('A', 33.33).addSection('B', 33.33).addSection('C', 33.34);
       expect(pie.getTotal()).toBeCloseTo(100, 2);
     });
   });

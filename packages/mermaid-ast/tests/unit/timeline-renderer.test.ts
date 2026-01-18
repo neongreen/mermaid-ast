@@ -34,8 +34,7 @@ describe('Timeline Renderer', () => {
 
   describe('Section Rendering', () => {
     it('should render single section', () => {
-      const timeline = Timeline.create('My Timeline')
-        .addSection('2020s');
+      const timeline = Timeline.create('My Timeline').addSection('2020s');
       const rendered = timeline.render();
       expect(rendered).toContain('section 2020s');
     });
@@ -155,7 +154,7 @@ describe('Timeline Renderer', () => {
         .addEvent('2015', '1000 employees')
         .addPeriod('Growth', '2020')
         .addEvent('2020', 'Global expansion');
-      
+
       const rendered = timeline.render();
       expect(rendered).toContain('title Company History');
       expect(rendered).toContain('section Early Days');
@@ -182,7 +181,7 @@ describe('Timeline Renderer', () => {
         .addSection('2020s')
         .addPeriod('2020s', '2025')
         .addEvent('2025', 'Event 2025');
-      
+
       const rendered = timeline.render();
       expect(rendered).toContain('section 1990s');
       expect(rendered).toContain('section 2000s');
@@ -226,9 +225,7 @@ describe('Timeline Renderer', () => {
 
   describe('Render Options', () => {
     it('should respect custom indent', () => {
-      const timeline = Timeline.create('Test')
-        .addSection('Section')
-        .addPeriod('Section', 'Period');
+      const timeline = Timeline.create('Test').addSection('Section').addPeriod('Section', 'Period');
       const rendered = timeline.render({ indent: 2 });
       const lines = rendered.split('\n');
       // Check that indentation is applied (title should have 2 spaces)
@@ -249,7 +246,7 @@ describe('Timeline Renderer', () => {
         .addPeriod('Section A', '2020')
         .addEvent('2020', 'Event 1')
         .addEvent('2020', 'Event 2');
-      
+
       const rendered = timeline.render();
       expect(rendered).toContain('timeline');
       expect(rendered).toContain('title Test Timeline');

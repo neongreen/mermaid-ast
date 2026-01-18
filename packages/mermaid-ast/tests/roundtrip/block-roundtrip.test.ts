@@ -16,7 +16,7 @@ describe('Block Round-trip Tests', () => {
       const original = Block.create();
       const rendered = original.render();
       const reparsed = Block.parse(rendered);
-      
+
       expect(reparsed.toAST().type).toBe('block');
     });
 
@@ -24,7 +24,7 @@ describe('Block Round-trip Tests', () => {
       const original = Block.create().setColumns(3);
       const rendered = original.render();
       const reparsed = Block.parse(rendered);
-      
+
       expect(reparsed.toAST().type).toBe('block');
     });
 
@@ -32,7 +32,7 @@ describe('Block Round-trip Tests', () => {
       const original = Block.create().addNode('a', { label: 'Node A' });
       const rendered = original.render();
       const reparsed = Block.parse(rendered);
-      
+
       expect(reparsed.toAST().type).toBe('block');
     });
   });
@@ -85,8 +85,7 @@ describe('Block Round-trip Tests', () => {
 
   describe('Styling', () => {
     it('should round-trip classDef', () => {
-      const original = Block.create()
-        .defineClass('highlight', 'fill:#ff0');
+      const original = Block.create().defineClass('highlight', 'fill:#ff0');
       const rendered = original.render();
       expect(rendered).toContain('classDef highlight fill:#ff0');
     });
@@ -112,10 +111,10 @@ describe('Block Round-trip Tests', () => {
         .addEdge('process', 'output')
         .defineClass('io', 'fill:#e1f5fe')
         .applyClass(['input', 'output'], 'io');
-      
+
       const rendered = original.render();
       const reparsed = Block.parse(rendered);
-      
+
       expect(reparsed.toAST().type).toBe('block');
     });
   });
@@ -126,13 +125,13 @@ describe('Block Round-trip Tests', () => {
         .setColumns(2)
         .addNode('a', { label: 'A' })
         .addNode('b', { label: 'B' });
-      
+
       const rendered1 = original.render();
       const reparsed1 = Block.parse(rendered1);
       const rendered2 = reparsed1.render();
       const reparsed2 = Block.parse(rendered2);
       const rendered3 = reparsed2.render();
-      
+
       // After first parse, subsequent renders should be identical
       expect(rendered2).toBe(rendered3);
     });

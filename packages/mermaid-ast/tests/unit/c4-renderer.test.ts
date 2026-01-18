@@ -48,8 +48,7 @@ describe('C4 Renderer', () => {
 
   describe('Person Rendering', () => {
     it('should render Person', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User' });
+      const diagram = C4.create('C4Context').addPerson('user', { label: 'User' });
       const output = diagram.render();
       expect(output).toContain('Person');
       expect(output).toContain('user');
@@ -57,38 +56,48 @@ describe('C4 Renderer', () => {
     });
 
     it('should render Person with description', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User', description: 'A user' });
+      const diagram = C4.create('C4Context').addPerson('user', {
+        label: 'User',
+        description: 'A user',
+      });
       const output = diagram.render();
       expect(output).toContain('Person');
       expect(output).toContain('A user');
     });
 
     it('should render Person_Ext', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('customer', { label: 'Customer', external: true });
+      const diagram = C4.create('C4Context').addPerson('customer', {
+        label: 'Customer',
+        external: true,
+      });
       const output = diagram.render();
       expect(output).toContain('Person_Ext');
       expect(output).toContain('customer');
     });
 
     it('should render Person with sprite', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User', sprite: 'user_icon' });
+      const diagram = C4.create('C4Context').addPerson('user', {
+        label: 'User',
+        sprite: 'user_icon',
+      });
       const output = diagram.render();
       expect(output).toContain('user_icon');
     });
 
     it('should render Person with tags', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User', tags: 'important' });
+      const diagram = C4.create('C4Context').addPerson('user', {
+        label: 'User',
+        tags: 'important',
+      });
       const output = diagram.render();
       expect(output).toContain('important');
     });
 
     it('should render Person with link', () => {
-      const diagram = C4.create('C4Context')
-        .addPerson('user', { label: 'User', link: 'https://example.com' });
+      const diagram = C4.create('C4Context').addPerson('user', {
+        label: 'User',
+        link: 'https://example.com',
+      });
       const output = diagram.render();
       expect(output).toContain('https://example.com');
     });
@@ -96,8 +105,7 @@ describe('C4 Renderer', () => {
 
   describe('System Rendering', () => {
     it('should render System', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('backend', { label: 'Backend' });
+      const diagram = C4.create('C4Context').addSystem('backend', { label: 'Backend' });
       const output = diagram.render();
       expect(output).toContain('System');
       expect(output).toContain('backend');
@@ -105,38 +113,47 @@ describe('C4 Renderer', () => {
     });
 
     it('should render System_Ext', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('external', { label: 'External', external: true });
+      const diagram = C4.create('C4Context').addSystem('external', {
+        label: 'External',
+        external: true,
+      });
       const output = diagram.render();
       expect(output).toContain('System_Ext');
       expect(output).toContain('external');
     });
 
     it('should render SystemDb', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('db', { label: 'Database', variant: 'db' });
+      const diagram = C4.create('C4Context').addSystem('db', { label: 'Database', variant: 'db' });
       const output = diagram.render();
       expect(output).toContain('SystemDb');
       expect(output).toContain('db');
     });
 
     it('should render SystemDb_Ext', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('extDb', { label: 'External DB', external: true, variant: 'db' });
+      const diagram = C4.create('C4Context').addSystem('extDb', {
+        label: 'External DB',
+        external: true,
+        variant: 'db',
+      });
       const output = diagram.render();
       expect(output).toContain('SystemDb_Ext');
     });
 
     it('should render SystemQueue', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('queue', { label: 'Queue', variant: 'queue' });
+      const diagram = C4.create('C4Context').addSystem('queue', {
+        label: 'Queue',
+        variant: 'queue',
+      });
       const output = diagram.render();
       expect(output).toContain('SystemQueue');
     });
 
     it('should render SystemQueue_Ext', () => {
-      const diagram = C4.create('C4Context')
-        .addSystem('extQueue', { label: 'External Queue', external: true, variant: 'queue' });
+      const diagram = C4.create('C4Context').addSystem('extQueue', {
+        label: 'External Queue',
+        external: true,
+        variant: 'queue',
+      });
       const output = diagram.render();
       expect(output).toContain('SystemQueue_Ext');
     });
@@ -144,8 +161,7 @@ describe('C4 Renderer', () => {
 
   describe('Container Rendering', () => {
     it('should render Container', () => {
-      const diagram = C4.create('C4Container')
-        .addContainer('web', { label: 'Web App' });
+      const diagram = C4.create('C4Container').addContainer('web', { label: 'Web App' });
       const output = diagram.render();
       expect(output).toContain('Container');
       expect(output).toContain('web');
@@ -153,31 +169,41 @@ describe('C4 Renderer', () => {
     });
 
     it('should render Container with technology', () => {
-      const diagram = C4.create('C4Container')
-        .addContainer('web', { label: 'Web App', technology: 'React' });
+      const diagram = C4.create('C4Container').addContainer('web', {
+        label: 'Web App',
+        technology: 'React',
+      });
       const output = diagram.render();
       expect(output).toContain('Container');
       expect(output).toContain('React');
     });
 
     it('should render Container_Ext', () => {
-      const diagram = C4.create('C4Container')
-        .addContainer('ext', { label: 'External', external: true });
+      const diagram = C4.create('C4Container').addContainer('ext', {
+        label: 'External',
+        external: true,
+      });
       const output = diagram.render();
       expect(output).toContain('Container_Ext');
     });
 
     it('should render ContainerDb', () => {
-      const diagram = C4.create('C4Container')
-        .addContainer('db', { label: 'Database', variant: 'db', technology: 'PostgreSQL' });
+      const diagram = C4.create('C4Container').addContainer('db', {
+        label: 'Database',
+        variant: 'db',
+        technology: 'PostgreSQL',
+      });
       const output = diagram.render();
       expect(output).toContain('ContainerDb');
       expect(output).toContain('PostgreSQL');
     });
 
     it('should render ContainerQueue', () => {
-      const diagram = C4.create('C4Container')
-        .addContainer('queue', { label: 'Queue', variant: 'queue', technology: 'RabbitMQ' });
+      const diagram = C4.create('C4Container').addContainer('queue', {
+        label: 'Queue',
+        variant: 'queue',
+        technology: 'RabbitMQ',
+      });
       const output = diagram.render();
       expect(output).toContain('ContainerQueue');
       expect(output).toContain('RabbitMQ');
@@ -186,8 +212,7 @@ describe('C4 Renderer', () => {
 
   describe('Component Rendering', () => {
     it('should render Component', () => {
-      const diagram = C4.create('C4Component')
-        .addComponent('auth', { label: 'Auth' });
+      const diagram = C4.create('C4Component').addComponent('auth', { label: 'Auth' });
       const output = diagram.render();
       expect(output).toContain('Component');
       expect(output).toContain('auth');
@@ -195,30 +220,38 @@ describe('C4 Renderer', () => {
     });
 
     it('should render Component with technology', () => {
-      const diagram = C4.create('C4Component')
-        .addComponent('auth', { label: 'Auth', technology: 'Spring' });
+      const diagram = C4.create('C4Component').addComponent('auth', {
+        label: 'Auth',
+        technology: 'Spring',
+      });
       const output = diagram.render();
       expect(output).toContain('Component');
       expect(output).toContain('Spring');
     });
 
     it('should render Component_Ext', () => {
-      const diagram = C4.create('C4Component')
-        .addComponent('ext', { label: 'External', external: true });
+      const diagram = C4.create('C4Component').addComponent('ext', {
+        label: 'External',
+        external: true,
+      });
       const output = diagram.render();
       expect(output).toContain('Component_Ext');
     });
 
     it('should render ComponentDb', () => {
-      const diagram = C4.create('C4Component')
-        .addComponent('cache', { label: 'Cache', variant: 'db' });
+      const diagram = C4.create('C4Component').addComponent('cache', {
+        label: 'Cache',
+        variant: 'db',
+      });
       const output = diagram.render();
       expect(output).toContain('ComponentDb');
     });
 
     it('should render ComponentQueue', () => {
-      const diagram = C4.create('C4Component')
-        .addComponent('events', { label: 'Events', variant: 'queue' });
+      const diagram = C4.create('C4Component').addComponent('events', {
+        label: 'Events',
+        variant: 'queue',
+      });
       const output = diagram.render();
       expect(output).toContain('ComponentQueue');
     });
@@ -226,30 +259,32 @@ describe('C4 Renderer', () => {
 
   describe('Boundary Rendering', () => {
     it('should render Boundary', () => {
-      const diagram = C4.create('C4Context')
-        .addBoundary('b1', 'boundary', { label: 'Boundary' });
+      const diagram = C4.create('C4Context').addBoundary('b1', 'boundary', { label: 'Boundary' });
       const output = diagram.render();
       expect(output).toContain('Boundary');
       expect(output).toContain('b1');
     });
 
     it('should render Enterprise_Boundary', () => {
-      const diagram = C4.create('C4Context')
-        .addBoundary('enterprise', 'enterprise_boundary', { label: 'Enterprise' });
+      const diagram = C4.create('C4Context').addBoundary('enterprise', 'enterprise_boundary', {
+        label: 'Enterprise',
+      });
       const output = diagram.render();
       expect(output).toContain('Enterprise_Boundary');
     });
 
     it('should render System_Boundary', () => {
-      const diagram = C4.create('C4Container')
-        .addBoundary('system', 'system_boundary', { label: 'System' });
+      const diagram = C4.create('C4Container').addBoundary('system', 'system_boundary', {
+        label: 'System',
+      });
       const output = diagram.render();
       expect(output).toContain('System_Boundary');
     });
 
     it('should render Container_Boundary', () => {
-      const diagram = C4.create('C4Component')
-        .addBoundary('container', 'container_boundary', { label: 'Container' });
+      const diagram = C4.create('C4Component').addBoundary('container', 'container_boundary', {
+        label: 'Container',
+      });
       const output = diagram.render();
       expect(output).toContain('Container_Boundary');
     });
@@ -257,8 +292,7 @@ describe('C4 Renderer', () => {
 
   describe('Deployment Node Rendering', () => {
     it('should render Node', () => {
-      const diagram = C4.create('C4Deployment')
-        .addDeploymentNode('server', { label: 'Server' });
+      const diagram = C4.create('C4Deployment').addDeploymentNode('server', { label: 'Server' });
       const output = diagram.render();
       expect(output).toContain('Deployment_Node');
       expect(output).toContain('server');
@@ -266,23 +300,29 @@ describe('C4 Renderer', () => {
     });
 
     it('should render Node with technology', () => {
-      const diagram = C4.create('C4Deployment')
-        .addDeploymentNode('server', { label: 'Server', technology: 'Ubuntu' });
+      const diagram = C4.create('C4Deployment').addDeploymentNode('server', {
+        label: 'Server',
+        technology: 'Ubuntu',
+      });
       const output = diagram.render();
       expect(output).toContain('Deployment_Node');
       expect(output).toContain('Ubuntu');
     });
 
     it('should render Node_L', () => {
-      const diagram = C4.create('C4Deployment')
-        .addDeploymentNode('server', { label: 'Server', variant: 'left' });
+      const diagram = C4.create('C4Deployment').addDeploymentNode('server', {
+        label: 'Server',
+        variant: 'left',
+      });
       const output = diagram.render();
       expect(output).toContain('Node_L');
     });
 
     it('should render Node_R', () => {
-      const diagram = C4.create('C4Deployment')
-        .addDeploymentNode('server', { label: 'Server', variant: 'right' });
+      const diagram = C4.create('C4Deployment').addDeploymentNode('server', {
+        label: 'Server',
+        variant: 'right',
+      });
       const output = diagram.render();
       expect(output).toContain('Node_R');
     });
@@ -359,16 +399,16 @@ describe('C4 Renderer', () => {
 
   describe('Style Rendering', () => {
     it('should render UpdateElementStyle', () => {
-      const diagram = C4.create('C4Context')
-        .addElementStyle('person', { bgColor: '#blue' });
+      const diagram = C4.create('C4Context').addElementStyle('person', { bgColor: '#blue' });
       const output = diagram.render();
       expect(output).toContain('UpdateElementStyle');
       expect(output).toContain('person');
     });
 
     it('should render UpdateRelStyle', () => {
-      const diagram = C4.create('C4Context')
-        .addRelationshipStyle('user', 'system', { lineColor: '#red' });
+      const diagram = C4.create('C4Context').addRelationshipStyle('user', 'system', {
+        lineColor: '#red',
+      });
       const output = diagram.render();
       expect(output).toContain('UpdateRelStyle');
       expect(output).toContain('user');
@@ -382,10 +422,10 @@ describe('C4 Renderer', () => {
         .addPerson('user', { label: 'User' })
         .addSystem('system', { label: 'System' })
         .addRelationship('user', 'system', { label: 'Uses' });
-      
+
       const rendered = original.render();
       const reparsed = C4.parse(rendered);
-      
+
       expect(reparsed.toAST().elements.length).toBe(2);
       expect(reparsed.toAST().relationships.length).toBe(1);
     });
@@ -398,7 +438,7 @@ describe('C4 Renderer', () => {
         .addSystem('external', { label: 'External', external: true })
         .addRelationship('user', 'system', { label: 'Uses' })
         .addRelationship('system', 'external', { label: 'Calls', technology: 'REST' });
-      
+
       const output = diagram.render();
       expect(output).toContain('C4Context');
       expect(output).toContain('title System Context');
@@ -416,7 +456,7 @@ describe('C4 Renderer', () => {
         .addContainer('db', { label: 'DB', variant: 'db', technology: 'PostgreSQL' })
         .addRelationship('web', 'api', { label: 'Calls' })
         .addRelationship('api', 'db', { label: 'Queries' });
-      
+
       const output = diagram.render();
       expect(output).toContain('C4Container');
       expect(output).toContain('System_Boundary');

@@ -29,8 +29,10 @@ describe('Requirement Wrapper', () => {
     });
 
     it('should create from existing AST', () => {
-      const original = Requirement.create()
-        .addRequirement('req1', 'requirement', { id: '1', text: 'Test' });
+      const original = Requirement.create().addRequirement('req1', 'requirement', {
+        id: '1',
+        text: 'Test',
+      });
       const copy = Requirement.from(original.toAST());
       expect(copy.requirementCount).toBe(1);
     });
@@ -61,8 +63,7 @@ describe('Requirement Wrapper', () => {
     });
 
     it('should clone the diagram', () => {
-      const original = Requirement.create()
-        .addRequirement('req1', 'requirement', { id: '1' });
+      const original = Requirement.create().addRequirement('req1', 'requirement', { id: '1' });
       const cloned = original.clone();
       cloned.addRequirement('req2', 'requirement', { id: '2' });
 
@@ -71,8 +72,7 @@ describe('Requirement Wrapper', () => {
     });
 
     it('should get AST', () => {
-      const req = Requirement.create()
-        .addRequirement('req1', 'requirement', { id: '1' });
+      const req = Requirement.create().addRequirement('req1', 'requirement', { id: '1' });
       const ast = req.toAST();
       expect(ast.type).toBe('requirement');
       expect(ast.requirements.size).toBe(1);
@@ -103,8 +103,10 @@ describe('Requirement Wrapper', () => {
     });
 
     it('should get requirements', () => {
-      const req = Requirement.create()
-        .addRequirement('req1', 'requirement', { id: '1', risk: 'high' });
+      const req = Requirement.create().addRequirement('req1', 'requirement', {
+        id: '1',
+        risk: 'high',
+      });
 
       const r = req.getRequirement('req1');
       expect(r).toBeDefined();
@@ -113,8 +115,7 @@ describe('Requirement Wrapper', () => {
     });
 
     it('should check if requirement exists', () => {
-      const req = Requirement.create()
-        .addRequirement('req1', 'requirement');
+      const req = Requirement.create().addRequirement('req1', 'requirement');
 
       expect(req.hasRequirement('req1')).toBe(true);
       expect(req.hasRequirement('req2')).toBe(false);
@@ -161,8 +162,7 @@ describe('Requirement Wrapper', () => {
     });
 
     it('should check if element exists', () => {
-      const req = Requirement.create()
-        .addElement('elem1', { type: 'simulation' });
+      const req = Requirement.create().addElement('elem1', { type: 'simulation' });
 
       expect(req.hasElement('elem1')).toBe(true);
       expect(req.hasElement('elem2')).toBe(false);
@@ -399,8 +399,7 @@ describe('Requirement Wrapper', () => {
 
   describe('Styling Operations', () => {
     it('should define classes', () => {
-      const req = Requirement.create()
-        .defineClass('highlight', ['fill:#f9f', 'stroke:#333']);
+      const req = Requirement.create().defineClass('highlight', ['fill:#f9f', 'stroke:#333']);
 
       const output = req.render();
       expect(output).toContain('classDef highlight fill:#f9f,stroke:#333');
@@ -439,16 +438,14 @@ describe('Requirement Wrapper', () => {
 
   describe('Accessibility', () => {
     it('should set accessibility title', () => {
-      const req = Requirement.create()
-        .setAccTitle('Requirement Diagram');
+      const req = Requirement.create().setAccTitle('Requirement Diagram');
 
       const output = req.render();
       expect(output).toContain('accTitle: Requirement Diagram');
     });
 
     it('should set accessibility description', () => {
-      const req = Requirement.create()
-        .setAccDescription('This diagram shows requirements');
+      const req = Requirement.create().setAccDescription('This diagram shows requirements');
 
       const output = req.render();
       expect(output).toContain('accDescr: This diagram shows requirements');
@@ -462,8 +459,7 @@ describe('Requirement Wrapper', () => {
     });
 
     it('should change direction', () => {
-      const req = Requirement.create()
-        .setDirection('BT');
+      const req = Requirement.create().setDirection('BT');
       expect(req.direction).toBe('BT');
     });
   });

@@ -74,23 +74,12 @@ export type C4DeploymentNodeType = 'node' | 'nodeL' | 'nodeR';
 /**
  * C4 relationship types
  */
-export type C4RelationType =
-  | 'rel'
-  | 'birel'
-  | 'rel_u'
-  | 'rel_d'
-  | 'rel_l'
-  | 'rel_r'
-  | 'rel_b';
+export type C4RelationType = 'rel' | 'birel' | 'rel_u' | 'rel_d' | 'rel_l' | 'rel_r' | 'rel_b';
 
 /**
  * All C4 element types combined
  */
-export type C4ElementType =
-  | C4PersonType
-  | C4SystemType
-  | C4ContainerType
-  | C4ComponentType;
+export type C4ElementType = C4PersonType | C4SystemType | C4ContainerType | C4ComponentType;
 
 /**
  * Direction for layout
@@ -256,34 +245,34 @@ export type C4Element =
 export interface C4AST {
   /** Discriminator for MermaidAST union */
   type: 'c4';
-  
+
   /** The specific C4 diagram type */
   diagramType: C4DiagramType;
-  
+
   /** Diagram title */
   title?: string;
-  
+
   /** Accessibility title */
   accTitle?: string;
-  
+
   /** Accessibility description */
   accDescr?: string;
-  
+
   /** Layout direction */
   direction?: C4Direction;
-  
+
   /** Top-level elements (people, systems, containers, components) */
   elements: C4Element[];
-  
+
   /** Relationships between elements */
   relationships: C4Relationship[];
-  
+
   /** Element style overrides */
   elementStyles: C4ElementStyle[];
-  
+
   /** Relationship style overrides */
   relationshipStyles: C4RelationshipStyle[];
-  
+
   /** Layout configuration */
   layoutConfig?: C4LayoutConfig;
 }
@@ -352,9 +341,5 @@ export function isC4Boundary(element: C4Element): element is C4Boundary {
 }
 
 export function isC4DeploymentNode(element: C4Element): element is C4DeploymentNode {
-  return (
-    element.type === 'node' ||
-    element.type === 'nodeL' ||
-    element.type === 'nodeR'
-  );
+  return element.type === 'node' || element.type === 'nodeL' || element.type === 'nodeR';
 }

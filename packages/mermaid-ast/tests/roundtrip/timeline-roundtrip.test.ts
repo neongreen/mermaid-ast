@@ -26,7 +26,7 @@ function assertEquivalentTimelines(ast1: TimelineAST, ast2: TimelineAST): void {
     const section2 = ast2.sections[i];
     expect(section2.name).toBe(section1.name);
     expect(section2.periods.length).toBe(section1.periods.length);
-    
+
     for (let j = 0; j < section1.periods.length; j++) {
       const period1 = section1.periods[j];
       const period2 = section2.periods[j];

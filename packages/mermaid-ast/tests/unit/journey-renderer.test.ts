@@ -35,8 +35,7 @@ describe('Journey Renderer', () => {
 
   describe('Section Rendering', () => {
     it('should render single section', () => {
-      const journey = Journey.create('My Journey')
-        .addSection('Getting Started');
+      const journey = Journey.create('My Journey').addSection('Getting Started');
       const rendered = journey.render();
       expect(rendered).toContain('section Getting Started');
     });
@@ -141,7 +140,7 @@ describe('Journey Renderer', () => {
         .addSection('First Use')
         .addTask('First Use', 'Complete tutorial', { score: 4, actors: ['User'] })
         .addTask('First Use', 'Create first project', { score: 5, actors: ['User'] });
-      
+
       const rendered = journey.render();
       expect(rendered).toContain('title User Onboarding');
       expect(rendered).toContain('section Discovery');
@@ -203,10 +202,10 @@ describe('Journey Renderer', () => {
     section Morning
         Wake up: 3: Me
         Breakfast: 5: Me, Family`;
-      
+
       const ast = parseJourney(original);
       const rendered = renderJourney(ast);
-      
+
       expect(rendered).toContain('title My Journey');
       expect(rendered).toContain('section Morning');
       expect(rendered).toContain('Wake up: 3: Me');

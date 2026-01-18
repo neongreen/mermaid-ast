@@ -29,7 +29,7 @@ function assertEquivalentGantts(ast1: GanttAST, ast2: GanttAST): void {
     const section2 = ast2.sections[i];
     expect(section2.name).toBe(section1.name);
     expect(section2.tasks.length).toBe(section1.tasks.length);
-    
+
     for (let j = 0; j < section1.tasks.length; j++) {
       const task1 = section1.tasks[j];
       const task2 = section2.tasks[j];

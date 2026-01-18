@@ -33,23 +33,19 @@ describe('Quadrant Renderer', () => {
 
   describe('Axis Rendering', () => {
     it('should render x-axis labels', () => {
-      const diagram = Quadrant.create()
-        .setXAxis('Low Effort', 'High Effort');
+      const diagram = Quadrant.create().setXAxis('Low Effort', 'High Effort');
       const rendered = diagram.render();
       expect(rendered).toContain('x-axis "Low Effort" --> "High Effort"');
     });
 
     it('should render y-axis labels', () => {
-      const diagram = Quadrant.create()
-        .setYAxis('Low Impact', 'High Impact');
+      const diagram = Quadrant.create().setYAxis('Low Impact', 'High Impact');
       const rendered = diagram.render();
       expect(rendered).toContain('y-axis "Low Impact" --> "High Impact"');
     });
 
     it('should render both axes', () => {
-      const diagram = Quadrant.create()
-        .setXAxis('Left', 'Right')
-        .setYAxis('Bottom', 'Top');
+      const diagram = Quadrant.create().setXAxis('Left', 'Right').setYAxis('Bottom', 'Top');
       const rendered = diagram.render();
       expect(rendered).toContain('x-axis "Left" --> "Right"');
       expect(rendered).toContain('y-axis "Bottom" --> "Top"');
@@ -58,15 +54,18 @@ describe('Quadrant Renderer', () => {
 
   describe('Quadrant Label Rendering', () => {
     it('should render quadrant-1 label', () => {
-      const diagram = Quadrant.create()
-        .setQuadrantLabels('Do First');
+      const diagram = Quadrant.create().setQuadrantLabels('Do First');
       const rendered = diagram.render();
       expect(rendered).toContain('quadrant-1 "Do First"');
     });
 
     it('should render all quadrant labels', () => {
-      const diagram = Quadrant.create()
-        .setQuadrantLabels('Do First', 'Plan', 'Delegate', 'Eliminate');
+      const diagram = Quadrant.create().setQuadrantLabels(
+        'Do First',
+        'Plan',
+        'Delegate',
+        'Eliminate'
+      );
       const rendered = diagram.render();
       expect(rendered).toContain('quadrant-1 "Do First"');
       expect(rendered).toContain('quadrant-2 "Plan"');
@@ -75,8 +74,7 @@ describe('Quadrant Renderer', () => {
     });
 
     it('should render quadrant labels in correct order', () => {
-      const diagram = Quadrant.create()
-        .setQuadrantLabels('Q1', 'Q2', 'Q3', 'Q4');
+      const diagram = Quadrant.create().setQuadrantLabels('Q1', 'Q2', 'Q3', 'Q4');
       const rendered = diagram.render();
       const q1Idx = rendered.indexOf('quadrant-1');
       const q2Idx = rendered.indexOf('quadrant-2');
@@ -90,8 +88,7 @@ describe('Quadrant Renderer', () => {
 
   describe('Point Rendering', () => {
     it('should render single point', () => {
-      const diagram = Quadrant.create()
-        .addPoint('Task A', 0.5, 0.5);
+      const diagram = Quadrant.create().addPoint('Task A', 0.5, 0.5);
       const rendered = diagram.render();
       expect(rendered).toContain('Task A: [0.5, 0.5]');
     });
@@ -131,8 +128,7 @@ describe('Quadrant Renderer', () => {
 
   describe('Class Definition Rendering', () => {
     it('should render class definition', () => {
-      const diagram = Quadrant.create()
-        .addClass('highlight', ['fill: yellow', 'stroke: black']);
+      const diagram = Quadrant.create().addClass('highlight', ['fill: yellow', 'stroke: black']);
       const rendered = diagram.render();
       expect(rendered).toContain('classDef highlight fill: yellow, stroke: black');
     });
@@ -157,7 +153,7 @@ describe('Quadrant Renderer', () => {
         .addPoint('Task B', 0.8, 0.9)
         .addPoint('Task C', 0.3, 0.2)
         .addPoint('Task D', 0.7, 0.3);
-      
+
       const rendered = diagram.render();
       expect(rendered).toContain('title Priority Matrix');
       expect(rendered).toContain('x-axis "Low Effort" --> "High Effort"');
@@ -173,7 +169,7 @@ describe('Quadrant Renderer', () => {
         .addClass('low', ['fill: red'])
         .addPoint('Good', 0.8, 0.8, { className: 'high' })
         .addPoint('Bad', 0.2, 0.2, { className: 'low' });
-      
+
       const rendered = diagram.render();
       expect(rendered).toContain('classDef high fill: green');
       expect(rendered).toContain('classDef low fill: red');
@@ -242,7 +238,7 @@ describe('Quadrant Renderer', () => {
         .setYAxis('Bottom', 'Top')
         .addPoint('Point A', 0.25, 0.75)
         .addPoint('Point B', 0.75, 0.25);
-      
+
       const rendered = diagram.render();
       expect(rendered).toContain('quadrantChart');
       expect(rendered).toContain('title Test Chart');

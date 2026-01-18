@@ -56,12 +56,7 @@ export interface GitCherryPick {
 /**
  * Union type for all git statements
  */
-export type GitStatement =
-  | GitCommit
-  | GitBranch
-  | GitCheckout
-  | GitMerge
-  | GitCherryPick;
+export type GitStatement = GitCommit | GitBranch | GitCheckout | GitMerge | GitCherryPick;
 
 /**
  * GitGraph diagram direction

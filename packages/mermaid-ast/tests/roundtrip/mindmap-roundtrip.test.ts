@@ -30,14 +30,14 @@ function countNodes(node: MindmapAST['root']): number {
 function assertEquivalentMindmaps(ast1: MindmapAST, ast2: MindmapAST): void {
   // Compare root exists
   expect(!!ast2.root).toBe(!!ast1.root);
-  
+
   if (ast1.root && ast2.root) {
     // Compare root description
     expect(ast2.root.description).toBe(ast1.root.description);
-    
+
     // Compare total node count
     expect(countNodes(ast2.root)).toBe(countNodes(ast1.root));
-    
+
     // Compare root children count
     expect(ast2.root.children?.length ?? 0).toBe(ast1.root.children?.length ?? 0);
   }
