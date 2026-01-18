@@ -326,21 +326,42 @@ Use these categories in this order (skip empty ones):
 
 ## Releasing a New Version
 
-See [.agents/procedures/release.md](.agents/procedures/release.md) for the complete release procedure.
+> **IMPORTANT:** Always follow the release procedure exactly. Do not attempt to release manually or skip steps.
+> 
+> **Read the full procedure:** [.agents/procedures/release.md](.agents/procedures/release.md)
 
-**Quick reference:**
+The release procedure ensures:
+- All version files are updated consistently (package.json, jsr.json, bun.lock)
+- Lint and tests pass before pushing
+- CI passes before publishing
+- Changelog is properly formatted
+
+**Quick reference (see full procedure for details):**
 ```bash
-# Set version (updates package.json, jsr.json, bun.lock)
-just ast-set-version 0.8.1
+# 1. Set version (updates package.json, jsr.json, bun.lock)
+just ast-set-version X.Y.Z
 
-# Update CHANGELOG.md, then:
+# 2. Update CHANGELOG.md
+
+# 3. Run lint fix BEFORE committing
+bun run lint:fix
+
+# 4. Commit and push
 jj commit -m "Release vX.Y.Z"
 jj bookmark set main -r @-
 jj git push --bookmark main
 
-# Wait for CI to pass, then:
-just ast-release      # Creates GitHub release, publishes to npm and JSR
+# 5. Wait for CI to pass
+gh run list --limit 1
+
+# 6. Create release (publishes to npm and JSR)
+just ast-release
 ```
+
+**Common mistakes the procedure prevents:**
+- Forgetting to update jsr.json (use `just ast-set-version`, not manual edits)
+- Pushing without running lint (CI will fail)
+- Publishing before CI passes
 
 ## Adding a New Diagram Type - Complete Checklist
 

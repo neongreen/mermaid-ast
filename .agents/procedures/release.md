@@ -24,11 +24,31 @@ just ast-release
 
 ## Pre-release Checklist
 
-- [ ] All tests pass: `bun test` (in `packages/mermaid-ast/`)
-- [ ] Lint passes: `bun run lint`
+**Run these locally BEFORE committing:**
+
+```bash
+cd packages/mermaid-ast
+
+# 1. Run tests
+bun test
+
+# 2. Run lint (and fix issues)
+bun run lint
+bun run lint:fix  # If there are auto-fixable issues
+
+# 3. Build
+bun run build
+```
+
+- [ ] All tests pass: `bun test`
+- [ ] Lint passes: `bun run lint` (no errors)
 - [ ] Build works: `bun run build`
-- [ ] CI passes on main branch
 - [ ] Changelog updated with all changes in `[Unreleased]` section
+
+**Important:** Always run `bun run lint:fix` before committing. This catches:
+- Unused variables
+- Missing newlines at end of files
+- Formatting issues
 
 ## Detailed Steps
 
@@ -85,14 +105,35 @@ CI must pass before creating the release:
 # Check CI status
 gh run list --limit 1
 
+# Get run ID and status as JSON
+gh run list --limit 3 --json databaseId,status,conclusion,displayTitle
+
 # If failed, view logs
 gh run view <run_id> --log-failed
 ```
 
-**Common CI failures:**
-- `bun.lock is out of date` - Run `bun install` and commit
-- Lint errors - Run `bun run lint:fix` and commit
-- Test failures - Fix tests and commit
+**Common CI failures and fixes:**
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `bun.lock is out of date` | Lockfile differs from CI | `bun install && jj commit -m "Update bun.lock"` |
+| Unused variable `X` | Lint error - unused import/var | `bun run lint:fix` or manually remove |
+| Formatter would have printed... | Missing newline at EOF | `bun run lint:fix` |
+| Test failures | Tests are broken | Fix the tests, run `bun test` locally first |
+
+**Fix CI failures:**
+```bash
+# 1. Fix the issue locally
+bun run lint:fix
+bun test
+
+# 2. Commit and push
+jj commit -m "fix: <description>"
+jj bookmark set main -r @-
+jj git push --bookmark main
+
+# 3. Wait for CI to pass, then continue with step 5
+```
 
 ### Step 5: Create Release
 

@@ -33,6 +33,12 @@ just test
 just
 ```
 
+## Releasing
+
+> **IMPORTANT:** Follow the release procedure exactly. Do not release manually.
+>
+> See [.agents/procedures/release.md](.agents/procedures/release.md) for the complete release procedure.
+
 ## License
 
 MIT
