@@ -4,6 +4,7 @@
  * This module exports all AST types for supported Mermaid diagram types.
  */
 
+export * from './block.js';
 export * from './class.js';
 export * from './er.js';
 export * from './flowchart.js';
@@ -13,12 +14,14 @@ export * from './kanban.js';
 export * from './mindmap.js';
 export * from './quadrant.js';
 export * from './render-options.js';
+export * from './requirement.js';
 export * from './sankey.js';
 export * from './sequence.js';
 export * from './state.js';
 export * from './timeline.js';
 export * from './xychart.js';
 
+import type { BlockAST } from './block.js';
 import type { ClassDiagramAST } from './class.js';
 import type { ErDiagramAST } from './er.js';
 import type { FlowchartAST } from './flowchart.js';
@@ -27,6 +30,7 @@ import type { JourneyAST } from './journey.js';
 import type { KanbanAST } from './kanban.js';
 import type { MindmapAST } from './mindmap.js';
 import type { QuadrantAST } from './quadrant.js';
+import type { RequirementAST } from './requirement.js';
 import type { SankeyAST } from './sankey.js';
 import type { SequenceAST } from './sequence.js';
 import type { StateDiagramAST } from './state.js';
@@ -37,6 +41,7 @@ import type { XYChartAST } from './xychart.js';
  * Union type for all supported diagram ASTs
  */
 export type MermaidAST =
+  | BlockAST
   | FlowchartAST
   | SequenceAST
   | ClassDiagramAST
@@ -47,6 +52,7 @@ export type MermaidAST =
   | JourneyAST
   | KanbanAST
   | QuadrantAST
+  | RequirementAST
   | SankeyAST
   | TimelineAST
   | XYChartAST;
@@ -55,6 +61,7 @@ export type MermaidAST =
  * Diagram type identifiers
  */
 export type DiagramType =
+  | 'block'
   | 'flowchart'
   | 'sequence'
   | 'class'
@@ -65,6 +72,7 @@ export type DiagramType =
   | 'journey'
   | 'kanban'
   | 'quadrant'
+  | 'requirement'
   | 'sankey'
   | 'timeline'
   | 'xychart';
@@ -158,4 +166,18 @@ export function isQuadrantAST(ast: MermaidAST): ast is QuadrantAST {
  */
 export function isXYChartAST(ast: MermaidAST): ast is XYChartAST {
   return ast.type === 'xychart';
+}
+
+/**
+ * Check if an AST is a Requirement diagram
+ */
+export function isRequirementAST(ast: MermaidAST): ast is RequirementAST {
+  return ast.type === 'requirement';
+}
+
+/**
+ * Check if an AST is a Block diagram
+ */
+export function isBlockAST(ast: MermaidAST): ast is BlockAST {
+  return ast.type === 'block';
 }

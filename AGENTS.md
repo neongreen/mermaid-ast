@@ -79,6 +79,25 @@ See the [README](packages/mermaid-ast/README.md) for the current list of impleme
 
 ## Test Structure
 
+**See [packages/mermaid-ast/TEST_STANDARDS.md](packages/mermaid-ast/TEST_STANDARDS.md) for detailed test standards and minimum coverage requirements.**
+
+### Test Sourcing
+
+Test cases can be sourced from:
+
+1. **Manual creation** - Write tests based on API documentation
+2. **Official mermaid-js repo** - Extract test cases from:
+   - `packages/mermaid/src/diagrams/<type>/` test files in [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid)
+   - Example diagrams in mermaid-js documentation
+   - Fixtures used in mermaid-js tests
+
+When sourcing from mermaid-js:
+- Verify the test case works with our parser
+- Adapt assertions to match our AST structure
+- Credit the source in comments if copying significant test logic
+
+### Test File Organization
+
 Each diagram type should have a consistent test structure:
 
 ```

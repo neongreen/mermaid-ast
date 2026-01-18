@@ -1,0 +1,15 @@
+stateDiagram-v2
+    direction LR
+    state "System idle" as Idle
+    state "System active" as Active
+    state "System paused" as Paused
+    state check <<choice>>
+    note right of Active : Main processing state
+    [*] --> Idle
+    Idle --> check : trigger
+    check --> Active : valid
+    check --> Idle : invalid
+    Active --> Paused : pause
+    Paused --> Active : resume
+    Active --> Idle : stop
+    Idle --> [*]

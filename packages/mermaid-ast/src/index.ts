@@ -18,6 +18,12 @@
  */
 
 export type {
+  AddBlockEdgeOptions,
+  AddBlockNodeOptions,
+} from './block.js';
+// Export Block wrapper class
+export { Block } from './block.js';
+export type {
   AddClassOptions,
   AddMemberOptions,
   AddRelationOptions,
@@ -64,15 +70,19 @@ export { parseErDiagram } from './parser/er-parser.js';
 // Export parser functions
 export {
   detectDiagramType,
+  isBlockDiagram,
   isClassDiagram,
   isFlowchartDiagram,
   isQuadrantDiagram,
+  isRequirementDiagram,
   isSankeyDiagram,
   isSequenceDiagram,
   parse,
+  parseBlock,
   parseClassDiagram,
   parseFlowchart,
   parseQuadrant,
+  parseRequirement,
   parseSankey,
   parseSequence,
 } from './parser/index.js';
@@ -82,13 +92,26 @@ export type {
 } from './quadrant.js';
 // Export Quadrant wrapper class
 export { Quadrant } from './quadrant.js';
+
+export type {
+  AddElementOptions,
+  AddRequirementOptions,
+  FindElementsQuery,
+  FindRelationshipsQuery,
+  FindRequirementsQuery,
+} from './requirement.js';
+// Export Requirement wrapper class
+export { Requirement } from './requirement.js';
+
 export { renderErDiagram } from './renderer/er-renderer.js';
 // Export renderer functions
 export {
   render,
+  renderBlock,
   renderClassDiagram,
   renderFlowchart,
   renderQuadrant,
+  renderRequirement,
   renderSankey,
   renderSequence,
 } from './renderer/index.js';

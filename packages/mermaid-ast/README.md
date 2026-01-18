@@ -31,13 +31,13 @@ This library provides a way to programmatically work with Mermaid diagrams by pa
 | Timeline (`timeline`) | ✅ | ✅ | ✅ `Timeline` | Basic | Sections, periods, events |
 | Sankey (`sankey-beta`, `sankey`) | ✅ | ✅ | ✅ `Sankey` | Basic | Nodes, links, flow queries |
 | Quadrant (`quadrantChart`) | ✅ | ✅ | ✅ `Quadrant` | Basic | Points, axes, quadrant queries |
-| Pie (`pie`) | ❌ | ❌ | ❌ | - | No JISON parser |
-| Git Graph (`gitGraph`) | ❌ | ❌ | ❌ | - | No JISON parser |
-| Requirement (`requirementDiagram`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
-| C4 (`C4Context`, etc.) | ❌ | ❌ | ❌ | - | JISON parser vendored |
-| XY Chart (`xychart`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
-| Block (`block`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
-| Kanban (`kanban`) | ❌ | ❌ | ❌ | - | JISON parser vendored |
+| XY Chart (`xychart-beta`) | ✅ | ✅ | ✅ `XYChart` | Moderate | Bar/line charts, axes, data series |
+| Kanban (`kanban`) | ✅ | ✅ | ✅ `Kanban` | Basic | Columns, tickets, metadata |
+| Requirement (`requirementDiagram`) | ✅ | ✅ | ✅ `Requirement` | Basic | Requirements, elements, relationships |
+| Block (`block-beta`) | ✅ | ✅ | ✅ `Block` | Basic | Blocks, edges, composites, styling |
+| Pie (`pie`) | ❌ | ❌ | ❌ | - | No JISON parser available |
+| Git Graph (`gitGraph`) | ❌ | ❌ | ❌ | - | No JISON parser available |
+| C4 (`C4Context`, etc.) | ❌ | ❌ | ❌ | - | JISON parser vendored, not yet implemented |
 
 ## Installation
 

@@ -1,0 +1,14 @@
+gantt
+    title Software Project
+    dateFormat YYYY-MM-DD
+    axisFormat %m/%d
+    excludes weekends
+    section Planning
+    Requirements: done, req, 2024-01-01, 2024-01-05
+    Design: done, des, after req, 5d
+    section Development
+    Backend: active, be, after des, 10d
+    Frontend: fe, after des, 10d
+    section Release
+    Testing: crit, test, after be, 5d
+    Launch: milestone, launch, after test, 0d
