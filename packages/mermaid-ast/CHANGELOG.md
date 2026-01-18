@@ -7,7 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.8.0] - 2026-01-18
+## [0.8.1] - 2025-01-18
+
+### Added
+- **Idempotence tests** - Added comprehensive idempotence test infrastructure with 95 flowchart fixtures from mermaid.js
+  - Tests verify `render(parse(render(parse(x)))) === render(parse(x))`
+  - Snapshot tests compare rendered output to expected files
+  - Idempotence tests verify output stability through parse/render cycles
+
+### Fixed
+- **Arrow length preservation** - Fixed flowchart parser to preserve exact arrow lengths for idempotence
+  - Arrows with endpoints (`-->`, `==>`): `length = dashCount - 1`
+  - Open arrows (`---`, `===`): `length = dashCount - 2`
+  - Previously, arrow lengths were normalized, breaking idempotence
+
+### Changed
+- **TEST_STANDARDS.md** - Added comprehensive documentation on idempotence testing requirements
+
+## [0.8.0] - 2025-01-18
 
 ### Added
 - **C4 diagram support** - Complete implementation with parser, renderer, wrapper class (`C4`), and 173 tests
