@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.2] - 2025-01-18
+
+### Added
+- **More idempotence tests** - Added tests for block (columns, nested, with-edges) and kanban (multiple-columns) diagrams
+
+### Fixed
+- **Block diagram edge rendering** - Fixed edges to render inline with nodes (`a["A"] --> b["B"]`) instead of separate lines (`a --> b`). The JISON parser only recognizes edges when inline with nodes, so the previous format broke idempotence.
+- **Block renderer test expectations** - Updated tests to match the new idempotent edge rendering format
+
 ## [0.8.1] - 2025-01-18
 
 ### Added

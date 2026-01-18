@@ -1,6 +1,6 @@
 {
   "name": "mermaid-ast",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Parse and render Mermaid diagrams to/from AST",
   "type": "module",
   "main": "dist/index.js",

@@ -116,7 +116,8 @@ describe('Block Renderer', () => {
         .addNode('b', { label: 'B' })
         .addEdge('a', 'b');
       const output = diagram.render();
-      expect(output).toContain('a --> b');
+      // Edges are rendered inline with nodes for idempotence
+      expect(output).toContain('a["A"] --> b["B"]');
     });
 
     it('should render open edge', () => {
@@ -125,7 +126,8 @@ describe('Block Renderer', () => {
         .addNode('b', { label: 'B' })
         .addEdge('a', 'b', { edgeType: 'open' });
       const output = diagram.render();
-      expect(output).toContain('a --- b');
+      // Edges are rendered inline with nodes for idempotence
+      expect(output).toContain('a["A"] --- b["B"]');
     });
 
     it('should render dotted edge', () => {

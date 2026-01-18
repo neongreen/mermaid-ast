@@ -85,6 +85,30 @@ for (const diagramType of diagramTypes) {
           const rerendered = render(ast);
 
           // This must be an EXACT match - our output must be stable
+          if (rerendered !== output) {
+            // Output a diff to help debug idempotence failures
+            const outputLines = output.split('\n');
+            const rerenderedLines = rerendered.split('\n');
+            const maxLines = Math.max(outputLines.length, rerenderedLines.length);
+
+            console.log(`\n=== IDEMPOTENCE FAILURE: ${diagramType}/${testName} ===`);
+            console.log('--- First render (output.mmd) ---');
+            console.log(output);
+            console.log('--- Second render (re-rendered) ---');
+            console.log(rerendered);
+            console.log('--- Line-by-line diff ---');
+            for (let i = 0; i < maxLines; i++) {
+              const line1 = outputLines[i] ?? '<missing>';
+              const line2 = rerenderedLines[i] ?? '<missing>';
+              if (line1 !== line2) {
+                console.log(`Line ${i + 1}:`);
+                console.log(`  - ${JSON.stringify(line1)}`);
+                console.log(`  + ${JSON.stringify(line2)}`);
+              }
+            }
+            console.log('=== END DIFF ===\n');
+          }
+
           expect(rerendered).toBe(output);
         });
       });

@@ -209,16 +209,112 @@ function renderElement(element: BlockElement, options: ResolvedRenderOptions): D
 
 /**
  * Renders a BlockAST to Mermaid block-beta diagram syntax
+ *
+ * Block diagrams require edges to be rendered inline with nodes (as node chains),
+ * not as separate statements. The parser only recognizes edges when they're part
+ * of node chains like `a --> b --> c`.
  */
 export function renderBlock(ast: BlockAST, options?: RenderOptions): string {
   const opts = resolveOptions(options);
+
+  // Build a map of edges by their source node
+  const edgesBySource = new Map<string, BlockEdge[]>();
+  const edgeIds = new Set<string>();
+
+  for (const element of ast.elements) {
+    if ('start' in element && 'end' in element) {
+      const edge = element as BlockEdge;
+      edgeIds.add(edge.id);
+      const edges = edgesBySource.get(edge.start) || [];
+      edges.push(edge);
+      edgesBySource.set(edge.start, edges);
+    }
+  }
+
+  // Render elements, but handle edges specially
+  const renderedElements: Doc[] = [];
+  const renderedNodes = new Set<string>();
+
+  for (const element of ast.elements) {
+    // Skip edges - they'll be rendered inline with their source nodes
+    if ('start' in element && 'end' in element) {
+      continue;
+    }
+
+    // For nodes, render them with any outgoing edges as a chain
+    if ('shape' in element && !('type' in element)) {
+      const node = element as BlockNode;
+      const edges = edgesBySource.get(node.id) || [];
+
+      if (edges.length > 0) {
+        // Render node with its outgoing edges as a chain
+        renderedElements.push(renderNodeWithEdges(node, edges, ast.elements, renderedNodes));
+      } else if (!renderedNodes.has(node.id)) {
+        // Render standalone node
+        renderedElements.push(renderNode(node));
+      }
+      renderedNodes.add(node.id);
+    } else {
+      // Render other elements normally
+      renderedElements.push(renderElement(element, opts));
+    }
+  }
 
   const doc: Doc = [
     'block-beta',
     when(ast.accTitle, `accTitle: ${ast.accTitle}`),
     when(ast.accDescr, `accDescr: ${ast.accDescr}`),
-    indent(ast.elements.map((element) => renderElement(element, opts))),
+    indent(renderedElements),
   ];
 
   return render(doc, opts.indent);
+}
+
+/**
+ * Renders a node with its outgoing edges as a chain
+ * e.g., a["Start"] --> b["Middle"] --> c["End"]
+ */
+function renderNodeWithEdges(
+  node: BlockNode,
+  edges: BlockEdge[],
+  allElements: BlockElement[],
+  renderedNodes: Set<string>
+): Doc {
+  // Find the target nodes for each edge
+  const nodeMap = new Map<string, BlockNode>();
+  for (const elem of allElements) {
+    if ('shape' in elem && !('type' in elem)) {
+      nodeMap.set((elem as BlockNode).id, elem as BlockNode);
+    }
+  }
+
+  // Build the chain: node --> target1 --> target2 ...
+  // For now, just render node --> target for each edge
+  // (More complex chain building would require graph analysis)
+
+  const parts: string[] = [renderNode(node) as string];
+  renderedNodes.add(node.id);
+
+  for (const edge of edges) {
+    const edgeStr = getEdgeString(edge.edgeType);
+    const targetNode = nodeMap.get(edge.end);
+
+    if (edge.label) {
+      const startEdge = edgeStr.substring(0, 2);
+      const endEdge = edgeStr.substring(2);
+      parts.push(`${startEdge}"${edge.label}"${endEdge}`);
+    } else {
+      parts.push(edgeStr);
+    }
+
+    if (targetNode && !renderedNodes.has(edge.end)) {
+      parts.push(renderNode(targetNode) as string);
+      renderedNodes.add(edge.end);
+    } else {
+      // Target already rendered or not found, just use the ID
+      parts.push(edge.end);
+    }
+  }
+
+  return parts.join(' ');
 }
