@@ -154,7 +154,7 @@ describe('Pie Renderer', () => {
         sections: [{ label: 'A', value: 100 }],
       };
       // Pie charts don't have indented content, but should accept options without error
-      const output = renderPie(ast, { indent: '  ' });
+      const output = renderPie(ast, { indent: 2 });
       expect(output).toContain('"A" : 100');
     });
   });
