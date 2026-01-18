@@ -64,8 +64,10 @@ const diagramTypes = readdirSync(GOLDEN_DIR, { withFileTypes: true })
 for (const diagramType of diagramTypes) {
   const typeDir = join(GOLDEN_DIR, diagramType);
 
-  // Find all .mmd files
-  const mmdFiles = readdirSync(typeDir).filter((f) => f.endsWith('.mmd'));
+  // Find all .mmd files (exclude .input.mmd and .output.mmd which are for idempotence tests)
+  const mmdFiles = readdirSync(typeDir).filter(
+    (f) => f.endsWith('.mmd') && !f.endsWith('.input.mmd') && !f.endsWith('.output.mmd')
+  );
 
   describe(`Golden: ${diagramType}`, () => {
     for (const mmdFile of mmdFiles) {
