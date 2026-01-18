@@ -79,8 +79,10 @@ function createMindmapYY(ast: MindmapAST) {
   const indentToLevel: Map<number, number> = new Map();
   // Last node added (for decoration)
   let lastNode: MindmapNode | null = null;
-  // Next logical level to assign
-  let _nextLogicalLevel = 0;
+  // Track if we've seen the first node (which becomes root)
+  let isFirstNode = true;
+  // The base indent level (indent of the first/root node)
+  let baseIndent = 0;
 
   return {
     nodeType: NodeType,
@@ -93,12 +95,13 @@ function createMindmapYY(ast: MindmapAST) {
       // Convert raw indent to logical level
       let logicalLevel: number;
 
-      if (rawIndent === 0) {
-        // Root node
+      if (isFirstNode) {
+        // First node is always the root, regardless of its indent
+        isFirstNode = false;
+        baseIndent = rawIndent;
         logicalLevel = 0;
         indentToLevel.clear();
-        indentToLevel.set(0, 0);
-        _nextLogicalLevel = 1;
+        indentToLevel.set(rawIndent, 0);
       } else if (indentToLevel.has(rawIndent)) {
         // We've seen this indent before
         logicalLevel = indentToLevel.get(rawIndent)!;
