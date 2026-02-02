@@ -23,14 +23,9 @@ See the [mermaid-ast README](./packages/mermaid-ast/README.md) for full document
 ## Development
 
 ```bash
-# Install dependencies
-bun install
-
-# Run all tests
-just test
-
-# See all available commands
-just
+bun install  # Install dependencies
+just test    # Run all tests
+just         # See all available commands
 ```
 
 ## Releasing
